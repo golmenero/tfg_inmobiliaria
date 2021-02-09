@@ -1,0 +1,10 @@
+<!DOCTYPE html>
+<html>
+<head><title>Propiedades</title></head>
+<body><h1>{{ seller }}</h1>
+<ul>{% for property in properties %}
+    <li>{{ property.name }} -{{ property.price }}</li>
+    {% endfor %}
+</ul>
+</body>
+</html>

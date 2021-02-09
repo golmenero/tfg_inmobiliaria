@@ -1,0 +1,54 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+  <title>RSTemp</title>
+  <meta charset="utf-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css"/>
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.0/jquery.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+</head>
+<body>
+
+
+<div class="container">
+  <h2>Agregar Propiedad</h2>
+  <form class="form-horizontal" method="post" action="/properties">
+    <div class="form-group">
+      <label class="control-label col-sm-2" for="name">Nombre:</label>
+      <div class="col-sm-10">
+        <input type="text" class="form-control" name="type" placeholder="Nombre del Inmueble" required="true" />
+      </div>
+    </div>
+    <div class="form-group">
+      <label class="control-label col-sm-2" for="type">Tipo de Inmueble:</label>
+      <div class="col-sm-10">
+		<select class="form-control" name="type" required="true">
+		  <option value="Chalet">Chalet</option>
+		  <option value="Piso">Piso</option>
+		  <option value="Parcela">Parcela</option>
+		</select>
+      </div>
+    </div>
+    <div class="form-group">
+      <label class="control-label col-sm-2" for="price">Precio (€):</label>
+      <div class="col-sm-10">          
+        <input type="number" step="0.01" class="form-control" name="price" placeholder="0.00 €" required="true" />
+      </div>
+    </div>
+    <div class="form-group">
+      <label class="control-label col-sm-2" for="img">Imagen Del inmueble:</label>
+      <div class="col-sm-10">          
+        <input type="file" class="custom-file-input" name="img" />
+      </div>
+    </div>
+    <div class="form-group">        
+      <div class="col-sm-offset-2 col-sm-10">
+        <button type="submit" class="btn btn-primary">Agregar</button>
+      </div>
+    </div>
+  </form>
+</div>
+
+</body>
+</html>
