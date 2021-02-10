@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+{% extends "base.html" %}
+{% block titulo %} Agencia Inmobiliaria RSTemp {% endblock %}
+{% block contenido_principal %}
+<!--Búsqueda-->
+<div class="row">
+    <div id="custom-search-input ">
+        <form method="get" action="/properties">
+            <div class="input-group col-xs-8 col-sm-6 col-md-4 col-lg-5 pull-right">
+                <input type="text" class="search-query form-control" placeholder="Nombre de la propiedad"
+                       name="search"/>
+                <span class="input-group-btn">
+                <button class="btn" type="submit">
+                <span class="glyphicon glyphicon-search"></span>
+                </button>
+                </span>
+            </div>
+        </form>
+    </div>
+</div>
+
+<h2>Propiedades</h2>
+<div class="row"><!--http://librosweb.es/libro/bootstrap_3/capitulo_2/tipos_de_rejillas.html -->
+    {% for property in properties %}
+    <div class="col-md-12">
+        <a id="displayProperty" href="/properties/{{ property._id.toString() }}">
+            <div class="col-md-3">
+                <img src="propertiesimg/{{ property._id.toString() }}.png" alt="logo"/>
+                <!--http://www.socicon.com/generator.php  -->
+            </div>
+            <div class="col-md-9">
+                <h3>{{ property.name }}</h3>
+                <h4>Precio: {{ property.price }} €</h4>
+            </div>
+        </a></div>
+    {% endfor%}
+</div>
+
+<!--Paginaciónmostrarlaactual y 2 anterioresy dossiguientes-->
+<div class="row text-center">
+    <ul class="pagination">
+        <li class="page-item"><a class="page-link" href="#">Anterior</a></li>
+        <li class="page-item active">
+            <a class="page-link" href="#">1</a></li>
+        <li class="page-item">
+            <a class="page-link" href="#">2</a></li>
+        <li class="page-item">
+            <a class="page-link" href="#">3</a></li>
+        <li class="page-item">
+            <a class="page-link" href="#">4</a></li>
+        <li class="page-item">
+            <a class="page-link" href="#">5</a></li>
+        <li class="page-item">
+            <a class="page-link" href="#">Siguiente</a></li>
+    </ul>
+</div>
+
+
+{% endblock %}
+</body>
+</html>
