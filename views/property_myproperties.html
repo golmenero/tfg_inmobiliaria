@@ -1,0 +1,39 @@
+{% extends "base.html" %} {% block titulo %} Mis publicaciones {% endblock %} 
+
+{% block contenido_principal %}
+<h2>Mis publicaciones</h2>
+
+<div class="row text-right">
+	<a href="/properties/add" class="btn btn-info" role="button">Agregar propiedad</a>
+</div>
+
+<div class="table-responsive">
+	<table class="table table-hover">
+		<thead>
+			<tr>
+				<th>Nombre</th>
+				<th>Tipo</th>
+				<th>Precio</th>
+				<th class="col-md-1"></th>
+			</tr>
+		</thead>
+		<tbody>
+		{% for property in properties %}
+			<tr>
+				<td>{{ property.name }}</td>
+				<td>{{ property.type }}</td>
+				<td>{{ property.price }}</td>
+				<td><a href="/property/edit/{{ property._id.toString() }}">Modificar</a> <br>
+					<a href="/property/delete/{{ property._id.toString() }}">Eliminar</a> <br>
+			    </td>
+			</tr>
+		{% endfor %}
+		</tbody>
+	</table>
+</div>
+
+<div class="row text-right">
+	<a href="/property/add" class="btn btn-info" role="button">Agregar propiedad</a>
+</div>
+
+{% endblock %}

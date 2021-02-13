@@ -7,17 +7,36 @@ module.exports = function (app, swig, managerDB) {
             if (properties == null) {
                 res.send("Error al listar ");
             } else {
-                let respuesta = swig.renderFile('views/shop.html',
+                let response = swig.renderFile('views/shop.html',
                     {
-                        properties: properties
+                        properties: properties,
+                        user: req.session.user
                     });
-                res.send(respuesta);
+                res.send(response);
+            }
+        });
+    });
+
+    app.get("/myproperties", function(req, res) {
+        let condition = { owner : req.session.user };
+        managerDB.getProperties(condition, function(properties) {
+            if (properties == null) {
+                res.send("Error al listar ");
+            } else {
+                let response = swig.renderFile('views/property_myproperties.html',
+                    {
+                        properties : properties,
+                        user: req.session.user
+                    });
+                res.send(response);
             }
         });
     });
 
     app.get('/properties/add', function (req, res) {
-        let response = swig.renderFile('views/property_add.html', {});
+        let response = swig.renderFile('views/property_add.html', {
+            user: req.session.user
+        });
         res.send(response);
     })
 
@@ -27,7 +46,10 @@ module.exports = function (app, swig, managerDB) {
             if (properties == null) {
                 res.send("Ocurrió un error");
             } else {
-                let response = swig.renderFile('views/property_details.html', {property: properties[0]});
+                let response = swig.renderFile('views/property_details.html', {
+                    property: properties[0],
+                    user: req.session.user
+                });
                 res.send(response);
             }
         });
@@ -38,11 +60,52 @@ module.exports = function (app, swig, managerDB) {
         res.send(response);
     });
 
+    app.get('/property/edit/:id', function (req, res) {
+        let condition = { "_id" : managerDB.mongo.ObjectID(req.params.id) };
+        managerDB.getProperties(condition,function(properties){
+            if ( properties == null ){
+                res.send(response);
+            } else {
+                let response = swig.renderFile('views/property_modify.html',
+                    {
+                        property : properties[0]
+                    });
+                res.send(response);
+            }
+        });
+    });
+
+    app.post('/property/edit/:id', function (req, res) {
+        let id = req.params.id;
+        let condition = { "_id" : managerDB.mongo.ObjectID(id) };
+        let property = {
+            name : req.body.name,
+            type : req.body.type,
+            price : req.body.price
+        }
+        managerDB.editProperty(condition, property, function(result) {
+            if (result == null) {
+                res.send("Error al modificar ");
+            } else {
+                editImg(req.files, id, function (result) {
+                    if( result == null){
+                        res.send("Error en la modificación");
+                    } else {
+                        res.send("Modificado");
+                    }
+                });
+
+            }
+        });
+    })
+
+
     app.post('/properties', function (req, res) {
         let property = {
             name: req.body.name,
             type: req.body.type,
-            price: parseInt(req.body.price)
+            price: parseInt(req.body.price),
+            owner: req.session.user
         }
         // Connect to DB
         managerDB.addProperty(property, function (id) {
@@ -61,5 +124,21 @@ module.exports = function (app, swig, managerDB) {
                 }
             }
         })
-    })
+    });
+
+    function editImg(files, id, callback){
+        if (files && files.img != null) {
+            let image =files.img;
+            image.mv('public/propertiesimg/' + id + '.png', function(err) {
+                if (err) {
+                    callback(null); // ERROR
+                } else {
+                    callback(true);
+                }
+            });
+        } else {
+            callback(true);
+        }
+    };
+
 }

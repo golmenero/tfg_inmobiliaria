@@ -2,6 +2,15 @@
 let express = require('express');
 let app = express();
 
+let expressSession = require('express-session');
+app.use(expressSession({
+    secret: 'abcdefg',
+    resave: true,
+    saveUninitialized: true
+}));
+
+let crypto = require('crypto');
+
 let fileUpload = require('express-fileupload');
 app.use(fileUpload());
 
@@ -10,14 +19,33 @@ let swig = require('swig');
 let bodyParser = require('body-parser');
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({extended: true}));
-app.use(express.static('public'));
 
 let managerDB = require("./modules/managerDB.js");
 managerDB.init(app,mongo);
 
+
+let routerUserSession = express.Router();
+routerUserSession.use(function(req, res, next) {
+    console.log("routerUserSession");
+    if ( req.session.user ) {
+        // dejamos correr la petición
+        next();
+    } else {
+        console.log("va a : "+req.session.destino)
+        res.redirect("/login");
+    }
+});
+//Aplicar routerUsuarioSession
+app.use("/properties/add",routerUserSession);
+app.use("/properties",routerUserSession);
+
+app.use(express.static('public'));
+
 // Variables
 app.set('port', 8081)
 app.set('db', 'mongodb://admin:Pa55w0rd@tfginmobiliaria-shard-00-00.k8afj.mongodb.net:27017,tfginmobiliaria-shard-00-01.k8afj.mongodb.net:27017,tfginmobiliaria-shard-00-02.k8afj.mongodb.net:27017/dbinmobiliaria?ssl=true&replicaSet=atlas-39g3h2-shard-0&authSource=admin&retryWrites=true&w=majority')
+app.set('key','abcdefg');
+app.set('crypto',crypto);
 
 // Rutas
 require('./routes/users.js')(app,swig, managerDB);

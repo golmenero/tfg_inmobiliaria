@@ -4,7 +4,7 @@
     <title>{% block titulo%} RSTemp {% endblock%}</title>
     <meta charset="utf-8"/>
     <meta name="viewport" content="width=device-width, initial-scale=1"/>
-    <link rel="stylesheet" href="../styles/style.css">
+    <link rel="stylesheet" href="/public/style.css">
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css"/>
 </head>
 <body>
@@ -23,13 +23,16 @@
         </div>
         <div class="collapse navbar-collapse" id="myNavbar">
             <ul class="nav navbar-nav">
-                <li id="mTienda" class="active"><a href="/tienda">Tienda</a></li>
-                <li id="mPublicaciones"><a href="/publicaciones">Publicaciones</a></li>
+                <li id="mTienda" class="active"><a href="/properties">Tienda</a></li>
+
+                {% if  user != null %}
+                <li id="mPublicaciones"><a href="/myproperties">Publicaciones</a></li>
                 <li id="mCompras"><a href="/compras">Compras</a></li>
+                {% endif %}
             </ul>
             <ul class="nav navbar-nav navbar-right">
-                <li><a href="/registrarse"><span class="glyphicon glyphicon-user"></span> Registrate</a></li>
-                <li><a href="/identificarse"><span class="glyphicon glyphicon-log-in"></span> Identifícate</a></li>
+                <li><a href="/signin"><span class="glyphicon glyphicon-user"></span> Registrate</a></li>
+                <li><a href="/login"><span class="glyphicon glyphicon-log-in"></span> Identifícate</a></li>
             </ul>
         </div>
     </div>
