@@ -39,6 +39,26 @@ routerUserSession.use(function(req, res, next) {
 app.use("/properties/add",routerUserSession);
 app.use("/properties",routerUserSession);
 
+let routerUserOwner = express.Router();
+routerUserOwner.use(function(req, res, next) {
+    console.log("routerUserOwner");
+    let path = require('path');
+    let id = path.basename(req.originalUrl);
+    managerDB.getProperties(
+        {_id: mongo.ObjectID(id) }, function (properties) {
+            console.log(properties[0]);
+            if(properties[0].owner == req.session.user ){
+                next();
+            } else {
+                res.redirect("/properties");
+            }
+        })
+});
+//Aplicar routerUsuarioAutor
+app.use("/property/edit",routerUserOwner);
+app.use("/property/delete",routerUserOwner);
+
+
 app.use(express.static('public'));
 
 // Variables
@@ -50,6 +70,10 @@ app.set('crypto',crypto);
 // Rutas
 require('./routes/users.js')(app,swig, managerDB);
 require('./routes/properties.js')(app,swig, managerDB);
+
+app.get('/', function (req, res) {
+    res.redirect('/properties');
+})
 
 app.listen(app.get('port'), function () {
     console.log('Servidor Activo')

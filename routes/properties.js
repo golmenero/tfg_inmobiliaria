@@ -60,6 +60,8 @@ module.exports = function (app, swig, managerDB) {
         res.send(response);
     });
 
+
+    // EDITAR PROPIEDADES
     app.get('/property/edit/:id', function (req, res) {
         let condition = { "_id" : managerDB.mongo.ObjectID(req.params.id) };
         managerDB.getProperties(condition,function(properties){
@@ -95,6 +97,18 @@ module.exports = function (app, swig, managerDB) {
                     }
                 });
 
+            }
+        });
+    })
+
+    // ELIMINAR PROPIEDADES
+    app.get('/property/delete/:id', function (req, res) {
+        let condition = {"_id" : managerDB.mongo.ObjectID(req.params.id) };
+        managerDB.deleteProperty(condition,function(properties){
+            if ( properties == null ){
+                res.send(response);
+            } else {
+                res.redirect("/myproperties");
             }
         });
     })
