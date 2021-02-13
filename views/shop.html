@@ -46,19 +46,14 @@
 <!--Paginaciónmostrarlaactual y 2 anterioresy dossiguientes-->
 <div class="row text-center">
     <ul class="pagination">
-        <li class="page-item"><a class="page-link" href="#">Anterior</a></li>
-        <li class="page-item active">
-            <a class="page-link" href="#">1</a></li>
-        <li class="page-item">
-            <a class="page-link" href="#">2</a></li>
-        <li class="page-item">
-            <a class="page-link" href="#">3</a></li>
-        <li class="page-item">
-            <a class="page-link" href="#">4</a></li>
-        <li class="page-item">
-            <a class="page-link" href="#">5</a></li>
-        <li class="page-item">
-            <a class="page-link" href="#">Siguiente</a></li>
+        {% for page in pages %}
+        <li class="page-item" id="pi-{{page}}">
+            <a class="page-link" href="/properties?pg={{page}}">{{page}}</a>
+        </li>
+        {% endfor %}
+        <script>
+            $("#pi-{{actual}}").addClass("active");
+        </script>
     </ul>
 </div>
 

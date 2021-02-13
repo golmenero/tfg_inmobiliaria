@@ -3,14 +3,31 @@ module.exports = function (app, swig, managerDB) {
         let condition = {};
         if (req.query.search != null)
             condition = {"name": {$regex: ".*" + req.query.search + ".*"}};
-        managerDB.getProperties(condition, function (properties) {
+
+        let pg = parseInt(req.query.pg);
+        if ( req.query.pg == null){
+            pg = 1;
+        }
+
+        managerDB.getPropertiesPG(condition, pg , function(properties, total ) {
             if (properties == null) {
                 res.send("Error al listar ");
             } else {
+                let lastPg = total/4;
+                if (total % 4 > 0 ){
+                    lastPg = lastPg+1;
+                }
+                let pages = [];
+                for(let i = pg-2 ; i <= pg+2 ; i++){
+                    if ( i > 0 && i <= lastPg){
+                        pages.push(i);
+                    }
+                }
                 let response = swig.renderFile('views/shop.html',
                     {
-                        properties: properties,
-                        user: req.session.user
+                        properties : properties,
+                        pages : pages,
+                        actual : pg
                     });
                 res.send(response);
             }

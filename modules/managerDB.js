@@ -2,7 +2,27 @@ module.exports = {
     mongo: null, app: null, init: function (app, mongo) {
         this.mongo = mongo;
         this.app = app;
-    }, addProperty: function (property, funcionCallback) {
+    }, getPropertiesPG : function(condition,pg,funcionCallback){
+        this.mongo.MongoClient.connect(this.app.get('db'), function(err, db) {
+            if (err) {
+                funcionCallback(null);
+            } else {
+                let collection = db.collection('properties');
+                collection.count(function(err, count){
+                    collection.find(condition).skip( (pg-1)*4 ).limit( 4 )
+                        .toArray(function(err, properties) {
+                            if (err) {
+                                funcionCallback(null);
+                            } else {
+                                funcionCallback(properties, count);
+                            }
+                            db.close();
+                        });
+                });
+            }
+        });
+    },
+    addProperty: function (property, funcionCallback) {
         this.mongo.MongoClient.connect(this.app.get('db'), function (err, db) {
             if (err) {
                 funcionCallback(null);
