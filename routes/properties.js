@@ -1,4 +1,4 @@
-module.exports = function (app, swig, managerDB) {
+module.exports = function (app, render, managerDB) {
     app.get('/properties', function (req, res) {
         let condition = {};
         if (req.query.search != null)
@@ -23,7 +23,7 @@ module.exports = function (app, swig, managerDB) {
                         pages.push(i);
                     }
                 }
-                let response = swig.renderFile('views/shop.html',
+                let response = render(req.session,'views/shop.html',
                     {
                         properties : properties,
                         pages : pages,
@@ -34,13 +34,39 @@ module.exports = function (app, swig, managerDB) {
         });
     });
 
+    app.post('/properties', function (req, res) {
+        let property = {
+            name: req.body.name,
+            type: req.body.type,
+            price: parseInt(req.body.price),
+            owner: req.session.user
+        }
+        // Connect to DB
+        managerDB.addProperty(property, function (id) {
+            if (id == null) {
+                res.send("Error al insertar ");
+            } else {
+                if (req.files.imginmueble != null) {
+                    let imagen = req.files.imginmueble;
+                    imagen.mv('public/propertiesimg/' + id + '.png', function (err) {
+                        if (err) {
+                            res.send("Error al subir la portada");
+                        } else {
+                            res.redirect("properties");
+                        }
+                    });
+                }
+            }
+        })
+    });
+
     app.get("/myproperties", function(req, res) {
         let condition = { owner : req.session.user };
         managerDB.getProperties(condition, function(properties) {
             if (properties == null) {
                 res.send("Error al listar ");
             } else {
-                let response = swig.renderFile('views/property_myproperties.html',
+                let response = render(req.session, 'views/property_myproperties.html',
                     {
                         properties : properties,
                         user: req.session.user
@@ -51,7 +77,7 @@ module.exports = function (app, swig, managerDB) {
     });
 
     app.get('/properties/add', function (req, res) {
-        let response = swig.renderFile('views/property_add.html', {
+        let response = render(req.session,'views/property_add.html', {
             user: req.session.user
         });
         res.send(response);
@@ -63,7 +89,7 @@ module.exports = function (app, swig, managerDB) {
             if (properties == null) {
                 res.send("Ocurrió un error");
             } else {
-                let response = swig.renderFile('views/property_details.html', {
+                let response = render(req.session,'views/property_details.html', {
                     property: properties[0],
                     user: req.session.user
                 });
@@ -85,7 +111,7 @@ module.exports = function (app, swig, managerDB) {
             if ( properties == null ){
                 res.send(response);
             } else {
-                let response = swig.renderFile('views/property_modify.html',
+                let response = render(req.session,'views/property_modify.html',
                     {
                         property : properties[0]
                     });
@@ -128,33 +154,6 @@ module.exports = function (app, swig, managerDB) {
                 res.redirect("/myproperties");
             }
         });
-    })
-
-
-    app.post('/properties', function (req, res) {
-        let property = {
-            name: req.body.name,
-            type: req.body.type,
-            price: parseInt(req.body.price),
-            owner: req.session.user
-        }
-        // Connect to DB
-        managerDB.addProperty(property, function (id) {
-            if (id == null) {
-                res.send("Error al insertar ");
-            } else {
-                if (req.files.imginmueble != null) {
-                    let imagen = req.files.imginmueble;
-                    imagen.mv('public/propertiesimg/' + id + '.png', function (err) {
-                        if (err) {
-                            res.send("Error al subir la portada");
-                        } else {
-                            res.send("Agregada id:  " + id);
-                        }
-                    });
-                }
-            }
-        })
     });
 
     function editImg(files, id, callback){

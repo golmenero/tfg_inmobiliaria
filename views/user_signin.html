@@ -6,6 +6,16 @@
   <h2>Registrar usuario</h2>
   <form class="form-horizontal" method="post" action="/user" >
     <div class="form-group">
+      <label class="control-label col-sm-2" for="permission">Tipo:</label>
+      <div class="col-sm-10">
+        <select class="form-control" name="permission" required="true">
+          <option value="U">Usuario
+          </option>
+          <option value="A">Admin
+          </option>
+        </select></div>
+    </div>
+    <div class="form-group">
       <label class="control-label col-sm-2" for="name">Nombre:</label>
       <div class="col-sm-10">
         <input type="text" class="form-control" name="name" placeholder="Nombre del Usuario" required="true"/>

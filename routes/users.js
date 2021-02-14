@@ -1,10 +1,10 @@
-module.exports = function (app, swig, managerDB) {
+module.exports = function (app, render, managerDB) {
     app.get("/routes", function (req, res) {
         res.send("ver usuarios");
     });
 
     app.get("/signin", function (req, res) {
-        let respuesta = swig.renderFile('views/user_signin.html', {
+        let respuesta = render(req.session,'views/user_signin.html', {
             user: req.session.user
         });
         res.send(respuesta);
@@ -17,19 +17,21 @@ module.exports = function (app, swig, managerDB) {
             name: req.body.name,
             surname: req.body.surname,
             email: req.body.email,
-            password: seguro
+            permission: req.body.permission,
+            password: seguro,
         };
         managerDB.addUser(user, function (id) {
             if (id == null) {
                 res.send("Error al insertar el usuario");
             } else {
-                res.send('Usuario Insertado ' + id);
+                req.session.user = req.body.email;
+                res.redirect('/properties');
             }
         });
     });
 
     app.get("/login", function(req, res) {
-        let response = swig.renderFile('views/user_login.html', {
+        let response = render(req.session,'views/user_login.html', {
             user: req.session.user
         });
         res.send(response);
@@ -55,7 +57,7 @@ module.exports = function (app, swig, managerDB) {
 
     app.get('/disconnect', function (req, res) {
         req.session.user = null;
-        res.send("Usuario desconectado");
+        res.redirect('/properties');
     })
 
 
