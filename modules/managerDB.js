@@ -2,15 +2,15 @@ module.exports = {
     mongo: null, app: null, init: function (app, mongo) {
         this.mongo = mongo;
         this.app = app;
-    }, getPropertiesPG : function(condition,pg,funcionCallback){
-        this.mongo.MongoClient.connect(this.app.get('db'), function(err, db) {
+    }, getPropertiesPG: function (condition, pg, funcionCallback) {
+        this.mongo.MongoClient.connect(this.app.get('db'), function (err, db) {
             if (err) {
                 funcionCallback(null);
             } else {
                 let collection = db.collection('properties');
-                collection.count(function(err, count){
-                    collection.find(condition).skip( (pg-1)*4 ).limit( 4 )
-                        .toArray(function(err, properties) {
+                collection.count(function (err, count) {
+                    collection.find(condition).skip((pg - 1) * 4).limit(4)
+                        .toArray(function (err, properties) {
                             if (err) {
                                 funcionCallback(null);
                             } else {
@@ -21,14 +21,36 @@ module.exports = {
                 });
             }
         });
-    },
-    addProperty: function (property, funcionCallback) {
+    }, getWishes: function (condition, collectionName, funcionCallback) {
+        let p = {};
         this.mongo.MongoClient.connect(this.app.get('db'), function (err, db) {
             if (err) {
                 funcionCallback(null);
             } else {
-                let collection = db.collection('properties');
-                collection.insert(property, function (err, result) {
+                let collection = db.collection("wishes");
+                collection.find(condition).toArray(function (err, wishes) {
+                    if (err) {
+                        funcionCallback(null);
+                    } else {
+                        for (wish in wishes) {
+                            let condition = {
+                                "_id" : managerDB.mongo.ObjectID(req.params.id)
+                            }
+                            this.get(condition, "properties", functionCallBack)
+                        }
+                        funcionCallback(wishes);
+                    }
+                    db.close();
+                });
+            }
+        });
+    }, add: function (object, collectionName, funcionCallback) {
+        this.mongo.MongoClient.connect(this.app.get('db'), function (err, db) {
+            if (err) {
+                funcionCallback(null);
+            } else {
+                let collection = db.collection(collectionName);
+                collection.insert(object, function (err, result) {
                     if (err) {
                         funcionCallback(null);
                     } else {
@@ -38,86 +60,53 @@ module.exports = {
                 });
             }
         });
-    }, deleteProperty : function(condition, funcionCallback) {
-        this.mongo.MongoClient.connect(this.app.get('db'), function(err, db) {
-            if (err) {
-                funcionCallback(null);
-            } else {
-                let collection = db.collection('properties');
-                collection.remove(condition, function(err, result) {
-                    if (err) {
-                        funcionCallback(null);
-                    } else {
-                        funcionCallback(result);
-                    }
-                    db.close();
-                });
-            }
-        });
-    }, editProperty : function(condition, property, funcionCallback) {
-        this.mongo.MongoClient.connect(this.app.get('db'), function(err, db) {
-            if (err) {
-                funcionCallback(null);
-            } else {
-                let collection = db.collection('properties');
-                collection.update(condition, {$set: property}, function(err, result) {
-                    if (err) {
-                        funcionCallback(null);
-                    } else {
-                        funcionCallback(result);
-                    }
-                    db.close();
-                });
-            }
-        });
-    }, getProperties: function (condition, funcionCallback) {
+    }, delete: function (object, collectionName, funcionCallback) {
         this.mongo.MongoClient.connect(this.app.get('db'), function (err, db) {
             if (err) {
                 funcionCallback(null);
             } else {
-                let collection = db.collection('properties');
-                collection.find(condition).toArray(function (err, properties) {
+                let collection = db.collection(collectionName);
+                collection.remove(object, function (err, result) {
                     if (err) {
                         funcionCallback(null);
                     } else {
-                        funcionCallback(properties);
+                        funcionCallback(result);
                     }
                     db.close();
                 });
             }
         });
-    }, addUser : function(user, funcionCallback) {
-        this.mongo.MongoClient.connect(this.app.get('db'), function(err, db) {
+    }, edit: function (condition, object, collectionName, funcionCallback) {
+        this.mongo.MongoClient.connect(this.app.get('db'), function (err, db) {
             if (err) {
                 funcionCallback(null);
             } else {
-                let collection = db.collection('users');
-                collection.insert(user, function(err, result) {
+                let collection = db.collection(collectionName);
+                collection.update(condition, {$set: object}, function (err, result) {
                     if (err) {
                         funcionCallback(null);
                     } else {
-                        funcionCallback(result.ops[0]._id);
+                        funcionCallback(result);
                     }
                     db.close();
                 });
             }
         });
-    }, getUsers : function(condition,funcionCallback){
-        this.mongo.MongoClient.connect(this.app.get('db'), function(err, db) {
+    }, get: function (condition, collectionName, funcionCallback) {
+        this.mongo.MongoClient.connect(this.app.get('db'), function (err, db) {
             if (err) {
                 funcionCallback(null);
             } else {
-                let collection = db.collection('users');
-                collection.find(condition).toArray(function(err, users) {
+                let collection = db.collection(collectionName);
+                collection.find(condition).toArray(function (err, array) {
                     if (err) {
                         funcionCallback(null);
                     } else {
-                        funcionCallback(users);
+                        funcionCallback(array);
                     }
                     db.close();
                 });
             }
         });
-    },
-
+    }
 };

@@ -16,40 +16,11 @@
 		</div>
 	  </div>
 	  
-	 <!-- -->
-	 <div class="row" style="margin-top: 20px;" >
-		<div class="media col-xs-10">
-			  <div class="media-left media-middle">
-				<a href="#">
-				  <img class="media-object" src="../public/img/user.png" >
-				</a>
-			  </div>
-			  <div class="media-body">
-				<h4 class="media-heading">Middle aligned media</h4>
-				Cras sit amet nibh libero, in gravida nulla. Nulla vel metus scelerisque ante sollicitudin commodo. Cras purus odio, vestibulum in vulputate at, tempus viverra turpis. Fusce condimentum nunc ac nisi vulputate fringilla. Donec lacinia congue felis in faucibus.
-			  </div>
-		  </div>
-		<div class="media col-xs-10">
-			  <div class="media-left media-middle">
-				<a href="#">
-				  <img class="media-object" src="../public/img/user.png" >
-				</a>
-			  </div>
-			  <div class="media-body">
-				<h4 class="media-heading">Middle aligned media</h4>
-				Cras sit amet nibh libero, in gravida nulla. Nulla vel metus scelerisque ante sollicitudin commodo. Cras purus odio, vestibulum in vulputate at, tempus viverra turpis. Fusce condimentum nunc ac nisi vulputate fringilla. Donec lacinia congue felis in faucibus.
-			  </div>
-		  </div>
-		<div class="media col-xs-10">
-			  <div class="media-left media-middle">
-				<a href="#">
-				  <img class="media-object" src="../public/img/user.png" >
-				</a>
-			  </div>
-			  <div class="media-body">
-				<h4 class="media-heading">Middle aligned media</h4>
-				Cras sit amet nibh libero, in gravida nulla. Nulla vel metus scelerisque ante sollicitudin commodo. Cras purus odio, vestibulum in vulputate at, tempus viverra turpis. Fusce condimentum nunc ac nisi vulputate fringilla. Donec lacinia congue felis in faucibus.
-			  </div>
-		  </div>
-	  </div>
+<form class="form-horizontal" method="post" action="/properties/save/{{ property._id.toString() }}" encType="multipart/form-data">
+	 <div>
+		 <td>
+			 <button type="submit" class="btn btn-primary">Guardar</button>
+		 </td>
+	 </div>
+</form>
 {% endblock %}

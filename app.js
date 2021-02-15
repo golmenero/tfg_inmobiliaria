@@ -61,9 +61,6 @@ app.use("/property/delete",routerUserOwner);
 
 app.use(express.static('public'));
 
-// TODO OJITO QUE ESTO IGUAL LA LIO
-app.use(express.static('node_modules'));
-
 // Variables
 app.set('port', 8081)
 app.set('db', 'mongodb://admin:Pa55w0rd@tfginmobiliaria-shard-00-00.k8afj.mongodb.net:27017,tfginmobiliaria-shard-00-01.k8afj.mongodb.net:27017,tfginmobiliaria-shard-00-02.k8afj.mongodb.net:27017/dbinmobiliaria?ssl=true&replicaSet=atlas-39g3h2-shard-0&authSource=admin&retryWrites=true&w=majority')

@@ -1,0 +1,31 @@
+{% extends "base.html" %} {% block titulo %} Mis publicaciones {% endblock %}
+
+{% block contenido_principal %}
+<h2>Mis Deseos</h2>
+
+<div class="table-responsive">
+    <table class="table table-hover">
+        <thead>
+        <tr>
+            <th>Nombre</th>
+            <th>Tipo</th>
+            <th>Precio</th>
+            <th class="col-md-1"></th>
+        </tr>
+        </thead>
+        <tbody>
+        {% for property in properties %}
+        <tr>
+            <td>{{ property.name }}</td>
+            <td>{{ property.type }}</td>
+            <td>{{ property.price }}</td>
+            <td>
+                <a class="btn btn-danger float-right" href="/properties/saved/delete/{{ property._id.toString() }}">Eliminar</a> <br>
+            </td>
+        </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+</div>
+
+{% endblock %}
