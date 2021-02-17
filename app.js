@@ -17,6 +17,8 @@ let crypto = require('crypto');
 let fileUpload = require('express-fileupload');
 app.use(fileUpload());
 
+let nodemailer = require("nodemailer");
+
 let mongo = require('mongodb');
 let bodyParser = require('body-parser');
 app.use(bodyParser.json());
@@ -68,8 +70,8 @@ app.set('key','abcdefg');
 app.set('crypto',crypto);
 
 // Rutas
-require('./routes/users.js')(app,render, managerDB);
-require('./routes/properties.js')(app,render, managerDB);
+require('./routes/users.js')(app,render, nodemailer, managerDB);
+require('./routes/properties.js')(app,render, nodemailer, managerDB);
 
 app.get('/', function (req, res) {
     res.redirect('/properties');
