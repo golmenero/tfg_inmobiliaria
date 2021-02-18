@@ -40,8 +40,9 @@ routerUserSession.use(function(req, res, next) {
     }
 });
 //Aplicar routerUsuarioSession
-app.use("/properties/add",routerUserSession);
-app.use("/properties",routerUserSession);
+app.use("/properties/*",routerUserSession);
+app.use("/user",routerUserSession);
+app.use("/user/*",routerUserSession);
 
 let routerUserOwner = express.Router();
 routerUserOwner.use(function(req, res, next) {
