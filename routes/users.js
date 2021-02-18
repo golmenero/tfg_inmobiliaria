@@ -1,4 +1,4 @@
-module.exports = function (app, render, nodemailer, managerDB) {
+module.exports = function (app, render, nodemailer, $, managerDB) {
     // EDITAR CONTRASEÑA USUARIOS
     app.get('/user/edit/:id', function (req, res) {
         let condition = {"_id": managerDB.mongo.ObjectID(req.params.id)};
@@ -6,7 +6,7 @@ module.exports = function (app, render, nodemailer, managerDB) {
             if (users == null) {
                 res.send(response);
             } else {
-                let response = render(req.session, 'views/user_modifyPassword.html',
+                let response = render(req.session, 'views/user_modify.html',
                     {
                         user: users[0]
                     });
@@ -16,18 +16,69 @@ module.exports = function (app, render, nodemailer, managerDB) {
     });
 
     app.post('/user/edit/:id', function (req, res) {
-        if (req.body.password == req.body.passwordR) {
-            let seguro = app.get("crypto").createHmac('sha256', app.get('key')).update(req.body.password).digest('hex');
-            let id = req.params.id;
-            let condition = {"_id": managerDB.mongo.ObjectID(id)};
-            let user = {
-                password: seguro
+            let user = {};
+            user = (req.body.name != "") ? user + {name: req.body.name} : user;
+            user = (req.body.surname != "") ? user + {name: req.body.surname} : user;
+            if (req.body.password == req.body.passwordR) {
+                if (req.body.password != "") {
+                    // Las contraseñas son iguales y el campo no esta vacio -> añadimos el campo al user
+                    let seguro = app.get("crypto").createHmac('sha256', app.get('key')).update(req.body.password).digest('hex');
+                    user = user + {password: seguro};
+                }
+                let id = req.params.id;
+                let condition = {"_id": managerDB.mongo.ObjectID(id)};
+                managerDB.edit(condition, user, "users", function (result) {
+                    if (result == null) {
+                        res.send("Error al modificar ");
+                    } else {
+                        res.redirect("/properties");
+                    }
+                });
+            } else {
+                res.redirect("/user/edit/" + req.params.id);
             }
-            managerDB.edit(condition, user, "users", function (result) {
-                if (result == null) {
-                    res.send("Error al modificar ");
+        }
+    )
+
+    app.get("/user/verification/:code", function (req, res) {
+        let condition = {
+            activationCode: req.params.code
+        }
+        let user = {
+            "active": true,
+        }
+        managerDB.edit(condition, user, "users", function (result) {
+            if (result == null) {
+                res.send("Error al modificar ");
+            } else {
+                res.redirect("/login");
+            }
+        });
+    });
+
+    app.get('/user/delete', function (req, res) {
+        let response = render(req.session, 'views/user_delete.html',{});
+        res.send(response);
+    });
+
+    app.post("/user/delete", function (req, res) {
+        let encrypted = app.get("crypto").createHmac('sha256', app.get('key'))
+            .update(req.body.password).digest('hex');
+
+        let condition = {"_id": managerDB.mongo.ObjectID(req.session.user._id)};
+
+        if (encrypted == req.session.user.password) {
+            // Limpiamos la BBDD
+            managerDB.delete(condition, "users", function (users) {
+                if (users == null) {
+                    let response = render(req.session, 'views/error_view.html',
+                        {
+                            mensaje: "No se pudo eliminar el usuario."
+                        });
+                    res.send(response);
                 } else {
-                    res.redirect("/properties");
+                    req.session.user = null;
+                    res.redirect("/login");
                 }
             });
         } else {
@@ -37,22 +88,6 @@ module.exports = function (app, render, nodemailer, managerDB) {
                 });
             res.send(response);
         }
-    })
-
-    app.get("/user/verification/:code", function (req, res) {
-        let condition = {
-            activationCode: req.params.code
-        }
-        let user = {
-            "active" : true,
-        }
-        managerDB.edit(condition, user, "users", function (result) {
-            if (result == null) {
-                res.send("Error al modificar ");
-            } else {
-                res.redirect("/login");
-            }
-        });
     });
 
     app.get("/routes", function (req, res) {
@@ -94,8 +129,6 @@ module.exports = function (app, render, nodemailer, managerDB) {
                 "<p>https://localhost:8081/user/verification/" + user.activationCode + "</p>"
         }
 
-        console.log((mailOptions));
-
         transporter.sendMail(mailOptions, function (error, info) {
             if (error) {
                 let response = render(req.session, 'views/error_view.html',
@@ -125,6 +158,7 @@ module.exports = function (app, render, nodemailer, managerDB) {
     app.post("/login", function (req, res) {
         let decrypted = app.get("crypto").createHmac('sha256', app.get('key'))
             .update(req.body.password).digest('hex');
+
         let condition = {
             email: req.body.email,
             password: decrypted
@@ -155,8 +189,8 @@ module.exports = function (app, render, nodemailer, managerDB) {
     })
 
 
-    // Obtener una combinacion aleatoria de letras y numeros.
-    // Usado para generar el codigo de verificacion de correo electronico.
+// Obtener una combinacion aleatoria de letras y numeros.
+// Usado para generar el codigo de verificacion de correo electronico.
     function stringGen(len) {
         var text = "";
 
@@ -168,3 +202,5 @@ module.exports = function (app, render, nodemailer, managerDB) {
         return text;
     }
 };
+
+

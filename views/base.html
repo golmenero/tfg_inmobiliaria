@@ -10,59 +10,118 @@
 </head>
 <body>
 
+{% block scripts %}
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.0/jquery.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/pwstrength-bootstrap/2.2.1/pwstrength-bootstrap.min.js"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
+
+<script>
+    $(function () {
+        let options = {
+            common: {
+                "minChar": 8,
+                "maxChar": 20,
+            },
+            rules: {
+                scores: {
+                    wordNotEmail: -100,
+                    wordMinLength: -50,
+                    wordMaxLength: -50,
+                    wordInvalidChar: -100,
+                    wordSimilarToUsername: -100,
+                    wordSequences: -50,
+                    wordTwoCharacterClasses: 2,
+                    wordRepetitions: -25,
+                    wordLowercase: 25,
+                    wordUppercase: 25,
+                    wordOneNumber: 25,
+                    wordThreeNumbers: 5,
+                    wordOneSpecialChar: 25,
+                    wordTwoSpecialChar: 5,
+                    wordUpperLowerCombo: 2,
+                    wordLetterNumberCombo: 2,
+                    wordLetterNumberCharCombo: 2
+                },
+                activated: {
+                    wordNotEmail: true,
+                    wordMinLength: true,
+                    wordMaxLength: true,
+                    wordInvalidChar: true,
+                    wordSimilarToUsername: true,
+                    wordSequences: true,
+                    wordTwoCharacterClasses: false,
+                    wordRepetitions: false,
+                    wordLowercase: true,
+                    wordUppercase: true,
+                    wordOneNumber: true,
+                    wordThreeNumbers: false,
+                    wordOneSpecialChar: true,
+                    wordTwoSpecialChar: false,
+                    wordUpperLowerCombo: false,
+                    wordLetterNumberCombo: false,
+                    wordLetterNumberCharCombo: false
+                }
+            }
+        }
+        $('#password').pwstrength();
+    });
+
+</script>
+{% endblock %}
 
 <!-- Barra de Navegación superior -->
 <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
-        <a class="navbar-brand" href="#">
-            <img class="imgLogo" src="/img/logo.png" alt="logo"/>
-        </a>
-        <div class="collapse navbar-collapse" id="myNavbar">
-            <ul class="navbar-nav mr-auto">
-                <li class="nav-item active" id="mTienda">
-                    <a class="nav-link" href="/properties">Tienda</a>
-                </li>
-                {% if user.permission == 'A' %}
-                <li class="nav-item dropdown">
-                    <a class="nav-link dropdown-toggle" href="#" data-toggle="dropdown" >Publicaciones</a>
-                    <div class="dropdown-menu">
-                        <a class="dropdown-item" href="/properties/add">Añadir Propiedad</a>
-                        <a class="dropdown-item" href="/myproperties">Mis Propiedades</a>
-                        <div class="dropdown-divider"></div>
-                        <a class="dropdown-item" href="#">Something else here</a>
-                    </div>
-                </li>
-                {% endif %}
-                {% if user.permission == 'B' %}
-                <li class="nav-item dropdown">
-                    <a class="nav-link dropdown-toggle" href="#" data-toggle="dropdown" >Propiedades</a>
-                    <div class="dropdown-menu">
-                        <a class="dropdown-item" href="/properties/saved">Propiedades Guardadas</a>
-                    </div>
-                </li>
-                {% endif %}
-            </ul>
-            <ul class="navbar-nav navbar-right">
-                {% if user == null %}
-                <li class="nav-item active">
-                    <a class="nav-link" href="/login"><span class="fas fa-user"></span> Iniciar Sesión</a>
-                </li>
-                <li class="nav-item active">
-                    <a class="nav-link" href="/signin"><span class="fas fa-user-plus"></span> Registrate</a>
-                </li>
-                {% endif %}
-                {% if user != null %}
-                <li class="nav-item dropdown active">
-                    <a class="nav-link dropdown-toggle" href="#" data-toggle="dropdown" ><span class="fas fa-user"></span>{{user.email}}</a>
-                    <div class="dropdown-menu">
-                        <a class="dropdown-item" href="/user/edit/{{user._id}}">Cambiar Contraseña</a>
-                    </div>
-                </li>
-                <li class="nav-item active">
-                    <a class="nav-link" href="/disconnect"><span class="fas fa-sign-out-alt"></span> Cerrar Sesión</a>
-                </li>
-                {% endif %}
-            </ul>
-        </div>
+    <a class="navbar-brand" href="#">
+        <img class="imgLogo" src="/img/logo.png" alt="logo"/>
+    </a>
+    <div class="collapse navbar-collapse" id="myNavbar">
+        <ul class="navbar-nav mr-auto">
+            <li class="nav-item active" id="mTienda">
+                <a class="nav-link" href="/properties">Tienda</a>
+            </li>
+            {% if user.permission == 'A' %}
+            <li class="nav-item dropdown">
+                <a class="nav-link dropdown-toggle" href="#" data-toggle="dropdown">Publicaciones</a>
+                <div class="dropdown-menu">
+                    <a class="dropdown-item" href="/properties/add">Añadir Propiedad</a>
+                    <a class="dropdown-item" href="/myproperties">Mis Propiedades</a>
+                    <div class="dropdown-divider"></div>
+                    <a class="dropdown-item" href="#">Something else here</a>
+                </div>
+            </li>
+            {% endif %}
+            {% if user.permission == 'B' %}
+            <li class="nav-item dropdown">
+                <a class="nav-link dropdown-toggle" href="#" data-toggle="dropdown">Propiedades</a>
+                <div class="dropdown-menu">
+                    <a class="dropdown-item" href="/properties/saved">Propiedades Guardadas</a>
+                </div>
+            </li>
+            {% endif %}
+        </ul>
+        <ul class="navbar-nav navbar-right">
+            {% if user == null %}
+            <li class="nav-item active">
+                <a class="nav-link" href="/login"><span class="fas fa-user"></span> Iniciar Sesión</a>
+            </li>
+            <li class="nav-item active">
+                <a class="nav-link" href="/signin"><span class="fas fa-user-plus"></span> Registrate</a>
+            </li>
+            {% endif %}
+            {% if user != null %}
+            <li class="nav-item dropdown active">
+                <a class="nav-link dropdown-toggle" href="#" data-toggle="dropdown"><span class="fas fa-user"></span>{{user.email}}</a>
+                <div class="dropdown-menu">
+                    <a class="dropdown-item" href="/user/edit/{{user._id}}">Editar Perfil</a>
+                    <a class="dropdown-item" href="/user/delete">Eliminar Perfil</a>
+                </div>
+            </li>
+            <li class="nav-item active">
+                <a class="nav-link" href="/disconnect"><span class="fas fa-sign-out-alt"></span> Cerrar Sesión</a>
+            </li>
+            {% endif %}
+        </ul>
+    </div>
 </nav>
 
 
@@ -73,9 +132,5 @@
     <!--Posiblecontenidopordefecto-->
     {% endblock%}
 </div>
-{% block scripts %}
-<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.0/jquery.min.js"></script>
-<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
-{% endblock %}
 </body>
 </html>
