@@ -1,0 +1,59 @@
+VIVIENDAS:
+- Nombre
+- Tipo (Alquiler o Venta)
+- Codigo: Solo lo pueden ver los agentes)
+- Descripcion
+- Direccion: La calle, el piso, la escalera, el portal, etc etc
+- Poblacion
+- Superficie
+- Num Habitaciones
+- Num Baños
+- Num 
+- Garaje
+- Piscina
+- Terraza
+- Jardin
+- Calefaccion
+- Ascensor
+- Amueblado
+- Permite Animales
+- Precio 
+- Gastos Comunidad
+
+LOCALES:
+- Nombre
+- Tipo (Alquiler o Venta)
+- Codigo: Solo lo pueden ver los agentes)
+- Descripcion
+- Direccion: La calle, el piso, la escalera, el portal, etc etc
+- Poblacion
+- Superficie
+- Escaparates
+- Aparcamiento
+- Carga y Descarga
+- Extintores
+- Num Aseos
+- Inuminacion
+- Calefaccion
+- Aire Acondicionado
+- Precio 
+- Gastos Comunidad
+
+SUELOS
+- Nombre
+- Tipo (Alquiler o Venta)
+- Codigo: Solo lo pueden ver los agentes)
+- Descripcion
+- Superficie
+- Situacion
+- Precio total
+- Acceso a Agua
+- Acceso a Luz
+- Superficie Edificable
+
+
+DATOS DEL PROPIETARIO (Esto es para todos los tipos)
+Los datos del propietario solo lo ven los agentes. EL cliente ve los datos para llamarte y cuando te llama puedes ver desde la pag web la info del vendedor para no tener que andar liado con folios.
+	- Nombre y Apellidos
+	- Telefono
+	- Correo Electronico

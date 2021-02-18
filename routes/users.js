@@ -1,4 +1,4 @@
-module.exports = function (app, render, nodemailer, $, managerDB) {
+module.exports = function (app, render, nodemailer, managerDB) {
     // EDITAR CONTRASEÑA USUARIOS
     app.get('/user/edit/:id', function (req, res) {
         let condition = {"_id": managerDB.mongo.ObjectID(req.params.id)};

@@ -1,4 +1,4 @@
-module.exports = function (app, render, nodemailer, $, managerDB) {
+module.exports = function (app, render, nodemailer, managerDB) {
 
     app.get("/properties/saved/delete/:id", function (req, res) {
         let condition = {

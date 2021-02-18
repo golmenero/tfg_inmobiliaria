@@ -19,10 +19,6 @@ app.use(fileUpload());
 
 let nodemailer = require("nodemailer");
 
-let jsdom = require("jsdom");
-let {JSDOM} = jsdom;
-let {window} = new JSDOM();
-let $ = require("jquery")(window);
 
 let mongo = require('mongodb');
 let bodyParser = require('body-parser');
@@ -75,8 +71,8 @@ app.set('key','abcdefg');
 app.set('crypto',crypto);
 
 // Rutas
-require('./routes/users.js')(app,render, nodemailer, $, managerDB);
-require('./routes/properties.js')(app,render, nodemailer, $, managerDB);
+require('./routes/users.js')(app,render, nodemailer, managerDB);
+require('./routes/properties.js')(app,render, nodemailer, managerDB);
 
 app.get('/', function (req, res) {
     res.redirect('/properties');
