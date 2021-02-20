@@ -2,3 +2,11 @@
     width: 100%;
     height: 100%;
 }
+
+.contrasenaOlvidar {
+    text-align: center;
+}
+
+.contrasenaOlvidarLink{
+    cursor: pointer;
+}

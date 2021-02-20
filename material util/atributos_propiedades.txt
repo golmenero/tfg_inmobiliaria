@@ -8,12 +8,12 @@ VIVIENDAS:
 - Superficie
 - Num Habitaciones
 - Num Baños
-- Num 
 - Garaje
 - Piscina
 - Terraza
 - Jardin
 - Calefaccion
+- Aire Acondicionado
 - Ascensor
 - Amueblado
 - Permite Animales

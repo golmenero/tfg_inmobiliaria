@@ -1,4 +1,61 @@
 module.exports = function (app, render, nodemailer, managerDB) {
+    app.get("/user/verification/:code", function (req, res) {
+        let condition = {
+            'codes.emailActivation': req.params.code
+        }
+
+        console.log(condition)
+
+        let user = {
+            "active": true,
+        }
+        managerDB.edit(condition, user, "users", function (result) {
+            if (result == null) {
+                res.send("Error al modificar ");
+            } else {
+                res.redirect("/login");
+            }
+        });
+    });
+
+    app.get("/recover/:code", function (req, res) {
+        let respuesta = render(req.session, 'views/user_passwordRecover.html', {
+            passwordRecover: req.params.code
+        });
+        res.send(respuesta);
+    });
+
+    app.post("/recover/:code", function (req, res) {
+        let code = req.params.code;
+        let password = req.body.password;
+        let passwordR = req.body.passwordR;
+
+        if(password != passwordR){
+            let response = render(req.session, 'views/error_view.html',
+                {
+                    mensaje: "Las contraseñas no coinciden."
+                });
+            res.send(response);
+        }
+        else{
+            let condition = {
+                "codes.passwordRecover" : code
+            }
+
+            let seguro = app.get("crypto").createHmac('sha256', app.get('key')).update(password).digest('hex');
+            let user = {
+                password : seguro
+            }
+            managerDB.edit(condition, user, "users", function (result) {
+                if (result == null) {
+                    res.send("Error al modificar ");
+                } else {
+                    res.redirect("/login");
+                }
+            });
+        }
+    });
+
     // EDITAR CONTRASEÑA USUARIOS
     app.get('/user/edit', function (req, res) {
         let condition = {"_id": managerDB.mongo.ObjectID(req.session.user._id)};
@@ -38,24 +95,7 @@ module.exports = function (app, render, nodemailer, managerDB) {
             } else {
                 res.redirect("/user/edit");
             }
-        }
-    )
-
-    app.get("/user/verification/:code", function (req, res) {
-        let condition = {
-            activationCode: req.params.code
-        }
-        let user = {
-            "active": true,
-        }
-        managerDB.edit(condition, user, "users", function (result) {
-            if (result == null) {
-                res.send("Error al modificar ");
-            } else {
-                res.redirect("/login");
-            }
         });
-    });
 
     app.post("/user/delete", function (req, res) {
         let encrypted = app.get("crypto").createHmac('sha256', app.get('key'))
@@ -106,9 +146,13 @@ module.exports = function (app, render, nodemailer, managerDB) {
             permission: req.body.permission,
             password: seguro,
             active: false,
-            activationCode: stringGen(20),
+            codes: {
+                emailActivation: stringGen(20),
+                passwordRecover: stringGen(20)
+            },
         };
 
+        console.log(user)
         let transporter = nodemailer.createTransport({
             service: 'gmail',
             auth: {
@@ -122,7 +166,7 @@ module.exports = function (app, render, nodemailer, managerDB) {
             subject: 'Prueba',
             html: "<h1>Gracias por registrarse en nuestra aplicación</h1>" +
                 "<h2>Verifique su correo electrónico haciendo click en el siguiente enlace:</h2>" +
-                "<p>https://localhost:8081/user/verification/" + user.activationCode + "</p>"
+                "<p>https://localhost:8081/user/verification/" + user.codes.emailActivation + "</p>"
         }
 
         transporter.sendMail(mailOptions, function (error, info) {
@@ -181,8 +225,53 @@ module.exports = function (app, render, nodemailer, managerDB) {
 
     app.get('/disconnect', function (req, res) {
         req.session.user = null;
-        res.redirect('/properties');
+        res.redirect('/login');
     })
+
+
+    app.post('/recover', function (req, res) {
+        let condition = {
+            email: req.body.correoRecuperacion
+        }
+
+        managerDB.get(condition, "users", function (users) {
+            if (users == null) {
+                let response = render(req.session, 'views/error_view.html',
+                    {
+                        mensaje: "No se encontró ningún usuario. Lo sentimos"
+                    });
+                res.send(response);
+            } else {
+                let userFound = users[0];
+                let transporter = nodemailer.createTransport({
+                    service: 'gmail',
+                    auth: {
+                        user: 'tfguo257386@gmail.com',
+                        pass: 'TFG_UO257386'
+                    }
+                });
+                let mailOptions = {
+                    from: 'tfguo257386@gmail.com',
+                    to: req.body.correoRecuperacion,
+                    subject: 'Reestablezca su Contraseña',
+                    html: "<h1>Haga click en el siguiente enlace para reestablecer su contraseña.</h1>" +
+                        "<p>https://localhost:8081/recover/" + userFound.codes.passwordRecover + "</p>"
+                }
+
+                transporter.sendMail(mailOptions, function (error, info) {
+                    if (error) {
+                        let response = render(req.session, 'views/error_view.html',
+                            {
+                                mensaje: "Ocurrió un error inesperado al enviar el correo de recuperación de contraseña."
+                            });
+                        res.send(response);
+                    } else {
+                        res.redirect("/login");
+                    }
+                })
+            }
+        });
+    });
 
 
 // Obtener una combinacion aleatoria de letras y numeros.
