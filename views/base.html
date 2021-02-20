@@ -99,6 +99,23 @@
             </li>
             {% endif %}
         </ul>
+
+        <!-- Buscador -->
+        <div id="custom-search-input">
+            <form method="get" action="/properties">
+                <div class="input-group">
+                    <input type="text" class="form-control" placeholder="Búsqueda"
+                           name="search"/>
+                    <span class="input-group-btn">
+                        <button class="btn btn-secondary" type="submit">
+                            <span class="fas fa-search"></span>
+                        </button>
+                    </span>
+                </div>
+            </form>
+        </div>
+
+
         <ul class="navbar-nav navbar-right">
             {% if user == null %}
             <li class="nav-item active">

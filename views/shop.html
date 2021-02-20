@@ -8,20 +8,6 @@
 {% extends "base.html" %}
 {% block titulo %} Agencia Inmobiliaria RSTemp {% endblock %}
 {% block contenido_principal %}
-<!--Búsqueda-->
-    <div id="custom-search-input ">
-        <form method="get" action="/properties">
-            <div class="input-group float-left">
-                <input type="text" class="form-control" placeholder="Búsqueda"
-                       name="search"/>
-                <span class="input-group-btn">
-                <button class="btn" type="submit">
-                <span class="fas fa-search"></span>
-                </button>
-                </span>
-            </div>
-        </form>
-    </div>
 
 <h2>Propiedades</h2>
 {% for property in properties %}

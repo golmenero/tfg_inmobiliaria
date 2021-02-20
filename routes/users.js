@@ -30,21 +30,20 @@ module.exports = function (app, render, nodemailer, managerDB) {
         let password = req.body.password;
         let passwordR = req.body.passwordR;
 
-        if(password != passwordR){
+        if (password != passwordR) {
             let response = render(req.session, 'views/error_view.html',
                 {
                     mensaje: "Las contraseñas no coinciden."
                 });
             res.send(response);
-        }
-        else{
+        } else {
             let condition = {
-                "codes.passwordRecover" : code
+                "codes.passwordRecover": code
             }
 
             let seguro = app.get("crypto").createHmac('sha256', app.get('key')).update(password).digest('hex');
             let user = {
-                password : seguro
+                password: seguro
             }
             managerDB.edit(condition, user, "users", function (result) {
                 if (result == null) {
@@ -73,29 +72,29 @@ module.exports = function (app, render, nodemailer, managerDB) {
     });
 
     app.post('/user/edit', function (req, res) {
-            let user = {};
-            (req.body.name != "") ? user["name"] = req.body.name : user;
-            (req.body.surname != "") ? user["surname"] = req.body.surname : user;
-            if (req.body.password == req.body.passwordR) {
-                if (req.body.password != "") {
-                    // Las contraseñas son iguales y el campo no esta vacio -> añadimos el campo al user
-                    let seguro = app.get("crypto").createHmac('sha256', app.get('key')).update(req.body.password).digest('hex');
-                    user["password"] = seguro;
-                }
-                let id = req.session.user._id;
-                let condition = {"_id": managerDB.mongo.ObjectID(id)};
-
-                managerDB.edit(condition, user, "users", function (result) {
-                    if (result == null) {
-                        res.send("Error al modificar ");
-                    } else {
-                        res.redirect("/properties");
-                    }
-                });
-            } else {
-                res.redirect("/user/edit");
+        let user = {};
+        (req.body.name != "") ? user["name"] = req.body.name : user;
+        (req.body.surname != "") ? user["surname"] = req.body.surname : user;
+        if (req.body.password == req.body.passwordR) {
+            if (req.body.password != "") {
+                // Las contraseñas son iguales y el campo no esta vacio -> añadimos el campo al user
+                let seguro = app.get("crypto").createHmac('sha256', app.get('key')).update(req.body.password).digest('hex');
+                user["password"] = seguro;
             }
-        });
+            let id = req.session.user._id;
+            let condition = {"_id": managerDB.mongo.ObjectID(id)};
+
+            managerDB.edit(condition, user, "users", function (result) {
+                if (result == null) {
+                    res.send("Error al modificar ");
+                } else {
+                    res.redirect("/properties");
+                }
+            });
+        } else {
+            res.redirect("/user/edit");
+        }
+    });
 
     app.post("/user/delete", function (req, res) {
         let encrypted = app.get("crypto").createHmac('sha256', app.get('key'))
@@ -139,53 +138,70 @@ module.exports = function (app, render, nodemailer, managerDB) {
 
     app.post('/user', function (req, res) {
         let seguro = app.get("crypto").createHmac('sha256', app.get('key')).update(req.body.password).digest('hex');
-        let user = {
-            name: req.body.name,
-            surname: req.body.surname,
+        let condition1 = {
             email: req.body.email,
-            permission: req.body.permission,
-            password: seguro,
-            active: false,
-            codes: {
-                emailActivation: stringGen(20),
-                passwordRecover: stringGen(20)
-            },
-        };
-
-        console.log(user)
-        let transporter = nodemailer.createTransport({
-            service: 'gmail',
-            auth: {
-                user: 'tfguo257386@gmail.com',
-                pass: 'TFG_UO257386'
-            }
-        });
-        let mailOptions = {
-            from: 'tfguo257386@gmail.com',
-            to: user.email,
-            subject: 'Prueba',
-            html: "<h1>Gracias por registrarse en nuestra aplicación</h1>" +
-                "<h2>Verifique su correo electrónico haciendo click en el siguiente enlace:</h2>" +
-                "<p>https://localhost:8081/user/verification/" + user.codes.emailActivation + "</p>"
         }
+        // Intentamos obtener el usuario por el email
+        managerDB.get(condition1, "users", function (users) {
+            // Si no existe ningun usuario
+            if (users == null || users.length == 0) {
+                let user = {
+                    name: req.body.name,
+                    surname: req.body.surname,
+                    email: req.body.email,
+                    permission: req.body.permission,
+                    password: seguro,
+                    active: false,
+                    codes: {
+                        emailActivation: stringGen(20),
+                        passwordRecover: stringGen(20)
+                    },
+                };
 
-        transporter.sendMail(mailOptions, function (error, info) {
-            if (error) {
-                let response = render(req.session, 'views/error_view.html',
-                    {
-                        mensaje: "Ocurrió un error inesperado al enviar el correo de verificación."
-                    });
-                res.send(response);
-            } else {
-                managerDB.add(user, "users", function (id) {
-                    if (id == null) {
-                        res.send("Error al insertar el usuario");
-                    } else {
-                        res.redirect("/login");
+                console.log(user)
+                let transporter = nodemailer.createTransport({
+                    service: 'gmail',
+                    auth: {
+                        user: 'tfguo257386@gmail.com',
+                        pass: 'TFG_UO257386'
                     }
                 });
+                let mailOptions = {
+                    from: 'tfguo257386@gmail.com',
+                    to: user.email,
+                    subject: 'Prueba',
+                    html: "<h1>Gracias por registrarse en nuestra aplicación</h1>" +
+                        "<h2>Verifique su correo electrónico haciendo click en el siguiente enlace:</h2>" +
+                        "<p>https://localhost:8081/user/verification/" + user.codes.emailActivation + "</p>"
+                }
+
+                transporter.sendMail(mailOptions, function (error, info) {
+                    if (error) {
+                        let response = render(req.session, 'views/error_view.html',
+                            {
+                                mensaje: "Ocurrió un error inesperado al enviar el correo de verificación."
+                            });
+                        res.send(response);
+                    } else {
+                        managerDB.add(user, "users", function (id) {
+                            if (id == null) {
+                                res.send("Error al insertar el usuario");
+                            } else {
+                                res.redirect("/login");
+                            }
+                        });
+                    }
+                })
+                // Si ya existe un usuario.
+            } else {
+                let response = render(req.session, 'views/error_view.html',
+                    {
+                        mensaje: "Este correo electrónico ya pertenece a una cuenta. Intente usar uno diferente."
+                    });
+                res.send(response);
             }
-        })
+
+        });
     });
 
     app.get("/login", function (req, res) {
