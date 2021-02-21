@@ -97,32 +97,46 @@ module.exports = function (app, render, nodemailer, managerDB) {
     });
 
     app.post("/user/delete", function (req, res) {
-        let encrypted = app.get("crypto").createHmac('sha256', app.get('key'))
-            .update(req.body.password).digest('hex');
 
-        let condition = {"_id": managerDB.mongo.ObjectID(req.session.user._id)};
+        let condition1 = {
+            permission: "A",
+        }
+        managerDB.get(condition1, "users", function (users) {
+            if (users.length <= 1) {
+                let response = render(req.session, 'views/error_view.html',
+                    {
+                        mensaje: "Su perfil es el único perfil de tipo Agente. Si desea eliminar este perfil, cree otro del mismo tipo."
+                    });
+                res.send(response);
+            } else {
+                let encrypted = app.get("crypto").createHmac('sha256', app.get('key'))
+                    .update(req.body.password).digest('hex');
 
-        if (encrypted == req.session.user.password) {
-            // Limpiamos la BBDD
-            managerDB.delete(condition, "users", function (users) {
-                if (users == null) {
+                let condition = {"_id": managerDB.mongo.ObjectID(req.session.user._id)};
+
+                if (encrypted == req.session.user.password) {
+                    // Limpiamos la BBDD
+                    managerDB.delete(condition, "users", function (users) {
+                        if (users == null) {
+                            let response = render(req.session, 'views/error_view.html',
+                                {
+                                    mensaje: "No se pudo eliminar el usuario."
+                                });
+                            res.send(response);
+                        } else {
+                            req.session.user = null;
+                            res.redirect("/login");
+                        }
+                    });
+                } else {
                     let response = render(req.session, 'views/error_view.html',
                         {
-                            mensaje: "No se pudo eliminar el usuario."
+                            mensaje: "Las contraseñas no coinciden."
                         });
                     res.send(response);
-                } else {
-                    req.session.user = null;
-                    res.redirect("/login");
                 }
-            });
-        } else {
-            let response = render(req.session, 'views/error_view.html',
-                {
-                    mensaje: "Las contraseñas no coinciden."
-                });
-            res.send(response);
-        }
+            }
+        });
     });
 
     app.get("/routes", function (req, res) {
