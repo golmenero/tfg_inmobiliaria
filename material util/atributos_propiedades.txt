@@ -1,24 +1,27 @@
+AÑADIR A ANTECEDENTES!!!!
+
 VIVIENDAS:
-- Nombre
-- Tipo (Alquiler o Venta)
+- Nombre X
+- Tipo (Alquiler o Venta) X
 - Codigo: Solo lo pueden ver los agentes)
-- Descripcion
-- Direccion: La calle, el piso, la escalera, el portal, etc etc
-- Poblacion
-- Superficie
-- Num Habitaciones
-- Num Baños
+- Descripcion X
+- Direccion: La calle, el piso, la escalera, el portal, etc etc X
+- Poblacion X
+- Superficie X
+- Num Habitaciones X
+- Num Baños X 
 - Garaje
 - Piscina
 - Terraza
+- Trastero
 - Jardin
 - Calefaccion
 - Aire Acondicionado
 - Ascensor
 - Amueblado
 - Permite Animales
-- Precio 
-- Gastos Comunidad
+- Precio X
+- Gastos Comunidad X
 
 LOCALES:
 - Nombre

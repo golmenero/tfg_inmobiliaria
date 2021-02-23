@@ -29,11 +29,6 @@ module.exports = function (app, render, nodemailer, managerDB) {
         });
     });
 
-    app.get('/properties/:type/:id', function (req, res) {
-        let response = 'id: ' + req.params.id + '<br>' + 'Género: ' + req.params.type;
-        res.send(response);
-    });
-
     // EDITAR PROPIEDADES
     app.get('/property/edit/:id', function (req, res) {
         let condition = {"_id": managerDB.mongo.ObjectID(req.params.id)};

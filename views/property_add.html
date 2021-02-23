@@ -6,45 +6,206 @@
 </head>
 <body>
 {% extends "base.html" %} {% block titulo %} Agregar propiedad {% endblock %} {% block contenido_principal %}
-<h2>Agregar Propiedad</h2>
-<form class="form-horizontal" method="post" action="/properties" encType="multipart/form-data">
-    <div class="form-group">
+
+<h2 class="sectionHeader">¿Qué tipo de propiedad desea añadir?</h2>
+<div class="progress">
+    <div class="progress-bar progress-bar-striped progress-bar-animated bg-success" role="progressbar"
+         aria-valuenow="0"
+         aria-valuemin="0" aria-valuemax="100"></div>
+</div>
+<div id="divAddOptions">
+    <a class="propAddLink row" id="displayVivienda">
+        <div class="col-2 float-left">
+            <img class='imgLogo' src="/img/icons/house.png" alt="logo"/>
+        </div>
+        <div class="col-9">
+            <h3>Vivienda</h3>
+            <p class="lead">Para ser habitado por personas.</p>
+            <p>El más completo de todos. Desde esta opción podrás modificar una gran cantidad de campos.</p>
+        </div>
+    </a>
+    <a class="propAddLink row" id="displayLocal">
+        <div class="col-2 float-left">
+            <img class='imgLogo' src="/img/icons/local.png" alt="logo"/>
+        </div>
+        <div class="col-9">
+            <h3>Local</h3>
+            <p class="lead">Para establecer o iniciar un comercio, instalación industrial etc.</p>
+            <p>Preparado para trabajar con los campos más adecuados y con prestaciones específicas.</p>
+        </div>
+    </a>
+    <a class="propAddLink row" id="displaySuelo">
+        <div class="col-2 float-left">
+            <img class='imgLogo' src="/img/icons/suelo.png" alt="logo"/>
+        </div>
+        <div class="col-9">
+            <h3>Suelo</h3>
+            <p class="lead">Para edificar o trabajar en el.</p>
+            <p>El más sencillo, preparado con los datos necesarios para añadir todas las características.</p>
+        </div>
+    </a>
+</div>
+
+<div id="divAttVivienda" style="display: none;">
+    <div class="div-field form-row">
         <label class="control-label col-sm-2" for="name">Nombre:</label>
-        <div class="col-sm-10">
-            <input type="text" class="form-control" name="name" placeholder="Nombre de la propiedad" required="true"/>
+        <div class="col-sm-12">
+            <input type="text" class="form-control" name="name" placeholder="Ej. Chalet con Piscina en el Centro"
+                   required="true"/>
         </div>
     </div>
-    <div class="form-group">
-        <label class="control-label col-sm-2" for="type">Tipo:</label>
-        <div class="col-sm-10">
-            <select class="form-control" name="type" required="true">
-                <option value="chalet">Chalet
-                </option>
-                <option value="piso">Piso
-                </option>
-                <option value="parcela">Parcela
-                </option>
-                </option>
-                <option value="otro">Otro
-                </option>
-            </select></div>
-    </div>
-    <div class="form-group">
-        <label class="control-label col-sm-2" for="price">Precio(€):</label>
-        <div class="col-sm-10">
-            <input type="number" class="form-control" name="price" placeholder="0.00" required="true"/></div>
-    </div>
-    <div class="form-group">
-        <label class="control-label col-sm-2" for="imginmueble">Imagen Del Inmueble:</label>
-        <div class="col-sm-10">
-            <input type="file" class="custom-file-input" name="imginmueble" accept=".png" required/></div>
-    </div>
-    <div class="form-group">
-        <div class="col-sm-offset-2 col-sm-10">
-            <button type="submit" class="btn btn-primary">Agregar</button>
+    <div class="div-field form-row">
+        <label class="control-label col-sm-2" for="address">Address:</label>
+        <div class="col-sm-12">
+            <input type="text" class="form-control" name="address" placeholder="Ej. Avenida/Portal/Escalera/Piso"
+                   required="true"/>
         </div>
     </div>
-</form>
+    <div class="div-field form-row">
+        <label class="control-label col-sm-2" for="description">Descripción:</label>
+        <div class="col-sm-12">
+            <textarea class="form-control" name="description" id="exampleFormControlTextarea1" rows="5"></textarea>
+        </div>
+    </div>
+    <div class="div-field form-row">
+        <label class="control-label col-sm-2" for="city">Población/Ciudad:</label>
+        <div class="col-sm-12">
+            <input type="text" class="form-control" name="city" placeholder="Ej. Oviedo" required="true"/>
+        </div>
+    </div>
+    <div class="div-field form-row">
+        <div class="form-group col-sm-2">
+            <label class="control-label" for="area">Superficie (m2):</label>
+            <div>
+                <input type="number" class="form-control" name="area" placeholder="Ej. 100" required="true"/>
+            </div>
+        </div>
+        <div class="form-group col-sm-2">
+            <label class="control-label" for="numHabs">N. Habitaciones:</label>
+            <div>
+                <select id='numHabs' class="form-control" name="numHabs" required="true">
+                    <option value="1">1
+                    </option>
+                    <option value="2">2
+                    </option>
+                    <option value="3">3
+                    </option>
+                    <option value="4">4 o mas
+                    </option>
+                </select>
+            </div>
+        </div>
+        <div class="form-group col-sm-2">
+            <label class="control-label" for="numBan">N. Baños:</label>
+            <div>
+                <select id='numBan' class="form-control" name="numBan" required="true">
+                    <option value="1">1
+                    </option>
+                    <option value="2">2
+                    </option>
+                    <option value="3">3
+                    </option>
+                    <option value="4">4 o mas
+                    </option>
+                </select>
+            </div>
+        </div>
+        <div class="form-group col-sm-3">
+            <label class="control-label" for="price">Precio (€):</label>
+            <div>
+                <input type="number" class="form-control" name="price" placeholder="Ej. 1000" required="true"/>
+            </div>
+        </div>
+        <div class="form-group col-sm-3">
+            <label class="control-label" for="priceCom">Gastos de Comunidad (€):</label>
+            <div>
+                <input type="number" class="form-control" name="priceCom" placeholder="Ej. 1000" required="true"/>
+            </div>
+        </div>
+    </div>
+    <div class="div-field form-row">
+        <div class="form-check col-sm-2">
+            <input type="checkbox" class="form-check-input" id="checkGaraje">
+            <label class="form-check-label" for="checkGaraje">Garaje</label>
+        </div>
+        <div class="form-check col-sm-2">
+            <input type="checkbox" class="form-check-input" id="checkPiscina">
+            <label class="form-check-label" for="checkPiscina">Piscina</label>
+        </div>
+        <div class="form-check col-sm-2">
+            <input type="checkbox" class="form-check-input" id="checkTerraza">
+            <label class="form-check-label" for="checkTerraza">Terraza</label>
+        </div>
+        <div class="form-check col-sm-2">
+            <input type="checkbox" class="form-check-input" id="checkTrastero">
+            <label class="form-check-label" for="checkTrastero">Trastero</label>
+        </div>
+        <div class="form-check col-sm-2">
+            <input type="checkbox" class="form-check-input" id="checkJardin">
+            <label class="form-check-label" for="checkJardin">Jardín</label>
+        </div>
+        <div class="form-check col-sm-2">
+            <input type="checkbox" class="form-check-input" id="checkAscensor">
+            <label class="form-check-label" for="checkAscensor">Ascensor</label>
+        </div>
+    </div>
+    <div class="div-field form-row">
+        <div class="form-check col-sm-2">
+            <input type="checkbox" class="form-check-input" id="checkCalefaccion">
+            <label class="form-check-label" for="checkCalefaccion">Calefacción</label>
+        </div>
+        <div class="form-check col-sm-2">
+            <input type="checkbox" class="form-check-input" id="checkAireAcon">
+            <label class="form-check-label" for="checkAireAcon">Aire Acondicionado</label>
+        </div>
+        <div class="form-check col-sm-2">
+            <input type="checkbox" class="form-check-input" id="checkAmueblado">
+            <label class="form-check-label" for="checkAmueblado">Amueblado</label>
+        </div>
+        <div class="form-check col-sm-2">
+            <input type="checkbox" class="form-check-input" id="checkAnimales">
+            <label class="form-check-label" for="checkAnimales">Permite Animales</label>
+        </div>
+    </div>
+
+    <div class="row">
+        <button id="btnSuccess1" type="submit" class="btnSiguiente btn btn-success btn-lg btn-block">Siguiente</button>
+    </div>
+</div>
+
+
+<div id="divAttLocal" style="display: none;">
+    <p>LOCAL LESGO</p>
+</div>
+<div id="divAttSuelo" style="display: none;">
+    <p>SUELO LESGO</p>
+</div>
+
+<script>
+    // SALTO DE LA PRIMERA VISTA A LA SEGUNDA
+    $('.propAddLink').on('click', function () {
+        $('#divAddOptions').hide();
+        $('.progress-bar').css("width", "25%").text("25%");
+        $('.sectionHeader').text("Rellene los Campos Indicados");
+    });
+    $('#displayVivienda').on('click', function () {
+        $('#divAttVivienda').show();
+        $('#divAttLocal').hide();
+        $('#divAttSuelo').hide();
+        console.log("VIV")
+    });
+    $('#displayLocal').on('click', function () {
+        $('#divAttVivienda').hide();
+        $('#divAttLocal').show();
+        $('#divAttSuelo').hide();
+    });
+    $('#displaySuelo').on('click', function () {
+        $('#divAttVivienda').hide();
+        $('#divAttLocal').hide();
+        $('#divAttSuelo').show();
+    });
+</script>
+
 {% endblock %}
 </body>
 </html>

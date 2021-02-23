@@ -9,7 +9,7 @@
 {% block titulo %} Agencia Inmobiliaria RSTemp {% endblock %}
 {% block contenido_principal %}
 
-<h2>Propiedades</h2>
+<h2 class="sectionHeader">Propiedades</h2>
 {% for property in properties %}
 <a class="row" id="displayProperty" href="/properties/{{ property._id.toString() }}">
     <div class="col-3 float-left">

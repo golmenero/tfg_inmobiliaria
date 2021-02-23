@@ -10,3 +10,37 @@
 .contrasenaOlvidarLink{
     cursor: pointer;
 }
+
+.btnAdd{
+    width: 100%;
+    height: 100%;
+    background-color: lightgray;
+    border-radius: 2em;
+    padding: 2em;
+}
+
+.sectionHeader{
+    margin: 2em;
+    text-align: center;
+}
+
+.propAddLink{
+    margin: 1em;
+}
+
+.form-check-input{
+    margin-left: 0;
+}
+
+.form-check-label{
+    margin-left: 1.2em;
+}
+
+.btnSiguiente{
+    margin-top: 2em;
+    margin-bottom: 2em;
+}
+
+.div-field{
+    margin-top: 1.5em;
+}
