@@ -39,6 +39,8 @@
 .btnSiguiente{
     margin-top: 2em;
     margin-bottom: 2em;
+    width: 100%;
+    max-width: 100%;
 }
 
 .div-field{
