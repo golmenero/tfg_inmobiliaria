@@ -46,7 +46,20 @@
     </a>
 </div>
 
-<div id="divAttVivienda" style="display: none;">
+<div id="divAttCommon" style="display: none;">
+    <div class="div-field form-row">
+        <label class="control-label col-sm-12" for="type">Tipo:</label>
+        <div>
+            <select id='type' class="form-control" name="type" required="true">
+                <option value="vivienda">Vivienda
+                </option>
+                <option value="local">Local
+                </option>
+                <option value="suelo">Suelo
+                </option>
+            </select>
+        </div>
+    </div>
     <div class="div-field form-row">
         <label class="control-label col-sm-2" for="name">Nombre:</label>
         <div class="col-sm-12">
@@ -55,10 +68,48 @@
         </div>
     </div>
     <div class="div-field form-row">
-        <label class="control-label col-sm-2" for="address">Address:</label>
-        <div class="col-sm-12">
-            <input type="text" class="form-control" name="address" placeholder="Ej. Avenida/Portal/Escalera/Piso"
-                   required="true"/>
+        <div class="form-group col-sm-9">
+            <label class="control-label" for="address">Dirección (Solo Calle y Portal):</label>
+            <div>
+                <input id='address' type="text" class="form-control" name="address"
+                       placeholder="Ej. Avenida/Portal/Escalera/Piso"
+                       required="true"/>
+            </div>
+        </div>
+        <div class="form-group col-sm-3">
+            <label class="control-label" for="floor">Piso:</label>
+            <div>
+                <input type="number" class="form-control" name="floor" placeholder="Ej. 1" required="true"/>
+            </div>
+        </div>
+    </div>
+    <div id="errorMap" class="div-field form-row" style="display: none;">
+        <div class="alert alert-danger col-md-12" role="alert">
+            No se ha podido localizar la posición. Asegúrese de que la dirección es correcta.
+        </div>
+    </div>
+    <div id="divMapContainer" style="display: none;">
+        <div class="div-field form-row">
+            <div id="divMapa" class="col-sm-12">
+            </div>
+        </div>
+        <div class="div-field form-row">
+            <div class="form-group col-sm-6">
+                <label class="control-label" for="lattitude">Latitud:</label>
+                <div>
+                    <input id='latInput' type="number" class="form-control" name="lattitude" placeholder="Ej. 1000"
+                           required="true"
+                           disabled/>
+                </div>
+            </div>
+            <div class="form-group col-sm-6">
+                <label class="control-label" for="longitude">Longitud:</label>
+                <div>
+                    <input id='lonInput' type="number" class="form-control" name="longitude" placeholder="Ej. 1000"
+                           required="true"
+                           disabled/>
+                </div>
+            </div>
         </div>
     </div>
     <div class="div-field form-row">
@@ -67,6 +118,9 @@
             <textarea class="form-control" name="description" id="exampleFormControlTextarea1" rows="5"></textarea>
         </div>
     </div>
+</div>
+
+<div id="divAttVivienda" style="display: none;">
     <div class="div-field form-row">
         <label class="control-label col-sm-2" for="city">Población/Ciudad:</label>
         <div class="col-sm-12">
@@ -182,28 +236,97 @@
 </div>
 
 <script>
+    let mapaLocal = null;
+    let marker = null;
+
     // SALTO DE LA PRIMERA VISTA A LA SEGUNDA
     $('.propAddLink').on('click', function () {
         $('#divAddOptions').hide();
         $('.progress-bar').css("width", "25%").text("25%");
         $('.sectionHeader').text("Rellene los Campos Indicados");
     });
+
     $('#displayVivienda').on('click', function () {
+        executeVivienda();
+    });
+    $('#displayLocal').on('click', function () {
+        executeLocal();
+    });
+    $('#displaySuelo').on('click', function () {
+        executeSuelo();
+    });
+
+    $("#type").change(function () {
+        if ($("#type").val() == 'vivienda') {
+            executeVivienda();
+        }
+        if ($("#type").val() == 'local') {
+            executeLocal();
+        }
+        if ($("#type").val() == 'suelo') {
+            executeSuelo();
+        }
+    });
+
+    $('#address').focusout(function () {
+        writeMap($('#address').val());
+    });
+
+    function writeMap(address) {
+        $.get(location.protocol + '//nominatim.openstreetmap.org/search?format=json&q=' + address, function (data) {
+            if (data[0] != undefined) {
+                $('#divMapa').innerHTML = "";
+                $('#divMapContainer').show();
+                $('#errorMap').hide();
+                let lattitude = data[0].lat;
+                let longitude = data[0].lon;
+
+                if (mapaLocal == null) {
+                    mapaLocal = L.map('divMapa');
+                } else {
+                    mapaLocal.removeLayer(marker);
+                }
+                mapaLocal.setView([lattitude, longitude], 13);
+
+                L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+                    attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
+                }).addTo(mapaLocal);
+
+                marker = L.marker([lattitude, longitude]);
+                marker.addTo(mapaLocal);
+
+                $('#latInput').val(lattitude);
+                $('#lonInput').val(longitude);
+            } else {
+                $('#divMapContainer').hide();
+                $('#errorMap').show();
+            }
+        });
+    }
+
+    function executeVivienda() {
+        $('#divAttCommon').show();
         $('#divAttVivienda').show();
         $('#divAttLocal').hide();
         $('#divAttSuelo').hide();
-        console.log("VIV")
-    });
-    $('#displayLocal').on('click', function () {
+        $("#type").val("vivienda");
+    }
+
+    function executeLocal() {
+        $('#divAttCommon').show();
         $('#divAttVivienda').hide();
         $('#divAttLocal').show();
         $('#divAttSuelo').hide();
-    });
-    $('#displaySuelo').on('click', function () {
+        $("#type").val("local");
+    }
+
+    function executeSuelo() {
+        $('#divAttCommon').show();
         $('#divAttVivienda').hide();
         $('#divAttLocal').hide();
         $('#divAttSuelo').show();
-    });
+        $("#type").val("suelo");
+    }
 </script>
 
 {% endblock %}
