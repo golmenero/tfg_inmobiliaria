@@ -13,14 +13,14 @@ module.exports = function (app, render, nodemailer, managerDB) {
             } else {
                 req.flash('success', "Su correo electrónico se ha verificado correctamente.")
             }
-                res.redirect("/login");
+            res.redirect("/login");
         });
     });
 
     app.get("/recover/:code", function (req, res) {
         let dateToday = getDateTime();
         let condition = {
-            'codes.passwordRecover' : req.params.code,
+            'codes.passwordRecover': req.params.code,
         }
 
         managerDB.get(condition, "users", function (users) {
@@ -30,14 +30,14 @@ module.exports = function (app, render, nodemailer, managerDB) {
             } else {
                 let userRecover = users[0];
                 let expirationDateUser = userRecover.codes.passwordRecoverDate;
-                if (expirated(dateToday,expirationDateUser)) {
+                if (expirated(dateToday, expirationDateUser)) {
                     req.flash('error', "Su enlace de recuperación de contraseña ha caducado.");
                     res.redirect('/login');
                 } else {
                     let respuesta = render(req.session, 'views/user_passwordRecover.html', {
                         passwordRecover: req.params.code,
-                        error : req.flash('error'),
-                        success : req.flash('success')
+                        error: req.flash('error'),
+                        success: req.flash('success')
                     });
                     res.send(respuesta);
                 }
@@ -53,7 +53,7 @@ module.exports = function (app, render, nodemailer, managerDB) {
 
         if (password != passwordR) {
             req.flash('error', "Las contraseñas no coinciden.");
-            res.redirect('/recover/code/' + code);
+            res.redirect('/recover/' + code);
         } else {
             let condition = {
                 "codes.passwordRecover": code
@@ -85,8 +85,8 @@ module.exports = function (app, render, nodemailer, managerDB) {
                 let response = render(req.session, 'views/user_modify.html',
                     {
                         user: users[0],
-                        error : req.flash('error'),
-                        success : req.flash('success')
+                        error: req.flash('error'),
+                        success: req.flash('success')
                     });
                 res.send(response);
             }
@@ -111,10 +111,11 @@ module.exports = function (app, render, nodemailer, managerDB) {
                     req.flash('error', "Ocurrió un error al modificar su perfil.");
                 } else {
                     req.flash('success', "Su perfil se ha modificado correctamente.");
-                    res.redirect("/properties");
                 }
+                res.redirect("/properties");
             });
         } else {
+            req.flash('error', "Las contraseñas no coinciden.");
             res.redirect("/user/edit");
         }
     });
@@ -126,11 +127,8 @@ module.exports = function (app, render, nodemailer, managerDB) {
         }
         managerDB.get(condition1, "users", function (users) {
             if (users.length <= 1) {
-                let response = render(req.session, 'views/error_view.html',
-                    {
-                        mensaje: "Su perfil es el único perfil de tipo Agente. Si desea eliminar este perfil, cree otro del mismo tipo."
-                    });
-                res.send(response);
+                req.flash('error', "Su perfil es el único perfil de tipo Agente. Si desea eliminar este perfil, cree otro del mismo tipo.");
+                res.redirect("/properties");
             } else {
                 let encrypted = app.get("crypto").createHmac('sha256', app.get('key'))
                     .update(req.body.password).digest('hex');
@@ -141,22 +139,17 @@ module.exports = function (app, render, nodemailer, managerDB) {
                     // Limpiamos la BBDD
                     managerDB.delete(condition, "users", function (users) {
                         if (users == null) {
-                            let response = render(req.session, 'views/error_view.html',
-                                {
-                                    mensaje: "No se pudo eliminar el usuario."
-                                });
-                            res.send(response);
+                            req.flash('error', "No se pudo eliminar el usuario.");
+                            res.redirect("/properties");
                         } else {
                             req.session.user = null;
+                            req.flash('success', "Usuario eliminado correctamente.");
                             res.redirect("/login");
                         }
                     });
                 } else {
-                    let response = render(req.session, 'views/error_view.html',
-                        {
-                            mensaje: "Las contraseñas no coinciden."
-                        });
-                    res.send(response);
+                    req.flash('error', "Contraseña incorrecta.");
+                    res.redirect("/properties");
                 }
             }
         });
@@ -169,8 +162,8 @@ module.exports = function (app, render, nodemailer, managerDB) {
     app.get("/signin", function (req, res) {
         let respuesta = render(req.session, 'views/user_signin.html', {
             user: req.session.user,
-            error : req.flash('error'),
-            success : req.flash('success')
+            error: req.flash('error'),
+            success: req.flash('success')
         });
         res.send(respuesta);
     });
@@ -289,11 +282,8 @@ module.exports = function (app, render, nodemailer, managerDB) {
         }
         managerDB.edit(condition, user, "users", function (result) {
             if (result == null) {
-                let response = render(req.session, 'views/error_view.html',
-                    {
-                        mensaje: "No se encontró ningún usuario. Lo sentimos"
-                    });
-                res.send(response);
+                req.flash('error', "No se encontró ningún usuario con ese correo electrónico.");
+                res.redirect("/login");
             } else {
                 let transporter = nodemailer.createTransport({
                     service: 'gmail',
@@ -312,50 +302,10 @@ module.exports = function (app, render, nodemailer, managerDB) {
 
                 transporter.sendMail(mailOptions, function (error, info) {
                     if (error) {
-                        let response = render(req.session, 'views/error_view.html',
-                            {
-                                mensaje: "Ocurrió un error inesperado al enviar el correo de recuperación de contraseña."
-                            });
-                        res.send(response);
-                    } else {
+                        req.flash('error', "Ocurrió un error al enviar su correo de reestablecimiento de contraseña.");
                         res.redirect("/login");
-                    }
-                })
-            }
-        });
-
-        managerDB.get(condition, "users", function (users) {
-            if (users == null) {
-                let response = render(req.session, 'views/error_view.html',
-                    {
-                        mensaje: "No se encontró ningún usuario. Lo sentimos"
-                    });
-                res.send(response);
-            } else {
-                let userFound = users[0];
-                let transporter = nodemailer.createTransport({
-                    service: 'gmail',
-                    auth: {
-                        user: 'tfguo257386@gmail.com',
-                        pass: 'TFG_UO257386'
-                    }
-                });
-                let mailOptions = {
-                    from: 'tfguo257386@gmail.com',
-                    to: req.body.correoRecuperacion,
-                    subject: 'Reestablezca su Contraseña',
-                    html: "<h1>Haga click en el siguiente enlace para reestablecer su contraseña.</h1>" +
-                        "<p>https://localhost:8081/recover/" + userFound.codes.passwordRecover + "</p>"
-                }
-
-                transporter.sendMail(mailOptions, function (error, info) {
-                    if (error) {
-                        let response = render(req.session, 'views/error_view.html',
-                            {
-                                mensaje: "Ocurrió un error inesperado al enviar el correo de recuperación de contraseña."
-                            });
-                        res.send(response);
                     } else {
+                        req.flash('success', "Se ha enviado un mensaje a su correo con instrucciones para reestablecer su contraseña.");
                         res.redirect("/login");
                     }
                 })
@@ -400,22 +350,22 @@ module.exports = function (app, render, nodemailer, managerDB) {
         return year + ":" + month + ":" + day + ":" + hour + ":" + min + ":" + sec;
     }
 
-    function expirated(dateToday,expirationDateUser){
+    function expirated(dateToday, expirationDateUser) {
         let todaySecs = convertToInt(dateToday);
         let expSecs = convertToInt(expirationDateUser);
 
-        if((todaySecs - expSecs) > 300)
+        if ((todaySecs - expSecs) > 300)
             return true;
         return false;
     }
 
-    function convertToInt(date){
+    function convertToInt(date) {
         let array = date.split(':');
 
-        let integer = (parseInt(array[0])*31536000) + (parseInt(array[1])*2592000) +
-            (parseInt(array[2])*86400) + (parseInt(array[3])*3600) + (parseInt(array[4])*60) + (parseInt(array[5]));
+        let integer = (parseInt(array[0]) * 31536000) + (parseInt(array[1]) * 2592000) +
+            (parseInt(array[2]) * 86400) + (parseInt(array[3]) * 3600) + (parseInt(array[4]) * 60) + (parseInt(array[5]));
         return integer;
     }
-    };
+};
 
 
