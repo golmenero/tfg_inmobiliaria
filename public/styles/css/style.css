@@ -47,5 +47,10 @@
     margin-top: 1.5em;
 }
 
+.msgInfoUser{
+    text-align: center;
+    margin: 1em;
+}
+
 #divMapa {
     height: 30em; }

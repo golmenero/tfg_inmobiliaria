@@ -4,25 +4,46 @@ module.exports = function (app, render, nodemailer, managerDB) {
             'codes.emailActivation': req.params.code
         }
 
-        console.log(condition)
-
         let user = {
             "active": true,
         }
         managerDB.edit(condition, user, "users", function (result) {
             if (result == null) {
-                res.send("Error al modificar ");
+                req.flash('error', "Su correo no se ha podido verificar correctamente.")
             } else {
-                res.redirect("/login");
+                req.flash('success', "Su correo electrónico se ha verificado correctamente.")
             }
+                res.redirect("/login");
         });
     });
 
     app.get("/recover/:code", function (req, res) {
-        let respuesta = render(req.session, 'views/user_passwordRecover.html', {
-            passwordRecover: req.params.code
+        let dateToday = getDateTime();
+        let condition = {
+            'codes.passwordRecover' : req.params.code,
+        }
+
+        managerDB.get(condition, "users", function (users) {
+            if (users == null || users.length == 0) {
+                req.flash('error', "No se encontro ninguna cuenta cone sta información. Vuelva a intentarlo.");
+                res.redirect('/login');
+            } else {
+                let userRecover = users[0];
+                let expirationDateUser = userRecover.codes.passwordRecoverDate;
+                if (expirated(dateToday,expirationDateUser)) {
+                    req.flash('error', "Su enlace de recuperación de contraseña ha caducado.");
+                    res.redirect('/login');
+                } else {
+                    let respuesta = render(req.session, 'views/user_passwordRecover.html', {
+                        passwordRecover: req.params.code,
+                        error : req.flash('error'),
+                        success : req.flash('success')
+                    });
+                    res.send(respuesta);
+                }
+            }
         });
-        res.send(respuesta);
+
     });
 
     app.post("/recover/:code", function (req, res) {
@@ -31,11 +52,8 @@ module.exports = function (app, render, nodemailer, managerDB) {
         let passwordR = req.body.passwordR;
 
         if (password != passwordR) {
-            let response = render(req.session, 'views/error_view.html',
-                {
-                    mensaje: "Las contraseñas no coinciden."
-                });
-            res.send(response);
+            req.flash('error', "Las contraseñas no coinciden.");
+            res.redirect('/recover/code/' + code);
         } else {
             let condition = {
                 "codes.passwordRecover": code
@@ -47,8 +65,10 @@ module.exports = function (app, render, nodemailer, managerDB) {
             }
             managerDB.edit(condition, user, "users", function (result) {
                 if (result == null) {
-                    res.send("Error al modificar ");
+                    req.flash('error', "Ocurrio un error al modificar su contraseña.");
+                    res.redirect('/recover/code/' + code);
                 } else {
+                    req.flash('success', 'Contraseña actualizada correctamente.');
                     res.redirect("/login");
                 }
             });
@@ -64,7 +84,9 @@ module.exports = function (app, render, nodemailer, managerDB) {
             } else {
                 let response = render(req.session, 'views/user_modify.html',
                     {
-                        user: users[0]
+                        user: users[0],
+                        error : req.flash('error'),
+                        success : req.flash('success')
                     });
                 res.send(response);
             }
@@ -86,8 +108,9 @@ module.exports = function (app, render, nodemailer, managerDB) {
 
             managerDB.edit(condition, user, "users", function (result) {
                 if (result == null) {
-                    res.send("Error al modificar ");
+                    req.flash('error', "Ocurrió un error al modificar su perfil.");
                 } else {
+                    req.flash('success', "Su perfil se ha modificado correctamente.");
                     res.redirect("/properties");
                 }
             });
@@ -145,7 +168,9 @@ module.exports = function (app, render, nodemailer, managerDB) {
 
     app.get("/signin", function (req, res) {
         let respuesta = render(req.session, 'views/user_signin.html', {
-            user: req.session.user
+            user: req.session.user,
+            error : req.flash('error'),
+            success : req.flash('success')
         });
         res.send(respuesta);
     });
@@ -168,11 +193,10 @@ module.exports = function (app, render, nodemailer, managerDB) {
                     active: false,
                     codes: {
                         emailActivation: stringGen(20),
-                        passwordRecover: stringGen(20)
+                        passwordRecover: "",
                     },
                 };
 
-                console.log(user)
                 let transporter = nodemailer.createTransport({
                     service: 'gmail',
                     auth: {
@@ -191,16 +215,14 @@ module.exports = function (app, render, nodemailer, managerDB) {
 
                 transporter.sendMail(mailOptions, function (error, info) {
                     if (error) {
-                        let response = render(req.session, 'views/error_view.html',
-                            {
-                                mensaje: "Ocurrió un error inesperado al enviar el correo de verificación."
-                            });
-                        res.send(response);
+                        req.flash('error', "Ocurrió un error inesperado al enviar el correo de verificación.")
+                        res.redirect("/login");
                     } else {
                         managerDB.add(user, "users", function (id) {
                             if (id == null) {
-                                res.send("Error al insertar el usuario");
+                                req.flash('error', "Ocurrió un error inesperado al añadir su usuario al sistema.")
                             } else {
+                                req.flash('success', "Se ha enviado un mensaje a su bandeja de entrada. Revísela para activar su perfil.")
                                 res.redirect("/login");
                             }
                         });
@@ -208,11 +230,8 @@ module.exports = function (app, render, nodemailer, managerDB) {
                 })
                 // Si ya existe un usuario.
             } else {
-                let response = render(req.session, 'views/error_view.html',
-                    {
-                        mensaje: "Este correo electrónico ya pertenece a una cuenta. Intente usar uno diferente."
-                    });
-                res.send(response);
+                req.flash('error', "Este correo electrónico ya pertenece a una cuenta. Intente usar uno diferente.")
+                res.redirect("/signin");
             }
 
         });
@@ -220,7 +239,9 @@ module.exports = function (app, render, nodemailer, managerDB) {
 
     app.get("/login", function (req, res) {
         let response = render(req.session, 'views/user_login.html', {
-            user: req.session.user
+            user: req.session.user,
+            error: req.flash("error"),
+            success: req.flash("success")
         });
         res.send(response);
     });
@@ -235,19 +256,18 @@ module.exports = function (app, render, nodemailer, managerDB) {
         }
         managerDB.get(condition, "users", function (users) {
             if (users == null || users.length == 0) {
+                req.flash('error', "Usuario y/o contraseña incorrectos")
                 req.session.user = null;
                 res.redirect("/login");
             } else {
                 let userTryingToLog = users[0];
                 if (userTryingToLog.active == true) {
                     req.session.user = users[0];
+                    req.flash('success', "Ha iniciado sesión correctamente.")
                     res.redirect('/properties');
                 } else {
-                    let response = render(req.session, 'views/error_view.html',
-                        {
-                            mensaje: "Su correo no ha sido verificado. Revise su bandeja de entrada."
-                        });
-                    res.send(response);
+                    req.flash('error', "Su correo no ha sido verificado. Revise su bandeja de entrada.")
+                    res.redirect("/login");
                 }
             }
         });
@@ -263,6 +283,46 @@ module.exports = function (app, render, nodemailer, managerDB) {
         let condition = {
             email: req.body.correoRecuperacion
         }
+        let user = {
+            'codes.passwordRecover': stringGen(20),
+            'codes.passwordRecoverDate': getDateTime(),
+        }
+        managerDB.edit(condition, user, "users", function (result) {
+            if (result == null) {
+                let response = render(req.session, 'views/error_view.html',
+                    {
+                        mensaje: "No se encontró ningún usuario. Lo sentimos"
+                    });
+                res.send(response);
+            } else {
+                let transporter = nodemailer.createTransport({
+                    service: 'gmail',
+                    auth: {
+                        user: 'tfguo257386@gmail.com',
+                        pass: 'TFG_UO257386'
+                    }
+                });
+                let mailOptions = {
+                    from: 'tfguo257386@gmail.com',
+                    to: req.body.correoRecuperacion,
+                    subject: 'Reestablezca su Contraseña',
+                    html: "<h1>Haga click en el siguiente enlace para reestablecer su contraseña.</h1>" +
+                        "<p>https://localhost:8081/recover/" + user["codes.passwordRecover"] + "</p>"
+                }
+
+                transporter.sendMail(mailOptions, function (error, info) {
+                    if (error) {
+                        let response = render(req.session, 'views/error_view.html',
+                            {
+                                mensaje: "Ocurrió un error inesperado al enviar el correo de recuperación de contraseña."
+                            });
+                        res.send(response);
+                    } else {
+                        res.redirect("/login");
+                    }
+                })
+            }
+        });
 
         managerDB.get(condition, "users", function (users) {
             if (users == null) {
@@ -316,6 +376,46 @@ module.exports = function (app, render, nodemailer, managerDB) {
 
         return text;
     }
-};
+
+    function getDateTime() {
+        let date = new Date();
+
+        let hour = date.getHours();
+        hour = (hour < 10 ? "0" : "") + hour;
+
+        let min = date.getMinutes();
+        min = (min < 10 ? "0" : "") + min;
+
+        let sec = date.getSeconds();
+        sec = (sec < 10 ? "0" : "") + sec;
+
+        let year = date.getFullYear();
+
+        let month = date.getMonth() + 1;
+        month = (month < 10 ? "0" : "") + month;
+
+        let day = date.getDate();
+        day = (day < 10 ? "0" : "") + day;
+
+        return year + ":" + month + ":" + day + ":" + hour + ":" + min + ":" + sec;
+    }
+
+    function expirated(dateToday,expirationDateUser){
+        let todaySecs = convertToInt(dateToday);
+        let expSecs = convertToInt(expirationDateUser);
+
+        if((todaySecs - expSecs) > 300)
+            return true;
+        return false;
+    }
+
+    function convertToInt(date){
+        let array = date.split(':');
+
+        let integer = (parseInt(array[0])*31536000) + (parseInt(array[1])*2592000) +
+            (parseInt(array[2])*86400) + (parseInt(array[3])*3600) + (parseInt(array[4])*60) + (parseInt(array[5]));
+        return integer;
+    }
+    };
 
 

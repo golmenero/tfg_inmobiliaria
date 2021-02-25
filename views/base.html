@@ -146,6 +146,20 @@
         </ul>
     </div>
 </nav>
+{% if success != undefined %}
+<div class="row">
+    <div class="msgInfoUser alert alert-success col-md-12" role="alert">
+        {{success}}
+    </div>
+</div>
+{% endif %}
+{% if error != undefined %}
+<div class="row">
+    <div class="msgInfoUser alert alert-danger col-md-12" role="alert">
+        {{error}}
+    </div>
+</div>
+{% endif %}
 
 <!-- Pantalla de asegurar que quiere borrar el perfil  -->
 <div class="modal fade" id="modeloEliminarPerfil">

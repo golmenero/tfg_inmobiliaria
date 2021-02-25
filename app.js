@@ -4,6 +4,7 @@ let app = express();
 
 let fs =  require('fs');
 let https = require('https');
+let flash = require('connect-flash')
 
 let expressSession = require('express-session');
 app.use(expressSession({
@@ -11,6 +12,8 @@ app.use(expressSession({
     resave: true,
     saveUninitialized: true
 }));
+
+app.use(flash());
 
 let crypto = require('crypto');
 

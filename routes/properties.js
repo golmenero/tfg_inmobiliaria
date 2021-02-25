@@ -17,11 +17,13 @@ module.exports = function (app, render, nodemailer, managerDB) {
     // PROPIEDADES GUARDADAS
     app.post("/properties/save/:id", function (req, res) {
         let condition = {
-            "propertyID": managerDB.mongo.ObjectID(req.params.id),
-            "userEMAIL": req.session.user.email
+            email : req.session.user.email
         };
-        managerDB.add(condition, "wishes", function (wishes) {
-            if (wishes == null) {
+        let user = {
+            wishes : req.params.id,
+        }
+        managerDB.edit(condition, user, "users", function (users) {
+            if (users == null) {
                 res.send(response);
             } else {
                 res.redirect("/properties/saved");
@@ -38,7 +40,9 @@ module.exports = function (app, render, nodemailer, managerDB) {
             } else {
                 let response = render(req.session, 'views/property_modify.html',
                     {
-                        property: properties[0]
+                        property: properties[0],
+                        error : req.flash('error'),
+                        success : req.flash('success')
                     });
                 res.send(response);
             }
@@ -92,6 +96,8 @@ module.exports = function (app, render, nodemailer, managerDB) {
                 let response = render(req.session, 'views/property_mywishes.html',
                     {
                         properties: properties,
+                        error : req.flash('error'),
+                        success : req.flash('success')
                     });
                 res.send(response);
             }
@@ -100,7 +106,9 @@ module.exports = function (app, render, nodemailer, managerDB) {
 
     app.get('/properties/add', function (req, res) {
         let response = render(req.session, 'views/property_add.html', {
-            user: req.session.user.email
+            user: req.session.user.email,
+            error : req.flash('error'),
+            success : req.flash('success')
         });
         res.send(response);
     })
@@ -113,7 +121,9 @@ module.exports = function (app, render, nodemailer, managerDB) {
             } else {
                 let response = render(req.session, 'views/property_details.html', {
                     property: properties[0],
-                    user: req.session.user.email
+                    user: req.session.user.email,
+                    error : req.flash('error'),
+                    success : req.flash('success')
                 });
                 res.send(response);
             }
@@ -129,7 +139,9 @@ module.exports = function (app, render, nodemailer, managerDB) {
                 let response = render(req.session, 'views/property_myproperties.html',
                     {
                         properties: properties,
-                        user: req.session.user.email
+                        user: req.session.user.email,
+                        error : req.flash('error'),
+                        success : req.flash('success')
                     });
                 res.send(response);
             }
@@ -164,7 +176,9 @@ module.exports = function (app, render, nodemailer, managerDB) {
                     {
                         properties: properties,
                         pages: pages,
-                        actual: pg
+                        actual: pg,
+                        error : req.flash('error'),
+                        success : req.flash('success')
                     });
                 res.send(response);
             }
