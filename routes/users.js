@@ -188,6 +188,7 @@ module.exports = function (app, render, nodemailer, managerDB) {
                         emailActivation: stringGen(20),
                         passwordRecover: "",
                     },
+                    wishes: []
                 };
 
                 let transporter = nodemailer.createTransport({
@@ -200,7 +201,7 @@ module.exports = function (app, render, nodemailer, managerDB) {
                 let mailOptions = {
                     from: 'tfguo257386@gmail.com',
                     to: user.email,
-                    subject: 'Prueba',
+                    subject: 'Verifique su correo electrónico.',
                     html: "<h1>Gracias por registrarse en nuestra aplicación</h1>" +
                         "<h2>Verifique su correo electrónico haciendo click en el siguiente enlace:</h2>" +
                         "<p>https://localhost:8081/user/verification/" + user.codes.emailActivation + "</p>"

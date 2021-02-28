@@ -8,568 +8,1092 @@
 {% extends "base.html" %} {% block titulo %} Agregar propiedad {% endblock %} {% block contenido_principal %}
 
 <h2 class="sectionHeader">¿Qué tipo de propiedad desea añadir?</h2>
-<div class="progress">
-    <div class="progress-bar progress-bar-striped progress-bar-animated bg-success" role="progressbar"
-         aria-valuenow="0"
-         aria-valuemin="0" aria-valuemax="100"></div>
-</div>
-<!-- FASE INICIAL ---------------------------------------------------------------------------------------------------------------------------------------------------->
-<div id="divAddOptions">
-    <a class="propAddLink row" id="displayVivienda">
-        <div class="col-2 float-left">
-            <img class='imgLogo' src="/img/icons/house.png" alt="logo"/>
-        </div>
-        <div class="col-9">
-            <h3>Vivienda</h3>
-            <p class="lead">Para ser habitado por personas.</p>
-            <p>El más completo de todos. Desde esta opción podrás modificar una gran cantidad de campos.</p>
-        </div>
-    </a>
-    <a class="propAddLink row" id="displayLocal">
-        <div class="col-2 float-left">
-            <img class='imgLogo' src="/img/icons/local.png" alt="logo"/>
-        </div>
-        <div class="col-9">
-            <h3>Local</h3>
-            <p class="lead">Para establecer o iniciar un comercio, instalación industrial etc.</p>
-            <p>Preparado para trabajar con los campos más adecuados y con prestaciones específicas.</p>
-        </div>
-    </a>
-    <a class="propAddLink row" id="displaySuelo">
-        <div class="col-2 float-left">
-            <img class='imgLogo' src="/img/icons/suelo.png" alt="logo"/>
-        </div>
-        <div class="col-9">
-            <h3>Suelo</h3>
-            <p class="lead">Para edificar o trabajar en el.</p>
-            <p>El más sencillo, preparado con los datos necesarios para añadir todas las características.</p>
-        </div>
-    </a>
-</div>
+<form class="form-horizontal" method="post" action="/properties/add" encType="multipart/form-data">
+    <div class="progress">
+        <div class="progress-bar progress-bar-striped progress-bar-animated bg-success" role="progressbar"
+             aria-valuenow="0"
+             aria-valuemin="0" aria-valuemax="100"></div>
+    </div>
 
-<!-- DATOS COMUNES --------------------------------------------------------------------------------------------------------------------------------------------------->
-<div id="divAttCommon" style="display: none;">
-    <div class="div-field form-row">
-        <label class="control-label col-sm-12" for="type">Tipo:</label>
-        <div>
-            <select id='type' class="form-control" name="type" required="true">
-                <option value="vivienda">Vivienda
-                </option>
-                <option value="local">Local
-                </option>
-                <option value="suelo">Suelo
-                </option>
-            </select>
+    <div id="divErrorCampos" class="row" style="display: none;">
+        <div class="msgInfoUser alert alert-danger col-md-12" role="alert">
+            Rellene todos los campos, por favor.
         </div>
     </div>
-    <div class="div-field form-row">
-        <label class="control-label col-sm-2" for="name">Nombre:</label>
-        <div class="col-sm-12">
-            <input type="text" class="form-control" name="name" placeholder="Ej. Chalet con Piscina en el Centro"
-                   required="true"/>
-        </div>
-    </div>
-    <div id='divAddress' class="div-field form-row">
-        <div class="form-group col-sm-9">
-            <label class="control-label" for="address">Dirección (Solo Calle y Portal):</label>
-            <div>
-                <input id='address' type="text" class="form-control" name="address"
-                       placeholder="Ej. Avenida/Portal/Escalera/Piso"
-                       required="true"/>
+    <!-- FASE INICIAL ---------------------------------------------------------------------------------------------------------------------------------------------------->
+    <div id="divAddOptions">
+        <a class="propAddLink row" id="displayVivienda">
+            <div class="col-2 float-left">
+                <img class='imgLogo' src="/img/icons/house.png" alt="logo"/>
             </div>
-        </div>
-        <div class="form-group col-sm-3">
-            <label class="control-label" for="floor">Piso:</label>
-            <div>
-                <input type="number" class="form-control" name="floor" placeholder="Ej. 1" required="true"/>
+            <div class="col-9">
+                <h3>Vivienda</h3>
+                <p class="lead">Para ser habitado por personas.</p>
+                <p>El más completo de todos. Desde esta opción podrás modificar una gran cantidad de campos.</p>
             </div>
-        </div>
+        </a>
+        <a class="propAddLink row" id="displayLocal">
+            <div class="col-2 float-left">
+                <img class='imgLogo' src="/img/icons/local.png" alt="logo"/>
+            </div>
+            <div class="col-9">
+                <h3>Local</h3>
+                <p class="lead">Para establecer o iniciar un comercio, instalación industrial etc.</p>
+                <p>Preparado para trabajar con los campos más adecuados y con prestaciones específicas.</p>
+            </div>
+        </a>
+        <a class="propAddLink row" id="displaySuelo">
+            <div class="col-2 float-left">
+                <img class='imgLogo' src="/img/icons/suelo.png" alt="logo"/>
+            </div>
+            <div class="col-9">
+                <h3>Suelo</h3>
+                <p class="lead">Para edificar o trabajar en el.</p>
+                <p>El más sencillo, preparado con los datos necesarios para añadir todas las características.</p>
+            </div>
+        </a>
     </div>
-    <div id="errorMap" class="div-field form-row" style="display: none;">
-        <div class="alert alert-danger col-md-12" role="alert">
-            No se ha podido localizar la posición. Asegúrese de que la dirección es correcta.
-        </div>
-    </div>
-    <div id="divMapContainer" style="display: none;">
+
+    <!-- DATOS COMUNES --------------------------------------------------------------------------------------------------------------------------------------------------->
+    <div id="divAttCommon" style="display: none;">
         <div class="div-field form-row">
-            <div id="divMapa" class="col-sm-12">
+            <label class="control-label col-sm-12" for="type">Tipo:</label>
+            <div>
+                <select id='type' class="form-control" name="type">
+                    <option value="vivienda">Vivienda
+                    </option>
+                    <option value="local">Local
+                    </option>
+                    <option value="suelo">Suelo
+                    </option>
+                </select>
             </div>
         </div>
-    </div>
-    <div style="display: none;">
         <div class="div-field form-row">
-            <div class="form-group col-sm-6">
-                <label class="control-label" for="lattitude">Latitud:</label>
+            <label class="control-label col-sm-2" for="name">Nombre:</label>
+            <div class="col-sm-12">
+                <input type="text" class="form-control" name="name" placeholder="Ej. Chalet con Piscina en el Centro"/>
+            </div>
+        </div>
+        <div id='divAddress' class="div-field form-row">
+            <div class="form-group col-sm-9">
+                <label class="control-label" for="address">Dirección (Solo Calle y Portal):</label>
                 <div>
-                    <input id='latInput' type="number" class="form-control" name="lattitude" placeholder="Ej. 1000"
-                           required="true"
-                           disabled/>
+                    <input id='address' type="text" class="form-control" name="address"
+                           placeholder="Ej. Avenida/Portal/Escalera/Piso"/>
                 </div>
             </div>
-            <div class="form-group col-sm-6">
-                <label class="control-label" for="longitude">Longitud:</label>
+            <div class="form-group col-sm-3">
+                <label class="control-label" for="floorV">Piso:</label>
                 <div>
-                    <input id='lonInput' type="number" class="form-control" name="longitude" placeholder="Ej. 1000"
-                           required="true"
-                           disabled/>
+                    <input type="number" class="form-control" name="floorV" placeholder="Ej. 1"/>
                 </div>
             </div>
         </div>
-    </div>
-    <div class="div-field form-row">
-        <label class="control-label col-sm-2" for="description">Descripción:</label>
-        <div class="col-sm-12">
-            <textarea class="form-control" name="description" id="exampleFormControlTextarea1" rows="5"></textarea>
+        <div id="errorMap" class="div-field form-row" style="display: none;">
+            <div class="alert alert-danger col-md-12" role="alert">
+                No se ha podido localizar la posición. Asegúrese de que la dirección es correcta.
+            </div>
+        </div>
+        <div id="divMapContainer" style="display: none;">
+            <div class="div-field form-row">
+                <div id="divMapa" class="col-sm-12">
+                </div>
+            </div>
+        </div>
+        <div style="display: none;">
+            <div class="div-field form-row">
+                <div class="form-group col-sm-6">
+                    <label class="control-label" for="lattitude">Latitud:</label>
+                    <div>
+                        <input id='latInput' type="number" class="form-control" name="lattitude" placeholder="Ej. 1000"
+                               disabled/>
+                    </div>
+                </div>
+                <div class="form-group col-sm-6">
+                    <label class="control-label" for="longitude">Longitud:</label>
+                    <div>
+                        <input id='lonInput' type="number" class="form-control" name="longitude" placeholder="Ej. 1000"
+                               disabled/>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="div-field form-row">
+            <label class="control-label col-sm-2" for="description">Descripción:</label>
+            <div class="col-sm-12">
+                <textarea class="form-control" name="description" id="exampleFormControlTextarea1" rows="5"></textarea>
+            </div>
+        </div>
+        <div class="div-field form-row">
+            <label class="control-label col-sm-2" for="city">Población/Ciudad:</label>
+            <div class="col-sm-12">
+                <input type="text" class="form-control" name="city" placeholder="Ej. Oviedo"/>
+            </div>
         </div>
     </div>
-    <div class="div-field form-row">
-        <label class="control-label col-sm-2" for="city">Población/Ciudad:</label>
-        <div class="col-sm-12">
-            <input type="text" class="form-control" name="city" placeholder="Ej. Oviedo" required="true"/>
-        </div>
-    </div>
-</div>
 
-<!-- DATOS DE VIVIENDA ----------------------------------------------------------------------------------------------------------------------------------------------->
-<div id="divAttVivienda" style="display: none;">
-    <div class="div-field form-row">
-        <div class="form-group col-sm-2">
-            <label class="control-label" for="area">Superficie (m2):</label>
-            <div>
-                <input type="number" class="form-control" name="area" placeholder="Ej. 100" required="true"/>
+    <!-- DATOS DE VIVIENDA ----------------------------------------------------------------------------------------------------------------------------------------------->
+    <div id="divAttVivienda" style="display: none;">
+        <div class="div-field form-row">
+            <div class="form-group col-sm-2">
+                <label class="control-label" for="area">Superficie (m²):</label>
+                <div>
+                    <input type="number" class="form-control" name="area" placeholder="Ej. 100"/>
+                </div>
+            </div>
+            <div class="form-group col-sm-2">
+                <label class="control-label" for="numHabs">N. Habitaciones:</label>
+                <div>
+                    <select id='numHabs' class="form-control" name="numHabs">
+                        <option value="1">1
+                        </option>
+                        <option value="2">2
+                        </option>
+                        <option value="3">3
+                        </option>
+                        <option value="4">4 o mas
+                        </option>
+                    </select>
+                </div>
+            </div>
+            <div class="form-group col-sm-2">
+                <label class="control-label" for="numBan">N. Baños:</label>
+                <div>
+                    <select id='numBan' class="form-control" name="numBan">
+                        <option value="1">1
+                        </option>
+                        <option value="2">2
+                        </option>
+                        <option value="3">3
+                        </option>
+                        <option value="4">4 o mas
+                        </option>
+                    </select>
+                </div>
+            </div>
+            <div class="form-group col-sm-3">
+                <label class="control-label" for="price">Precio (€):</label>
+                <div>
+                    <input type="number" class="form-control" name="price" placeholder="Ej. 1000"/>
+                </div>
+            </div>
+            <div class="form-group col-sm-3">
+                <label class="control-label" for="priceCom">Gastos de Comunidad (€):</label>
+                <div>
+                    <input type="number" class="form-control" name="priceCom" placeholder="Ej. 1000"/>
+                </div>
             </div>
         </div>
-        <div class="form-group col-sm-2">
-            <label class="control-label" for="numHabs">N. Habitaciones:</label>
-            <div>
-                <select id='numHabs' class="form-control" name="numHabs" required="true">
-                    <option value="1">1
-                    </option>
-                    <option value="2">2
-                    </option>
-                    <option value="3">3
-                    </option>
-                    <option value="4">4 o mas
-                    </option>
-                </select>
+        <div class="div-field form-row">
+            <div class="form-check col-sm-2">
+                <input type="checkbox" class="form-check-input" name="checkGaraje">
+                <label class="form-check-label" for="checkGaraje">Garaje</label>
+            </div>
+            <div class="form-check col-sm-2">
+                <input type="checkbox" class="form-check-input" name="checkPiscina">
+                <label class="form-check-label" for="checkPiscina">Piscina</label>
+            </div>
+            <div class="form-check col-sm-2">
+                <input type="checkbox" class="form-check-input" name="checkTerraza">
+                <label class="form-check-label" for="checkTerraza">Terraza</label>
+            </div>
+            <div class="form-check col-sm-2">
+                <input type="checkbox" class="form-check-input" name="checkTrastero">
+                <label class="form-check-label" for="checkTrastero">Trastero</label>
+            </div>
+            <div class="form-check col-sm-2">
+                <input type="checkbox" class="form-check-input" name="checkJardin">
+                <label class="form-check-label" for="checkJardin">Jardín</label>
+            </div>
+            <div class="form-check col-sm-2">
+                <input type="checkbox" class="form-check-input" name="checkAscensor">
+                <label class="form-check-label" for="checkAscensor">Ascensor</label>
             </div>
         </div>
-        <div class="form-group col-sm-2">
-            <label class="control-label" for="numBan">N. Baños:</label>
-            <div>
-                <select id='numBan' class="form-control" name="numBan" required="true">
-                    <option value="1">1
-                    </option>
-                    <option value="2">2
-                    </option>
-                    <option value="3">3
-                    </option>
-                    <option value="4">4 o mas
-                    </option>
-                </select>
+        <div class="div-field form-row">
+            <div class="form-check col-sm-2">
+                <input type="checkbox" class="form-check-input" name="checkCalefaccion">
+                <label class="form-check-label" for="checkCalefaccion">Calefacción</label>
             </div>
-        </div>
-        <div class="form-group col-sm-3">
-            <label class="control-label" for="price">Precio (€):</label>
-            <div>
-                <input type="number" class="form-control" name="price" placeholder="Ej. 1000" required="true"/>
+            <div class="form-check col-sm-2">
+                <input type="checkbox" class="form-check-input" name="checkAireAcon">
+                <label class="form-check-label" for="checkAireAcon">Aire Acondicionado</label>
             </div>
-        </div>
-        <div class="form-group col-sm-3">
-            <label class="control-label" for="priceCom">Gastos de Comunidad (€):</label>
-            <div>
-                <input type="number" class="form-control" name="priceCom" placeholder="Ej. 1000" required="true"/>
+            <div class="form-check col-sm-2">
+                <input type="checkbox" class="form-check-input" name="checkAmueblado">
+                <label class="form-check-label" for="checkAmueblado">Amueblado</label>
+            </div>
+            <div class="form-check col-sm-2">
+                <input type="checkbox" class="form-check-input" name="checkAnimales">
+                <label class="form-check-label" for="checkAnimales">Permite Animales</label>
             </div>
         </div>
     </div>
-    <div class="div-field form-row">
-        <div class="form-check col-sm-2">
-            <input type="checkbox" class="form-check-input" id="checkGaraje">
-            <label class="form-check-label" for="checkGaraje">Garaje</label>
-        </div>
-        <div class="form-check col-sm-2">
-            <input type="checkbox" class="form-check-input" id="checkPiscina">
-            <label class="form-check-label" for="checkPiscina">Piscina</label>
-        </div>
-        <div class="form-check col-sm-2">
-            <input type="checkbox" class="form-check-input" id="checkTerraza">
-            <label class="form-check-label" for="checkTerraza">Terraza</label>
-        </div>
-        <div class="form-check col-sm-2">
-            <input type="checkbox" class="form-check-input" id="checkTrastero">
-            <label class="form-check-label" for="checkTrastero">Trastero</label>
-        </div>
-        <div class="form-check col-sm-2">
-            <input type="checkbox" class="form-check-input" id="checkJardin">
-            <label class="form-check-label" for="checkJardin">Jardín</label>
-        </div>
-        <div class="form-check col-sm-2">
-            <input type="checkbox" class="form-check-input" id="checkAscensor">
-            <label class="form-check-label" for="checkAscensor">Ascensor</label>
-        </div>
-    </div>
-    <div class="div-field form-row">
-        <div class="form-check col-sm-2">
-            <input type="checkbox" class="form-check-input" id="checkCalefaccion">
-            <label class="form-check-label" for="checkCalefaccion">Calefacción</label>
-        </div>
-        <div class="form-check col-sm-2">
-            <input type="checkbox" class="form-check-input" id="checkAireAcon">
-            <label class="form-check-label" for="checkAireAcon">Aire Acondicionado</label>
-        </div>
-        <div class="form-check col-sm-2">
-            <input type="checkbox" class="form-check-input" id="checkAmueblado">
-            <label class="form-check-label" for="checkAmueblado">Amueblado</label>
-        </div>
-        <div class="form-check col-sm-2">
-            <input type="checkbox" class="form-check-input" id="checkAnimales">
-            <label class="form-check-label" for="checkAnimales">Permite Animales</label>
-        </div>
-    </div>
-</div>
 
-<!-- DATOS DE LOCAL -------------------------------------------------------------------------------------------------------------------------------------------------->
-<div id="divAttLocal" style="display: none;">
-    <div class="div-field form-row">
-        <div class="form-group col-sm-3">
-            <label class="control-label" for="areaLoc">Superficie (m2):</label>
-            <div>
-                <input type="number" class="form-control" name="areaLoc" placeholder="Ej. 100" required="true"/>
+    <!-- DATOS DE LOCAL -------------------------------------------------------------------------------------------------------------------------------------------------->
+    <div id="divAttLocal" style="display: none;">
+        <div class="div-field form-row">
+            <div class="form-group col-sm-3">
+                <label class="control-label" for="areaLoc">Superficie (m²):</label>
+                <div>
+                    <input type="number" class="form-control" name="areaLoc" placeholder="Ej. 100"/>
+                </div>
+            </div>
+            <div class="form-group col-sm-3">
+                <label class="control-label" for="numAsLoc">N. Aseos:</label>
+                <div>
+                    <select id='numAsLoc' class="form-control" name="numAsLoc">
+                        <option value="1">1
+                        </option>
+                        <option value="2">2
+                        </option>
+                        <option value="3">3
+                        </option>
+                        <option value="4">4 o mas
+                        </option>
+                    </select>
+                </div>
+            </div>
+            <div class="form-group col-sm-3">
+                <label class="control-label" for="priceLoc">Precio (€):</label>
+                <div>
+                    <input type="number" class="form-control" name="priceLoc" placeholder="Ej. 1000"/>
+                </div>
+            </div>
+            <div class="form-group col-sm-3">
+                <label class="control-label" for="priceComLoc">Gastos de Comunidad (€):</label>
+                <div>
+                    <input type="number" class="form-control" name="priceComLoc" placeholder="Ej. 1000"/>
+                </div>
             </div>
         </div>
-        <div class="form-group col-sm-3">
-            <label class="control-label" for="numAsLoc">N. Aseos:</label>
-            <div>
-                <select id='numAsLoc' class="form-control" name="numAsLoc" required="true">
-                    <option value="1">1
-                    </option>
-                    <option value="2">2
-                    </option>
-                    <option value="3">3
-                    </option>
-                    <option value="4">4 o mas
-                    </option>
-                </select>
+        <div class="div-field form-row">
+            <div class="form-check col-sm-2">
+                <input type="checkbox" class="form-check-input" name="checkEscaparateLoc">
+                <label class="form-check-label" for="checkEscaparateLoc">Escaparate</label>
+            </div>
+            <div class="form-check col-sm-2">
+                <input type="checkbox" class="form-check-input" name="checkAparcamientoLoc">
+                <label class="form-check-label" for="checkAparcamientoLoc">Aparcamiento</label>
+            </div>
+            <div class="form-check col-sm-2">
+                <input type="checkbox" class="form-check-input" name="checkCargaYDescargaLoc">
+                <label class="form-check-label" for="checkCargaYDescargaLoc">Carga y Descarga</label>
+            </div>
+            <div class="form-check col-sm-2">
+                <input type="checkbox" class="form-check-input" name="checkExtintoresLoc">
+                <label class="form-check-label" for="checkExtintoresLoc">Extintores</label>
+            </div>
+            <div class="form-check col-sm-2">
+                <input type="checkbox" class="form-check-input" name="checkIluminacionLoc">
+                <label class="form-check-label" for="checkIluminacionLoc">Iuminación</label>
             </div>
         </div>
-        <div class="form-group col-sm-3">
-            <label class="control-label" for="priceLoc">Precio (€):</label>
-            <div>
-                <input type="number" class="form-control" name="priceLoc" placeholder="Ej. 1000" required="true"/>
+        <div class="div-field form-row">
+            <div class="form-check col-sm-2">
+                <input type="checkbox" class="form-check-input" name="checkCalefaccionLoc">
+                <label class="form-check-label" for="checkCalefaccionLoc">Calefacción</label>
             </div>
-        </div>
-        <div class="form-group col-sm-3">
-            <label class="control-label" for="priceComLoc">Gastos de Comunidad (€):</label>
-            <div>
-                <input type="number" class="form-control" name="priceComLoc" placeholder="Ej. 1000" required="true"/>
+            <div class="form-check col-sm-2">
+                <input type="checkbox" class="form-check-input" name="checkAireAconLoc">
+                <label class="form-check-label" for="checkAireAconLoc">Aire Acondicionado</label>
             </div>
         </div>
     </div>
-    <div class="div-field form-row">
-        <div class="form-check col-sm-2">
-            <input type="checkbox" class="form-check-input" id="checkEscaparateLoc">
-            <label class="form-check-label" for="checkEscaparateLoc">Escaparate</label>
-        </div>
-        <div class="form-check col-sm-2">
-            <input type="checkbox" class="form-check-input" id="checkAparcamientoLoc">
-            <label class="form-check-label" for="checkAparcamientoLoc">Aparcamiento</label>
-        </div>
-        <div class="form-check col-sm-2">
-            <input type="checkbox" class="form-check-input" id="checkCargaYDescargaLoc">
-            <label class="form-check-label" for="checkCargaYDescargaLoc">Carga y Descarga</label>
-        </div>
-        <div class="form-check col-sm-2">
-            <input type="checkbox" class="form-check-input" id="checkExtintoresLoc">
-            <label class="form-check-label" for="checkExtintoresLoc">Extintores</label>
-        </div>
-        <div class="form-check col-sm-2">
-            <input type="checkbox" class="form-check-input" id="checkIluminacionLoc">
-            <label class="form-check-label" for="checkIluminacionLoc">Iuminación</label>
-        </div>
-    </div>
-    <div class="div-field form-row">
-        <div class="form-check col-sm-2">
-            <input type="checkbox" class="form-check-input" id="checkCalefaccionLoc">
-            <label class="form-check-label" for="checkCalefaccionLoc">Calefacción</label>
-        </div>
-        <div class="form-check col-sm-2">
-            <input type="checkbox" class="form-check-input" id="checkAireAconLoc">
-            <label class="form-check-label" for="checkAireAconLoc">Aire Acondicionado</label>
-        </div>
-    </div>
-</div>
 
-<!-- DATOS DE SUELO -------------------------------------------------------------------------------------------------------------------------------------------------->
-<div id="divAttSuelo" style="display: none;">
-    <div class="div-field form-row">
-        <label class="control-label col-sm-2" for="situationSue">Situación:</label>
-        <div class="col-sm-12">
-            <input type="text" class="form-control" name="situationSue" placeholder="Ej. San Quintín"
-                   required="true"/>
-        </div>
-    </div>
-    <div class="div-field form-row">
-        <div class="form-group col-sm-4">
-            <label class="control-label" for="areaSue">Superficie Total (m2):</label>
-            <div>
-                <input type="number" class="form-control" name="areaSue" placeholder="Ej. 100" required="true"/>
+    <!-- DATOS DE SUELO -------------------------------------------------------------------------------------------------------------------------------------------------->
+    <div id="divAttSuelo" style="display: none;">
+        <div class="div-field form-row">
+            <label class="control-label col-sm-2" for="situationSue">Situación:</label>
+            <div class="col-sm-12">
+                <input type="text" class="form-control" name="situationSue" placeholder="Ej. San Quintín"
+                />
             </div>
         </div>
-        <div class="form-group col-sm-4">
-            <label class="control-label" for="areaEdifSue">Superficie Edificable (m2):</label>
-            <div>
-                <input type="number" class="form-control" name="areaEdifSue" placeholder="Ej. 100" required="true"/>
+        <div class="div-field form-row">
+            <div class="form-group col-sm-4">
+                <label class="control-label" for="areaSue">Superficie Total (m²):</label>
+                <div>
+                    <input type="number" class="form-control" name="areaSue" placeholder="Ej. 100"/>
+                </div>
+            </div>
+            <div class="form-group col-sm-4">
+                <label class="control-label" for="areaEdifSue">Superficie Edificable (m²):</label>
+                <div>
+                    <input type="number" class="form-control" name="areaEdifSue" placeholder="Ej. 100"/>
+                </div>
+            </div>
+            <div class="form-group col-sm-4">
+                <label class="control-label" for="priceSue">Precio Total(€):</label>
+                <div>
+                    <input type="number" class="form-control" name="priceSue" placeholder="Ej. 1000"/>
+                </div>
             </div>
         </div>
-        <div class="form-group col-sm-4">
-            <label class="control-label" for="priceSue">Precio Total(€):</label>
-            <div>
-                <input type="number" class="form-control" name="priceSue" placeholder="Ej. 1000" required="true"/>
+        <div class="div-field form-row">
+            <div class="form-check col-sm-3">
+                <input type="checkbox" class="form-check-input" name="accesoAguaSue">
+                <label class="form-check-label" for="accesoAguaSue">Acceso a Agua</label>
+            </div>
+            <div class="form-check col-sm-3">
+                <input type="checkbox" class="form-check-input" name="accesoLuzSue">
+                <label class="form-check-label" for="accesoLuzSue">Acceso a Luz</label>
             </div>
         </div>
     </div>
-    <div class="div-field form-row">
-        <div class="form-check col-sm-3">
-            <input type="checkbox" class="form-check-input" id="accesoAguaSue">
-            <label class="form-check-label" for="accesoAguaSue">Acceso a Agua</label>
-        </div>
-        <div class="form-check col-sm-3">
-            <input type="checkbox" class="form-check-input" id="accesoLuzSue">
-            <label class="form-check-label" for="accesoLuzSue">Acceso a Luz</label>
-        </div>
-    </div>
-</div>
 
-<div id="divPropertiesButtons" style="display: none;">
-    <div class="row">
-        <button id="btnSuccess1" type="submit" class="btnSiguiente btn btn-success btn-lg btn-block">Siguiente</button>
-    </div>
-</div>
-
-<!-- DATOS DE PROPIETARIO -------------------------------------------------------------------------------------------------------------------------------------------->
-<div id="divOwner" style="display: none;">
-    <div class="div-field form-row">
-        <label class="control-label col-sm-2" for="nameOwner">Nombre:</label>
-        <div class="col-sm-12">
-            <input type="text" class="form-control" name="nameOwner" placeholder="Ej. Claudia"
-                   required="true"/>
-        </div>
-    </div>
-    <div class="div-field form-row">
-        <label class="control-label col-sm-2" for="surnameOwner">Apellidos:</label>
-        <div class="col-sm-12">
-            <input type="text" class="form-control" name="surnameOwner" placeholder="Ej. Pérez Peláez"
-                   required="true"/>
-        </div>
-    </div>
-    <div class="div-field form-row">
-        <div class="form-group col-sm-3">
-            <label class="control-label" for="dniOwner">DNI/NIF/NIE:</label>
-            <div>
-                <input type="text" class="form-control" name="dniOwner" placeholder="Ej. 55555555E"
-                       required="true"/>
-            </div>
-        </div>
-        <div class="form-group col-sm-3">
-            <label class="control-label" for="phoneOwner">Teléfono:</label>
-            <div>
-                <input type="number" class="form-control" name="phoneOwner" placeholder="Ej. 666666666"
-                       required="true"/>
-            </div>
-        </div>
-        <div class="form-group col-sm-6">
-            <label class="control-label" for="emailOwner">Correo Electrónico:</label>
-            <div>
-                <input type="email" class="form-control" name="emailOwner" placeholder="Ej. propietario@gmail.com"
-                       required="true"/>
-            </div>
-        </div>
-    </div>
-    <div class="div-field form-row">
-        <label class="control-label col-sm-2" for="addressOwner">Dirección:</label>
-        <div class="col-sm-12">
-            <input type="text" class="form-control" name="addressOwner" placeholder="Ej. C/ Uría 10, P-4D"
-                   required="true"/>
-        </div>
-    </div>
-    <div class="div-field form-row">
-        <div class="col-sm-6">
-            <button id="btnSuccess2A" type="submit" class="col-sm-6 btnSiguiente btn btn-secondary btn-lg ">
-                Anterior
-            </button>
-        </div>
-        <div class="col-sm-6">
-            <button id="btnSuccess2" type="submit" class="col-sm-6 btnSiguiente btn btn-success btn-lg ">
-                Siguiente
+    <div id="divPropertiesButtons" style="display: none;">
+        <div class="row">
+            <button id="btnPropertiesS" type="button" class="btnSiguiente btn btn-success btn-lg btn-block">Siguiente
             </button>
         </div>
     </div>
-</div>
 
-
-<!-- CARGA DE IMAGENES ----------------------------------------------------------------------------------------------------------------------------------------------->
-<div id="divPictures" style="display: none;">
-    <div class="custom-file div-field form-row">
-        <input id="elegirId" type="file" lang="es" class="custom-file-input" id="customFile">
-        <label class="custom-file-label" for="customFile">Seleccione archivos</label>
+    <!-- DATOS DE PROPIETARIO -------------------------------------------------------------------------------------------------------------------------------------------->
+    <div id="divOwner" style="display: none;">
+        <div class="div-field form-row">
+            <label class="control-label col-sm-2" for="nameOwner">Nombre:</label>
+            <div class="col-sm-12">
+                <input type="text" class="form-control" name="nameOwner" placeholder="Ej. Claudia"
+                />
+            </div>
+        </div>
+        <div class="div-field form-row">
+            <label class="control-label col-sm-2" for="surnameOwner">Apellidos:</label>
+            <div class="col-sm-12">
+                <input type="text" class="form-control" name="surnameOwner" placeholder="Ej. Pérez Peláez"
+                />
+            </div>
+        </div>
+        <div class="div-field form-row">
+            <div class="form-group col-sm-3">
+                <label class="control-label" for="dniOwner">DNI/NIF/NIE:</label>
+                <div>
+                    <input type="text" class="form-control" name="dniOwner" placeholder="Ej. 55555555E"
+                    />
+                </div>
+            </div>
+            <div class="form-group col-sm-3">
+                <label class="control-label" for="phoneOwner">Teléfono:</label>
+                <div>
+                    <input type="number" class="form-control" name="phoneOwner" placeholder="Ej. 666666666"
+                    />
+                </div>
+            </div>
+            <div class="form-group col-sm-6">
+                <label class="control-label" for="emailOwner">Correo Electrónico:</label>
+                <div>
+                    <input type="email" class="form-control" name="emailOwner" placeholder="Ej. propietario@gmail.com"
+                    />
+                </div>
+            </div>
+        </div>
+        <div class="div-field form-row">
+            <label class="control-label col-sm-2" for="addressOwner">Dirección:</label>
+            <div class="col-sm-12">
+                <input type="text" class="form-control" name="addressOwner" placeholder="Ej. C/ Uría 10, P-4D"
+                />
+            </div>
+        </div>
+        <div class="div-field form-row">
+            <div class="col-sm-6">
+                <button id="btnOwnerA" type="button" class="col-sm-6 btnSiguiente btn btn-secondary btn-lg ">
+                    Anterior
+                </button>
+            </div>
+            <div class="col-sm-6">
+                <button id="btnOwnerS" type="button" class="col-sm-6 btnSiguiente btn btn-success btn-lg ">
+                    Siguiente
+                </button>
+            </div>
+        </div>
     </div>
 
-    <div class="div-field form-row">
-        <div class="col-sm-6">
-            <button id="btnSuccess3A" type="submit" class="col-sm-6 btnSiguiente btn btn-secondary btn-lg ">
-                Anterior
-            </button>
+
+    <!-- CARGA DE IMAGENES ----------------------------------------------------------------------------------------------------------------------------------------------->
+    <div id="divPictures" style="display: none;">
+        <div class="custom-file div-field form-row">
+            <input id="elegirId" type="file" lang="es" class="custom-file-input" id="customFile">
+            <label class="custom-file-label" for="customFile">Seleccione archivos</label>
         </div>
-        <div class="col-sm-6">
-            <button id="btnSuccess3" type="submit" class="col-sm-6 btnSiguiente btn btn-success btn-lg ">
-                Siguiente
-            </button>
+
+        <div class="div-field form-row">
+            <div class="col-sm-6">
+                <button id="btnPicturesA" type="button" class="col-sm-6 btnSiguiente btn btn-secondary btn-lg ">
+                    Anterior
+                </button>
+            </div>
+            <div class="col-sm-6">
+                <button id="btnPicturesS" type="button" class="col-sm-6 btnSiguiente btn btn-success btn-lg ">
+                    Siguiente
+                </button>
+            </div>
         </div>
     </div>
-</div>
 
-<!-- SCRIPTS --------------------------------------------------------------------------------------------------------------------------------------------------------->
-<script>
-    let mapaLocal = null;
-    let marker = null;
 
-    // SALTO DE LA PRIMERA VISTA A LA SEGUNDA
-    $('#displayVivienda').on('click', function () {
-        phase1("vivienda")
-    });
-    $('#displayLocal').on('click', function () {
-        phase1("local")
-    });
-    $('#displaySuelo').on('click', function () {
-        phase1("suelo")
-    });
-    $("#type").change(function () {
-        phase1($("#type").val());
-    });
+    <!-- RESUMEN FINAL - GENERAL ----------------------------------------------------------------------------------------------------------------------------------------->
+    <div id="divCommonOverview" style="display: none;">
+        <div class="noBorder card">
+            <div class="headerButtonOverview card-header" id="headingOne">
+                <h5 class="mb-0">
+                    <button type="button" class="buttonOverview btn btn-secondary" data-toggle="collapse"
+                            data-target="#propertyCollapse"
+                            aria-expanded="true" aria-controls="propertyCollapse">
+                        <h2>Datos de la Propiedad</h2>
+                    </button>
+                </h5>
+            </div>
+            <div id="propertyCollapse" class="collapse show" aria-labelledby="headingOne" data-parent="#accordion">
+                <!-- RESUMEN FINAL - VIVIENDA --------------------------------------------------------------------------------------------------------------------------------------->
+                <div class='overviewDiv' id="divOverviewVivienda" style="display: none;">
+                    <div class="row col-md-12">
+                        <dl class="col-md-6">
+                            <dt>Nombre:</dt>
+                            <dd id='nameVivD'></dd>
+                            <dt>Dirección:</dt>
+                            <dd id='addressVivD'></dd>
+                        </dl>
+                        <dl class="col-md-6">
+                            <dt>Tipo:</dt>
+                            <dd id='typeVivD'></dd>
+                            <dt>Ciudad/Poblado:</dt>
+                            <dd id="cityVivD"></dd>
+                        </dl>
+                        <dl class="col-md-12">
+                            <dt>Descripción:</dt>
+                            <dd id='descriptionVivD'></dd>
+                        </dl>
+                        <dl class="col-md-6">
+                            <dt>Superficie:</dt>
+                            <dd id='areaVivD'></dd>
+                            <dt>Precio:</dt>
+                            <dd id='priceVivD'></dd>
+                        </dl>
+                        <dl class="col-md-6">
+                            <dt>N. Habitaciones/ N. Baños:</dt>
+                            <dd id='habsBansVivD'></dd>
+                            <dt>Gastos de Comunidad:</dt>
+                            <dd id='priceComVivD'></dd>
+                        </dl>
+                        <dl class="col-md-4">
+                            <dt>Garaje:</dt>
+                            <dd id='garajeVivD'></dd>
+                            <dt>Trastero:</dt>
+                            <dd id='trasteroVivD'></dd>
+                            <dt>Calefacción:</dt>
+                            <dd id='calefaccionVivD'></dd>
+                            <dt>Permite Animales:</dt>
+                            <dd id='animalesVivD'></dd>
+                        </dl>
+                        <dl class="col-md-4">
+                            <dt>Piscina:</dt>
+                            <dd id='piscinaVivD'></dd>
+                            <dt>Jardín:</dt>
+                            <dd id='jardinVivD'></dd>
+                            <dt>Aire Acondicionado:</dt>
+                            <dd id='aireAconVivD'></dd>
+                        </dl>
+                        <dl class="col-md-4">
+                            <dt>Terraza:</dt>
+                            <dd id='terrazaVivD'></dd>
+                            <dt>Ascensor:</dt>
+                            <dd id='ascensorVivD'></dd>
+                            <dt>Amueblado:</dt>
+                            <dd id='amuebladoVivD'></dd>
+                        </dl>
+                    </div>
+                </div>
+                <!-- RESUMEN FINAL - LOCAL ------------------------------------------------------------------------------------------------------------------------------------------->
+                <div class='overviewDiv' id="divOverviewLocal" style="display: none;">
+                    <div class="row col-md-12">
+                        <dl class="col-md-6">
+                            <dt>Nombre:</dt>
+                            <dd id='nameLocD'></dd>
+                            <dt>Dirección:</dt>
+                            <dd id='addressLocD'></dd>
+                        </dl>
+                        <dl class="col-md-6">
+                            <dt>Tipo:</dt>
+                            <dd id='typeLocD'></dd>
+                            <dt>Ciudad/Poblado:</dt>
+                            <dd id="cityLocD"></dd>
+                        </dl>
+                        <dl class="col-md-12">
+                            <dt>Descripción:</dt>
+                            <dd id='descriptionLocD'></dd>
+                        </dl>
+                        <dl class="col-md-6">
+                            <dt>Superficie:</dt>
+                            <dd id='areaLocD'></dd>
+                            <dt>Precio:</dt>
+                            <dd id='priceLocD'></dd>
+                        </dl>
+                        <dl class="col-md-6">
+                            <dt>N. Aseos:</dt>
+                            <dd id='aseosLocD'></dd>
+                            <dt>Gastos de Comunidad:</dt>
+                            <dd id='priceComLocD'></dd>
+                        </dl>
+                        <dl class="col-md-4">
+                            <dt>Escaparate:</dt>
+                            <dd id='escaparateLocD'></dd>
+                            <dt>Extintores:</dt>
+                            <dd id='extintoresLocD'></dd>
+                            <dt>Aire Acondicionado:</dt>
+                            <dd id='aireAconLocD'></dd>
+                        </dl>
+                        <dl class="col-md-4">
+                            <dt>Aparcamiento:</dt>
+                            <dd id='aparcamientoLocD'></dd>
+                            <dt>Iluminación:</dt>
+                            <dd id='iluminaciónLocD'></dd>
+                        </dl>
+                        <dl class="col-md-4">
+                            <dt>Carga y Descarga:</dt>
+                            <dd id='cargaYDesLocD'></dd>
+                            <dt>Calefacción:</dt>
+                            <dd id='calefaccionLocD'></dd>
+                        </dl>
+                    </div>
+                </div>
+                <!-- RESUMEN FINAL - SUELO ------------------------------------------------------------------------------------------------------------------------------------------->
+                <div class='overviewDiv' id="divOverviewSuelo" style="display: none;">
+                    <div class="row col-md-12">
+                        <dl class="col-md-6">
+                            <dt>Nombre:</dt>
+                            <dd id='nameSueD'></dd>
+                            <dt>Situación:</dt>
+                            <dd id='situationSueD'></dd>
+                        </dl>
+                        <dl class="col-md-6">
+                            <dt>Tipo:</dt>
+                            <dd id='typeSueD'></dd>
+                            <dt>Ciudad/Poblado:</dt>
+                            <dd id="citySueD"></dd>
+                        </dl>
+                        <dl class="col-md-12">
+                            <dt>Descripción:</dt>
+                            <dd id='descriptionSueD'></dd>
+                        </dl>
+                        <dl class="col-md-4">
+                            <dt>Superficie Total:</dt>
+                            <dd id='areaSueD'></dd>
+                        </dl>
+                        <dl class="col-md-4">
+                            <dt>Superficie Edificable:</dt>
+                            <dd id='supEdifSueD'></dd>
+                        </dl>
+                        <dl class="col-md-4">
+                            <dt>Precio Total:</dt>
+                            <dd id='priceSueD'></dd>
+                        </dl>
+                        <dl class="col-md-6">
+                            <dt>Acceso a Agua:</dt>
+                            <dd id='accesoAguaSueD'></dd>
+                        </dl>
+                        <dl class="col-md-6">
+                            <dt>Acceso a Luz:</dt>
+                            <dd id='accesoLuzSueD'></dd>
+                        </dl>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="noBorder card">
+            <div class="headerButtonOverview buttonOverview card-header" id="headingTwo">
+                <h5 class="mb-0">
+                    <button type="button" class="buttonOverview btn btn-dark" data-toggle="collapse"
+                            data-target="#ownerCollapse"
+                            aria-expanded="true" aria-controls="ownerCollapse">
+                        <h2>Datos del Propietario</h2>
+                    </button>
+                </h5>
+            </div>
+            <div id="ownerCollapse" class="collapse show" aria-labelledby="headingTwo" data-parent="#accordion">
+                <!-- RESUMEN FINAL - PROPIETARIO ------------------------------------------------------------------------------------------------------------------------------------->
+                <div class='overviewDiv' id="divOverviewPropietario" style="display: none;">
+                    <div class="row col-md-12">
+                        <dl class="col-md-6">
+                            <dt>Nombre y Apellidos:</dt>
+                            <dd id='namesurnameOwnerD'></dd>
+                            <dt>Correo Electrónico:</dt>
+                            <dd id='emailOwnerD'></dd>
+                            <dt>Dirección:</dt>
+                            <dd id='addressOwnerD'></dd>
+                        </dl>
+                        <dl class="col-md-6">
+                            <dt>DNI/NIF/NIE:</dt>
+                            <dd id='dniOwnerD'></dd>
+                            <dt>Número de Teléfono:</dt>
+                            <dd id='phoneOwnerD'></dd>
+                        </dl>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="div-field form-row">
+            <div class="col-sm-6">
+                <button id="btnOverwievA" type="button" class="col-sm-6 btnSiguiente btn btn-secondary btn-lg ">
+                    Anterior
+                </button>
+            </div>
+            <div class="col-sm-6">
+                <button id="btnOverwievS" type="submit" class="btnSiguiente btn btn-success btn-lg btn-block">Confirmar
+                    Y
+                    Guardar
+                </button>
+            </div>
+        </div>
+        <div class="row">
 
-    $('#address').focusout(function () {
-        writeMap($('#address').val());
-    });
+        </div>
+    </div>
 
-    $('#btnSuccess1').on('click', function () {
-        phase2();
-    });
+    <!-- SCRIPTS --------------------------------------------------------------------------------------------------------------------------------------------------------->
+    <script>
+        let mapaLocal = null;
+        let marker = null;
+        let property = null;
+        let owner = null;
 
-    $('#btnSuccess2').on('click', function () {
-        phase3();
-    });
+        // PASO A FASE 1
+        $('#displayVivienda').on('click', function () {
+            phase1("vivienda")
 
-    $('#btnSuccess2A').on('click', function () {
-        phase1($("#type").val());
-    });
 
-    $('#btnSuccess3A').on('click', function () {
-        phase2();
-    });
+            // ESTO ES PARA DEBUG - BORRAR
+            prerellenar();
+        });
+        $('#displayLocal').on('click', function () {
+            phase1("local")
+        });
+        $('#displaySuelo').on('click', function () {
+            phase1("suelo")
+        });
+        // Si se cambia el selector de tipo cambia el formulario
+        $("#type").change(function () {
+            phase1($("#type").val());
+        });
+        // Mostrar el mapa al dejar de escribir la dirección
+        $('#address').focusout(function () {
+            writeMap($('#address').val());
+        });
+        // PASO DE FASE 1 (Propiedades) A FASE 2 (Propietario)
+        $('#btnPropertiesS').on('click', function () {
+            let tipo = $("#type").val();
+            let campos = false;
+            if (tipo == 'vivienda') {
+                property = {
+                    type: 'vivienda',
+                    name: $("[name='name']").val(),
+                    address: $("[name='address']").val(),
+                    floor: $("[name='floorV']").val(),
+                    description: $("[name='description']").val(),
+                    lattitude: $("[name='lattitude']").val(),
+                    longitude: $("[name='longitude']").val(),
+                    city: $("[name='city']").val(),
+                    area: $("[name='area']").val(),
+                    numHabs: $("[name='numHabs']").val(),
+                    numBan: $("[name='numBan']").val(),
+                    price: $("[name='price']").val(),
+                    priceCom: $("[name='priceCom']").val(),
+                    garaje: $("[name='checkGaraje']").prop('checked'),
+                    piscina: $("[name='checkPiscina']").prop('checked'),
+                    terraza: $("[name='checkTerraza']").prop('checked'),
+                    trastero: $("[name='checkTrastero']").prop('checked'),
+                    jardin: $("[name='checkJardin']").prop('checked'),
+                    ascensor: $("[name='checkAscensor']").prop('checked'),
+                    calefaccion: $("[name='checkCalefaccion']").prop('checked'),
+                    aireAcon: $("[name='checkAireAcon']").prop('checked'),
+                    amueblado: $("[name='checkAmueblado']").prop('checked'),
+                    animales: $("[name='checkAnimales']").prop('checked')
+                }
+                if (checkProperty(property.name) && checkProperty(property.address) && checkProperty(property.floor) && checkProperty(property.description) &&
+                    checkProperty(property.city) && checkProperty(property.area) && checkProperty(property.numHabs) && checkProperty(property.numBan) &&
+                    checkProperty(property.price) && checkProperty(property.priceCom) && checkProperty(property)) {
+                    campos = true;
+                }
+            }
+            if (tipo == "local") {
+                property = {
+                    type: 'local',
+                    name: $("[name='name']").val(),
+                    address: $("[name='address']").val(),
+                    floor: $("[name='floorV']").val(),
+                    description: $("[name='description']").val(),
+                    lattitude: $("[name='lattitude']").val(),
+                    longitude: $("[name='longitude']").val(),
+                    city: $("[name='city']").val(),
+                    area: $("[name='areaLoc']").val(),
+                    numAseos: $("[name='numAsLoc']").val(),
+                    price: $("[name='priceLoc']").val(),
+                    priceCom: $("[name='priceCom']").val(),
+                    escaparate: $("[name='checkEscaparateLoc']").prop('checked'),
+                    aparcamiento: $("[name='checkAparcamientoLoc']").prop('checked'),
+                    cargaYdescarga: $("[name='checkCargaYDescargaLoc']").prop('checked'),
+                    extintores: $("[name='checkExtintoresLoc']").prop('checked'),
+                    iluminacion: $("[name='checkIluminacionLoc']").prop('checked'),
+                    calefaccion: $("[name='checkCalefaccionLoc']").prop('checked'),
+                    aireAcon: $("[name='checkAireAconLoc']").prop('checked')
+                }
+                if (checkProperty(property.name) && checkProperty(property.address) && checkProperty(property.floor) && checkProperty(property.description) &&
+                    checkProperty(property.city) && checkProperty(property.area) && checkProperty(property.numAseos) && checkProperty(property.price) &&
+                    checkProperty(property.priceCom)) {
+                    campos = true;
+                }
+            }
+            if (tipo == 'suelo') {
+                property = {
+                    type: 'suelo',
+                    name: $("[name='name']").val(),
+                    description: $("[name='description']").val(),
+                    city: $("[name='city']").val(),
+                    situation: $("[name='situationSue']").val(),
+                    area: $("[name='areaSue']").val(),
+                    edifArea: $("[name='areaEdifSue']").val(),
+                    price: $("[name='priceSue']").val(),
+                    accesoAgua: $("[name='accesoAguaSue']").prop('checked'),
+                    accesoLuz: $("[name='accesoLuzSue']").prop('checked')
+                }
+                if (checkProperty(property.name) && checkProperty(property.description) && checkProperty(property.city) &&
+                    checkProperty(property.situation) && checkProperty(property.area) && checkProperty(property.edifArea) &&
+                    checkProperty(property.price)) {
+                    campos = true;
+                }
+            }
 
-    function phase1(type) {
-        $('#divAddOptions').hide();
-        $('#divAttCommon').show();
-        $('#divPropertiesButtons').show();
-        $('#divAddress').show();
+            if (campos == true)
+                phase2();
+            else
+                $('#divErrorCampos').show();
+        });
+        // PASO DE FASE 2 (Propietario) A FASE 3 (Multimedia)
+        $('#btnOwnerS').on('click', function () {
+            let campos = false;
+            owner = {
+                name: $("[name='nameOwner']").val(),
+                surname: $("[name='surnameOwner']").val(),
+                dni: $("[name='dniOwner']").val(),
+                phoneNumber: $("[name='phoneOwner']").val(),
+                email: $("[name='emailOwner']").val(),
+                address: $("[name='addressOwner']").val()
+            }
+            if (checkProperty(owner.name) && checkProperty(owner.surname) && checkProperty(owner.dni) && checkProperty(owner.phoneNumber) &&
+                checkProperty(owner.email) && checkProperty(owner.address)) {
+                campos = true;
+            }
+            if (campos == true)
+                phase3();
+            else
+                $('#divErrorCampos').show();
+        });
+        // VUELTA DE FASE 2 (Propietario) A FASE 1 (Propiedades)
+        $('#btnOwnerA').on('click', function () {
+            $('#divErrorCampos').hide();
+            phase1($("#type").val());
+        });
+        // PASO DE FASE 3 (Multimedia) A FASE 4 (Resumen)
+        $('#btnPicturesS').on('click', function () {
+            phase4();
+        });
+        // VUELTA DE FASE 3 (Multimedia) A FASE 2 (Propietario)
+        $('#btnPicturesA').on('click', function () {
+            phase2();
+        });
+        // VUELTA DE FASE 4 (Resumen) A FASE 3 (Multimedia)
+        $('#btnOverwievA').on('click', function () {
+            phase3();
+        });
 
-        $('#divAttVivienda').hide();
-        $('#divAttLocal').hide();
-        $('#divAttSuelo').hide();
 
-        if (type == "vivienda")
-            $('#divAttVivienda').show();
-        if (type == "local")
-            $('#divAttLocal').show();
-        if (type == "suelo") {
-            $('#divAttSuelo').show();
-            $('#divAddress').hide();
+        // FUNCIONES
+        function phase1(type) {
+            $('#divAddOptions').hide();
+            $('#divAttCommon').show();
+            $('#divPropertiesButtons').show();
+            $('#divAddress').show();
+
+            $('#divAttVivienda').hide();
+            $('#divAttLocal').hide();
+            $('#divAttSuelo').hide();
+
+            $('#divCommonOverview').hide();
+            $('#divOverviewVivienda').hide();
+            $('#divOverviewLocal').hide();
+            $('#divOverviewSuelo').hide();
+            $('#divOverviewPropietario').hide();
+
+            if (type == "vivienda")
+                $('#divAttVivienda').show();
+            if (type == "local")
+                $('#divAttLocal').show();
+            if (type == "suelo") {
+                $('#divAttSuelo').show();
+                $('#divAddress').hide();
+                $('#divMapContainer').hide();
+            }
+
+            $('#divOwner').hide();
+            $('#divPictures').hide();
+
+            $("#type").val(type);
+            adjustProgressBar(25)
+            setHeader("Rellene los Campos Indicados.");
         }
 
-        $('#divOwner').hide();
-        $('#divPictures').hide();
+        function phase2() {
+            $('#divErrorCampos').hide();
 
-        $("#type").val(type);
-        adjustProgressBar(25)
-        setHeader("Rellene los Campos Indicados.");
-    }
+            $('#divAddOptions').hide();
+            $('#divAttCommon').hide();
 
-    function phase2() {
-        $('#divAddOptions').hide();
-        $('#divAttCommon').hide();
+            $('#divAttVivienda').hide();
+            $('#divAttLocal').hide();
+            $('#divAttSuelo').hide();
+            $('#divPropertiesButtons').hide();
 
-        $('#divAttVivienda').hide();
-        $('#divAttLocal').hide();
-        $('#divAttSuelo').hide();
-        $('#divPropertiesButtons').hide();
+            $('#divCommonOverview').hide();
+            $('#divOverviewVivienda').hide();
+            $('#divOverviewLocal').hide();
+            $('#divOverviewSuelo').hide();
+            $('#divOverviewPropietario').hide();
 
-        $('#divPictures').hide();
+            $('#divPictures').hide();
 
-        $('#divOwner').show();
-        adjustProgressBar(50)
-        setHeader("Añada la información del propietario.");
-    }
+            $('#divOwner').show();
+            adjustProgressBar(50)
+            setHeader("Añada la información del propietario.");
+        }
 
-    function phase3() {
-        $('#divAddOptions').hide();
-        $('#divAttCommon').hide();
+        function phase3() {
+            $('#divErrorCampos').hide();
 
-        $('#divAttVivienda').hide();
-        $('#divAttLocal').hide();
-        $('#divAttSuelo').hide();
-        $('#divPropertiesButtons').hide();
+            $('#divAddOptions').hide();
+            $('#divAttCommon').hide();
 
-        $('#divOwner').hide();
+            $('#divAttVivienda').hide();
+            $('#divAttLocal').hide();
+            $('#divAttSuelo').hide();
+            $('#divPropertiesButtons').hide();
 
-        $('#divPictures').show();
-        adjustProgressBar(75)
-        setHeader("Añada las imágenes que desee.");
-    }
+            $('#divCommonOverview').hide();
+            $('#divOverviewVivienda').hide();
+            $('#divOverviewLocal').hide();
+            $('#divOverviewSuelo').hide();
+            $('#divOverviewPropietario').hide();
 
-    function setHeader(textI) {
-        $('.sectionHeader').text(textI);
-    }
+            $('#divOwner').hide();
 
-    function adjustProgressBar(value) {
-        $('.progress-bar').css("width", value + "%").text(value + "%");
-    }
+            $('#divPictures').show();
+            adjustProgressBar(75)
+            setHeader("Añada las imágenes que desee.");
+        }
 
-    function writeMap(address) {
-        $.get(location.protocol + '//nominatim.openstreetmap.org/search?format=json&q=' + address, function (data) {
-            if (data[0] != undefined) {
-                $('#divMapa').innerHTML = "";
-                $('#divMapContainer').show();
-                $('#errorMap').hide();
-                let lattitude = data[0].lat;
-                let longitude = data[0].lon;
+        function phase4() {
+            $('#divErrorCampos').hide();
 
-                if (mapaLocal == null) {
-                    mapaLocal = L.map('divMapa');
-                } else {
-                    mapaLocal.removeLayer(marker);
-                }
-                mapaLocal.setView([lattitude, longitude], 13);
+            $('#divAddOptions').hide();
+            $('#divAttCommon').hide();
+            $('#divAttVivienda').hide();
+            $('#divAttLocal').hide();
+            $('#divAttSuelo').hide();
+            $('#divPropertiesButtons').hide();
+            $('#divOwner').hide();
+            $('#divPictures').hide();
 
-                L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
-                    attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
-                }).addTo(mapaLocal);
+            $('#divCommonOverview').show();
+            $('#divOverviewVivienda').hide();
+            $('#divOverviewLocal').hide();
+            $('#divOverviewSuelo').hide();
 
-                marker = L.marker([lattitude, longitude]);
-                marker.addTo(mapaLocal);
+            $('#divOverviewPropietario').show();
 
-                $('#latInput').val(lattitude);
-                $('#lonInput').val(longitude);
-            } else {
-                $('#divMapContainer').hide();
-
-                if ($('#address').val() != "")
-                    $('#errorMap').show();
-                else
-                    $('#errorMap').hide();
+            if (property.type == 'vivienda') {
+                $('#divOverviewVivienda').show();
             }
-        });
-    }
-</script>
+            if (property.type == 'local') {
+                $('#divOverviewLocal').show();
+            }
+            if (property.type == 'suelo') {
+                $('#divOverviewSuelo').show();
+            }
+
+            fillFields();
+            adjustProgressBar(100)
+            setHeader("Resumen.");
+        }
+
+        function fillFields() {
+            console.log(property.type);
+            if (property.type == 'vivienda') {
+                $('#typeVivD').text(property.type);
+                $('#nameVivD').text(property.name);
+                $('#addressVivD').text(property.address + ', P-' + property.floor);
+                $('#cityVivD').text(property.city);
+                $('#descriptionVivD').text(property.description);
+                $('#areaVivD').text(property.area + " m²");
+                $('#habsBansVivD').text(property.numHabs + ' / ' + property.numBan);
+                $('#priceVivD').text(property.price + " €");
+                $('#priceComVivD').text(property.priceCom + " €");
+                $('#garajeVivD').text(hasDetail(property.garaje));
+                $('#piscinaVivD').text(hasDetail(property.piscina));
+                $('#terrazaVivD').text(hasDetail(property.terraza));
+                $('#trasteroVivD').text(hasDetail(property.trastero));
+                $('#jardinVivD').text(hasDetail(property.jardin));
+                $('#ascensorVivD').text(hasDetail(property.ascensor));
+                $('#calefaccionVivD').text(hasDetail(property.calefaccion));
+                $('#aireAconVivD').text(hasDetail(property.aireAcon));
+                $('#amuebladoVivD').text(hasDetail(property.amueblado));
+                $('#animalesVivD').text(hasDetail(property.animales));
+            }
+            if (property.type == 'local') {
+                $('#typeLocD').text(property.type);
+                $('#nameLocD').text(property.name);
+                $('#addressLocD').text(property.address + ', P-' + property.floor);
+                $('#cityLocD').text(property.city);
+                $('#descriptionLocD').text(property.description);
+                $('#areaLocD').text(property.area + " m²");
+                $('#priceLocD').text(property.price  + " €");
+                $('#aseosLocD').text(property.numAseos);
+                $('#priceComLocD').text(property.priceCom+ " €");
+                $('#escaparateLocD').text(hasDetail(property.escaparate));
+                $('#extintoresLocD').text(hasDetail(property.extintores));
+                $('#aireAconLocD').text(hasDetail(property.aireAcon));
+                $('#aparcamientoLocD').text(hasDetail(property.aparcamiento));
+                $('#iluminaciónLocD').text(hasDetail(property.iluminacion));
+                $('#cargaYDesLocD').text(hasDetail(property.cargaYdescarga));
+                $('#calefaccionLocD').text(hasDetail(property.calefaccion));
+            }
+            if (property.type == 'suelo') {
+                $('#typeSueD').text(property.type);
+                $('#nameSueD').text(property.name);
+                $('#situationSueD').text(property.situation);
+                $('#citySueD').text(property.city);
+                $('#descriptionSueD').text(property.description);
+                $('#areaSueD').text(property.area+ " m²");
+                $('#supEdifSueD').text(property.edifArea+ " m²");
+                $('#priceSueD').text(property.price+ " €");
+                $('#accesoAguaSueD').text(hasDetail(property.accesoAgua));
+                $('#accesoLuzSueD').text(hasDetail(property.accesoLuz));
+            }
+
+            $('#namesurnameOwnerD').text(owner.name + " " + owner.surname);
+            $('#dniOwnerD').text(owner.dni);
+            $('#phoneOwnerD').text(owner.phoneNumber);
+            $('#emailOwnerD').text(owner.email);
+            $('#addressOwnerD').text(owner.address);
+        }
+
+        function setHeader(textI) {
+            $('.sectionHeader').text(textI);
+        }
+
+        function adjustProgressBar(value) {
+            $('.progress-bar').css("width", value + "%").text(value + "%");
+        }
+
+        function writeMap(address) {
+            $.get(location.protocol + '//nominatim.openstreetmap.org/search?format=json&q=' + address, function (data) {
+                if (data[0] != undefined) {
+                    $('#divMapa').innerHTML = "";
+                    $('#divMapContainer').show();
+                    $('#errorMap').hide();
+                    let lattitude = data[0].lat;
+                    let longitude = data[0].lon;
+
+                    if (mapaLocal == null)
+                        mapaLocal = L.map('divMapa');
+                    else
+                        mapaLocal.removeLayer(marker);
+                    mapaLocal.setView([lattitude, longitude], 13);
+
+                    L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+                        attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
+                    }).addTo(mapaLocal);
+
+                    marker = L.marker([lattitude, longitude]);
+                    marker.addTo(mapaLocal);
+
+                    $('#latInput').val(lattitude);
+                    $('#lonInput').val(longitude);
+                } else {
+                    $('#divMapContainer').hide();
+                    $('#latInput').val('');
+                    $('#lonInput').val("");
+
+                    if ($('#address').val() != "")
+                        $('#errorMap').show();
+                    else
+                        $('#errorMap').hide();
+                }
+            });
+        }
+
+        function checkProperty(name) {
+            if (name == "" || name == null) {
+                return false;
+            }
+            return true;
+        }
+
+        function hasDetail(detail) {
+            return (detail == true) ? "Si" : "No";
+        }
+
+        // Para ahorrar tiempo. BORRAR
+        function prerellenar() {
+            $("[name='name']").val("Piso precioso en el Cristo");
+            $("[name='address']").val("Avd Cristo Cadenas 44");
+            $("[name='floorV']").val("4");
+            $("[name='description']").val("Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum");
+            $("[name='city']").val("Oviedo");
+            $("[name='area']").val("100");
+            $("[name='numHabs']").val('2');
+            $("[name='numBan']").val('1');
+            $("[name='price']").val('1200');
+            $("[name='priceCom']").val('100');
+            $("[name='checkGaraje']").prop('checked', true);
+            $("[name='checkPiscina']").prop('checked', true);
+            $("[name='checkTerraza']").prop('checked', true);
+            $("[name='checkTrastero']").prop('checked', true);
+            $("[name='checkJardin']").prop('checked', true);
+            $("[name='checkAscensor']").prop('checked', true);
+            $("[name='checkCalefaccion']").prop('checked', true);
+            $("[name='checkAireAcon']").prop('checked', true);
+            $("[name='checkAmueblado']").prop('checked', true);
+            $("[name='checkAnimales']").prop('checked', true);
+
+            $("[name='nameOwner']").val('Claudia');
+            $("[name='surnameOwner']").val('Pérez');
+            $("[name='dniOwner']").val('444444444L');
+            $("[name='phoneOwner']").val('666666666');
+            $("[name='emailOwner']").val("claudia@email.com");
+            $("[name='addressOwner']").val('Calle de La Pepita 12');
+
+            $("[name='areaLoc']").val("200");
+            $("[name='numAsLoc']").val("3");
+            $("[name='priceLoc']").val("1500");
+            $("[name='priceComLoc']").val("600");
+            $("[name='checkEscaparateLoc']").prop('checked', true);
+            $("[name='checkAparcamientoLoc']").prop('checked', true);
+            $("[name='checkCargaYDescargaLoc']").prop('checked', true);
+            $("[name='checkExtintoresLoc']").prop('checked', true);
+            $("[name='checkIluminacionLoc']").prop('checked', true);
+            $("[name='checkCalefaccionLoc']").prop('checked', true);
+            $("[name='checkAireAconLoc']").prop('checked', true);
+
+            $("[name='situationSue']").val("San Quintín");
+            $("[name='areaSue']").val("111");
+            $("[name='areaEdifSue']").val("12");
+            $("[name='priceSue']").val("20000");
+            $("[name='accesoLuzSue']").prop('checked', true);
+            $("[name='accesoAguaSue']").prop('checked', true);
+        }
+    </script>
+</form>
+
 
 {% endblock %}
 </body>
