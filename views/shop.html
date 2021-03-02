@@ -9,34 +9,75 @@
 {% block titulo %} Agencia Inmobiliaria RSTemp {% endblock %}
 {% block contenido_principal %}
 
-<h2 class="sectionHeader">Propiedades</h2>
-{% for property in properties %}
-<a class="row" id="displayProperty" href="/properties/{{ property._id.toString() }}">
-    <div class="col-3 float-left">
-        <img class='imgLogo' src="propertiesimg/{{ property._id.toString() }}.png" alt="logo"/>
-    </div>
-    <div class="col-9">
-        <h3>{{ property.name }}</h3>
-        <div class="small">Propietario: {{ property.owner }}</div>
-        <h4 class="float-right">Precio: {{ property.price }} €</h4>
-    </div>
-</a>
-{% endfor%}
+<div class="container">
+    <h2 class="sectionHeader">Propiedades</h2>
+    {% for property in properties %}
+    <div class="displayDiv">
+        <div class="col-3">
+            <img class='imgLogo' src="propertiesimg/{{ property._id.toString() }}.png" alt="logo"/>
+        </div>
+        <a class="displayProperty row" id="displayProperty" href="/properties/{{ property._id.toString() }}">
+            <div class="col-9">
+                <div class="d-inline">
+                    {% if property.type == 'vivienda' %}
+                    <span class="badge badge-primary">Vivienda</span>
+                    {%endif%}
+                    {% if property.type == 'local' %}
+                    <span class="badge badge-secondary">Local</span>
+                    {%endif%}
+                    {% if property.type == 'suelo' %}
+                    <span class="badge badge-dark">Suelo</span>
+                    {%endif%}
+                    {% if property.typeOp == 'Venta' %}
+                    <span class="badge badge-info">Venta</span>
+                    {%endif%}
 
-<!--Paginaciónmostrarlaactual y 2 anterioresy dossiguientes-->
-<div class="row text-center">
-    <ul class="pagination">
-        {% for page in pages %}
-        <li class="page-item" id="pi-{{page}}">
-            <a class="page-link" href="/properties?pg={{page}}">{{page}}</a>
-        </li>
-        {% endfor %}
-        <script>
-            $("#pi-{{actual}}").addClass("active");
-        </script>
-    </ul>
+                    {% if property.typeOp == 'Alquiler' %}
+                    <span class="badge badge-success">Alquiler</span>
+                    {%endif%}
+                </div>
+
+                <h4>{{ property.name }}</h4>
+                {% if property.type == 'vivienda' %}
+                <p> En {{property.address}} , {{property.city}} - {{property.area}}
+                    m²</p>
+                {%endif%}
+
+                {% if property.type == 'local' %}
+                <p> En {{property.address}} , {{property.city}} - {{property.area}}
+                    m²</p>
+                {%endif%}
+
+                {% if property.type == 'suelo' %}
+                <p class="text-capitalize">{{property.type}} en {{property.city}} - {{property.area}} m²
+                    ({{property.edifArea}}
+                    edificables)</p>
+                {%endif%}
+
+                <p class="truncate">{{property.description}}</p>
+                <h5 class="displayPrice float-right">Precio: {{ property.price }} €</h5>
+            </div>
+        </a>
+        <div class="col-9">
+            <button type="button" class="btn btn-secondary">Contactar <span class="fas fa-comment-dots"></span></button>
+        </div>
+    </div>
+    {% endfor%}
+
+    <!--Paginaciónmostrarlaactual y 2 anterioresy dossiguientes-->
+    <div class="row text-center">
+        <ul class="pagination">
+            {% for page in pages %}
+            <li class="page-item" id="pi-{{page}}">
+                <a class="page-link" href="/properties?pg={{page}}">{{page}}</a>
+            </li>
+            {% endfor %}
+            <script>
+                $("#pi-{{actual}}").addClass("active");
+            </script>
+        </ul>
+    </div>
 </div>
-
 
 {% endblock %}
 </body>

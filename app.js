@@ -24,6 +24,7 @@ let nodemailer = require("nodemailer");
 
 
 let mongo = require('mongodb');
+
 let bodyParser = require('body-parser');
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({extended: true}));
@@ -46,6 +47,7 @@ routerUserSession.use(function(req, res, next) {
 app.use("/properties/*",routerUserSession);
 app.use("/user/edit",routerUserSession);
 app.use("/user/delete",routerUserSession);
+app.use("/myproperties",routerUserSession);
 
 let routerUserOwner = express.Router();
 routerUserOwner.use(function(req, res, next) {
@@ -53,7 +55,6 @@ routerUserOwner.use(function(req, res, next) {
     let id = path.basename(req.originalUrl);
     managerDB.getProperties(
         {_id: mongo.ObjectID(id) }, function (properties) {
-            console.log(properties[0]);
             if(properties[0].owner == req.session.user ){
                 next();
             } else {
@@ -70,13 +71,15 @@ app.use(express.static('public'));
 
 // Variables
 app.set('port', 8081)
-app.set('db', 'mongodb://admin:Pa55w0rd@tfginmobiliaria-shard-00-00.k8afj.mongodb.net:27017,tfginmobiliaria-shard-00-01.k8afj.mongodb.net:27017,tfginmobiliaria-shard-00-02.k8afj.mongodb.net:27017/dbinmobiliaria?ssl=true&replicaSet=atlas-39g3h2-shard-0&authSource=admin&retryWrites=true&w=majority')
+app.set('url', 'mongodb://127.0.0.1:27017');
+//app.set('db', 'mongodb://admin:Pa55w0rd@tfginmobiliaria-shard-00-00.k8afj.mongodb.net:27017,tfginmobiliaria-shard-00-01.k8afj.mongodb.net:27017,tfginmobiliaria-shard-00-02.k8afj.mongodb.net:27017/dbinmobiliaria?ssl=true&replicaSet=atlas-39g3h2-shard-0&authSource=admin&retryWrites=true&w=majority')
 app.set('key','abcdefg');
 app.set('crypto',crypto);
 
 // Rutas
 require('./routes/users.js')(app,render, nodemailer, managerDB);
 require('./routes/properties.js')(app,render, nodemailer, managerDB);
+require('./routes/info.js')(app,render, nodemailer, managerDB);
 
 app.get('/', function (req, res) {
     res.redirect('/properties');

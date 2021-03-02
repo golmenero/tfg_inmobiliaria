@@ -3,58 +3,64 @@
 {% block titulo %} Identificar usuario {% endblock %}
 
 {% block contenido_principal %}
-<h2 class="sectionHeader">Identificación de usuario</h2>
-<form class="form-horizontal" method="post" action="/login">
-    <div class="form-group">
-        <label class="control-label col-sm-2" for="email">Email:</label>
-        <div class="col-sm-12">
-            <input type="email" class="form-control" name="email"
-                   placeholder="email@email.com" required="true"/>
+
+<div class="container">
+    <h2 class="sectionHeader">Identificación de usuario</h2>
+    <form class="form-horizontal" method="post" action="/login">
+        <div class="form-group">
+            <label class="control-label col-sm-2" for="email">Email:</label>
+            <div class="col-sm-12">
+                <input type="email" class="form-control" name="email"
+                       placeholder="email@email.com" required="true"/>
+            </div>
         </div>
-    </div>
-    <div class="form-group">
-        <label class="control-label col-sm-2" for="password">Password:</label>
-        <div class="col-sm-12">
-            <input type="password" class="form-control" name="password"
-                   placeholder="contraseña" required="true"/>
+        <div class="form-group">
+            <label class="control-label col-sm-2" for="password">Password:</label>
+            <div class="col-sm-12">
+                <input type="password" class="form-control" name="password"
+                       placeholder="contraseña" required="true"/>
+            </div>
+            <div class="centeredText">
+                <a class="contrasenaOlvidarLink" data-toggle="modal" data-target="#modeloRecuperarContrasena">¿Has
+                    olvidado tu contraseña?</a>
+            </div>
         </div>
-        <div class="contrasenaOlvidar">
-            <a class="contrasenaOlvidarLink" data-toggle="modal" data-target="#modeloRecuperarContrasena">¿Has olvidado tu contraseña?</a>
-        </div>
-    </div>
-    <div class="div-field form-row">
-            <button id="btnPicturesA" type="submit" class="col-md-12 btnSiguiente btn btn-secondary btn-lg ">Iniciar Sesión
+        <div class="div-field form-row">
+            <button id="btnPicturesA" type="submit" class="col-md-12 btnSiguiente btn btn-secondary btn-lg ">Iniciar
+                Sesión
             </button>
-    </div>
-</form>
+        </div>
+    </form>
 
-<div class="modal fade" id="modeloRecuperarContrasena">
-    <div class="modal-dialog">
-        <div class="modal-content">
-            <form class="form-horizontal" method="post" action="/recover">
-                <!-- Modal Header -->
-                <div class="modal-header">
-                    <h4 class="modal-title">Introduzca su correo electrónico</h4>
-                </div>
+    <div class="modal fade" id="modeloRecuperarContrasena">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <form class="form-horizontal" method="post" action="/recover">
+                    <!-- Modal Header -->
+                    <div class="modal-header">
+                        <h4 class="modal-title">Introduzca su correo electrónico</h4>
+                    </div>
 
-                <!-- Modal body -->
-                <div class="modal-body">
-                    <div class="form-group">
-                        <label class="control-label" for="correoRecuperacion">Enviaremos un mensaje a su correo para que
-                            reestablezca la contraseña.</label>
-                        <div class="col-sm-10">
-                            <input type="email" class="form-control" name="correoRecuperacion"
-                                   placeholder="Ej. user@email.com" required="true"/>
+                    <!-- Modal body -->
+                    <div class="modal-body">
+                        <div class="form-group">
+                            <label class="control-label" for="correoRecuperacion">Enviaremos un mensaje a su correo para
+                                que
+                                reestablezca la contraseña.</label>
+                            <div class="col-sm-10">
+                                <input type="email" class="form-control" name="correoRecuperacion"
+                                       placeholder="Ej. user@email.com" required="true"/>
+                            </div>
                         </div>
                     </div>
-                </div>
 
-                <!-- Modal footer -->
-                <div class="modal-footer">
-                    <button type="submit" class="btn btn-success">Enviar Correo</button>
-                    <button type="button" class="btn btn-dark" data-dismiss="modal">Cancelar</button>
-                </div>
-            </form>
+                    <!-- Modal footer -->
+                    <div class="modal-footer">
+                        <button type="submit" class="btn btn-success">Enviar Correo</button>
+                        <button type="button" class="btn btn-dark" data-dismiss="modal">Cancelar</button>
+                    </div>
+                </form>
+            </div>
         </div>
     </div>
 </div>

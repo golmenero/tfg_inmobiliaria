@@ -3,10 +3,11 @@ module.exports = {
         this.mongo = mongo;
         this.app = app;
     }, getPropertiesPG: function (condition, pg, funcionCallback) {
-        this.mongo.MongoClient.connect(this.app.get('db'), function (err, db) {
+        this.mongo.MongoClient.connect(this.app.get('url'), function (err, client) {
             if (err) {
                 funcionCallback(null);
             } else {
+                let db = client.db('tfginmobiliaria');
                 let collection = db.collection('properties');
                 collection.count(function (err, count) {
                     collection.find(condition).skip((pg - 1) * 4).limit(4)
@@ -21,34 +22,12 @@ module.exports = {
                 });
             }
         });
-    }, getWishes: function (condition, collectionName, funcionCallback) {
-        let p = {};
-        this.mongo.MongoClient.connect(this.app.get('db'), function (err, db) {
-            if (err) {
-                funcionCallback(null);
-            } else {
-                let collection = db.collection("wishes");
-                collection.find(condition).toArray(function (err, wishes) {
-                    if (err) {
-                        funcionCallback(null);
-                    } else {
-                        for (wish in wishes) {
-                            let condition = {
-                                "_id" : managerDB.mongo.ObjectID(req.params.id)
-                            }
-                            this.get(condition, "properties", functionCallBack)
-                        }
-                        funcionCallback(wishes);
-                    }
-                    db.close();
-                });
-            }
-        });
     }, add: function (object, collectionName, funcionCallback) {
-        this.mongo.MongoClient.connect(this.app.get('db'), function (err, db) {
+        this.mongo.MongoClient.connect(this.app.get('url'), function (err, client) {
             if (err) {
                 funcionCallback(null);
             } else {
+                let db = client.db('tfginmobiliaria');
                 let collection = db.collection(collectionName);
                 collection.insert(object, function (err, result) {
                     if (err) {
@@ -61,10 +40,11 @@ module.exports = {
             }
         });
     }, delete: function (object, collectionName, funcionCallback) {
-        this.mongo.MongoClient.connect(this.app.get('db'), function (err, db) {
+        this.mongo.MongoClient.connect(this.app.get('url'), function (err, client) {
             if (err) {
                 funcionCallback(null);
             } else {
+                let db = client.db('tfginmobiliaria');
                 let collection = db.collection(collectionName);
                 collection.remove(object, function (err, result) {
                     if (err) {
@@ -77,10 +57,11 @@ module.exports = {
             }
         });
     }, edit: function (condition, object, collectionName, funcionCallback) {
-        this.mongo.MongoClient.connect(this.app.get('db'), function (err, db) {
+        this.mongo.MongoClient.connect(this.app.get('url'), function (err, client) {
             if (err) {
                 funcionCallback(null);
             } else {
+                let db = client.db('tfginmobiliaria');
                 let collection = db.collection(collectionName);
                 collection.update(condition, {$set: object}, function (err, result) {
                     if (err) {
@@ -93,10 +74,11 @@ module.exports = {
             }
         });
     }, get: function (condition, collectionName, funcionCallback) {
-        this.mongo.MongoClient.connect(this.app.get('db'), function (err, db) {
+        this.mongo.MongoClient.connect(this.app.get('url'), function (err, client) {
             if (err) {
                 funcionCallback(null);
             } else {
+                let db = client.db('tfginmobiliaria');
                 let collection = db.collection(collectionName);
                 collection.find(condition).toArray(function (err, array) {
                     if (err) {

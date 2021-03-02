@@ -85,6 +85,9 @@
             <li class="nav-item active" id="mTienda">
                 <a class="nav-link" href="/properties">Inicio</a>
             </li>
+            <li class="nav-item active">
+                <a class="nav-link" href="/info">Contacto</a>
+            </li>
             {% if user.permission == 'A' %}
             <li class="nav-item dropdown">
                 <a class="nav-link dropdown-toggle" href="#" data-toggle="dropdown">Propiedades</a>
@@ -192,12 +195,9 @@
 </div>
 
 
-<div class="container">
-
     <!-- Contenido -->
     {% block contenido_principal %}
     <!--Posiblecontenidopordefecto-->
     {% endblock%}
-</div>
 </body>
 </html>

@@ -1,26 +1,348 @@
-{% extends "base.html" %} 
+{% extends "base.html" %}
 
 {% block titulo %} {{Property.name}} {% endblock %}
 
 {% block contenido_principal %}
-	 <div class="row">
-		<div class="media col-xs-10">
-		  <div class="media-left media-middle">
-			<img class="media-object" src="/propertiesimg/{{ property._id.toString() }}.png" >
-		  </div>
-		  <div class="media-body">
-			 <h2>{{property.name}}</h2>
-			 <p>Tipo: {{property.type}}</p>
-			 <button type="button" class="btn btn-primary pull-right">Precio: {{property.price}}</button>
-		  </div>
-		</div>
-	  </div>
-	  
-<form class="form-horizontal" method="post" action="/properties/save/{{ property._id.toString() }}" encType="multipart/form-data">
-	 <div>
-		 <td>
-			 <button type="submit" class="btn btn-primary">Guardar</button>
-		 </td>
-	 </div>
+<div class="container">
+    <div class="row">
+        <div>
+            <img class="imgLogo align-self-start imgLogo" src="/propertiesimg/{{ property._id.toString() }}.png">
+        </div>
+    </div>
+    <h2 class="sectionHeader">Detalles de "{{property.name}}"</h2>
+    <div class="row">
+        <div class="col-8">
+            <h4>Precio de {{property.typeOp}}: {{property.price}} € <small class="text-muted"> +
+                {{property.priceCom}} € de Gastos de Comunidad</small>
+            </h4>
+        </div>
+        <div class="col-4">
+            <button type="button" class="btn btn-outline-success"><span class="far fa-heart"></span>
+                Añadir a
+                Mis Deseos
+            </button>
+            <button type="button" class="btn btn-secondary"><span class="fas fa-comment-dots"></span>Contactar
+            </button>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-12">
+            <p class="div-field"> {{property.description}}</p>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-6">
+            <p><span class="font-weight-bold"> Dirección: </span> {{property.address}}</p>
+        </div>
+        <div class="col-6">
+            <p><span class="font-weight-bold"> Población/Ciudad: </span> {{property.city}}</p>
+        </div>
+    </div>
+    <div class="div-field row ">
+        <div class="col-3">
+            <div class="row field-icon">
+                <span class="fa-3x fas fa-building"> </span>
+            </div>
+            <div class="row field-icon">
+                <h5>{{property.floor}} Piso</h5>
+            </div>
+        </div>
+        <div class="col-3">
+            <div class="row field-icon">
+                <span class="fa-3x fas fa-bed"></span>
+            </div>
+            <div class="row field-icon">
+                <h5>{{property.numHabs}} Habs.</h5>
+            </div>
+        </div>
+        <div class="col-3">
+            <div class="row field-icon">
+                <span class="fa-3x fas fa-toilet"></span>
+            </div>
+            <div class="row field-icon">
+                <h5>{{property.numBan}} Baños</h5>
+            </div>
+        </div>
+        <div class="col-3">
+            <div class="row field-icon">
+                <span class="fa-3x fas fa-ruler-combined"></span>
+            </div>
+            <div class="row field-icon">
+                <h5>{{property.area}} m²</h5>
+            </div>
+        </div>
+    </div>
+    <div id="divMapContainerDetails" style="display: none;">
+        <div class="div-field form-row">
+            <div id="divMapaDetails" class="mapLayer col-sm-12">
+            </div>
+        </div>
+    </div>
+    <div id="divMapNotLoaded" class="div-field form-row" style="display: none;">
+        <div class="alert alert-dark col-md-12" role="alert">
+            Esta propiedad no ha podido ser localizada en el mapa. Sentimos las molestias.
+        </div>
+    </div>
+
+    <h3 class="sectionHeader">Otras Características</h3>
+    <div class="div-field row ">
+        <!-- GARAJE -->
+        {% if property.garaje == 'Si' %}
+        <div class="col-2">
+            <div class="row field-icon">
+                <span class="fa-2x fas fa-car"> </span>
+            </div>
+            <div class="row field-icon">
+                <h6>Garaje</h6>
+            </div>
+        </div>
+        {% else %}
+        <div class="opacidadIcono col-2">
+            <div class="row field-icon">
+                <span class="fa-2x fas fa-car"> </span>
+            </div>
+            <div class="row field-icon">
+                <h6>Garaje</h6>
+            </div>
+        </div>
+        {% endif %}
+
+        <!-- PISCINA -->
+        {% if property.piscina == 'Si' %}
+        <div class="col-2">
+            <div class="row field-icon">
+                <span class="fa-2x fas fa-swimming-pool"></span>
+            </div>
+            <div class="row field-icon">
+                <h6>Piscina</h6>
+            </div>
+        </div>
+        {% else %}
+        <div class="opacidadIcono col-2">
+            <div class="row field-icon">
+                <span class="fa-2x fas fa-swimming-pool"></span>
+            </div>
+            <div class="row field-icon">
+                <h6>Piscina</h6>
+            </div>
+        </div>
+        {% endif %}
+
+        <!-- TERRAZA -->
+        {% if property.terraza == 'Si' %}
+        <div class="col-2">
+            <div class="row field-icon">
+                <span class="fa-2x fas fa-dungeon"></span>
+            </div>
+            <div class="row field-icon">
+                <h6>Terraza</h6>
+            </div>
+        </div>
+        {% else %}
+        <div class="opacidadIcono col-2">
+            <div class="row field-icon">
+                <span class="fa-2x fas fa-dungeon"></span>
+            </div>
+            <div class="row field-icon">
+                <h6>Terraza</h6>
+            </div>
+        </div>
+        {% endif %}
+
+        <!-- TRASTERO -->
+        {% if property.trastero == 'Si' %}
+        <div class="col-2">
+            <div class="row field-icon">
+                <span class="fa-2x fas fa-box-open"></span>
+            </div>
+            <div class="row field-icon">
+                <h6>Trastero</h6>
+            </div>
+        </div>
+        {% else %}
+        <div class="opacidadIcono col-2">
+            <div class="row field-icon">
+                <span class="fa-2x fas fa-box-open"></span>
+            </div>
+            <div class="row field-icon">
+                <h6>Trastero</h6>
+            </div>
+        </div>
+        {% endif %}
+
+        <!-- JARDIN -->
+        {% if property.jardin == 'Si' %}
+        <div class="col-2">
+            <div class="row field-icon">
+                <span class="fa-2x fas  fa-leaf"></span>
+            </div>
+            <div class="row field-icon">
+                <h6>Jardín</h6>
+            </div>
+        </div>
+        {% else %}
+        <div class="opacidadIcono col-2">
+            <div class="row field-icon">
+                <span class="fa-2x fas  fa-leaf"></span>
+            </div>
+            <div class="row field-icon">
+                <h6>Jardín</h6>
+            </div>
+        </div>
+        {% endif %}
+
+        <!-- ASCENSOR -->
+        {% if property.ascensor == 'Si' %}
+        <div class="col-2">
+            <div class="row field-icon">
+                <span class="fa-2x fas fa-angle-double-up"></span>
+            </div>
+            <div class="row field-icon">
+                <h6>Ascensor</h6>
+            </div>
+        </div>
+        {% else %}
+        <div class="opacidadIcono col-2">
+            <div class="row field-icon">
+                <span class="fa-2x fas fa-angle-double-up"></span>
+            </div>
+            <div class="row field-icon">
+                <h6>Ascensor</h6>
+            </div>
+        </div>
+        {% endif %}
+    </div>
+    <div class="div-field row ">
+        <!-- CALEFACCION -->
+        {% if property.calefaccion == 'Si' %}
+        <div class="col-3">
+            <div class="row field-icon">
+                <span class="fa-2x fa-fire-alt"> </span>
+            </div>
+            <div class="row field-icon">
+                <h6>Calefacción</h6>
+            </div>
+        </div>
+        {% else %}
+        <div class="opacidadIcono col-3">
+            <div class="row field-icon">
+                <span class="fa-2x fa-fire-alt"> </span>
+            </div>
+            <div class="row field-icon">
+                <h6>Calefacción</h6>
+            </div>
+        </div>
+        {% endif %}
+
+        <!-- AIRE ACONDICIONADO -->
+        {% if property.aireAcon == 'Si' %}
+        <div class="col-3">
+            <div class="row field-icon">
+                <span class="fa-2x fas fa-wind"></span>
+            </div>
+            <div class="row field-icon">
+                <h6>Aire Acond.</h6>
+            </div>
+        </div>
+        {% else %}
+        <div class="opacidadIcono col-3">
+            <div class="row field-icon">
+                <span class="fa-2x fas fa-wind"></span>
+            </div>
+            <div class="row field-icon">
+                <h6>Aire Acond.</h6>
+            </div>
+        </div>
+        {% endif %}
+
+        <!-- AMUEBLADO -->
+        {% if property.amueblado == 'Si' %}
+        <div class="col-3">
+            <div class="row field-icon">
+                <span class="fa-2x fas fa-couch"></span>
+            </div>
+            <div class="row field-icon">
+                <h6>Amueblado</h6>
+            </div>
+        </div>
+        {% else %}
+        <div class="opacidadIcono col-3">
+            <div class="row field-icon">
+                <span class="fa-2x fas fa-couch"></span>
+            </div>
+            <div class="row field-icon">
+                <h6>Amueblado</h6>
+            </div>
+        </div>
+        {% endif %}
+
+        <!-- ANIMALES -->
+        {% if property.animales == 'Si' %}
+        <div class="col-3">
+            <div class="row field-icon">
+                <span class="fa-2x fas fa-dog"></span>
+            </div>
+            <div class="row field-icon">
+                <h6>Permite Animales</h6>
+            </div>
+        </div>
+        {% else %}
+        <div class="opacidadIcono col-3">
+            <div class="row field-icon">
+                <span class="fa-2x fas fa-dog"></span>
+            </div>
+            <div class="row field-icon">
+                <h6>Permite Animales</h6>
+            </div>
+        </div>
+        {% endif %}
+    </div>
+</div>
+
+
+<form class="form-horizontal" method="post" action="/properties/save/{{ property._id.toString() }}"
+      encType="multipart/form-data">
+    {% if property.type == 'vivienda' %}
+    {% endif %}
+    {% if property.type == 'local' %}
+    {% endif %}
+    {% if property.type == 'suelo' %}
+    {% endif %}
+    <div>
+        <td>
+            <button type="submit" class="btn btn-primary">Guardar</button>
+        </td>
+    </div>
 </form>
+
+<script>
+    $(document).ready(writeMap());
+
+    function writeMap() {
+        let address = "{{property.address}}";
+        $.get(location.protocol + '//nominatim.openstreetmap.org/search?format=json&q=' + address, function (data) {
+            if (data[0] != undefined) {
+                $('#divMapaDetails').innerHTML = "";
+                $('#divMapContainerDetails').show();
+                $('#divMapNotLoaded').hide();
+                let lattitude = data[0].lat;
+                let longitude = data[0].lon;
+
+                let mapaLocal = L.map('divMapaDetails');
+                mapaLocal.setView([lattitude, longitude], 13);
+
+                L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+                    attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
+                }).addTo(mapaLocal);
+
+                marker = L.marker([lattitude, longitude]);
+                marker.addTo(mapaLocal);
+
+            } else {
+                $('#divMapNotLoaded').show();
+            }
+        });
+    }
+</script>
+</div>
 {% endblock %}

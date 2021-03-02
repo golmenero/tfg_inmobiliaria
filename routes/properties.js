@@ -119,12 +119,11 @@ module.exports = function (app, render, nodemailer, managerDB) {
         if (propertyType == "vivienda") {
             prop = {
                 type: parseElement("input", propertyType),
+                typeOp: parseElement('input', req.body.typeOp),
                 name: parseElement("input", req.body.name),
                 address: parseElement("input", req.body.address),
                 floor: parseElement("input", req.body.floorV),
                 description: parseElement("input", req.body.description),
-                lattitude: parseElement("input", req.body.lattitude),
-                longitude: parseElement("input", req.body.longitude),
                 city: parseElement("input", req.body.city),
                 area: parseElement("input", req.body.area),
                 numHabs: parseElement("input", req.body.numHabs),
@@ -147,12 +146,11 @@ module.exports = function (app, render, nodemailer, managerDB) {
         if (propertyType == "local") {
             prop = {
                 type: parseElement("input", propertyType),
+                typeOp: parseElement('input', req.body.typeOp),
                 name: parseElement("input", req.body.name),
                 address: parseElement("input", req.body.address),
                 floor: parseElement("input", req.body.floorV),
                 description: parseElement("input", req.body.description),
-                lattitude: parseElement("input", req.body.lattitude),
-                longitude: parseElement("input", req.body.longitude),
                 city: parseElement("input", req.body.city),
                 area: parseElement("input", req.body.areaLoc),
                 numAseos: parseElement("input", req.body.numAsLoc),
@@ -170,6 +168,7 @@ module.exports = function (app, render, nodemailer, managerDB) {
         if (propertyType == "suelo") {
             prop = {
                 type: parseElement("input", propertyType),
+                typeOp: parseElement('input', req.body.typeOp),
                 name: parseElement("input", req.body.name),
                 description: parseElement("input", req.body.description),
                 city: parseElement("input", req.body.city),
@@ -192,27 +191,34 @@ module.exports = function (app, render, nodemailer, managerDB) {
 
         let property = {...prop, ...owner};
 
-        console.log(property);
-        /**
+        let imagen = null;
+
+        if (req.files.imginmueble != null)
+            imagen = req.files.imginmueble;
+
+
          // Connect to DB
          managerDB.add(property, "properties", function (id) {
             if (id == null) {
-                res.send("Error al insertar ");
+                req.flash('error', "La propiedad no se pudo añadir correctamente.")
+                res.redirect('/properties')
             } else {
                 if (req.files.imginmueble != null) {
                     let imagen = req.files.imginmueble;
                     imagen.mv('public/propertiesimg/' + id + '.png', function (err) {
                         if (err) {
                             req.flash('error', "La propiedad no se pudo añadir correctamente.")
+                            res.redirect("/properties");
                         } else {
                             req.flash('success', "La propiedad se añadió correctamente.")
-                            res.redirect("properties");
+                            res.redirect("/myproperties");
                         }
                     });
                 }
+                //req.flash('success', "La propiedad se añadió correctamente.")
+                //res.redirect("/myproperties");
             }
         })
-         */
     });
 
     app.get('/properties/:id', function (req, res) {
@@ -316,5 +322,6 @@ module.exports = function (app, render, nodemailer, managerDB) {
                 return elemento;
         }
     }
+
 
 }
