@@ -1,36 +1,5 @@
 module.exports = function (app, render, nodemailer, managerDB) {
 
-    app.get("/properties/saved/delete/:id", function (req, res) {
-        let condition = {
-            "propertyID": managerDB.mongo.ObjectID(req.params.id),
-            "userEMAIL": req.session.user.email
-        };
-        managerDB.delete(condition, "wishes", function (properties) {
-            if (properties == null) {
-                res.send(response);
-            } else {
-                res.redirect("/properties/saved");
-            }
-        });
-    });
-
-    // PROPIEDADES GUARDADAS
-    app.post("/properties/save/:id", function (req, res) {
-        let condition = {
-            email: req.session.user.email
-        };
-        let user = {
-            wishes: req.params.id,
-        }
-        managerDB.edit(condition, user, "users", function (users) {
-            if (users == null) {
-                res.send(response);
-            } else {
-                res.redirect("/properties/saved");
-            }
-        });
-    });
-
     // EDITAR PROPIEDADES
     app.get('/property/edit/:id', function (req, res) {
         let condition = {"_id": managerDB.mongo.ObjectID(req.params.id)};
@@ -81,25 +50,6 @@ module.exports = function (app, render, nodemailer, managerDB) {
                 res.send(response);
             } else {
                 res.redirect("/myproperties");
-            }
-        });
-    });
-
-    app.get("/properties/saved", function (req, res) {
-        let condition = {
-            "userEMAIL": req.session.user.email
-        };
-        managerDB.get(condition, "wishes", function (properties) {
-            if (properties == null) {
-                res.send(response);
-            } else {
-                let response = render(req.session, 'views/property_mywishes.html',
-                    {
-                        properties: properties,
-                        error: req.flash('error'),
-                        success: req.flash('success')
-                    });
-                res.send(response);
             }
         });
     });
@@ -229,7 +179,7 @@ module.exports = function (app, render, nodemailer, managerDB) {
             } else {
                 let response = render(req.session, 'views/property_details.html', {
                     property: properties[0],
-                    user: req.session.user.email,
+                    user: req.session.user,
                     error: req.flash('error'),
                     success: req.flash('success')
                 });

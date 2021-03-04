@@ -1,10 +1,3 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Title</title>
-</head>
-<body>
 {% extends "base.html" %}
 {% block titulo %} Agencia Inmobiliaria RSTemp {% endblock %}
 {% block contenido_principal %}
@@ -12,12 +5,12 @@
 <div class="container">
     <h2 class="sectionHeader">Propiedades</h2>
     {% for property in properties %}
-    <div class="displayDiv">
+    <div class="displayDiv row">
         <div class="col-3">
             <img class='imgLogo' src="propertiesimg/{{ property._id.toString() }}.png" alt="logo"/>
         </div>
-        <a class="displayProperty row" id="displayProperty" href="/properties/{{ property._id.toString() }}">
-            <div class="col-9">
+        <div class="col-9">
+            <a class="displayProperty" id="displayProperty" href="/properties/{{ property._id.toString() }}">
                 <div class="d-inline">
                     {% if property.type == 'vivienda' %}
                     <span class="badge badge-primary">Vivienda</span>
@@ -37,29 +30,36 @@
                     {%endif%}
                 </div>
 
-                <h4>{{ property.name }}</h4>
-                {% if property.type == 'vivienda' %}
-                <p> En {{property.address}} , {{property.city}} - {{property.area}}
-                    m²</p>
-                {%endif%}
+                <div class="row">
+                    <h4>{{ property.name }}</h4>
+                </div>
+                <div class="row">
+                    {% if property.type == 'vivienda' %}
+                    <p> En {{property.address}} , {{property.city}} - {{property.area}}
+                        m²</p>
+                    {%endif%}
+                    {% if property.type == 'local' %}
+                    <p> En {{property.address}} , {{property.city}} - {{property.area}}
+                        m²</p>
+                    {%endif%}
 
-                {% if property.type == 'local' %}
-                <p> En {{property.address}} , {{property.city}} - {{property.area}}
-                    m²</p>
-                {%endif%}
-
-                {% if property.type == 'suelo' %}
-                <p class="text-capitalize">{{property.type}} en {{property.city}} - {{property.area}} m²
-                    ({{property.edifArea}}
-                    edificables)</p>
-                {%endif%}
-
-                <p class="truncate">{{property.description}}</p>
-                <h5 class="displayPrice float-right">Precio: {{ property.price }} €</h5>
+                    {% if property.type == 'suelo' %}
+                    <p class="text-capitalize">{{property.type}} en {{property.city}} - {{property.area}} m²
+                        ({{property.edifArea}}
+                        edificables)</p>
+                    {%endif%}
+                </div>
+                <div class="row">
+                    <p class="truncate">{{property.description}}</p>
+                </div>
+                <div class="row float-right">
+                    <h5 class="displayPrice">Precio: {{ property.price }} €</h5>
+                </div>
+            </a>
+            <div class="row">
+                <button type="button" class="centeredComponent btn btn-secondary">Contactar <span
+                        class="fas fa-comment-dots"></span></button>
             </div>
-        </a>
-        <div class="col-9">
-            <button type="button" class="btn btn-secondary">Contactar <span class="fas fa-comment-dots"></span></button>
         </div>
     </div>
     {% endfor%}
@@ -80,5 +80,6 @@
 </div>
 
 {% endblock %}
+</div>
 </body>
 </html>

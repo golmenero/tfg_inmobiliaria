@@ -90,5 +90,39 @@ module.exports = {
                 });
             }
         });
-    }
+    },  pushWish: function (condition, idWish, collectionName, funcionCallback) {
+        this.mongo.MongoClient.connect(this.app.get('url'), function (err, client) {
+            if (err) {
+                funcionCallback(null);
+            } else {
+                let db = client.db('tfginmobiliaria');
+                let collection = db.collection(collectionName);
+                collection.update(condition, {$push: { wishes: idWish}}, function (err, result) {
+                    if (err) {
+                        funcionCallback(null);
+                    } else {
+                        funcionCallback(result);
+                    }
+                    db.close();
+                });
+            }
+        });
+    },  pullWish: function (condition, idWish, collectionName, funcionCallback) {
+        this.mongo.MongoClient.connect(this.app.get('url'), function (err, client) {
+            if (err) {
+                funcionCallback(null);
+            } else {
+                let db = client.db('tfginmobiliaria');
+                let collection = db.collection(collectionName);
+                collection.update(condition, {$pull: { wishes: idWish}}, function (err, result) {
+                    if (err) {
+                        funcionCallback(null);
+                    } else {
+                        funcionCallback(result);
+                    }
+                    db.close();
+                });
+            }
+        });
+    },
 };

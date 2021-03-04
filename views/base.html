@@ -75,129 +75,140 @@
 </script>
 {% endblock %}
 
-<!-- Barra de Navegación superior -->
-<nav class="navbar navbar-expand-lg navbar-dark bg-dark">
-    <a class="navbar-brand" href="/properties">
-        <img class="imgLogo" src="/img/logo.png" alt="logo"/>
-    </a>
-    <div class="collapse navbar-collapse" id="myNavbar">
-        <ul class="navbar-nav mr-auto">
-            <li class="nav-item active" id="mTienda">
-                <a class="nav-link" href="/properties">Inicio</a>
-            </li>
-            <li class="nav-item active">
-                <a class="nav-link" href="/info">Contacto</a>
-            </li>
-            {% if user.permission == 'A' %}
-            <li class="nav-item dropdown">
-                <a class="nav-link dropdown-toggle" href="#" data-toggle="dropdown">Propiedades</a>
-                <div class="dropdown-menu">
-                    <a class="dropdown-item" href="/properties/add">Añadir Propiedad</a>
-                    <a class="dropdown-item" href="/myproperties">Mis Propiedades</a>
-                </div>
-            </li>
-            {% endif %}
-            {% if user.permission == 'B' %}
-            <li class="nav-item dropdown">
-                <a class="nav-link dropdown-toggle" href="#" data-toggle="dropdown">Propiedades</a>
-                <div class="dropdown-menu">
-                    <a class="dropdown-item" href="/properties/saved">Propiedades Guardadas</a>
-                </div>
-            </li>
-            {% endif %}
-        </ul>
+<div id="containerParent">
+    <!-- Barra de Navegación superior -->
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+        <a class="navbar-brand" href="/properties">
+            <img class="imgLogo" src="/img/logo.png" alt="logo"/>
+        </a>
+        <div class="collapse navbar-collapse" id="myNavbar">
+            <ul class="navbar-nav mr-auto">
+                <li class="nav-item active" id="mTienda">
+                    <a class="nav-link" href="/properties">Inicio</a>
+                </li>
+                <li class="nav-item active">
+                    <a class="nav-link" href="/info">Contacto</a>
+                </li>
+                {% if user.permission == 'A' %}
+                <li class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle" href="#" data-toggle="dropdown">Propiedades</a>
+                    <div class="dropdown-menu">
+                        <a class="dropdown-item" href="/properties/add">Añadir Propiedad</a>
+                        <a class="dropdown-item" href="/myproperties">Mis Propiedades</a>
+                    </div>
+                </li>
+                {% endif %}
+                {% if user.permission == 'U' %}
+                <li class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle" href="#" data-toggle="dropdown">Propiedades</a>
+                    <div class="dropdown-menu">
+                        <a class="dropdown-item" href="/wishes">Propiedades Guardadas</a>
+                    </div>
+                </li>
+                {% endif %}
+            </ul>
 
-        <!-- Buscador -->
-        <div id="custom-search-input">
-            <form method="get" action="/properties">
-                <div class="input-group">
-                    <input type="text" class="form-control" placeholder="Búsqueda"
-                           name="search"/>
-                    <span class="input-group-btn">
+            <!-- Buscador -->
+            <div id="custom-search-input">
+                <form method="get" action="/properties">
+                    <div class="input-group">
+                        <input type="text" class="form-control" placeholder="Búsqueda"
+                               name="search"/>
+                        <span class="input-group-btn">
                         <button class="btn btn-secondary" type="submit">
                             <span class="fas fa-search"></span>
                         </button>
                     </span>
-                </div>
-            </form>
+                    </div>
+                </form>
+            </div>
+
+
+            <ul class="navbar-nav navbar-right">
+                {% if user == null %}
+                <li class="nav-item active">
+                    <a class="nav-link" href="/login"><span class="fas fa-user"></span> Iniciar Sesión</a>
+                </li>
+                <li class="nav-item active">
+                    <a class="nav-link" href="/signin"><span class="fas fa-user-plus"></span> Registrate</a>
+                </li>
+                {% endif %}
+                {% if user != null %}
+                <li class="nav-item dropdown active">
+                    <a class="nav-link dropdown-toggle" href="#" data-toggle="dropdown"><span
+                            class="fas fa-user"></span>{{user.email}}</a>
+                    <div class="dropdown-menu">
+                        <a class="dropdown-item" href="/user/edit">Editar Perfil</a>
+                        <a class="dropdown-item" data-toggle="modal" data-target="#modeloEliminarPerfil">Eliminar
+                            Perfil</a>
+                    </div>
+                </li>
+                <li class="nav-item active">
+                    <a class="nav-link" href="/disconnect"><span class="fas fa-sign-out-alt"></span> Cerrar Sesión</a>
+                </li>
+                {% endif %}
+            </ul>
         </div>
-
-
-        <ul class="navbar-nav navbar-right">
-            {% if user == null %}
-            <li class="nav-item active">
-                <a class="nav-link" href="/login"><span class="fas fa-user"></span> Iniciar Sesión</a>
-            </li>
-            <li class="nav-item active">
-                <a class="nav-link" href="/signin"><span class="fas fa-user-plus"></span> Registrate</a>
-            </li>
-            {% endif %}
-            {% if user != null %}
-            <li class="nav-item dropdown active">
-                <a class="nav-link dropdown-toggle" href="#" data-toggle="dropdown"><span class="fas fa-user"></span>{{user.email}}</a>
-                <div class="dropdown-menu">
-                    <a class="dropdown-item" href="/user/edit">Editar Perfil</a>
-                    <a class="dropdown-item" data-toggle="modal" data-target="#modeloEliminarPerfil">Eliminar Perfil</a>
-                </div>
-            </li>
-            <li class="nav-item active">
-                <a class="nav-link" href="/disconnect"><span class="fas fa-sign-out-alt"></span> Cerrar Sesión</a>
-            </li>
-            {% endif %}
-        </ul>
+    </nav>
+    {% if success != undefined %}
+    <div class="row">
+        <div class="msgInfoUser alert alert-success col-md-12" role="alert">
+            {{success}}
+        </div>
     </div>
-</nav>
-{% if success != undefined %}
-<div class="row">
-    <div class="msgInfoUser alert alert-success col-md-12" role="alert">
-        {{success}}
+    {% endif %}
+    {% if error != undefined %}
+    <div class="row">
+        <div class="msgInfoUser alert alert-danger col-md-12" role="alert">
+            {{error}}
+        </div>
     </div>
-</div>
-{% endif %}
-{% if error != undefined %}
-<div class="row">
-    <div class="msgInfoUser alert alert-danger col-md-12" role="alert">
-        {{error}}
-    </div>
-</div>
-{% endif %}
+    {% endif %}
 
-<!-- Pantalla de asegurar que quiere borrar el perfil  -->
-<div class="modal fade" id="modeloEliminarPerfil">
-    <div class="modal-dialog">
-        <div class="modal-content">
-            <form class="form-horizontal" method="post" action="/user/delete">
-                <!-- Modal Header -->
-                <div class="modal-header">
-                    <h4 class="modal-title">Introduzca su contraseña de nuevo</h4>
-                </div>
+    <!-- Pantalla de asegurar que quiere borrar el perfil  -->
+    <div class="modal fade" id="modeloEliminarPerfil">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <form class="form-horizontal" method="post" action="/user/delete">
+                    <!-- Modal Header -->
+                    <div class="modal-header">
+                        <h4 class="modal-title">Introduzca su contraseña de nuevo</h4>
+                    </div>
 
-                <!-- Modal body -->
-                <div class="modal-body">
-                    <div class="form-group">
-                        <label class="control-label" for="password">Perderá toda la información almacenada en
-                            ella.</label>
-                        <div class="col-sm-10">
-                            <input type="password" class="form-control" name="password"
-                                   placeholder="Contraseña" required="true"/>
+                    <!-- Modal body -->
+                    <div class="modal-body">
+                        <div class="form-group">
+                            <label class="control-label" for="password">Perderá toda la información almacenada en
+                                ella.</label>
+                            <div class="col-sm-10">
+                                <input type="password" class="form-control" name="password"
+                                       placeholder="Contraseña" required="true"/>
+                            </div>
                         </div>
                     </div>
-                </div>
 
-                <!-- Modal footer -->
-                <div class="modal-footer">
-                    <button type="submit" class="btn btn-danger">Eliminar Cuenta</button>
-                    <button type="button" class="btn btn-dark" data-dismiss="modal">Cancelar</button>
-                </div>
-            </form>
+                    <!-- Modal footer -->
+                    <div class="modal-footer">
+                        <button type="submit" class="btn btn-danger">Eliminar Cuenta</button>
+                        <button type="button" class="btn btn-dark" data-dismiss="modal">Cancelar</button>
+                    </div>
+                </form>
+            </div>
         </div>
     </div>
+
+    <div id="container">
+        <!-- Contenido -->
+        {% block contenido_principal %}
+        <!--Posiblecontenidopordefecto-->
+        {% endblock%}
+    </div>
+
+    <footer class="footer">
+        <p class="footerP"><span class="font-weight-bold">ARCA AGENCIA INMOBILIARIA</span></p>
+        <p class="footerP">Carlos Gómez Piñeiro - Agente de la Propiedad Inmobiliaria</p>
+        <p class="footerP">+34 985 470 012 / +34 647 270 438 / info@arca-inmobiliaria.com</p>
+    </footer>
 </div>
-
-
-    <!-- Contenido -->
-    {% block contenido_principal %}
-    <!--Posiblecontenidopordefecto-->
-    {% endblock%}
 </body>
 </html>

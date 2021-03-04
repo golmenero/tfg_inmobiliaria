@@ -3,6 +3,7 @@
 {% block titulo %} {{Property.name}} {% endblock %}
 
 {% block contenido_principal %}
+
 <div class="container">
     <div class="row">
         <div>
@@ -10,20 +11,74 @@
         </div>
     </div>
     <h2 class="sectionHeader">Detalles de "{{property.name}}"</h2>
+
+    <!-- DATOS DE PROPIETARIO -->
+    {% if user.permission == 'A' %}
+    <div class="div-field-bottom noBorder card">
+        <div class="headerButtonOverview card-header">
+            <h5 class="mb-0">
+                <button type="button" class="buttonOverview btn btn-outline-dark" data-toggle="collapse"
+                        data-target="#ownerDetails"
+                        aria-expanded="false" aria-controls="ownerDetails">
+                    Datos del Propietario
+                </button>
+            </h5>
+        </div>
+
+        <div id="ownerDetails" class="collapse" aria-labelledby="headingOne" data-parent="#accordion">
+            <div class="card-body">
+                <div class="row">
+                    <div class="col-12">
+                        <h5>Nombre del Propietario: {{property.nameOwner}} {{property.surnameOwner}}<small
+                                class="text-muted"> - DNI/NIF/NIE:
+                            {{property.dniOwner}}</small>
+                        </h5>
+                    </div>
+                </div>
+                <div class="row col-12">
+                    <div class="col-4">
+                        <p><span class="font-weight-bold">Teléfono: </span>{{property.phoneOwner}}</p>
+                    </div>
+                    <div class="col-4">
+                        <p><span class="font-weight-bold">E-Mail: </span>{{property.emailOwner}}</p>
+                    </div>
+                    <div class="col-4">
+                        <p><span class="font-weight-bold">Dirección: </span>{{property.addressOwner}}</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    {% endif %}
+
     <div class="row">
         <div class="col-8">
-            <h4>Precio de {{property.typeOp}}: {{property.price}} € <small class="text-muted"> +
-                {{property.priceCom}} € de Gastos de Comunidad</small>
+            <h4>Precio de {{property.typeOp}}: {{property.price}} €
+                {% if property.type == 'vivienda' || property.type == 'local' %}<small class="text-muted"> +
+                    {{property.priceCom}} € de Gastos de Comunidad</small>
+                {% endif %}
             </h4>
         </div>
-        <div class="col-4">
-            <button type="button" class="btn btn-outline-success"><span class="far fa-heart"></span>
-                Añadir a
-                Mis Deseos
-            </button>
+        {% if user.permission == 'U' %}
+        <div class="d-inline-block col-4">
+            {% if user.wishes.includes(property._id.toString()) %}
+            <a class="btn btn-success" href="/wishes/delete/{{ property._id.toString() }}"><span
+                    class="far fa-heart"></span>
+                Eliminar de Mis Deseos
+            </a>
+            {% else %}
+            <form class="inline-form" method="post"
+                  action="/wishes/{{ property._id.toString() }}"
+                  encType="multipart/form-data">
+                <button type="submit" class="btn btn-outline-success"><span class="far fa-heart"></span>
+                    Añadir a Mis Deseos
+                </button>
+            </form>
+            {% endif %}
             <button type="button" class="btn btn-secondary"><span class="fas fa-comment-dots"></span>Contactar
             </button>
         </div>
+        {% endif %}
     </div>
     <div class="row">
         <div class="col-12">
@@ -31,20 +86,36 @@
         </div>
     </div>
     <div class="row">
+        {% if property.type == 'vivienda' || property.type == 'local' %}
         <div class="col-6">
             <p><span class="font-weight-bold"> Dirección: </span> {{property.address}}</p>
         </div>
+        {% endif %}
+        {% if property.type == 'suelo' %}
+        <div class="col-6">
+            <p><span class="font-weight-bold"> Situacion: </span> {{property.situation}}</p>
+        </div>
+        {% endif %}
         <div class="col-6">
             <p><span class="font-weight-bold"> Población/Ciudad: </span> {{property.city}}</p>
         </div>
     </div>
     <div class="div-field row ">
+        {% if property.type == 'vivienda' %}
         <div class="col-3">
             <div class="row field-icon">
                 <span class="fa-3x fas fa-building"> </span>
             </div>
             <div class="row field-icon">
                 <h5>{{property.floor}} Piso</h5>
+            </div>
+        </div>
+        <div class="col-3">
+            <div class="row field-icon">
+                <span class="fa-3x fas fa-ruler-combined"></span>
+            </div>
+            <div class="row field-icon">
+                <h5>{{property.area}} m²</h5>
             </div>
         </div>
         <div class="col-3">
@@ -63,7 +134,17 @@
                 <h5>{{property.numBan}} Baños</h5>
             </div>
         </div>
-        <div class="col-3">
+        {% endif %}
+        {% if property.type == 'local' %}
+        <div class="col-4">
+            <div class="row field-icon">
+                <span class="fa-3x fas fa-building"> </span>
+            </div>
+            <div class="row field-icon">
+                <h5>{{property.floor}} Piso</h5>
+            </div>
+        </div>
+        <div class="col-4">
             <div class="row field-icon">
                 <span class="fa-3x fas fa-ruler-combined"></span>
             </div>
@@ -71,6 +152,33 @@
                 <h5>{{property.area}} m²</h5>
             </div>
         </div>
+        <div class="col-4">
+            <div class="row field-icon">
+                <span class="fa-3x fas fa-toilet"></span>
+            </div>
+            <div class="row field-icon">
+                <h5>{{property.numAseos}} Aseos</h5>
+            </div>
+        </div>
+        {% endif %}
+        {% if property.type == 'suelo' %}
+        <div class="col-6">
+            <div class="row field-icon">
+                <span class="fa-3x fas fa-ruler-combined"></span>
+            </div>
+            <div class="row field-icon">
+                <h5>{{property.area}} m²</h5>
+            </div>
+        </div>
+        <div class="col-6">
+            <div class="row field-icon">
+                <span class="fa-3x fas fa-hammer"></span>
+            </div>
+            <div class="row field-icon">
+                <h5>{{property.edifArea}} Area Edificable</h5>
+            </div>
+        </div>
+        {% endif %}
     </div>
     <div id="divMapContainerDetails" style="display: none;">
         <div class="div-field form-row">
@@ -85,6 +193,8 @@
     </div>
 
     <h3 class="sectionHeader">Otras Características</h3>
+
+    {% if property.type == 'vivienda' %}
     <div class="div-field row ">
         <!-- GARAJE -->
         {% if property.garaje == 'Si' %}
@@ -212,12 +322,15 @@
         </div>
         {% endif %}
     </div>
-    <div class="div-field row ">
+    {% endif %}
+
+    {% if property.type == 'vivienda' || property.type == 'local' %}
+    <div class="div-field row">
         <!-- CALEFACCION -->
         {% if property.calefaccion == 'Si' %}
         <div class="col-3">
             <div class="row field-icon">
-                <span class="fa-2x fa-fire-alt"> </span>
+                <span class="fa-2x fas fa-fire-alt"> </span>
             </div>
             <div class="row field-icon">
                 <h6>Calefacción</h6>
@@ -226,14 +339,13 @@
         {% else %}
         <div class="opacidadIcono col-3">
             <div class="row field-icon">
-                <span class="fa-2x fa-fire-alt"> </span>
+                <span class="fa-2x fas fa-fire-alt"> </span>
             </div>
             <div class="row field-icon">
                 <h6>Calefacción</h6>
             </div>
         </div>
         {% endif %}
-
         <!-- AIRE ACONDICIONADO -->
         {% if property.aireAcon == 'Si' %}
         <div class="col-3">
@@ -254,7 +366,10 @@
             </div>
         </div>
         {% endif %}
+        {% endif %}
 
+
+        {% if property.type == 'vivienda' %}
         <!-- AMUEBLADO -->
         {% if property.amueblado == 'Si' %}
         <div class="col-3">
@@ -275,7 +390,6 @@
             </div>
         </div>
         {% endif %}
-
         <!-- ANIMALES -->
         {% if property.animales == 'Si' %}
         <div class="col-3">
@@ -296,25 +410,164 @@
             </div>
         </div>
         {% endif %}
+        {% endif %}
+
+
+        {% if property.type == 'local' %}
+        <!-- ESCAPARATE -->
+        {% if property.escaparate == 'Si' %}
+        <div class="col-3">
+            <div class="row field-icon">
+                <span class="fa-2x fas fa-store"></span>
+            </div>
+            <div class="row field-icon">
+                <h6>Escaparate</h6>
+            </div>
+        </div>
+        {% else %}
+        <div class="opacidadIcono col-3">
+            <div class="row field-icon">
+                <span class="fa-2x fas fa-store"></span>
+            </div>
+            <div class="row field-icon">
+                <h6>Escaparate</h6>
+            </div>
+        </div>
+        {% endif %}
+        <!-- APARCAMIENTO -->
+        {% if property.aparcamiento == 'Si' %}
+        <div class="col-3">
+            <div class="row field-icon">
+                <span class="fa-2x fas fa-parking"></span>
+            </div>
+            <div class="row field-icon">
+                <h6>Aparcamiento</h6>
+            </div>
+        </div>
+        {% else %}
+        <div class="opacidadIcono col-3">
+            <div class="row field-icon">
+                <span class="fa-2x fas fa-parking"></span>
+            </div>
+            <div class="row field-icon">
+                <h6>Aparcamiento</h6>
+            </div>
+        </div>
+        {% endif %}
     </div>
-</div>
-
-
-<form class="form-horizontal" method="post" action="/properties/save/{{ property._id.toString() }}"
-      encType="multipart/form-data">
-    {% if property.type == 'vivienda' %}
     {% endif %}
+
     {% if property.type == 'local' %}
-    {% endif %}
-    {% if property.type == 'suelo' %}
-    {% endif %}
-    <div>
-        <td>
-            <button type="submit" class="btn btn-primary">Guardar</button>
-        </td>
+    <div class="div-field row">
+        {% if property.cargaYdescarga == 'Si' %}
+        <!-- CARGA Y DESCARGA -->
+        <div class="col-4">
+            <div class="row field-icon">
+                <span class="fa-2x fas fa-dolly-flatbed"></span>
+            </div>
+            <div class="row field-icon">
+                <h6>Carga y Descarga</h6>
+            </div>
+        </div>
+        {% else %}
+        <div class="opacidadIcono col-3">
+            <div class="row field-icon">
+                <span class="fa-2x fas fa-dolly-flatbed"></span>
+            </div>
+            <div class="row field-icon">
+                <h6>Carga y Descarga</h6>
+            </div>
+        </div>
+        {% endif %}
+        <!-- EXTINTORES -->
+        {% if property.extintores == 'Si' %}
+        <div class="col-4">
+            <div class="row field-icon">
+                <span class="fa-2x fas fa-fire-extinguisher"></span>
+            </div>
+            <div class="row field-icon">
+                <h6>Extintores</h6>
+            </div>
+        </div>
+        {% else %}
+        <div class="opacidadIcono col-3">
+            <div class="row field-icon">
+                <span class="fa-2x fas fa-fire-extinguisher"></span>
+            </div>
+            <div class="row field-icon">
+                <h6>Extintores</h6>
+            </div>
+        </div>
+        {% endif %}
+        <!-- ILUMINACION -->
+        {% if property.iluminacion == 'Si' %}
+        <div class="col-4">
+            <div class="row field-icon">
+                <span class="fa-2x fas fa-lightbulb"></span>
+            </div>
+            <div class="row field-icon">
+                <h6>Iluminación</h6>
+            </div>
+        </div>
+        {% else %}
+        <div class="opacidadIcono col-3">
+            <div class="row field-icon">
+                <span class="fa-2x fas fa-lightbulb"></span>
+            </div>
+            <div class="row field-icon">
+                <h6>Iluminación</h6>
+            </div>
+        </div>
+        {% endif %}
     </div>
-</form>
+    {% endif %}
 
+    {% if property.type == 'suelo' %}
+    <div class="div-field row">
+        <!-- ACCESO A AGUA -->
+        {% if property.accesoAgua == 'Si' %}
+        <div class="col-6">
+            <div class="row field-icon">
+                <span class="fa-2x fas fa-hand-holding-water"> </span>
+            </div>
+            <div class="row field-icon">
+                <h6>Acceso a Agua</h6>
+            </div>
+        </div>
+        {% else %}
+        <div class="opacidadIcono col-3">
+            <div class="row field-icon">
+                <span class="fa-2x fas fa-hand-holding-water"> </span>
+            </div>
+            <div class="row field-icon">
+                <h6>Acceso a Agua</h6>
+            </div>
+        </div>
+        {% endif %}
+        <!-- ACCESO A LUZ -->
+        {% if property.accesoLuz == 'Si' %}
+        <div class="col-6">
+            <div class="row field-icon">
+                <span class="fa-2x fas fa-lightbulb"></span>
+            </div>
+            <div class="row field-icon">
+                <h6>Acceso a Luz</h6>
+            </div>
+        </div>
+        {% else %}
+        <div class="opacidadIcono col-3">
+            <div class="row field-icon">
+                <span class="fa-2x fas fa-lightbulb"></span>
+            </div>
+            <div class="row field-icon">
+                <h6>Acceso a Luz</h6>
+            </div>
+        </div>
+        {% endif %}
+    </div>
+    {% endif %}
+
+</div>
 <script>
     $(document).ready(writeMap());
 

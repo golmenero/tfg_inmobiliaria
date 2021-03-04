@@ -48,6 +48,8 @@ app.use("/properties/*",routerUserSession);
 app.use("/user/edit",routerUserSession);
 app.use("/user/delete",routerUserSession);
 app.use("/myproperties",routerUserSession);
+app.use("/wishes/*",routerUserSession);
+app.use("/wishes",routerUserSession);
 
 let routerUserOwner = express.Router();
 routerUserOwner.use(function(req, res, next) {
@@ -80,6 +82,7 @@ app.set('crypto',crypto);
 require('./routes/users.js')(app,render, nodemailer, managerDB);
 require('./routes/properties.js')(app,render, nodemailer, managerDB);
 require('./routes/info.js')(app,render, nodemailer, managerDB);
+require('./routes/wishes.js')(app,render, nodemailer, managerDB);
 
 app.get('/', function (req, res) {
     res.redirect('/properties');
