@@ -1,4 +1,4 @@
-module.exports = function (app, render, nodemailer, managerDB) {
+module.exports = function (app, render, nodemailer, managerDB, variables) {
     app.get("/user/verification/:code", function (req, res) {
         let condition = {
             'codes.emailActivation': req.params.code
@@ -194,12 +194,12 @@ module.exports = function (app, render, nodemailer, managerDB) {
                 let transporter = nodemailer.createTransport({
                     service: 'gmail',
                     auth: {
-                        user: 'tfguo257386@gmail.com',
-                        pass: 'TFG_UO257386'
+                        user: variables.EMAILVERIF,
+                        pass: variables.PASSVERIF,
                     }
                 });
                 let mailOptions = {
-                    from: 'tfguo257386@gmail.com',
+                    from: variables.EMAILVERIF,
                     to: user.email,
                     subject: 'Verifique su correo electrónico.',
                     html: "<h1>Gracias por registrarse en nuestra aplicación</h1>" +
@@ -289,12 +289,12 @@ module.exports = function (app, render, nodemailer, managerDB) {
                 let transporter = nodemailer.createTransport({
                     service: 'gmail',
                     auth: {
-                        user: 'tfguo257386@gmail.com',
-                        pass: 'TFG_UO257386'
+                        user: variables.EMAILVERIF,
+                        pass: variables.PASSVERIF,
                     }
                 });
                 let mailOptions = {
-                    from: 'tfguo257386@gmail.com',
+                    from: variables.EMAILVERIF,
                     to: req.body.correoRecuperacion,
                     subject: 'Reestablezca su Contraseña',
                     html: "<h1>Haga click en el siguiente enlace para reestablecer su contraseña.</h1>" +
@@ -355,7 +355,7 @@ module.exports = function (app, render, nodemailer, managerDB) {
         let todaySecs = convertToInt(dateToday);
         let expSecs = convertToInt(expirationDateUser);
 
-        if ((todaySecs - expSecs) > 300)
+        if ((todaySecs - expSecs) > 600)
             return true;
         return false;
     }

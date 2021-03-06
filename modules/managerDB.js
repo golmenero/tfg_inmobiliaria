@@ -2,13 +2,13 @@ module.exports = {
     mongo: null, app: null, init: function (app, mongo) {
         this.mongo = mongo;
         this.app = app;
-    }, getPropertiesPG: function (condition, pg, funcionCallback) {
+    }, getPG: function (condition, collectionName, pg, funcionCallback) {
         this.mongo.MongoClient.connect(this.app.get('url'), function (err, client) {
             if (err) {
                 funcionCallback(null);
             } else {
                 let db = client.db('tfginmobiliaria');
-                let collection = db.collection('properties');
+                let collection = db.collection(collectionName);
                 collection.count(function (err, count) {
                     collection.find(condition).skip((pg - 1) * 4).limit(4)
                         .toArray(function (err, properties) {

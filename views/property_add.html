@@ -413,12 +413,13 @@
 
 
         <!-- CARGA DE IMAGENES ----------------------------------------------------------------------------------------------------------------------------------------------->
-        <div id="divPictures" style="display: none;">
-            <div class="custom-file div-field form-row">
-                <input type="file" lang="es" class="custom-file-input" name='imginmueble' id="imginmueble" multiple>
-                <label class="custom-file-label" for="imginmueble">Seleccione archivos</label>
+        <div id="divErrorImg" class="row" style="display: none;">
+            <div class="msgInfoUser alert alert-danger col-md-12" role="alert">
+                Seleccione, al menos, una imagen, por favor.
             </div>
-
+        </div>
+        <div id="divPictures" style="display: none;">
+            <input type="file" class="input-img form-control" name='imginmueble' id="imginmueble" multiple>
             <div class="div-field form-row">
                 <div class="col-sm-6">
                     <button id="btnPicturesA" type="button" class="col-sm-6 btnSiguiente btn btn-secondary btn-lg ">
@@ -809,7 +810,13 @@
             });
             // PASO DE FASE 3 (Multimedia) A FASE 4 (Resumen)
             $('#btnPicturesS').on('click', function () {
-                phase4();
+                let _files = $('#imginmueble').prop("files");
+                if (_files.length <= 0) {
+                    $('#divErrorImg').show();
+                } else {
+                    $('#divErrorImg').hide();
+                    phase4();
+                }
             });
             // VUELTA DE FASE 3 (Multimedia) A FASE 2 (Propietario)
             $('#btnPicturesA').on('click', function () {
@@ -855,7 +862,7 @@
 
                 $("#type").val(type);
                 adjustProgressBar(25)
-                setHeader("Rellene los Campos Indicados.");
+                setHeader("Añada la información de la propiedad");
             }
 
             function phase2() {
@@ -944,7 +951,6 @@
             }
 
             function fillFields() {
-                console.log(property.type);
                 if (property.type == 'vivienda') {
                     $('#typeVivD').text(property.type);
                     $('#typeOpVivD').text(property.typeOp);

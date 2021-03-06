@@ -1,0 +1,14 @@
+{% extends "base.html" %} {% block titulo %} Mensajería {% endblock %}
+
+{% block contenido_principal %}
+<div class="container">
+    <h2 class="sectionHeader">Mis Deseos</h2>
+
+    <div id="message-container">
+        <form id="send-container">
+            <input type="text" id="message-input">
+            <button type="submit" id="send-button">Enviar</button>
+        </form>
+    </div>
+</div>
+{% endblock %}

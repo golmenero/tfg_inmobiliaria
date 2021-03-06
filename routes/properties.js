@@ -1,4 +1,4 @@
-module.exports = function (app, render, nodemailer, managerDB) {
+module.exports = function (app, render, nodemailer, managerDB, variables) {
 
     // EDITAR PROPIEDADES
     app.get('/property/edit/:id', function (req, res) {
@@ -55,15 +55,16 @@ module.exports = function (app, render, nodemailer, managerDB) {
     });
 
     app.get('/properties/add', function (req, res) {
-        let response = render(req.session, 'views/property_add.html', {
-            user: req.session.user.email,
-            error: req.flash('error'),
-            success: req.flash('success')
-        });
-        res.send(response);
-    })
+            let response = render(req.session, 'views/property_add.html', {
+                user: req.session.user.email,
+                error: req.flash('error'),
+                success: req.flash('success')
+            });
+            res.send(response);
+        })
 
     app.post('/properties/add', function (req, res) {
+
         let prop = null;
         let propertyType = req.body.type;
         if (propertyType == "vivienda") {
@@ -141,32 +142,45 @@ module.exports = function (app, render, nodemailer, managerDB) {
 
         let property = {...prop, ...owner};
 
-        let imagen = null;
-
-        if (req.files.imginmueble != null)
-            imagen = req.files.imginmueble;
-
-
-         // Connect to DB
+        // Connect to DB
          managerDB.add(property, "properties", function (id) {
             if (id == null) {
                 req.flash('error', "La propiedad no se pudo añadir correctamente.")
                 res.redirect('/properties')
             } else {
-                if (req.files.imginmueble != null) {
-                    let imagen = req.files.imginmueble;
-                    imagen.mv('public/propertiesimg/' + id + '.png', function (err) {
-                        if (err) {
-                            req.flash('error', "La propiedad no se pudo añadir correctamente.")
-                            res.redirect("/properties");
+                if (req.files != null) {
+                    let files = req.files.imginmueble;
+                    let arrayImg = [];
+                    let name = "";
+                    if(Array.isArray(files)) {
+                        console.log(files)
+                        let counter;
+                        for (counter=0; counter<files.length; counter++) {
+                           // console.log(files[counter])
+                            name = 'public/propertiesimg/' + id + "_" + counter + '.png';
+                            files[counter].mv(name);
+                            arrayImg.push(name.replace("public", ""));
+                        }
+                    }
+                    else{
+                        name = 'public/propertiesimg/' + id + "_0" + '.png';
+                        files.mv(name);
+                        arrayImg.push(name.replace("public", ""));
+                    }
+                    let condition = {"_id": managerDB.mongo.ObjectID(id)};
+                    let property = {
+                        media: arrayImg,
+                    }
+                    managerDB.edit(condition, property, "properties", function (result) {
+                        if (result == null) {
+                            req.flash('error', "Error al añadir las imágenes de la propiedad.")
+                            res.redirect('/properties')
                         } else {
                             req.flash('success', "La propiedad se añadió correctamente.")
-                            res.redirect("/myproperties");
+                            res.redirect('/properties')
                         }
                     });
                 }
-                //req.flash('success', "La propiedad se añadió correctamente.")
-                //res.redirect("/myproperties");
             }
         })
     });
@@ -216,7 +230,7 @@ module.exports = function (app, render, nodemailer, managerDB) {
             pg = 1;
         }
 
-        managerDB.getPropertiesPG(condition, pg, function (properties, total) {
+        managerDB.getPG(condition, "properties", pg, function (properties, total) {
             if (properties == null) {
                 res.send("Error al listar ");
             } else {

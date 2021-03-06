@@ -1,4 +1,4 @@
-module.exports = function (app, render, nodemailer, managerDB) {
+module.exports = function (app, render, nodemailer, managerDB, variables) {
 
     // PROPIEDADES GUARDADAS
     app.post("/wishes/:id", function (req, res) {
@@ -49,7 +49,7 @@ module.exports = function (app, render, nodemailer, managerDB) {
                 }
                 managerDB.get(condition2, 'properties', function (properties){
                     if (properties != null){
-                        let response = render(req.session, 'views/property_mywishes.html',
+                        let response = render(req.session, 'views/wishes_mywishes.html',
                             {
                                 properties: properties,
                                 user: req.session.user,

@@ -1,0 +1,71 @@
+{% extends "base.html" %} {% block titulo %} Mensajería {% endblock %}
+
+{% block contenido_principal %}
+<div class="container">
+    <h2 class="sectionHeader">Conversaciones</h2>
+
+    <div id="message-container">
+        <form id="send-container">
+            {% for conversation in conversations %}
+            <div class="displayDiv row">
+                <div class="col-3">
+                    <img class='imgLogo' src="propertiesimg/{{ property._id.toString() }}.png" alt="logo"/>
+                </div>
+                <div class="col-9">
+                    <a class="displayProperty" id="displayProperty" href="/properties/{{ property._id.toString() }}">
+                        <div class="d-inline">
+                            {% if property.type == 'vivienda' %}
+                            <span class="badge badge-primary">Vivienda</span>
+                            {%endif%}
+                            {% if property.type == 'local' %}
+                            <span class="badge badge-secondary">Local</span>
+                            {%endif%}
+                            {% if property.type == 'suelo' %}
+                            <span class="badge badge-dark">Suelo</span>
+                            {%endif%}
+                            {% if property.typeOp == 'Venta' %}
+                            <span class="badge badge-info">Venta</span>
+                            {%endif%}
+
+                            {% if property.typeOp == 'Alquiler' %}
+                            <span class="badge badge-success">Alquiler</span>
+                            {%endif%}
+                        </div>
+
+                        <div class="row">
+                            <h4>{{ property.name }}</h4>
+                        </div>
+                        <div class="row">
+                            {% if property.type == 'vivienda' %}
+                            <p> En {{property.address}} , {{property.city}} - {{property.area}}
+                                m²</p>
+                            {%endif%}
+                            {% if property.type == 'local' %}
+                            <p> En {{property.address}} , {{property.city}} - {{property.area}}
+                                m²</p>
+                            {%endif%}
+
+                            {% if property.type == 'suelo' %}
+                            <p class="text-capitalize">{{property.type}} en {{property.city}} - {{property.area}} m²
+                                ({{property.edifArea}}
+                                edificables)</p>
+                            {%endif%}
+                        </div>
+                        <div class="row">
+                            <p class="truncate">{{property.description}}</p>
+                        </div>
+                        <div class="row float-right">
+                            <h5 class="displayPrice">Precio: {{ property.price }} €</h5>
+                        </div>
+                    </a>
+                    <div class="row">
+                        <button type="button" class="centeredComponent btn btn-secondary">Contactar <span
+                                class="fas fa-comment-dots"></span></button>
+                    </div>
+                </div>
+            </div>
+            {% endfor %}
+        </form>
+    </div>
+</div>
+{% endblock %}

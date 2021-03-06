@@ -7,7 +7,7 @@
     {% for property in properties %}
     <div class="displayDiv row">
         <div class="col-3">
-            <img class='imgLogo' src="propertiesimg/{{ property._id.toString() }}.png" alt="logo"/>
+            <img class='imgLogo' src="propertiesimg/{{ property._id.toString() }}_0.png" alt="logo"/>
         </div>
         <div class="col-9">
             <a class="displayProperty" id="displayProperty" href="/properties/{{ property._id.toString() }}">
@@ -57,8 +57,8 @@
                 </div>
             </a>
             <div class="row">
-                <button type="button" class="centeredComponent btn btn-secondary">Contactar <span
-                        class="fas fa-comment-dots"></span></button>
+                <a type="button" class="centeredComponent btn btn-secondary" href="/conversations/add/{{ property._id.toString() }}">Contactar <span
+                        class="fas fa-comment-dots"></span></a>
             </div>
         </div>
     </div>
