@@ -121,38 +121,29 @@ module.exports = function (app, render, nodemailer, managerDB, variables) {
     });
 
     app.post("/user/delete", function (req, res) {
+        if (req.session.user.permission != 'S') {
+            let encrypted = app.get("crypto").createHmac('sha256', app.get('key'))
+                .update(req.body.password).digest('hex');
 
-        let condition1 = {
-            permission: "A",
-        }
-        managerDB.get(condition1, "users", function (users) {
-            if (users.length <= 1) {
-                req.flash('error', "Su perfil es el único perfil de tipo Agente. Si desea eliminar este perfil, cree otro del mismo tipo.");
-                res.redirect("/properties");
+            let condition = {"_id": managerDB.mongo.ObjectID(req.session.user._id)};
+
+            if (encrypted == req.session.user.password) {
+                // Limpiamos la BBDD
+                managerDB.delete(condition, "users", function (users) {
+                    if (users == null) {
+                        req.flash('error', "No se pudo eliminar el usuario.");
+                        res.redirect("/properties");
+                    } else {
+                        req.session.user = null;
+                        req.flash('success', "Usuario eliminado correctamente.");
+                        res.redirect("/login");
+                    }
+                });
             } else {
-                let encrypted = app.get("crypto").createHmac('sha256', app.get('key'))
-                    .update(req.body.password).digest('hex');
-
-                let condition = {"_id": managerDB.mongo.ObjectID(req.session.user._id)};
-
-                if (encrypted == req.session.user.password) {
-                    // Limpiamos la BBDD
-                    managerDB.delete(condition, "users", function (users) {
-                        if (users == null) {
-                            req.flash('error', "No se pudo eliminar el usuario.");
-                            res.redirect("/properties");
-                        } else {
-                            req.session.user = null;
-                            req.flash('success', "Usuario eliminado correctamente.");
-                            res.redirect("/login");
-                        }
-                    });
-                } else {
-                    req.flash('error', "Contraseña incorrecta.");
-                    res.redirect("/properties");
-                }
+                req.flash('error', "Contraseña incorrecta.");
+                res.redirect("/properties");
             }
-        });
+        }
     });
 
     app.get("/routes", function (req, res) {
@@ -367,6 +358,7 @@ module.exports = function (app, render, nodemailer, managerDB, variables) {
             (parseInt(array[2]) * 86400) + (parseInt(array[3]) * 3600) + (parseInt(array[4]) * 60) + (parseInt(array[5]));
         return integer;
     }
-};
+}
+;
 
 
