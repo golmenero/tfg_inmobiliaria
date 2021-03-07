@@ -4,6 +4,32 @@
 
 <div class="container">
     <h2 class="sectionHeader">Propiedades</h2>
+
+    <div class="headerButtonOverview card-header">
+        <h5 class="mb-0">
+            <button type="button" class="buttonOverview btn btn-outline-dark" data-toggle="collapse"
+                    data-target="#propertyFilter"
+                    aria-expanded="false" aria-controls="propertyFilter">
+                <span class="fas fa-search"></span><span class="font-weight-bold">Filtro de Propiedades</span>
+            </button>
+        </h5>
+    </div>
+    <div id="propertyFilter" class="collapse" aria-labelledby="headingOne" data-parent="#accordion">
+        <div class="card-body">
+            <div class="row">
+                <div class="col-4">
+                    <p><span class="font-weight-bold">Teléfono: </span>{{property.phoneOwner}}</p>
+                </div>
+                <div class="col-4">
+                    <p><span class="font-weight-bold">E-Mail: </span>{{property.emailOwner}}</p>
+                </div>
+                <div class="col-4">
+                    <p><span class="font-weight-bold">Dirección: </span>{{property.addressOwner}}</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
     {% for property in properties %}
     <div class="displayDiv row">
         <div class="col-3">

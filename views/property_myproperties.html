@@ -3,20 +3,16 @@
 {% block contenido_principal %}
 
 <div class="container">
-    <h2>Mis publicaciones</h2>
-
-    <div class="row text-right">
-        <a href="/properties/add" class="btn btn-info" role="button">Agregar propiedad</a>
-    </div>
-
+    <h2 class="sectionHeader">Mis Publicaciones</h2>
     <div class="table-responsive">
         <table class="table table-hover">
-            <thead>
+            <thead class="thead-dark">
             <tr>
-                <th>Nombre</th>
-                <th>Tipo</th>
-                <th>Precio</th>
-                <th class="col-md-1"></th>
+                <th scope="col-md-4">Nombre</th>
+                <th scope="col-md-2">Tipo</th>
+                <th scope="col-md-2">Precio</th>
+                <th scope="col-md-2"></th>
+                <th scope="col-md-2"></th>
             </tr>
             </thead>
             <tbody>
@@ -27,11 +23,11 @@
                 <td>{{ property.price }}</td>
                 <td>
                     <a class="btn btn-warning float-right"
-                       href="/property/edit/{{ property._id.toString() }}">Modificar</a>
+                       href="/property/edit/{{ property._id.toString() }}"><span class="fas fa-edit"></span></a>
                 </td>
                 <td>
                     <a class="btn btn-danger float-right"
-                       href="/property/delete/{{ property._id.toString() }}">Eliminar</a> <br>
+                       href="/property/delete/{{ property._id.toString() }}"><span class="fas fa-trash"></span></a>
                 </td>
             </tr>
             {% endfor %}
@@ -39,8 +35,8 @@
         </table>
     </div>
 
-    <div class="row text-right">
-        <a href="/property/add" class="btn btn-info" role="button">Agregar propiedad</a>
+    <div class="row">
+        <a href="/property/add" role="button" class="btnSiguiente btn btn-success btn-lg btn-block">Agregar propiedad</a>
     </div>
 </div>
 

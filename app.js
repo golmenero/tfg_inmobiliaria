@@ -51,27 +51,11 @@ routerUserSession.use(function(req, res, next) {
 app.use("/properties/*",routerUserSession);
 app.use("/user/edit",routerUserSession);
 app.use("/user/delete",routerUserSession);
+app.use("/user/edit/*",routerUserSession);
+app.use("/user/delete/*",routerUserSession);
 app.use("/myproperties",routerUserSession);
 app.use("/wishes/*",routerUserSession);
 app.use("/wishes",routerUserSession);
-
-let routerUserOwner = express.Router();
-routerUserOwner.use(function(req, res, next) {
-    let path = require('path');
-    let id = path.basename(req.originalUrl);
-    managerDB.getProperties(
-        {_id: mongo.ObjectID(id) }, function (properties) {
-            if(properties[0].owner == req.session.user ){
-                next();
-            } else {
-                res.redirect("/properties");
-            }
-        })
-});
-//Aplicar routerUsuarioAutor
-app.use("/property/edit",routerUserOwner);
-app.use("/property/delete",routerUserOwner);
-
 
 app.use(express.static('public'));
 

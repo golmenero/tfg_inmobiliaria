@@ -610,7 +610,9 @@
                 marker.addTo(mapaLocal);
 
             } else {
-                $('#divMapNotLoaded').show();
+                let type = '{{property.type}}'
+                if (type != 'suelo')
+                    $('#divMapNotLoaded').show();
             }
         });
     }
