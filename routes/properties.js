@@ -21,7 +21,6 @@ module.exports = function (app, render, nodemailer, managerDB, variables) {
 
     app.post('/property/edit/:id', function (req, res) {
         let condition = {"_id": managerDB.mongo.ObjectID(req.params.id)};
-
         let property = buildProperty(req);
         managerDB.edit(condition, property, "properties", function (result) {
             if (result == null) {
