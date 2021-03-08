@@ -33,10 +33,10 @@
     {% for property in properties %}
     <div class="displayDiv row">
         <div class="col-3">
-            <img class='imgLogo' src="propertiesimg/{{ property._id.toString() }}_0.png" alt="logo"/>
+            <img class='imgLogo' src="/propertiesimg/{{ property._id.toString() }}_0.png" alt="logo"/>
         </div>
         <div class="col-9">
-            <a class="displayProperty" id="displayProperty" href="/properties/{{ property._id.toString() }}">
+            <a class="displayProperty" id="displayProperty" href="/properties/details/{{ property._id.toString() }}">
                 <div class="d-inline">
                     {% if property.type == 'vivienda' %}
                     <span class="badge badge-primary">Vivienda</span>
@@ -83,7 +83,8 @@
                 </div>
             </a>
             <div class="row">
-                <a type="button" class="centeredComponent btn btn-secondary" href="/conversations/add/{{ property._id.toString() }}">Contactar <span
+                <a type="button" class="centeredComponent btn btn-secondary"
+                   href="/conversations/add/{{ property._id.toString() }}">Contactar <span
                         class="fas fa-comment-dots"></span></a>
             </div>
         </div>
@@ -106,6 +107,3 @@
 </div>
 
 {% endblock %}
-</div>
-</body>
-</html>

@@ -44,6 +44,10 @@ html, body {
     padding: 2em;
 }
 
+.img-carousel-home{
+    opacity: 0.2;
+}
+
 .sectionHeader{
     margin: 2em;
     text-align: center;

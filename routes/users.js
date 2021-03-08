@@ -112,7 +112,7 @@ module.exports = function (app, render, nodemailer, managerDB, variables) {
                 } else {
                     req.flash('success', "Su perfil se ha modificado correctamente.");
                 }
-                res.redirect("/properties");
+                res.redirect("/properties/" + req.session.typeProp);
             });
         } else {
             req.flash('error', "Las contraseñas no coinciden.");
@@ -132,7 +132,7 @@ module.exports = function (app, render, nodemailer, managerDB, variables) {
                 managerDB.delete(condition, "users", function (users) {
                     if (users == null) {
                         req.flash('error', "No se pudo eliminar el usuario.");
-                        res.redirect("/properties");
+                        res.redirect("/properties/" + req.session.typeProp);
                     } else {
                         req.session.user = null;
                         req.flash('success', "Usuario eliminado correctamente.");
@@ -141,7 +141,7 @@ module.exports = function (app, render, nodemailer, managerDB, variables) {
                 });
             } else {
                 req.flash('error', "Contraseña incorrecta.");
-                res.redirect("/properties");
+                res.redirect("/properties/" + req.session.typeProp);
             }
         }
     });
@@ -249,7 +249,11 @@ module.exports = function (app, render, nodemailer, managerDB, variables) {
                 if (userTryingToLog.active == true) {
                     req.session.user = users[0];
                     req.flash('success', "Ha iniciado sesión correctamente.")
-                    res.redirect('/properties');
+                    if (req.session.typeProp != undefined) {
+                        res.redirect('/properties/' + req.session.typeProp)
+                    } else {
+                        res.redirect('/home');
+                    }
                 } else {
                     req.flash('error', "Su correo no ha sido verificado. Revise su bandeja de entrada.")
                     res.redirect("/login");

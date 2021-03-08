@@ -1,5 +1,22 @@
 module.exports = function (app, render, nodemailer, managerDB, variables) {
 
+    app.get('/properties/details/:id', function (req, res) {
+        let condition = {"_id": managerDB.mongo.ObjectID(req.params.id)};
+        managerDB.get(condition, "properties", function (properties) {
+            if (properties == null) {
+                res.send("Ocurrió un error");
+            } else {
+                let response = render(req.session, 'views/property_details.html', {
+                    property: properties[0],
+                    user: req.session.user,
+                    error: req.flash('error'),
+                    success: req.flash('success')
+                });
+                res.send(response);
+            }
+        });
+    });
+
     // EDITAR PROPIEDADES
     app.get('/property/edit/:id', function (req, res) {
         let condition = {"_id": managerDB.mongo.ObjectID(req.params.id)};
@@ -45,6 +62,7 @@ module.exports = function (app, render, nodemailer, managerDB, variables) {
         });
     });
 
+
     app.get('/properties/add', function (req, res) {
         let response = render(req.session, 'views/property_add.html', {
             user: req.session.user.email,
@@ -60,7 +78,7 @@ module.exports = function (app, render, nodemailer, managerDB, variables) {
         managerDB.add(property, "properties", function (id) {
             if (id == null) {
                 req.flash('error', "La propiedad no se pudo añadir correctamente.")
-                res.redirect('/properties')
+                res.redirect('/properties/' + req.session.typeProp)
             } else {
                 if (req.files != null) {
                     let arrayImg = getArrayImg(req.files.imginmueble, id);
@@ -71,10 +89,10 @@ module.exports = function (app, render, nodemailer, managerDB, variables) {
                     managerDB.edit(condition, property, "properties", function (result) {
                         if (result == null) {
                             req.flash('error', "Error al añadir las imágenes de la propiedad.")
-                            res.redirect('/properties')
+                            res.redirect('/properties/' + req.session.typeProp)
                         } else {
                             req.flash('success', "La propiedad se añadió correctamente.")
-                            res.redirect('/properties')
+                            res.redirect("/myproperties");
                         }
                     });
                 }
@@ -82,42 +100,14 @@ module.exports = function (app, render, nodemailer, managerDB, variables) {
         })
     });
 
-    app.get('/properties/:id', function (req, res) {
-        let condition = {"_id": managerDB.mongo.ObjectID(req.params.id)};
-        managerDB.get(condition, "properties", function (properties) {
-            if (properties == null) {
-                res.send("Ocurrió un error");
-            } else {
-                let response = render(req.session, 'views/property_details.html', {
-                    property: properties[0],
-                    user: req.session.user,
-                    error: req.flash('error'),
-                    success: req.flash('success')
-                });
-                res.send(response);
-            }
-        });
-    });
 
-    app.get("/myproperties", function (req, res) {
-        managerDB.get({}, "properties", function (properties) {
-            if (properties == null) {
-                res.send("Error al listar ");
-            } else {
-                let response = render(req.session, 'views/property_myproperties.html',
-                    {
-                        properties: properties,
-                        user: req.session.user.email,
-                        error: req.flash('error'),
-                        success: req.flash('success')
-                    });
-                res.send(response);
-            }
-        });
-    });
+    app.get('/properties/:type', function (req, res) {
+        let condition = {
+            type : req.params.type
+        };
+        // Guardamos el tipo en sesion
+        req.session.typeProp = req.params.type;
 
-    app.get('/properties', function (req, res) {
-        let condition = {};
         if (req.query.search != null)
             condition = {"name": {$regex: ".*" + req.query.search + ".*"}};
 
@@ -153,6 +143,33 @@ module.exports = function (app, render, nodemailer, managerDB, variables) {
         });
     });
 
+
+    app.get('/home', function (req, res) {
+        let response = render(req.session, 'views/index.html',
+            {
+                error: req.flash('error'),
+                success: req.flash('success')
+            });
+        res.send(response);
+
+    });
+    app.get("/myproperties", function (req, res) {
+        managerDB.get({}, "properties", function (properties) {
+            if (properties == null) {
+                res.send("Error al listar ");
+            } else {
+                let response = render(req.session, 'views/property_myproperties.html',
+                    {
+                        properties: properties,
+                        user: req.session.user.email,
+                        error: req.flash('error'),
+                        success: req.flash('success')
+                    });
+                res.send(response);
+            }
+        });
+    });
+
     function getArrayImg(files, id) {
         let arrayImg = [];
         if (Array.isArray(files)) {
@@ -162,6 +179,7 @@ module.exports = function (app, render, nodemailer, managerDB, variables) {
                 files[counter].mv(name);
                 arrayImg.push(name.replace("public", ""));
             }
+
         } else {
             name = 'public/propertiesimg/' + id + "_0" + '.png';
             files.mv(name);
@@ -185,7 +203,7 @@ module.exports = function (app, render, nodemailer, managerDB, variables) {
         }
     }
 
-    function buildProperty(req){
+    function buildProperty(req) {
         let prop = null;
         let propertyType = req.body.type;
         if (propertyType == "vivienda") {
@@ -261,9 +279,6 @@ module.exports = function (app, render, nodemailer, managerDB, variables) {
             addressOwner: parseElement("input", req.body.addressOwner)
         };
         let property = {...prop, ...owner};
-        let arrayImg = getArrayImg(req.files.imginmueble, req.params.id);
-        property = {...property, ...{media: arrayImg}}
-
         return property;
     }
 

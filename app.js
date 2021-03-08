@@ -36,7 +36,6 @@ managerDB.init(app,mongo);
 
 let render = require("./modules/sessionRender.js");
 
-
 let routerUserSession = express.Router();
 routerUserSession.use(function(req, res, next) {
     if ( req.session.user ) {
@@ -48,7 +47,8 @@ routerUserSession.use(function(req, res, next) {
 });
 
 //Aplicar routerUsuarioSession
-app.use("/properties/*",routerUserSession);
+app.use("/properties/add",routerUserSession);
+app.use("/properties/details/*",routerUserSession);
 app.use("/user/edit",routerUserSession);
 app.use("/user/delete",routerUserSession);
 app.use("/user/edit/*",routerUserSession);
@@ -75,7 +75,7 @@ require('./routes/wishes.js')(app,render, nodemailer, managerDB, variables);
 require('./routes/conversations.js')(app,render, nodemailer, managerDB, variables);
 
 app.get('/', function (req, res) {
-    res.redirect('/properties');
+    res.redirect('/home');
 })
 
 app.use(function(err,req,res,next){

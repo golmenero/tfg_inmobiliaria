@@ -1,0 +1,126 @@
+{% extends "base.html" %}
+{% block titulo %} Agencia Inmobiliaria Arca {% endblock %}
+{% block contenido_principal %}
+
+<div id="carouselIndex" class="carousel slide" data-ride="carousel">
+    <ol class="carousel-indicators">
+        <li data-target="#carouselIndex" data-slide-to="0" class=""></li>
+        <li data-target="#carouselIndex" data-slide-to="1" class="active"></li>
+        <li data-target="#carouselIndex" data-slide-to="2" class=""></li>
+    </ol>
+    <div class="carousel-inner">
+        <div class="carousel-item">
+            <img class="img-carousel-home first-slide"
+                 src="img/icons/luarca-4.jpg"
+                 alt="First slide">
+            <div class="container">
+                <div class="carousel-caption text-left">
+                    <h1>Nuestros servicios</h1>
+                    <p>En Arca ofrecemos los siguientes servicios:
+                    <ul>
+                        <li>Mediación en venta y alquiler de todo tipo de inmuebles. Promociones, inversiones, etc....
+                        </li>
+                        <li>Gestión Integral de Comunidades de Propietarios.</li>
+                        <li>Tasaciones y Valoraciones inmobiliarias. Perito Judicial y Agente de la Propiedad
+                            Inmobiliaria.
+                        </li>
+                        <li>Expedientes catastrales, notariales y registrales ( herencias, particiones,
+                            urbanismo.....)
+                        </li>
+                        <li>Gestión de Patrimonios Inmobiliarios.</li>
+                    </ul>
+                    </p>
+                </div>
+            </div>
+        </div>
+        <div class="carousel-item active">
+            <img class="img-carousel-home second-slide"
+                 src="img/icons/luarca-2.jpg"
+                 alt="Second slide">
+            <div class="container">
+                <div class="carousel-caption">
+                    <h1>Bienvenidos a Arca Agencia Inmobiliaria</h1>
+                    <p>La Agencia Inmobiliaria ARCA se constituye en 1991 como empresa dedicada al sector inmobiliario
+                        en toda su extensión, actividad que abarca desde la mediación inmobiliaria en operaciones de venta
+                        y alquiler, incluyendo Valoraciones y Tasaciones Inmobiliarias, hasta la Administración de
+                        Patrimonios y Comunidades de Propietarios. Somos Agentes de la Propiedad
+                        Inmobiliaria colegiados. Sumamos ya más de veinticinco años de experiencia profesional y
+                        mantenemos relaciones asentadas con las principales empresas promotoras y constructoras con
+                        proyectos en la zona , así como con todo tipo de entidades públicas y privadas con presencia en
+                        la comarca.
+                    </p>
+                    <p>
+                        Ofrecemos a nuestros clientes, asistidos siempre por profesionales cualificados, una gestión integral y personalizada de todas
+                        las operaciones, que va desde la visita comercial y asesoramiento en la negociación hasta la
+                        tramitación de toda la contratación, gestión de prestamos hipotecarios, gestión notarial, fiscal
+                        y registral.
+                    </p>
+                </div>
+            </div>
+        </div>
+        <div class="carousel-item">
+            <img class="img-carousel-home third-slide"
+                 src="img/icons/luarca-1.jpg"
+                 alt="Third slide">
+            <div class="container">
+                <div class="carousel-caption text-right">
+                    <h1>Contacta con nosotros.</h1>
+                    <p>Si solo estás buscando contactar con uno de nuestros agentes, entra aquí para acceder a una gran
+                        variedad de canales de comunicación desde los que podrás
+                        comunicarte con nosotros personalmente.</p>
+                    <p><a class="btn btn-lg btn-secondary" href="/info" role="button">Contáctanos</a></p>
+                </div>
+            </div>
+        </div>
+    </div>
+    <a class="carousel-control-prev" href="#carouselIndex" role="button" data-slide="prev">
+        <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+        <span class="sr-only">Anterior</span>
+    </a>
+    <a class="carousel-control-next" href="#carouselIndex" role="button" data-slide="next">
+        <span class="carousel-control-next-icon" aria-hidden="true"></span>
+        <span class="sr-only">Siguiente</span>
+    </a>
+</div>
+<div class="container">
+    <h2 class="sectionHeader">¿Qué estás buscando?</h2>
+
+    <div class="row">
+        <div class="col-lg-4">
+            <img class="rounded"
+                 src="img/icons/house.png"
+                 alt="Acceso a las viviendas ofertadas" width="140" height="140">
+            <h2>Vivienda</h2>
+            <p>Donec sed odio dui. Etiam porta sem malesuada magna mollis euismod. Nullam id dolor id nibh ultricies
+                vehicula ut id elit. Morbi leo risus, porta ac consectetur ac, vestibulum at eros. Praesent commodo
+                cursus
+                magna.</p>
+            <p><a class="btn btn-secondary" href="/properties/vivienda" role="button">Ver Viviendas >></a></p>
+        </div><!-- /.col-lg-4 -->
+        <div class="col-lg-4">
+            <img class="rounded"
+                 src="img/icons/local.png"
+                 alt="Acceso a los locales ofertados" width="140" height="140">
+            <h2>Local</h2>
+            <p>Duis mollis, est non commodo luctus, nisi erat porttitor ligula, eget lacinia odio sem nec elit. Cras
+                mattis
+                consectetur purus sit amet fermentum. Fusce dapibus, tellus ac cursus commodo, tortor mauris condimentum
+                nibh.</p>
+            <p><a class="btn btn-secondary" href="/properties/local" role="button">Ver Locales >></a></p>
+        </div><!-- /.col-lg-4 -->
+        <div class="col-lg-4">
+            <img class="rounded"
+                 src="img/icons/suelo.png"
+                 alt="Acceso a las suelos ofertados" width="140" height="140">
+            <h2>Suelo</h2>
+            <p>Donec sed odio dui. Cras justo odio, dapibus ac facilisis in, egestas eget quam. Vestibulum id ligula
+                porta
+                felis euismod semper. Fusce dapibus, tellus ac cursus commodo, tortor mauris condimentum nibh, ut
+                fermentum
+                massa justo sit amet risus.</p>
+            <p><a class="btn btn-secondary" href="/properties/suelo" role="button">Ver Suelos >></a></p>
+        </div><!-- /.col-lg-4 -->
+    </div>
+</div>
+
+{% endblock %}
