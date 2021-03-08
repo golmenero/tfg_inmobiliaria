@@ -1,6 +1,7 @@
 html, body {
     height: 100vh;
 }
+
 .footer {
     position: relative;
     bottom: 0;
@@ -12,9 +13,11 @@ html, body {
     justify-content: center;
     padding-top: 1.5em;
 }
-.btn-wishes{
+
+.btn-wishes {
     margin-right: 0.5em;
 }
+
 
 .imgLogo {
     width: 100%;
@@ -23,7 +26,8 @@ html, body {
     display: inline-block;
     float: left;
 }
-.contrasenaOlvidarLink{
+
+.contrasenaOlvidarLink {
     cursor: pointer;
 }
 
@@ -31,12 +35,18 @@ html, body {
     text-align: center;
 }
 
-.divPropertyDetails{
+.divPropertyDetails {
     width: 100%;
-    margin:5em
+    margin: 5em
 }
 
-.btnAdd{
+.filter-collapse {
+    background-color: #E0E0E0;
+    padding-right: 5em;
+    padding-left: 5em;
+}
+
+.btnAdd {
     width: 100%;
     height: 100%;
     background-color: lightgray;
@@ -44,146 +54,147 @@ html, body {
     padding: 2em;
 }
 
-.img-carousel-home{
+.img-carousel-home {
     opacity: 0.2;
 }
 
-.sectionHeader{
+.sectionHeader {
     margin: 2em;
     text-align: center;
 }
 
-.propAddLink{
+.propAddLink {
     margin: 1em;
 }
 
-.form-check-input{
+.form-check-input {
     margin-left: 0;
 }
 
-.form-check-label{
+.form-check-label {
     margin-left: 1.2em;
 }
 
-.btnSiguiente{
+.btnSiguiente {
     margin-top: 2em;
     margin-bottom: 2em;
     width: 100%;
     max-width: 100%;
 }
 
-.div-field{
+.div-field {
     margin-top: 1.5em;
 }
 
-.div-field-bottom{
+.div-field-bottom {
     margin-bottom: 1.5em;
 }
 
-.inline-form{
+.inline-form {
     display: inline;
 }
 
-#ownerDetails{
+#ownerDetails {
     margin-top: 1.5em;
     text-align: center;
     background-color: #E0E0E0;
     border-radius: 0.25em;
 }
 
-.field-icon{
+.field-icon {
     justify-content: center;
 }
 
-.centeredComponent{
+.centeredComponent {
     margin-left: auto;
     margin-right: auto;
 }
 
-.footerP{
+.footerP {
     margin: 0.2em;
     padding: 0;
     font-size: 0.75em;
 }
 
-.buttonOverview{
+.buttonOverview {
     width: 100%;
     height: 100%;
 }
 
-.carousel{
+.carousel {
     height: 25em;
     width: 100%;
     background-color: #373737;
 }
 
-.carousel-inner{
-    height:100%;
-    width:100%;
+.carousel-inner {
+    height: 100%;
+    width: 100%;
     max-width: 100%;
     max-height: 100%;
 }
 
-.img-carousel{
+.img-carousel {
     max-width: 100%;
     max-height: 100%;
-    width:auto;
+    width: auto;
     height: auto;
 }
 
-.carousel-item{
-    height:100%;
-    width:100%;
+.carousel-item {
+    height: 100%;
+    width: 100%;
     text-align: center;
 }
 
-.input-img{
-    border:none;
+.input-img {
+    border: none;
 }
 
-.headerButtonOverview{
+.headerButtonOverview {
     padding: 0;
     margin-top: 1em;
 }
 
-.msgInfoUser{
+.msgInfoUser {
     text-align: center;
     margin: 1em;
 }
 
-.displayDiv{
+.displayDiv {
     margin-top: 1.5em;
     background-color: #E0E0E0;
     padding: 2em;
     border-radius: 0.25em;
 }
 
-.listaInfo{
+.listaInfo {
     list-style: none;
 }
 
 .displayProperty:link,
 .displayProperty:visited,
 .displayProperty:hover,
-.displayProperty:active{
+.displayProperty:active {
     text-decoration: none;
     color: black;
 }
 
-.displayPrice{
+.displayPrice {
     color: #217E1A;
 }
 
-.truncate{
+.truncate {
     white-space: nowrap;
     text-overflow: ellipsis;
     overflow: hidden;;
 }
 
-.noBorder{
+.noBorder {
     border: none;
 }
-.fas{
+
+.fas {
     margin-right: 0.2em;
 }
 
@@ -194,8 +205,9 @@ dt {
 }
 
 .mapLayer {
-    height: 30em; }
+    height: 30em;
+}
 
-.opacidadIcono{
+.opacidadIcono {
     opacity: 0.2;
 }

@@ -103,8 +103,67 @@ module.exports = function (app, render, nodemailer, managerDB, variables) {
 
     app.get('/properties/:type', function (req, res) {
         let condition = {
-            type : req.params.type
+            type: req.params.type,
         };
+        condition = addIfExists("name", req.query.name, condition);
+        condition = addIfExists("typeOp", req.query.typeOp, condition);
+
+        if (req.params.type == 'vivienda') {
+            condition = addIfExists("address", req.query.address, condition);
+            condition = addIfExists("city", req.query.city, condition);
+            condition = addIfExists("numHabs", parseInt(req.query.numHabs), condition);
+            condition = addIfExists("numBan", parseInt(req.query.numBan), condition);
+            // Superficie
+            condition = addIfExistsGTLT("area", req.query.areaMin, req.query.areaMax, condition);
+            // Precios
+            condition = addIfExistsGTLT("price", req.query.priceMin, req.query.priceMax, condition);
+            // Piso
+            condition = addIfExistsGTLT("floor", req.query.floorMin, req.query.floorMax, condition);
+            condition = addIfExistsCB("garaje", req.query.checkGaraje, condition);
+            condition = addIfExistsCB("piscina", req.query.checkPiscina, condition);
+            condition = addIfExistsCB("terraza", req.query.checkTerraza, condition);
+            condition = addIfExistsCB("trastero", req.query.checkTrastero, condition);
+            condition = addIfExistsCB("jardin", req.query.checkJardin, condition);
+            condition = addIfExistsCB("ascensor", req.query.checkAscensor, condition);
+            condition = addIfExistsCB("calefaccion", req.query.checkCalefaccion, condition);
+            condition = addIfExistsCB("aireAcon", req.query.checkAireAcon, condition);
+            condition = addIfExistsCB("anueblado", req.query.checkAmueblado, condition);
+            condition = addIfExistsCB("animales", req.query.checkAnimales, condition);
+        }
+        if(req.params.type == 'local'){
+            condition = addIfExists("address", req.query.addressLoc, condition);
+            condition = addIfExists("city", req.query.cityLoc, condition);
+            condition = addIfExists("numAseos", req.query.numAseosLoc, condition);
+            // Superficie
+            condition = addIfExistsGTLT("area", req.query.areaMinLoc, req.query.areaMaxLoc, condition);
+            // Precios
+            condition = addIfExistsGTLT("price", req.query.priceMinLoc, req.query.priceMaxLoc, condition);
+            // Piso
+            condition = addIfExistsGTLT("floor", req.query.floorMinLoc, req.query.floorMaxLoc, condition);
+
+            condition = addIfExistsCB("escaparate", req.query.checkEscaparateLoc, condition);
+            condition = addIfExistsCB("aparcamiento", req.query.checkAparcamientoLoc, condition);
+            condition = addIfExistsCB("cargaYdescarga", req.query.checkCargaYDescargaLoc, condition);
+            condition = addIfExistsCB("extintores", req.query.checkExtintoresLoc, condition);
+            condition = addIfExistsCB("iluminacion", req.query.checkIluminacionLoc, condition);
+            condition = addIfExistsCB("calefaccion", req.query.checkCalefaccionLoc, condition);
+            condition = addIfExistsCB("aireAcon", req.query.checkAireAconLoc, condition);
+        }
+        if(req.params.type == 'suelo'){
+            condition = addIfExists("city", req.query.citySue, condition);
+            condition = addIfExists("situation", req.query.situationSue, condition);
+            // Superficie
+            condition = addIfExistsGTLT("area", req.query.areaMinSue, req.query.areaMaxSue, condition);
+            // Superficie Edificable
+            condition = addIfExistsGTLT("edifArea", req.query.areaEdifMinSue, req.query.areaEdifMaxSue, condition);
+            // Precios
+            condition = addIfExistsGTLT("price", req.query.priceMinSue, req.query.priceMaxSue, condition);
+
+            condition = addIfExistsCB("accesoAgua", req.query.checkAccesoAguaSue, condition);
+            condition = addIfExistsCB("accesoLuz", req.query.checkAccesoLuzSue, condition);
+
+        }
+
         // Guardamos el tipo en sesion
         req.session.typeProp = req.params.type;
 
@@ -132,6 +191,7 @@ module.exports = function (app, render, nodemailer, managerDB, variables) {
                 }
                 let response = render(req.session, 'views/shop.html',
                     {
+                        typeProp: req.session.typeProp,
                         properties: properties,
                         pages: pages,
                         actual: pg,
@@ -212,14 +272,14 @@ module.exports = function (app, render, nodemailer, managerDB, variables) {
                 typeOp: parseElement('input', req.body.typeOp),
                 name: parseElement("input", req.body.name),
                 address: parseElement("input", req.body.address),
-                floor: parseElement("input", req.body.floorV),
+                floor: parseInt(parseElement("input", req.body.floorV)),
                 description: parseElement("input", req.body.description),
                 city: parseElement("input", req.body.city),
-                area: parseElement("input", req.body.area),
-                numHabs: parseElement("input", req.body.numHabs),
-                numBan: parseElement("input", req.body.numBan),
-                price: parseElement("input", req.body.price),
-                priceCom: parseElement("input", req.body.priceCom),
+                area: parseInt(parseElement("input", req.body.area)),
+                numHabs: parseInt(parseElement("input", req.body.numHabs)),
+                numBan: parseInt(parseElement("input", req.body.numBan)),
+                price: parseInt(parseElement("input", req.body.price)),
+                priceCom: parseInt(parseElement("input", req.body.priceCom)),
                 garaje: parseElement("checkbox", req.body.checkGaraje),
                 piscina: parseElement("checkbox", req.body.checkPiscina),
                 terraza: parseElement("checkbox", req.body.checkTerraza),
@@ -239,13 +299,13 @@ module.exports = function (app, render, nodemailer, managerDB, variables) {
                 typeOp: parseElement('input', req.body.typeOp),
                 name: parseElement("input", req.body.name),
                 address: parseElement("input", req.body.address),
-                floor: parseElement("input", req.body.floorV),
+                floor: parseInt(parseElement("input", req.body.floorV)),
                 description: parseElement("input", req.body.description),
                 city: parseElement("input", req.body.city),
-                area: parseElement("input", req.body.areaLoc),
-                numAseos: parseElement("input", req.body.numAsLoc),
-                price: parseElement("input", req.body.priceLoc),
-                priceCom: parseElement("input", req.body.priceComLoc),
+                area: parseInt(parseElement("input", req.body.areaLoc)),
+                numAseos: parseInt(parseElement("input", req.body.numAsLoc)),
+                price: parseInt(parseElement("input", req.body.priceLoc)),
+                priceCom: parseInt(parseElement("input", req.body.priceComLoc)),
                 escaparate: parseElement("checkbox", req.body.checkEscaparateLoc),
                 aparcamiento: parseElement("checkbox", req.body.checkAparcamientoLoc),
                 cargaYdescarga: parseElement("checkbox", req.body.checkCargaYDescargaLoc),
@@ -263,9 +323,9 @@ module.exports = function (app, render, nodemailer, managerDB, variables) {
                 description: parseElement("input", req.body.description),
                 city: parseElement("input", req.body.city),
                 situation: parseElement("input", req.body.situationSue),
-                area: parseElement("input", req.body.areaSue),
-                edifArea: parseElement("input", req.body.areaEdifSue),
-                price: parseElement("input", req.body.priceSue),
+                area: parseInt(parseElement("input", req.body.areaSue)),
+                edifArea: parseInt(parseElement("input", req.body.areaEdifSue)),
+                price: parseInt(parseElement("input", req.body.priceSue)),
                 accesoAgua: parseElement("checkbox", req.body.accesoAguaSue),
                 accesoLuz: parseElement("checkbox", req.body.accesoLuzSue)
             }
@@ -282,5 +342,29 @@ module.exports = function (app, render, nodemailer, managerDB, variables) {
         return property;
     }
 
+    function addIfExists(fieldName, value, object) {
+        if (value) {
+            object[fieldName] = {$regex : ".*" + value + ".*"};
+            return object;
+        }
+        return object;
+    }
 
+    function addIfExistsGTLT(fieldName, valueGreater, valueLower, object) {
+        if (valueGreater && valueLower) {
+            object[fieldName] = {
+                $gt: parseInt(valueGreater),
+                $lt: parseInt(valueLower)
+            }
+        }
+        return object;
+    }
+
+    function addIfExistsCB(fieldName, value, object) {
+        if (value == "on") {
+            object[fieldName] = "Si";
+        }
+        return object;
+
+    }
 }

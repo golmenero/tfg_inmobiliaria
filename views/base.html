@@ -86,9 +86,9 @@
                 <li class="nav-item dropdown">
                     <a class="nav-link dropdown-toggle active" href="#" data-toggle="dropdown">Inicio</a>
                     <div class="dropdown-menu">
-                        <a class="dropdown-item" href="/properties/suelo">Suelos</a>
-                        <a class="dropdown-item" href="/properties/local">Locales</a>
                         <a class="dropdown-item" href="/properties/vivienda">Viviendas</a>
+                        <a class="dropdown-item" href="/properties/local">Locales</a>
+                        <a class="dropdown-item" href="/properties/suelo">Suelos</a>
                     </div>
                 </li>
                 <li class="nav-item active">
@@ -111,7 +111,7 @@
                     </div>
                 </li>
                 {% endif %}
-                {% if user.permission != undefined  %}
+                {% if user.permission != undefined %}
                 <li class="nav-item active">
                     <a class="nav-link" href="/messages">Mensajes</a>
                 </li>
@@ -193,13 +193,10 @@
         </div>
     </div>
 
-    <div id="container">
-        <!-- Contenido -->
-        {% block contenido_principal %}
-        <!--Posiblecontenidopordefecto-->
-        {% endblock%}
-    </div>
-
+    <!-- Contenido -->
+    {% block contenido_principal %}
+    <!--Posiblecontenidopordefecto-->
+    {% endblock%}
     <footer class="footer">
         <p class="footerP"><span class="font-weight-bold">ARCA AGENCIA INMOBILIARIA</span></p>
         <p class="footerP">Carlos Gómez Piñeiro - Agente de la Propiedad Inmobiliaria</p>
