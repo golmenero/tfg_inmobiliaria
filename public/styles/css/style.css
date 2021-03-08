@@ -18,6 +18,10 @@ html, body {
     margin-right: 0.5em;
 }
 
+.link-logo{
+    height: 2em;
+    width:7em;
+}
 
 .imgLogo {
     width: 100%;

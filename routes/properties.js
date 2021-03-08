@@ -130,7 +130,7 @@ module.exports = function (app, render, nodemailer, managerDB, variables) {
             condition = addIfExistsCB("anueblado", req.query.checkAmueblado, condition);
             condition = addIfExistsCB("animales", req.query.checkAnimales, condition);
         }
-        if(req.params.type == 'local'){
+        if (req.params.type == 'local') {
             condition = addIfExists("address", req.query.addressLoc, condition);
             condition = addIfExists("city", req.query.cityLoc, condition);
             condition = addIfExists("numAseos", req.query.numAseosLoc, condition);
@@ -149,7 +149,7 @@ module.exports = function (app, render, nodemailer, managerDB, variables) {
             condition = addIfExistsCB("calefaccion", req.query.checkCalefaccionLoc, condition);
             condition = addIfExistsCB("aireAcon", req.query.checkAireAconLoc, condition);
         }
-        if(req.params.type == 'suelo'){
+        if (req.params.type == 'suelo') {
             condition = addIfExists("city", req.query.citySue, condition);
             condition = addIfExists("situation", req.query.situationSue, condition);
             // Superficie
@@ -161,11 +161,11 @@ module.exports = function (app, render, nodemailer, managerDB, variables) {
 
             condition = addIfExistsCB("accesoAgua", req.query.checkAccesoAguaSue, condition);
             condition = addIfExistsCB("accesoLuz", req.query.checkAccesoLuzSue, condition);
-
         }
 
         // Guardamos el tipo en sesion
         req.session.typeProp = req.params.type;
+
 
         if (req.query.search != null)
             condition = {"name": {$regex: ".*" + req.query.search + ".*"}};
@@ -191,6 +191,7 @@ module.exports = function (app, render, nodemailer, managerDB, variables) {
                 }
                 let response = render(req.session, 'views/shop.html',
                     {
+                        url : req.url.split("?pg=")[0].split("&pg=")[0],
                         typeProp: req.session.typeProp,
                         properties: properties,
                         pages: pages,
@@ -344,7 +345,7 @@ module.exports = function (app, render, nodemailer, managerDB, variables) {
 
     function addIfExists(fieldName, value, object) {
         if (value) {
-            object[fieldName] = {$regex : ".*" + value + ".*"};
+            object[fieldName] = {$regex: ".*" + value + ".*"};
             return object;
         }
         return object;
