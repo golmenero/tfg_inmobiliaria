@@ -1,7 +1,7 @@
 ﻿<!DOCTYPE html>
 <html lang="en">
 <head>
-    <title>{% block titulo%} RSTemp {% endblock%}</title>
+    <title>{% block titulo%} ARCA Inmobiliaria {% endblock%}</title>
     <meta charset="utf-8"/>
     <meta name="viewport" content="width=device-width, initial-scale=1"/>
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css"/>
@@ -109,6 +109,11 @@
                     <div class="dropdown-menu">
                         <a class="dropdown-item" href="/wishes">Propiedades Guardadas</a>
                     </div>
+                </li>
+                {% endif %}
+                {% if user.permission == 'S' %}
+                <li class="nav-item active">
+                    <a class="nav-link" href="/agents">Agentes</a>
                 </li>
                 {% endif %}
                 {% if user.permission != undefined %}

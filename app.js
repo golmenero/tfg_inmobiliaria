@@ -56,6 +56,8 @@ app.use("/user/delete/*",routerUserSession);
 app.use("/myproperties",routerUserSession);
 app.use("/wishes/*",routerUserSession);
 app.use("/wishes",routerUserSession);
+app.use("/agents",routerUserSession);
+app.use("/agents/*",routerUserSession);
 
 app.use(express.static('public'));
 
@@ -73,6 +75,7 @@ require('./routes/properties.js')(app,render, nodemailer, managerDB, variables);
 require('./routes/info.js')(app,render, variables);
 require('./routes/wishes.js')(app,render, nodemailer, managerDB, variables);
 require('./routes/conversations.js')(app,render, nodemailer, managerDB, variables);
+require('./routes/agents.js')(app,render, nodemailer, managerDB, variables);
 
 app.get('/', function (req, res) {
     res.redirect('/home');

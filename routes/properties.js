@@ -214,6 +214,7 @@ module.exports = function (app, render, nodemailer, managerDB, variables) {
         res.send(response);
 
     });
+
     app.get("/myproperties", function (req, res) {
         managerDB.get({}, "properties", function (properties) {
             if (properties == null) {

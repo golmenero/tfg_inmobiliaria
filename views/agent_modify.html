@@ -1,0 +1,54 @@
+{% extends "base.html" %}
+
+{% block titulo %} ARCA Inmobiliaria {% endblock %}
+
+{% block contenido_principal %}
+
+<div class="container">
+    <h2 class="sectionHeader">Editar Agente</h2>
+    <h3>Si deja un campo vacío, éste mantendrá su estado original.</h3>
+    <form class="form-horizontal" method="post" action="/agents/edit/{{agent._id.toString()}}">
+        <div class="form-group">
+            <label class="control-label col-sm-2" for="name">Nombre:</label>
+            <div class="col-sm-10">
+                <input type="text" class="form-control" name="name" placeholder="Nombre del Agente" value="{{agent.name}}" required="true"/>
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="control-label col-sm-2" for="surname">Apellidos:</label>
+            <div class="col-sm-10">
+                <input type="text" class="form-control" name="surname" value="{{agent.surname}}" placeholder="Apellidos del Agente"
+                       required="true"/>
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="control-label col-sm-2" for="email">Email:</label>
+            <div class="col-sm-10">
+                <input type="email" class="form-control" name="email" value="{{agent.email}}"
+                       placeholder="email@email.com" required="true"/>
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="control-label col-sm-2" for="password">Nueva Contraseña:</label>
+            <div class="col-sm-10">
+                <input id="password" type="password" class="form-control"  name="password"
+                       placeholder="Contraseña" required="true"/>
+            </div>
+        </div>
+        <div class="form-group">
+            <div class="col-sm-offset-2 col-sm-10">
+                <button type="submit" class="btn btn-primary">Editar Agente</button>
+            </div>
+        </div>
+
+        <script>
+            function checkProperty(name) {
+                if (name == "" || name == null) {
+                    return false;
+                }
+                return true;
+            }
+        </script>
+    </form>
+</div>
+{% endblock %}

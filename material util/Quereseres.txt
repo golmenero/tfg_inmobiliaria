@@ -1,8 +1,6 @@
-- Editar Propiedad
-- Eliminar Propiedad
-- Listar Propiedades
 - Mensajes
 - Notificar por correo si una propiedad cambio de precio
-- Filtro de Propiedades :'(
 - Logger de estadisticas
 - Estadisticas ya de paso
+- Movida de editar la pagina de contactos
+- Todo el tema de editar usuarios y tal

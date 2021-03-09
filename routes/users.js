@@ -25,21 +25,26 @@ module.exports = function (app, render, nodemailer, managerDB, variables) {
 
         managerDB.get(condition, "users", function (users) {
             if (users == null || users.length == 0) {
-                req.flash('error', "No se encontro ninguna cuenta cone sta información. Vuelva a intentarlo.");
+                req.flash('error', "No se encontro ninguna cuenta con esta información. Vuelva a intentarlo.");
                 res.redirect('/login');
             } else {
-                let userRecover = users[0];
-                let expirationDateUser = userRecover.codes.passwordRecoverDate;
-                if (expirated(dateToday, expirationDateUser)) {
-                    req.flash('error', "Su enlace de recuperación de contraseña ha caducado.");
+                if (users[0].permission == 'S' || users[0].permission == 'A') {
+                    req.flash('error', "Un agente no puede modificar su contraseña. Póngase en contacto con su administrador.");
                     res.redirect('/login');
                 } else {
-                    let respuesta = render(req.session, 'views/user_passwordRecover.html', {
-                        passwordRecover: req.params.code,
-                        error: req.flash('error'),
-                        success: req.flash('success')
-                    });
-                    res.send(respuesta);
+                    let userRecover = users[0];
+                    let expirationDateUser = userRecover.codes.passwordRecoverDate;
+                    if (expirated(dateToday, expirationDateUser)) {
+                        req.flash('error', "Su enlace de recuperación de contraseña ha caducado.");
+                        res.redirect('/login');
+                    } else {
+                        let respuesta = render(req.session, 'views/user_passwordRecover.html', {
+                            passwordRecover: req.params.code,
+                            error: req.flash('error'),
+                            success: req.flash('success')
+                        });
+                        res.send(respuesta);
+                    }
                 }
             }
         });
@@ -159,7 +164,7 @@ module.exports = function (app, render, nodemailer, managerDB, variables) {
         res.send(respuesta);
     });
 
-    app.post('/user', function (req, res) {
+    app.post('/signin', function (req, res) {
         let seguro = app.get("crypto").createHmac('sha256', app.get('key')).update(req.body.password).digest('hex');
         let condition1 = {
             email: req.body.email,
@@ -172,7 +177,7 @@ module.exports = function (app, render, nodemailer, managerDB, variables) {
                     name: req.body.name,
                     surname: req.body.surname,
                     email: req.body.email,
-                    permission: req.body.permission,
+                    permission: 'U',
                     password: seguro,
                     active: false,
                     codes: {
@@ -266,7 +271,6 @@ module.exports = function (app, render, nodemailer, managerDB, variables) {
         req.session.user = null;
         res.redirect('/login');
     })
-
 
     app.post('/recover', function (req, res) {
         let condition = {

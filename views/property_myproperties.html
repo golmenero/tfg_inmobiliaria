@@ -1,4 +1,4 @@
-{% extends "base.html" %} {% block titulo %} Mis publicaciones {% endblock %}
+{% extends "base.html" %} {% block titulo %} ARCA Inmobiliaria {% endblock %}
 
 {% block contenido_principal %}
 
@@ -8,11 +8,12 @@
         <table class="table table-hover">
             <thead class="thead-dark">
             <tr>
-                <th scope="col-md-4">Nombre</th>
+                <th scope="col-md-5">Nombre</th>
                 <th scope="col-md-2">Tipo</th>
                 <th scope="col-md-2">Precio</th>
-                <th scope="col-md-2"></th>
-                <th scope="col-md-2"></th>
+                <th scope="col-md-1"></th>
+                <th scope="col-md-1"></th>
+                <th scope="col-md-1"></th>
             </tr>
             </thead>
             <tbody>
@@ -24,6 +25,10 @@
                 <td>
                     <a class="btn btn-warning float-right"
                        href="/property/edit/{{ property._id.toString() }}"><span class="fas fa-edit"></span></a>
+                </td>
+                <td>
+                    <a class="btn btn-secondary float-right"
+                       href="/property/details/{{ property._id.toString() }}"><span class="far fa-eye"></span></a>
                 </td>
                 <td>
                     <a class="btn btn-danger float-right"
