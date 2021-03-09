@@ -2,4 +2,3 @@
 - Notificar por correo si una propiedad cambio de precio
 - Logger de estadisticas
 - Estadisticas ya de paso
-- Movida de editar la pagina de contactos
