@@ -20,14 +20,50 @@
                 <li>Puede acceder en cualquier momento a esa conversación desde la sección "Mensajes".</li>
             </ol>
         <li>Si su duda es de otro tipo, o simplemente desea comunicarse con un agente sin necesidad de crearse una
-            cuenta,
-            puede hacerlo
-            de cualquiera de estas maneras:
+            cuenta, puede hacerlo de cualquiera de estas maneras:
             <ul>
-                <li>Llame al número de teléfono <span class="font-weight-bold">+34 985 470 012.</span></li>
-                <li>Envíe un correo a <span class="font-weight-bold">info@arca-inmobiliaria.com</span></li>
+                <li>Llame a estos números de teléfono: <span class="font-weight-bold">{{info.phones}}</span></li>
+                <li>Envíe un correo a cualquiera de éstas direcciones: <span class="font-weight-bold">{{info.emails}}</span>
+                </li>
             </ul>
         </li>
         </li>
     </ul>
+
+    {% if user.permission == 'S' %}
+    <div class="headerButtonOverview card-header">
+        <h5 class="mb-0">
+            <button type="button" class="buttonOverview btn btn-outline-dark" data-toggle="collapse"
+                    data-target="#editInfo"
+                    aria-expanded="false" aria-controls="propertyFilter">
+                <span class="fas fa-search"></span><span class="font-weight-bold">Editar Info de Contacto</span>
+            </button>
+        </h5>
+    </div>
+    <div id="editInfo" class="collapse" aria-labelledby="headingOne" data-parent="#accordion">
+        <div class="filter-collapse card-body">
+            <form class="form-horizontal" method="post" action="/info/edit">
+                <div class="div-field form-row">
+                    <label class="control-label" for="phones">Números de Teléfono, separados por comas:</label>
+                    <div class="col-sm-12">
+                    <textarea class="form-control" name="phones"
+                              rows="3"></textarea>
+                    </div>
+                </div>
+                <div class="div-field form-row">
+                    <label class="control-label" for="emails">E-Mails, separados por comas:</label>
+                    <div class="col-sm-12">
+                    <textarea class="form-control" name="emails"
+                              rows="3"></textarea>
+                    </div>
+                </div>
+                <div class="row">
+                    <button type="submit" class="btnSiguiente btn btn-secondary btn-lg btn-block">
+                        Guardar Cambios
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+    {% endif %}
 </div>

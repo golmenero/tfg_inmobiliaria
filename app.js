@@ -72,7 +72,7 @@ app.set('crypto',crypto);
 // Rutas
 require('./routes/users.js')(app,render, nodemailer, managerDB, variables);
 require('./routes/properties.js')(app,render, nodemailer, managerDB, variables);
-require('./routes/info.js')(app,render, variables);
+require('./routes/info.js')(app,render, managerDB, variables);
 require('./routes/wishes.js')(app,render, nodemailer, managerDB, variables);
 require('./routes/conversations.js')(app,render, nodemailer, managerDB, variables);
 require('./routes/agents.js')(app,render, nodemailer, managerDB, variables);

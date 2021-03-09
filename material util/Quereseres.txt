@@ -3,4 +3,3 @@
 - Logger de estadisticas
 - Estadisticas ya de paso
 - Movida de editar la pagina de contactos
-- Todo el tema de editar usuarios y tal
