@@ -4,7 +4,53 @@
 
 <div class="container">
     <h2 class="sectionHeader">Mis Publicaciones</h2>
-    <div class="table-responsive">
+
+    <div class="headerButtonOverview card-header">
+        <h5 class="mb-0">
+            <button type="button" class="buttonOverview btn btn-outline-dark" data-toggle="collapse"
+                    data-target="#agentFilter"
+                    aria-expanded="false" aria-controls="propertyFilter">
+                <span class="fas fa-search"></span><span class="font-weight-bold">Filtro de Agentes</span>
+            </button>
+        </h5>
+    </div>
+    <div id="agentFilter" class="collapse" aria-labelledby="headingOne" data-parent="#accordion">
+        <div class="filter-collapse card-body">
+            <form class="form-horizontal" method="get" action="/agents">
+                <div class="form-row">
+                    <div class="form-group col-2">
+                        <label class="control-label">Nombre:</label>
+                        <div>
+                            <input type="text" class="form-control" name="name"
+                                   placeholder="Ej. Carlos"/>
+                        </div>
+                    </div>
+                    <div class="form-group col-4">
+                        <label class="control-label">Apellidos:</label>
+                        <div>
+                            <input type="text" class="form-control" name="surname"
+                                   placeholder="Ej. Gómez Colmenero"/>
+                        </div>
+                    </div>
+                    <div class="form-group col-6">
+                        <label class="control-label">E-Mail:</label>
+                        <div>
+                            <input type="text" class="form-control" name="email"
+                                   placeholder="Ej. email@email.com"/>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <button type="submit" class="btnSiguiente btn btn-secondary btn-lg btn-block">
+                        Aplicar Filtros
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+
+    <div class="div-field table-responsive">
         <table class="table table-hover">
             <thead class="thead-dark">
             <tr>
