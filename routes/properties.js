@@ -38,14 +38,50 @@ module.exports = function (app, render, nodemailer, managerDB, variables) {
 
     app.post('/property/edit/:id', function (req, res) {
         let condition = {"_id": managerDB.mongo.ObjectID(req.params.id)};
-        let property = buildProperty(req);
-        managerDB.edit(condition, property, "properties", function (result) {
+        managerDB.get(condition, "properties", function (result) {
             if (result == null) {
-                req.flash('error', "Error al añadir la propiedad.")
+                req.flash('error', "Error al editar la propiedad.")
                 res.redirect('/myproperties')
             } else {
-                req.flash('success', "La propiedad se editó correctamente.")
-                res.redirect('/myproperties')
+                let property = result[0];
+                let propertyNew = buildProperty(req);
+                if (property.price > propertyNew.price) {
+                    console.log("Ha bajado de precio Yeet")
+                    let condition2 = {
+                        wishes: req.params.id
+                    }
+                    managerDB.get(condition2, "users", function (result) {
+                        if (result != null) {
+                            for (let i = 0; i< result.length; i++) {
+                                let transporter = createTransporter();
+                                let mailOptions = createMailOptions(result[i].email,
+                                    'Aviso de ARCA Inmobiliaria', "<h1>Una propiedad de su lista de seguimiento ha bajado de precio.</h1>" +
+                                    "<p>>https://localhost:8081/properties/details/" + req.params.id + "</p>");
+
+                                transporter.sendMail(mailOptions);
+                            }
+                        }
+                        managerDB.edit(condition, propertyNew, "properties", function (result) {
+                            if (result == null) {
+                                req.flash('error', "Error al añadir la propiedad.")
+                                res.redirect('/myproperties')
+                            } else {
+                                req.flash('success', "La propiedad se editó correctamente.")
+                                res.redirect('/myproperties')
+                            }
+                        });
+                    })
+                }else{
+                    managerDB.edit(condition, propertyNew, "properties", function (result) {
+                        if (result == null) {
+                            req.flash('error', "Error al añadir la propiedad.")
+                            res.redirect('/myproperties')
+                        } else {
+                            req.flash('success', "La propiedad se editó correctamente.")
+                            res.redirect('/myproperties')
+                        }
+                    });
+                }
             }
         });
     })
@@ -191,7 +227,7 @@ module.exports = function (app, render, nodemailer, managerDB, variables) {
                 }
                 let response = render(req.session, 'views/shop.html',
                     {
-                        url : req.url.split("?pg=")[0].split("&pg=")[0],
+                        url: req.url.split("?pg=")[0].split("&pg=")[0],
                         typeProp: req.session.typeProp,
                         properties: properties,
                         pages: pages,
@@ -368,5 +404,26 @@ module.exports = function (app, render, nodemailer, managerDB, variables) {
         }
         return object;
 
+    }
+
+    function createTransporter() {
+        let transporter = nodemailer.createTransport({
+            service: 'gmail',
+            auth: {
+                user: variables.EMAILVERIF,
+                pass: variables.PASSVERIF,
+            }
+        });
+        return transporter;
+    }
+
+    function createMailOptions(to, subject, content) {
+        let mailOptions = {
+            from: variables.EMAILVERIF,
+            to: to,
+            subject: subject,
+            html: content
+        }
+        return mailOptions;
     }
 }

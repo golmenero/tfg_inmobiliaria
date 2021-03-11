@@ -48,7 +48,6 @@ routerUserSession.use(function(req, res, next) {
 
 //Aplicar routerUsuarioSession
 app.use("/properties/add",routerUserSession);
-app.use("/properties/details/*",routerUserSession);
 app.use("/user/edit",routerUserSession);
 app.use("/user/delete",routerUserSession);
 app.use("/user/edit/*",routerUserSession);
