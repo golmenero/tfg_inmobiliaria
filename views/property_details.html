@@ -83,14 +83,14 @@
             {% if user.wishes.includes(property._id.toString()) %}
             <a class="btn btn-success" href="/wishes/delete/{{ property._id.toString() }}"><span
                     class="far fa-heart"></span>
-                Eliminar de Mis Deseos
+                Eliminar de Mi Seguimiento
             </a>
             {% else %}
             <form class="inline-form" method="post"
                   action="/wishes/{{ property._id.toString() }}"
                   encType="multipart/form-data">
                 <button type="submit" class="btn btn-outline-success"><span class="far fa-heart"></span>
-                    Añadir a Mis Deseos
+                    Añadir a Mi Seguimiento
                 </button>
             </form>
             {% endif %}

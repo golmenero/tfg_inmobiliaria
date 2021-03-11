@@ -7,5 +7,6 @@ module.exports = {
     EMAILVERIF: 'tfguo257386@gmail.com',
     PASSVERIF: "TFG_UO257386",
     IMGFOLDER: "public/propertiesimg",
-    LIMITIMGSIZE: 2500000 //2,5MB
+    TELEFONOS: "+34 985 470 012",
+    EMAILS: "info@arca-agenciainmobiliaria.com"
 };

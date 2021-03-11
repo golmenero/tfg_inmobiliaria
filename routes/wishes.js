@@ -8,10 +8,10 @@ module.exports = function (app, render, nodemailer, managerDB, variables) {
         let idWish = req.params.id;
         managerDB.pushWish(condition, idWish, "users", function (users) {
             if (users == null) {
-                req.flash('error', "No se pudo añadir a deseos correctamente.")
+                req.flash('error', "No se pudo añadir a las listas de seguimiento correctamente.")
                 res.redirect("/properties");
             } else {
-                req.flash('success', "Añadido a deseos correctamente.")
+                req.flash('success', "Añadido a las listas de seguimiento correctamente.")
                 req.session.user.wishes.push(idWish);
                 res.redirect("/wishes");
             }
@@ -25,9 +25,9 @@ module.exports = function (app, render, nodemailer, managerDB, variables) {
         let idWish = req.params.id;
         managerDB.pullWish(condition, idWish, "users", function (users) {
             if (users == null) {
-                req.flash('error', "No se pudo eliminar de deseos correctamente.")
+                req.flash('error', "No se pudo eliminar de las listas de seguimiento correctamente.")
             } else {
-                req.flash('success', "Eliminado de deseos correctamente.")
+                req.flash('success', "Eliminado de las listas de seguimiento correctamente.")
                 removeItemOnce(req.session.user.wishes, idWish);
             }
             res.redirect("/wishes");
@@ -40,7 +40,7 @@ module.exports = function (app, render, nodemailer, managerDB, variables) {
         };
         managerDB.get(condition, "users",function (users) {
             if (users == null) {
-                req.flash('error', "No se pudo encontrar su usuario al añadir su deseo.")
+                req.flash('error', "No se pudo encontrar su usuario al añadir su seguimiento.")
                 res.redirect("/properties");
             } else {
                 let mapWishes = users[0].wishes.map(function(obj){ return managerDB.mongo.ObjectID(obj)})
