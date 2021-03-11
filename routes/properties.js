@@ -1,4 +1,4 @@
-module.exports = function (app, render, nodemailer, managerDB, variables) {
+module.exports = function (app, render, nodemailer, managerDB, variables, fileSystem) {
 
     app.get('/properties/details/:id', function (req, res) {
         let condition = {"_id": managerDB.mongo.ObjectID(req.params.id)};
@@ -18,7 +18,7 @@ module.exports = function (app, render, nodemailer, managerDB, variables) {
     });
 
     // EDITAR PROPIEDADES
-    app.get('/property/edit/:id', function (req, res) {
+    app.get('/properties/edit/:id', function (req, res) {
         let condition = {"_id": managerDB.mongo.ObjectID(req.params.id)};
         managerDB.get(condition, "properties", function (properties) {
             if (properties == null) {
@@ -36,7 +36,7 @@ module.exports = function (app, render, nodemailer, managerDB, variables) {
         });
     });
 
-    app.post('/property/edit/:id', function (req, res) {
+    app.post('/properties/edit/:id', function (req, res) {
         let condition = {"_id": managerDB.mongo.ObjectID(req.params.id)};
         managerDB.get(condition, "properties", function (result) {
             if (result == null) {
@@ -46,7 +46,6 @@ module.exports = function (app, render, nodemailer, managerDB, variables) {
                 let property = result[0];
                 let propertyNew = buildProperty(req);
                 if (property.price > propertyNew.price) {
-                    console.log("Ha bajado de precio Yeet")
                     let condition2 = {
                         wishes: req.params.id
                     }
@@ -61,6 +60,26 @@ module.exports = function (app, render, nodemailer, managerDB, variables) {
                                 transporter.sendMail(mailOptions);
                             }
                         }
+                        getArrayImg(req.files.imginmueble, req.params.id).then(arrayImg => {
+                            let condition = {"_id": managerDB.mongo.ObjectID(req.params.id)};
+                            propertyNew = {...propertyNew, ...{media: arrayImg,}};
+
+                            managerDB.edit(condition, propertyNew, "properties", function (result) {
+                                if (result == null) {
+                                    req.flash('error', "Error al añadir la propiedad.")
+                                    res.redirect('/myproperties')
+                                } else {
+                                    req.flash('success', "La propiedad se editó correctamente.")
+                                    res.redirect('/myproperties')
+                                }
+                            });
+                        });
+                    })
+                }else{
+                    getArrayImg(req.files.imginmueble, req.params.id).then(arrayImg => {
+                        let condition = {"_id": managerDB.mongo.ObjectID(req.params.id)};
+                        propertyNew = {...propertyNew, ...{media: arrayImg,}};
+
                         managerDB.edit(condition, propertyNew, "properties", function (result) {
                             if (result == null) {
                                 req.flash('error', "Error al añadir la propiedad.")
@@ -70,16 +89,6 @@ module.exports = function (app, render, nodemailer, managerDB, variables) {
                                 res.redirect('/myproperties')
                             }
                         });
-                    })
-                }else{
-                    managerDB.edit(condition, propertyNew, "properties", function (result) {
-                        if (result == null) {
-                            req.flash('error', "Error al añadir la propiedad.")
-                            res.redirect('/myproperties')
-                        } else {
-                            req.flash('success', "La propiedad se editó correctamente.")
-                            res.redirect('/myproperties')
-                        }
                     });
                 }
             }
@@ -87,17 +96,19 @@ module.exports = function (app, render, nodemailer, managerDB, variables) {
     })
 
     // ELIMINAR PROPIEDADES
-    app.get('/property/delete/:id', function (req, res) {
+    app.get('/properties/delete/:id', function (req, res) {
         let condition = {"_id": managerDB.mongo.ObjectID(req.params.id)};
         managerDB.delete(condition, "properties", function (properties) {
             if (properties == null) {
-                res.send(response);
+                req.flash('error', "Error al eliminar la propiedad.")
+                res.redirect('/myproperties')
             } else {
+                // Usamos el paquete fs-extra para eliminar el directorio
+                fileSystem.remove('public/propertiesimg/' + req.params.id);
                 res.redirect("/myproperties");
             }
         });
     });
-
 
     app.get('/properties/add', function (req, res) {
         let response = render(req.session, 'views/property_add.html', {
@@ -117,20 +128,21 @@ module.exports = function (app, render, nodemailer, managerDB, variables) {
                 res.redirect('/properties/' + req.session.typeProp)
             } else {
                 if (req.files != null) {
-                    let arrayImg = getArrayImg(req.files.imginmueble, id);
-                    let condition = {"_id": managerDB.mongo.ObjectID(id)};
-                    let property = {
-                        media: arrayImg,
-                    }
-                    managerDB.edit(condition, property, "properties", function (result) {
-                        if (result == null) {
-                            req.flash('error', "Error al añadir las imágenes de la propiedad.")
-                            res.redirect('/properties/' + req.session.typeProp)
-                        } else {
-                            req.flash('success', "La propiedad se añadió correctamente.")
-                            res.redirect("/myproperties");
+                    getArrayImg(req.files.imginmueble, id).then(arrayImg => {
+                        let condition = {"_id": managerDB.mongo.ObjectID(id)};
+                        let property = {
+                            media: arrayImg,
                         }
-                    });
+                        managerDB.edit(condition, property, "properties", function (result) {
+                            if (result == null) {
+                                req.flash('error', "Error al añadir las imágenes de la propiedad.")
+                                res.redirect('/properties/' + req.session.typeProp)
+                            } else {
+                                req.flash('success', "La propiedad se añadió correctamente.")
+                                res.redirect("/myproperties");
+                            }
+                        });
+                    })
                 }
             }
         })
@@ -268,18 +280,24 @@ module.exports = function (app, render, nodemailer, managerDB, variables) {
         });
     });
 
-    function getArrayImg(files, id) {
+    async function getArrayImg(files, id) {
+        // Usamos el paquete fs-extra para crear el directorio
+        await fileSystem.ensureDir("public/propertiesimg/"+id)
+        // Vaciamos el directorio si tiene contenido
+        await fileSystem.emptyDir("public/propertiesimg/"+id);
+
         let arrayImg = [];
+
+        // Usamos el paquete express-fileupload para meter las imagenes en el directorio
         if (Array.isArray(files)) {
-            let counter;
-            for (counter = 0; counter < files.length; counter++) {
-                name = 'public/propertiesimg/' + id + "_" + counter + '.png';
+            for (let counter = 0; counter < files.length; counter++) {
+                name = 'public/propertiesimg/'+ id + "/" + id + "_" + counter + '.png';
                 files[counter].mv(name);
                 arrayImg.push(name.replace("public", ""));
             }
 
         } else {
-            name = 'public/propertiesimg/' + id + "_0" + '.png';
+            name = 'public/propertiesimg/'+ id + "/" + id + "_0" + '.png';
             files.mv(name);
             arrayImg.push(name.replace("public", ""));
         }

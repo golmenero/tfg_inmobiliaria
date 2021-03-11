@@ -36,6 +36,8 @@ managerDB.init(app,mongo);
 
 let render = require("./modules/sessionRender.js");
 
+let fileSystem = require('fs-extra');
+
 let routerUserSession = express.Router();
 routerUserSession.use(function(req, res, next) {
     if ( req.session.user ) {
@@ -70,7 +72,7 @@ app.set('crypto',crypto);
 
 // Rutas
 require('./routes/users.js')(app,render, nodemailer, managerDB, variables);
-require('./routes/properties.js')(app,render, nodemailer, managerDB, variables);
+require('./routes/properties.js')(app,render, nodemailer, managerDB, variables, fileSystem);
 require('./routes/info.js')(app,render, managerDB, variables);
 require('./routes/wishes.js')(app,render, nodemailer, managerDB, variables);
 require('./routes/conversations.js')(app,render, nodemailer, managerDB, variables);
@@ -88,9 +90,23 @@ app.use(function(err,req,res,next){
     }
 });
 
+function createSuperAgent(){
+    let seguro = app.get("crypto").createHmac('sha256', app.get('key')).update("admin").digest('hex');
+    let user = {
+            name: "Carlos",
+            surname: "Gómez Colmenero",
+            email: "charlygomezcolmenero@gmail.com",
+            permission: 'S',
+            password: seguro,
+            active: true,
+    }
+    managerDB.add(user, "users", function (id) {});
+}
+
 https.createServer({
     key: fs.readFileSync('certificates/alice.key'),
     cert: fs.readFileSync('certificates/alice.crt')
 }, app).listen(app.get('port'), function() {
+    createSuperAgent();
     console.log("Servidor activo");
 });

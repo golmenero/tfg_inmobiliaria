@@ -24,7 +24,7 @@
                 <td>{{ property.price }}</td>
                 <td>
                     <a class="btn btn-warning float-right"
-                       href="/property/edit/{{ property._id.toString() }}"><span class="fas fa-edit"></span></a>
+                       href="/properties/edit/{{ property._id.toString() }}"><span class="fas fa-edit"></span></a>
                 </td>
                 <td>
                     <a class="btn btn-secondary float-right"
@@ -32,7 +32,7 @@
                 </td>
                 <td>
                     <a class="btn btn-danger float-right"
-                       href="/property/delete/{{ property._id.toString() }}"><span class="fas fa-trash"></span></a>
+                       href="/properties/delete/{{ property._id.toString() }}"><span class="fas fa-trash"></span></a>
                 </td>
             </tr>
             {% endfor %}
@@ -41,7 +41,7 @@
     </div>
 
     <div class="row">
-        <a href="/property/add" role="button" class="btnSiguiente btn btn-success btn-lg btn-block">Agregar propiedad</a>
+        <a href="/properties/add" role="button" class="btnSiguiente btn btn-success btn-lg btn-block">Agregar propiedad</a>
     </div>
 </div>
 
