@@ -699,6 +699,7 @@
                 if (tipo == 'vivienda') {
                     property = {
                         type: 'vivienda',
+                        code:$("[name='code']").val(),
                         typeOp: $("[name='typeOp']").val(),
                         name: $("[name='name']").val(),
                         address: $("[name='address']").val(),
@@ -721,7 +722,7 @@
                         amueblado: $("[name='checkAmueblado']").prop('checked'),
                         animales: $("[name='checkAnimales']").prop('checked')
                     }
-                    if (property.typeOp != "" && checkProperty(property.name) && checkProperty(property.address) && checkProperty(property.floor) && checkProperty(property.description) &&
+                    if (property.typeOp != "" && checkProperty(property.code) && checkProperty(property.name) && checkProperty(property.address) && checkProperty(property.floor) && checkProperty(property.description) &&
                         checkProperty(property.city) && checkProperty(property.area) && checkProperty(property.numHabs) && checkProperty(property.numBan) &&
                         checkProperty(property.price) && checkProperty(property.priceCom) && checkProperty(property)) {
                         campos = true;
@@ -730,6 +731,7 @@
                 if (tipo == "local") {
                     property = {
                         type: 'local',
+                        code:$("[name='code']").val(),
                         typeOp: $("[name='typeOp']").val(),
                         name: $("[name='name']").val(),
                         address: $("[name='address']").val(),
@@ -748,7 +750,7 @@
                         calefaccion: $("[name='checkCalefaccionLoc']").prop('checked'),
                         aireAcon: $("[name='checkAireAconLoc']").prop('checked')
                     }
-                    if (property.typeOp != "" && checkProperty(property.name) && checkProperty(property.address) && checkProperty(property.floor) && checkProperty(property.description) &&
+                    if (property.typeOp != "" && checkProperty(property.code) && checkProperty(property.name) && checkProperty(property.address) && checkProperty(property.floor) && checkProperty(property.description) &&
                         checkProperty(property.city) && checkProperty(property.area) && checkProperty(property.numAseos) && checkProperty(property.price) &&
                         checkProperty(property.priceCom)) {
                         campos = true;
@@ -757,6 +759,7 @@
                 if (tipo == 'suelo') {
                     property = {
                         type: 'suelo',
+                        code:$("[name='code']").val(),
                         typeOp: $("[name='typeOp']").val(),
                         name: $("[name='name']").val(),
                         description: $("[name='description']").val(),
@@ -768,7 +771,7 @@
                         accesoAgua: $("[name='accesoAguaSue']").prop('checked'),
                         accesoLuz: $("[name='accesoLuzSue']").prop('checked')
                     }
-                    if (property.typeOp != "" && checkProperty(property.name) && checkProperty(property.description) && checkProperty(property.city) &&
+                    if (property.typeOp != "" && checkProperty(property.code) && checkProperty(property.name) && checkProperty(property.description) && checkProperty(property.city) &&
                         checkProperty(property.situation) && checkProperty(property.area) && checkProperty(property.edifArea) &&
                         checkProperty(property.price)) {
                         campos = true;

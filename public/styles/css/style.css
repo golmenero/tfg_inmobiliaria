@@ -217,3 +217,18 @@ dt {
     opacity: 0.2;
 }
 
+.pagination{
+    margin-right: auto;
+    margin-left: auto;
+    margin-top: 2em;
+}
+
+.page-item.active .page-link{
+    background-color: #373737;
+    border-color: #373737;
+}
+
+.page-link{
+    color: #373737;
+    background-color: white;
+}

@@ -9,7 +9,7 @@ module.exports = {
             } else {
                 let db = client.db('tfginmobiliaria');
                 let collection = db.collection(collectionName);
-                collection.count(function (err, count) {
+                collection.find(condition).count(function (err, count) {
                     collection.find(condition).skip((pg - 1) * 4).limit(4)
                         .toArray(function (err, properties) {
                             if (err) {

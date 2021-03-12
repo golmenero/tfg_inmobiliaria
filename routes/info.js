@@ -52,7 +52,6 @@ module.exports = function (app, render, managerDB, variables) {
 
             let arrayType = [typeThisMonth(result, 'vivienda'), typeThisMonth(result, 'local'), typeThisMonth(result, 'suelo')];
 
-
             let arrayTypeYear = [typeThisYear(result, 'vivienda'), typeThisYear(result, 'local'), typeThisYear(result, 'suelo')];
 
 
