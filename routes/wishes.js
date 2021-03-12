@@ -13,7 +13,19 @@ module.exports = function (app, render, nodemailer, managerDB, variables) {
             } else {
                 req.flash('success', "Añadido a las listas de seguimiento correctamente.")
                 req.session.user.wishes.push(idWish);
-                res.redirect("/wishes");
+
+                let condition = {"_id": managerDB.mongo.ObjectID(req.params.id)};
+                managerDB.get(condition, "properties", function(result){
+                    let logger = {
+                        type: "wish",
+                        propertyType: result[0].type,
+                        year: new Date().getFullYear(),
+                        month: new Date().getMonth()+1,
+                    }
+                    managerDB.add(logger, "logger", function(result){
+                        res.redirect("/wishes");
+                    });
+                })
             }
         });
     });

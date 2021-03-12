@@ -20,6 +20,7 @@
 <script src="https://unpkg.com/leaflet@1.7.1/dist/leaflet.js"
         integrity="sha512-XQoYMqMTK8LvdxXYG3nZ448hOEQiglfqkJs1NOQV44cWnUrBc8PkAOcXy20w0vlaXaVUearIOBhiXZ5V3ynxwA=="
         crossorigin=""></script>
+<script src="https://cdn.jsdelivr.net/npm/chart.js@2.8.0"></script>
 
 <script>
     $(function () {
@@ -113,13 +114,18 @@
                     <a class="nav-link" href="/agents">Agentes</a>
                 </li>
                 {% endif %}
+                {% if user.permission == 'A' ||  user.permission == 'S' %}
+                <li class="nav-item active">
+                    <a class="nav-link" href="/info/statistics">Estadísticas</a>
+                </li>
+                {% endif %}
                 {% if user.permission != undefined %}
                 <li class="nav-item active">
                     <a class="nav-link" href="/messages">Mensajes</a>
                 </li>
                 {% endif %}
                 <li class="nav-item active">
-                    <a class="nav-link" href="/info">Contacto</a>
+                    <a class="nav-link" href="/info/contact">Contacto</a>
                 </li>
             </ul>
 

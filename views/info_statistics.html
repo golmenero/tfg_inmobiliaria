@@ -1,0 +1,106 @@
+{% extends "base.html" %} {% block titulo %} ARCA Inmobiliaria {% endblock %}
+
+{% block contenido_principal %}
+<div class="container">
+    <h2 class="sectionHeader">Estadísticas</h2>
+    <h3 class="sectionHeader">Propiedades Seguidas por sus Clientes</h3>
+    <div class="row">
+        <canvas class="canvas-line" id="myChart"></canvas>
+    </div>
+    <h3 class="sectionHeader">Según el Tipo de Propiedad</h3>
+    <div class="row">
+        <div class="col-6">
+            <h4 id="headerMonth" class="sectionHeader"></h4>
+            <canvas class="canvas-pie" id="myPieChart"></canvas>
+        </div>
+        <div class="col-6">
+            <h4 id="headerYear" class="sectionHeader"></h4>
+            <canvas class="canvas-pie" id="myPieChartY"></canvas>
+        </div>
+    </div>
+</div>
+
+<script>
+    $(document).ready(write());
+
+    function write() {
+        $("#headerMonth").text("Mes: " + (new Date().getMonth() + 1));
+        $("#headerYear").text("Año: " + +new Date().getFullYear());
+
+        writeCanvas();
+    }
+
+    function writeCanvas() {
+        var ctx = document.getElementById('myChart').getContext('2d');
+        var chart = new Chart(ctx, {
+            // The type of chart we want to create
+            type: 'line',
+
+            // The data for our dataset
+            data: {
+                labels: ['Enero', 'Febrero', 'Marzo', 'Abril', 'Mayo', 'Junio', 'Julio', 'Agosto', 'Septiembre', 'Octubre', 'Noviembre', 'Diciembre'],
+                datasets: [{
+                    label: 'Número de seguimientos.',
+                    borderColor: 'rgb(54, 162, 235)',
+                    data: '{{arrayWishes}}'.split(','),
+                }]
+            },
+
+            // Configuration options go here
+            options: {
+                scales: {
+                    yAxes: [{
+                        ticks: {
+                            beginAtZero: true
+                        }
+                    }]
+                }
+            }
+        });
+
+        var ctx2 = document.getElementById('myPieChart').getContext('2d');
+        var chartPie = new Chart(ctx2, {
+            // The type of chart we want to create
+            type: 'doughnut',
+
+            // The data for our dataset
+            data: {
+                labels: ['Vivienda', 'Local', 'Suelo'],
+                datasets: [{
+                    label: 'Tipos de vivienda solicitados este mes',
+                    data: '{{arrayType}}'.split(','),
+                    backgroundColor: [
+                        'rgb(255, 99, 132)',
+                        'rgb(54, 162, 235)',
+                        'rgb(255, 205, 86)'
+                    ],
+                    hoverOffset: 4
+                }]
+            }
+        });
+
+        var ctx3 = document.getElementById('myPieChartY').getContext('2d');
+        var chartPieYear = new Chart(ctx3, {
+            // The type of chart we want to create
+            type: 'doughnut',
+
+            // The data for our dataset
+            data: {
+                labels: ['Vivienda', 'Local', 'Suelo'],
+                datasets: [{
+                    label: 'Tipos de vivienda solicitados este mes',
+                    data: '{{arrayTypeYear}}'.split(','),
+                    backgroundColor: [
+                        'rgb(255, 99, 132)',
+                        'rgb(54, 162, 235)',
+                        'rgb(255, 205, 86)'
+                    ],
+                    hoverOffset: 4
+                }]
+            }
+        });
+    }
+</script>
+</div>
+
+{% endblock %}

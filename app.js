@@ -58,6 +58,7 @@ app.use("/wishes/*", routerUserSession);
 app.use("/wishes", routerUserSession);
 app.use("/agents", routerUserSession);
 app.use("/agents/*", routerUserSession);
+app.use("/info/*", routerUserSession);
 
 app.use(express.static('public'));
 
