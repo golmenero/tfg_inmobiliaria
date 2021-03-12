@@ -148,7 +148,6 @@ module.exports = function (app, render, nodemailer, managerDB, variables, fileSy
         })
     });
 
-
     app.get('/properties/:type', function (req, res) {
         let condition = {
             type: req.params.type,
@@ -264,7 +263,11 @@ module.exports = function (app, render, nodemailer, managerDB, variables, fileSy
     });
 
     app.get("/myproperties", function (req, res) {
-        managerDB.get({}, "properties", function (properties) {
+        let condition = {}
+        condition = addIfExists("name", req.query.name, condition);
+        condition = addIfExists("code", req.query.code, condition);
+
+        managerDB.get(condition, "properties", function (properties) {
             if (properties == null) {
                 res.send("Error al listar ");
             } else {
@@ -325,6 +328,7 @@ module.exports = function (app, render, nodemailer, managerDB, variables, fileSy
         if (propertyType == "vivienda") {
             prop = {
                 type: parseElement("input", propertyType),
+                code: parseElement('input', req.body.code),
                 typeOp: parseElement('input', req.body.typeOp),
                 name: parseElement("input", req.body.name),
                 address: parseElement("input", req.body.address),
@@ -352,6 +356,7 @@ module.exports = function (app, render, nodemailer, managerDB, variables, fileSy
         if (propertyType == "local") {
             prop = {
                 type: parseElement("input", propertyType),
+                code: parseElement('input', req.body.code),
                 typeOp: parseElement('input', req.body.typeOp),
                 name: parseElement("input", req.body.name),
                 address: parseElement("input", req.body.address),
@@ -374,6 +379,7 @@ module.exports = function (app, render, nodemailer, managerDB, variables, fileSy
         if (propertyType == "suelo") {
             prop = {
                 type: parseElement("input", propertyType),
+                code: parseElement('input', req.body.code),
                 typeOp: parseElement('input', req.body.typeOp),
                 name: parseElement("input", req.body.name),
                 description: parseElement("input", req.body.description),
@@ -443,5 +449,13 @@ module.exports = function (app, render, nodemailer, managerDB, variables, fileSy
             html: content
         }
         return mailOptions;
+    }
+
+    function addIfExists(fieldName, value, object) {
+        if (value) {
+            object[fieldName] = {$regex: ".*" + value + ".*"};
+            return object;
+        }
+        return object;
     }
 }

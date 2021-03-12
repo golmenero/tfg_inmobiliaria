@@ -4,11 +4,51 @@
 
 <div class="container">
     <h2 class="sectionHeader">Mis Publicaciones</h2>
-    <div class="table-responsive">
+
+    <div class="headerButtonOverview card-header">
+        <h5 class="mb-0">
+            <button type="button" class="buttonOverview btn btn-outline-dark" data-toggle="collapse"
+                    data-target="#myPropertiesFilter"
+                    aria-expanded="false" aria-controls="myPropertiesFilter">
+                <span class="fas fa-search"></span><span class="font-weight-bold">Filtro de Propiedades</span>
+            </button>
+        </h5>
+    </div>
+    <div id="myPropertiesFilter" class="collapse" aria-labelledby="headingOne" data-parent="#accordion">
+        <div class="filter-collapse card-body">
+            <form class="form-horizontal" method="get" action="/myproperties">
+                <div class="form-row">
+                    <div class="form-group col-4">
+                        <label class="control-label">Código:</label>
+                        <div>
+                            <input type="text" class="form-control" name="code"
+                                   placeholder="Ej. V001"/>
+                        </div>
+                    </div>
+                    <div class="form-group col-8">
+                        <label class="control-label">Nombre:</label>
+                        <div>
+                            <input type="text" class="form-control" name="name"
+                                   placeholder="Ej. Carlos"/>
+                        </div>
+                    </div>
+
+                </div>
+                <div class="row">
+                    <button type="submit" class="btnSiguiente btn btn-secondary btn-lg btn-block">
+                        Aplicar Filtros
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <div class="div-field table-responsive">
         <table class="table table-hover">
             <thead class="thead-dark">
             <tr>
-                <th scope="col-md-5">Nombre</th>
+                <th scope="col-md-1">Código</th>
+                <th scope="col-md-4">Nombre</th>
                 <th scope="col-md-2">Tipo</th>
                 <th scope="col-md-2">Precio</th>
                 <th scope="col-md-1"></th>
@@ -19,6 +59,7 @@
             <tbody>
             {% for property in properties %}
             <tr>
+                <td>{{ property.code }}</td>
                 <td>{{ property.name }}</td>
                 <td>{{ property.type }}</td>
                 <td>{{ property.price }}</td>
