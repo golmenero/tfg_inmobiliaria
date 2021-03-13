@@ -1,4 +1,4 @@
-module.exports = function (app, render, nodemailer, managerDB, variables, fileSystem) {
+module.exports = function (app, render, nodemailer, managerDB, variables, utilities, fileSystem) {
 
     app.get('/properties/details/:id', function (req, res) {
         let condition = {"_id": managerDB.mongo.ObjectID(req.params.id)};
@@ -44,7 +44,7 @@ module.exports = function (app, render, nodemailer, managerDB, variables, fileSy
                 res.redirect('/myproperties')
             } else {
                 let property = result[0];
-                let propertyNew = buildProperty(req);
+                let propertyNew = utilities.buildProperty(req);
                 if (property.price > propertyNew.price) {
                     let condition2 = {
                         wishes: req.params.id
@@ -52,15 +52,15 @@ module.exports = function (app, render, nodemailer, managerDB, variables, fileSy
                     managerDB.get(condition2, "users", function (result) {
                         if (result != null) {
                             for (let i = 0; i< result.length; i++) {
-                                let transporter = createTransporter();
-                                let mailOptions = createMailOptions(result[i].email,
+                                let transporter = utilities.createTransporter(nodemailer,variables);
+                                let mailOptions = utilities.createMailOptions(result[i].email,
                                     'Aviso de ARCA Inmobiliaria', "<h1>Una propiedad de su lista de seguimiento ha bajado de precio.</h1>" +
-                                    "<p>>https://localhost:8081/properties/details/" + req.params.id + "</p>");
+                                    "<p>>https://localhost:8081/properties/details/" + req.params.id + "</p>", variables);
 
                                 transporter.sendMail(mailOptions);
                             }
                         }
-                        getArrayImg(req.files.imginmueble, req.params.id).then(arrayImg => {
+                        utilities.getArrayImg(req.files.imginmueble, req.params.id, fileSystem).then(arrayImg => {
                             let condition = {"_id": managerDB.mongo.ObjectID(req.params.id)};
                             propertyNew = {...propertyNew, ...{media: arrayImg,}};
 
@@ -76,7 +76,7 @@ module.exports = function (app, render, nodemailer, managerDB, variables, fileSy
                         });
                     })
                 }else{
-                    getArrayImg(req.files.imginmueble, req.params.id).then(arrayImg => {
+                    utilities.getArrayImg(req.files.imginmueble, req.params.id,fileSystem).then(arrayImg => {
                         let condition = {"_id": managerDB.mongo.ObjectID(req.params.id)};
                         propertyNew = {...propertyNew, ...{media: arrayImg,}};
 
@@ -120,7 +120,7 @@ module.exports = function (app, render, nodemailer, managerDB, variables, fileSy
     })
 
     app.post('/properties/add', function (req, res) {
-        let property = buildProperty(req);
+        let property = utilities.buildProperty(req);
         // Connect to DB
         managerDB.add(property, "properties", function (id) {
             if (id == null) {
@@ -128,7 +128,7 @@ module.exports = function (app, render, nodemailer, managerDB, variables, fileSy
                 res.redirect('/properties/' + req.session.typeProp)
             } else {
                 if (req.files != null) {
-                    getArrayImg(req.files.imginmueble, id).then(arrayImg => {
+                    utilities.getArrayImg(req.files.imginmueble, id, fileSystem).then(arrayImg => {
                         let condition = {"_id": managerDB.mongo.ObjectID(id)};
                         let property = {
                             media: arrayImg,
@@ -152,62 +152,62 @@ module.exports = function (app, render, nodemailer, managerDB, variables, fileSy
         let condition = {
             type: req.params.type,
         };
-        condition = addIfExists("name", req.query.name, condition);
-        condition = addIfExists("typeOp", req.query.typeOp, condition);
+        condition = utilities.addIfExists("name", req.query.name, condition);
+        condition = utilities.addIfExists("typeOp", req.query.typeOp, condition);
 
         if (req.params.type == 'vivienda') {
-            condition = addIfExists("address", req.query.address, condition);
-            condition = addIfExists("city", req.query.city, condition);
-            condition = addIfExists("numHabs", parseInt(req.query.numHabs), condition);
-            condition = addIfExists("numBan", parseInt(req.query.numBan), condition);
+            condition = utilities.addIfExists("address", req.query.address, condition);
+            condition = utilities.addIfExists("city", req.query.city, condition);
+            condition = utilities.addIfExists("numHabs", parseInt(req.query.numHabs), condition);
+            condition = utilities.addIfExists("numBan", parseInt(req.query.numBan), condition);
             // Superficie
-            condition = addIfExistsGTLT("area", req.query.areaMin, req.query.areaMax, condition);
+            condition = utilities.addIfExistsGTLT("area", req.query.areaMin, req.query.areaMax, condition);
             // Precios
-            condition = addIfExistsGTLT("price", req.query.priceMin, req.query.priceMax, condition);
+            condition = utilities.addIfExistsGTLT("price", req.query.priceMin, req.query.priceMax, condition);
             // Piso
-            condition = addIfExistsGTLT("floor", req.query.floorMin, req.query.floorMax, condition);
-            condition = addIfExistsCB("garaje", req.query.checkGaraje, condition);
-            condition = addIfExistsCB("piscina", req.query.checkPiscina, condition);
-            condition = addIfExistsCB("terraza", req.query.checkTerraza, condition);
-            condition = addIfExistsCB("trastero", req.query.checkTrastero, condition);
-            condition = addIfExistsCB("jardin", req.query.checkJardin, condition);
-            condition = addIfExistsCB("ascensor", req.query.checkAscensor, condition);
-            condition = addIfExistsCB("calefaccion", req.query.checkCalefaccion, condition);
-            condition = addIfExistsCB("aireAcon", req.query.checkAireAcon, condition);
-            condition = addIfExistsCB("anueblado", req.query.checkAmueblado, condition);
-            condition = addIfExistsCB("animales", req.query.checkAnimales, condition);
+            condition = utilities.addIfExistsGTLT("floor", req.query.floorMin, req.query.floorMax, condition);
+            condition = utilities.addIfExistsCB("garaje", req.query.checkGaraje, condition);
+            condition = utilities.addIfExistsCB("piscina", req.query.checkPiscina, condition);
+            condition = utilities.addIfExistsCB("terraza", req.query.checkTerraza, condition);
+            condition = utilities.addIfExistsCB("trastero", req.query.checkTrastero, condition);
+            condition = utilities.addIfExistsCB("jardin", req.query.checkJardin, condition);
+            condition = utilities.addIfExistsCB("ascensor", req.query.checkAscensor, condition);
+            condition = utilities.addIfExistsCB("calefaccion", req.query.checkCalefaccion, condition);
+            condition = utilities.addIfExistsCB("aireAcon", req.query.checkAireAcon, condition);
+            condition = utilities.addIfExistsCB("anueblado", req.query.checkAmueblado, condition);
+            condition = utilities.addIfExistsCB("animales", req.query.checkAnimales, condition);
         }
         if (req.params.type == 'local') {
-            condition = addIfExists("address", req.query.addressLoc, condition);
-            condition = addIfExists("city", req.query.cityLoc, condition);
-            condition = addIfExists("numAseos", req.query.numAseosLoc, condition);
+            condition = utilities.addIfExists("address", req.query.addressLoc, condition);
+            condition = utilities.addIfExists("city", req.query.cityLoc, condition);
+            condition = utilities.addIfExists("numAseos", req.query.numAseosLoc, condition);
             // Superficie
-            condition = addIfExistsGTLT("area", req.query.areaMinLoc, req.query.areaMaxLoc, condition);
+            condition = utilities.addIfExistsGTLT("area", req.query.areaMinLoc, req.query.areaMaxLoc, condition);
             // Precios
-            condition = addIfExistsGTLT("price", req.query.priceMinLoc, req.query.priceMaxLoc, condition);
+            condition = utilities.addIfExistsGTLT("price", req.query.priceMinLoc, req.query.priceMaxLoc, condition);
             // Piso
-            condition = addIfExistsGTLT("floor", req.query.floorMinLoc, req.query.floorMaxLoc, condition);
+            condition = utilities.addIfExistsGTLT("floor", req.query.floorMinLoc, req.query.floorMaxLoc, condition);
 
-            condition = addIfExistsCB("escaparate", req.query.checkEscaparateLoc, condition);
-            condition = addIfExistsCB("aparcamiento", req.query.checkAparcamientoLoc, condition);
-            condition = addIfExistsCB("cargaYdescarga", req.query.checkCargaYDescargaLoc, condition);
-            condition = addIfExistsCB("extintores", req.query.checkExtintoresLoc, condition);
-            condition = addIfExistsCB("iluminacion", req.query.checkIluminacionLoc, condition);
-            condition = addIfExistsCB("calefaccion", req.query.checkCalefaccionLoc, condition);
-            condition = addIfExistsCB("aireAcon", req.query.checkAireAconLoc, condition);
+            condition = utilities.addIfExistsCB("escaparate", req.query.checkEscaparateLoc, condition);
+            condition = utilities.addIfExistsCB("aparcamiento", req.query.checkAparcamientoLoc, condition);
+            condition = utilities.addIfExistsCB("cargaYdescarga", req.query.checkCargaYDescargaLoc, condition);
+            condition = utilities.addIfExistsCB("extintores", req.query.checkExtintoresLoc, condition);
+            condition = utilities.addIfExistsCB("iluminacion", req.query.checkIluminacionLoc, condition);
+            condition = utilities.addIfExistsCB("calefaccion", req.query.checkCalefaccionLoc, condition);
+            condition = utilities.addIfExistsCB("aireAcon", req.query.checkAireAconLoc, condition);
         }
         if (req.params.type == 'suelo') {
-            condition = addIfExists("city", req.query.citySue, condition);
-            condition = addIfExists("situation", req.query.situationSue, condition);
+            condition = utilities.addIfExists("city", req.query.citySue, condition);
+            condition = utilities.addIfExists("situation", req.query.situationSue, condition);
             // Superficie
-            condition = addIfExistsGTLT("area", req.query.areaMinSue, req.query.areaMaxSue, condition);
+            condition = utilities.addIfExistsGTLT("area", req.query.areaMinSue, req.query.areaMaxSue, condition);
             // Superficie Edificable
-            condition = addIfExistsGTLT("edifArea", req.query.areaEdifMinSue, req.query.areaEdifMaxSue, condition);
+            condition = utilities.addIfExistsGTLT("edifArea", req.query.areaEdifMinSue, req.query.areaEdifMaxSue, condition);
             // Precios
-            condition = addIfExistsGTLT("price", req.query.priceMinSue, req.query.priceMaxSue, condition);
+            condition = utilities.addIfExistsGTLT("price", req.query.priceMinSue, req.query.priceMaxSue, condition);
 
-            condition = addIfExistsCB("accesoAgua", req.query.checkAccesoAguaSue, condition);
-            condition = addIfExistsCB("accesoLuz", req.query.checkAccesoLuzSue, condition);
+            condition = utilities.addIfExistsCB("accesoAgua", req.query.checkAccesoAguaSue, condition);
+            condition = utilities.addIfExistsCB("accesoLuz", req.query.checkAccesoLuzSue, condition);
         }
 
         // Guardamos el tipo en sesion
@@ -264,8 +264,8 @@ module.exports = function (app, render, nodemailer, managerDB, variables, fileSy
 
     app.get("/myproperties", function (req, res) {
         let condition = {}
-        condition = addIfExists("name", req.query.name, condition);
-        condition = addIfExists("code", req.query.code, condition);
+        condition = utilities.addIfExists("name", req.query.name, condition);
+        condition = utilities.addIfExists("code", req.query.code, condition);
 
         managerDB.get(condition, "properties", function (properties) {
             if (properties == null) {
@@ -283,179 +283,5 @@ module.exports = function (app, render, nodemailer, managerDB, variables, fileSy
         });
     });
 
-    async function getArrayImg(files, id) {
-        // Usamos el paquete fs-extra para crear el directorio
-        await fileSystem.ensureDir("public/propertiesimg/"+id)
-        // Vaciamos el directorio si tiene contenido
-        await fileSystem.emptyDir("public/propertiesimg/"+id);
 
-        let arrayImg = [];
-
-        // Usamos el paquete express-fileupload para meter las imagenes en el directorio
-        if (Array.isArray(files)) {
-            for (let counter = 0; counter < files.length; counter++) {
-                name = 'public/propertiesimg/'+ id + "/" + id + "_" + counter + '.png';
-                files[counter].mv(name);
-                arrayImg.push(name.replace("public", ""));
-            }
-
-        } else {
-            name = 'public/propertiesimg/'+ id + "/" + id + "_0" + '.png';
-            files.mv(name);
-            arrayImg.push(name.replace("public", ""));
-        }
-        return arrayImg;
-    };
-
-    function parseElement(tipoElemento, elemento) {
-        if (tipoElemento == "checkbox") {
-            if (elemento == undefined)
-                return "No";
-            else
-                return "Si";
-        }
-        if (tipoElemento == "input") {
-            if (elemento == undefined)
-                return "";
-            else
-                return elemento;
-        }
-    }
-
-    function buildProperty(req) {
-        let prop = null;
-        let propertyType = req.body.type;
-        if (propertyType == "vivienda") {
-            prop = {
-                type: parseElement("input", propertyType),
-                code: parseElement('input', req.body.code),
-                typeOp: parseElement('input', req.body.typeOp),
-                name: parseElement("input", req.body.name),
-                address: parseElement("input", req.body.address),
-                floor: parseInt(parseElement("input", req.body.floorV)),
-                description: parseElement("input", req.body.description),
-                city: parseElement("input", req.body.city),
-                area: parseInt(parseElement("input", req.body.area)),
-                numHabs: parseInt(parseElement("input", req.body.numHabs)),
-                numBan: parseInt(parseElement("input", req.body.numBan)),
-                price: parseInt(parseElement("input", req.body.price)),
-                priceCom: parseInt(parseElement("input", req.body.priceCom)),
-                garaje: parseElement("checkbox", req.body.checkGaraje),
-                piscina: parseElement("checkbox", req.body.checkPiscina),
-                terraza: parseElement("checkbox", req.body.checkTerraza),
-                trastero: parseElement("checkbox", req.body.checkTrastero),
-                jardin: parseElement("checkbox", req.body.checkJardin),
-                ascensor: parseElement("checkbox", req.body.checkAscensor),
-                calefaccion: parseElement("checkbox", req.body.checkCalefaccion),
-                aireAcon: parseElement("checkbox", req.body.checkAireAcon),
-                amueblado: parseElement("checkbox", req.body.checkAmueblado),
-                animales: parseElement("checkbox", req.body.checkAnimales),
-
-            }
-        }
-        if (propertyType == "local") {
-            prop = {
-                type: parseElement("input", propertyType),
-                code: parseElement('input', req.body.code),
-                typeOp: parseElement('input', req.body.typeOp),
-                name: parseElement("input", req.body.name),
-                address: parseElement("input", req.body.address),
-                floor: parseInt(parseElement("input", req.body.floorV)),
-                description: parseElement("input", req.body.description),
-                city: parseElement("input", req.body.city),
-                area: parseInt(parseElement("input", req.body.areaLoc)),
-                numAseos: parseInt(parseElement("input", req.body.numAsLoc)),
-                price: parseInt(parseElement("input", req.body.priceLoc)),
-                priceCom: parseInt(parseElement("input", req.body.priceComLoc)),
-                escaparate: parseElement("checkbox", req.body.checkEscaparateLoc),
-                aparcamiento: parseElement("checkbox", req.body.checkAparcamientoLoc),
-                cargaYdescarga: parseElement("checkbox", req.body.checkCargaYDescargaLoc),
-                extintores: parseElement("checkbox", req.body.checkExtintoresLoc),
-                iluminacion: parseElement("checkbox", req.body.checkIluminacionLoc),
-                calefaccion: parseElement("checkbox", req.body.checkCalefaccionLoc),
-                aireAcon: parseElement("checkbox", req.body.checkAireAconLoc)
-            }
-        }
-        if (propertyType == "suelo") {
-            prop = {
-                type: parseElement("input", propertyType),
-                code: parseElement('input', req.body.code),
-                typeOp: parseElement('input', req.body.typeOp),
-                name: parseElement("input", req.body.name),
-                description: parseElement("input", req.body.description),
-                city: parseElement("input", req.body.city),
-                situation: parseElement("input", req.body.situationSue),
-                area: parseInt(parseElement("input", req.body.areaSue)),
-                edifArea: parseInt(parseElement("input", req.body.areaEdifSue)),
-                price: parseInt(parseElement("input", req.body.priceSue)),
-                accesoAgua: parseElement("checkbox", req.body.accesoAguaSue),
-                accesoLuz: parseElement("checkbox", req.body.accesoLuzSue)
-            }
-        }
-        owner = {
-            nameOwner: parseElement("input", req.body.nameOwner),
-            surnameOwner: parseElement("input", req.body.surnameOwner),
-            dniOwner: parseElement("input", req.body.dniOwner),
-            phoneOwner: parseElement("input", req.body.phoneOwner),
-            emailOwner: parseElement("input", req.body.emailOwner),
-            addressOwner: parseElement("input", req.body.addressOwner)
-        };
-        let property = {...prop, ...owner};
-        return property;
-    }
-
-    function addIfExists(fieldName, value, object) {
-        if (value) {
-            object[fieldName] = {$regex: ".*" + value + ".*"};
-            return object;
-        }
-        return object;
-    }
-
-    function addIfExistsGTLT(fieldName, valueGreater, valueLower, object) {
-        if (valueGreater && valueLower) {
-            object[fieldName] = {
-                $gt: parseInt(valueGreater),
-                $lt: parseInt(valueLower)
-            }
-        }
-        return object;
-    }
-
-    function addIfExistsCB(fieldName, value, object) {
-        if (value == "on") {
-            object[fieldName] = "Si";
-        }
-        return object;
-
-    }
-
-    function createTransporter() {
-        let transporter = nodemailer.createTransport({
-            service: 'gmail',
-            auth: {
-                user: variables.EMAILVERIF,
-                pass: variables.PASSVERIF,
-            }
-        });
-        return transporter;
-    }
-
-    function createMailOptions(to, subject, content) {
-        let mailOptions = {
-            from: variables.EMAILVERIF,
-            to: to,
-            subject: subject,
-            html: content
-        }
-        return mailOptions;
-    }
-
-    function addIfExists(fieldName, value, object) {
-        if (value) {
-            object[fieldName] = {$regex: ".*" + value + ".*"};
-            return object;
-        }
-        return object;
-    }
 }

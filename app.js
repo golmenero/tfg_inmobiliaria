@@ -5,7 +5,8 @@ let app = express();
 let fs = require('fs');
 let https = require('https');
 let flash = require('connect-flash')
-let variables = require('./variables')
+let variables = require('./variables.js')
+let utilities = require('./utilities.js')
 
 let expressSession = require('express-session');
 app.use(expressSession({
@@ -33,7 +34,7 @@ app.use(bodyParser.urlencoded({extended: true}));
 let managerDB = require("./modules/managerDB.js");
 managerDB.init(app, mongo);
 
-let render = require("./modules/sessionRender.js");
+let render = require("./sessionRender.js");
 
 let fileSystem = require('fs-extra');
 
@@ -71,12 +72,12 @@ app.set('crypto', crypto);
 
 
 // Rutas
-require('./routes/users.js')(app,render, nodemailer, managerDB, variables);
-require('./routes/properties.js')(app,render, nodemailer, managerDB, variables, fileSystem);
-require('./routes/info.js')(app,render, managerDB, variables);
-require('./routes/wishes.js')(app,render, nodemailer, managerDB, variables);
-require('./routes/conversations.js')(app,render, nodemailer, managerDB, variables);
-require('./routes/agents.js')(app,render, nodemailer, managerDB, variables);
+require('./routes/users.js')(app,render, nodemailer, managerDB, variables, utilities);
+require('./routes/properties.js')(app,render, nodemailer, managerDB, variables, utilities, fileSystem);
+require('./routes/info.js')(app,render, managerDB, variables,utilities);
+require('./routes/wishes.js')(app,render, nodemailer, managerDB, variables,utilities);
+require('./routes/conversations.js')(app,render, nodemailer, managerDB, variables,utilities);
+require('./routes/agents.js')(app,render, nodemailer, managerDB, variables,utilities);
 
 app.get('/', function (req, res) {
     res.redirect('/home');

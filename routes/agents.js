@@ -1,11 +1,11 @@
-module.exports = function (app, render, nodemailer, managerDB, variables) {
+module.exports = function (app, render, nodemailer, managerDB, variables, utilities) {
     app.get('/agents', function (req, res) {
         let condition = {
             permission: 'A'
         }
-        condition = addIfExists("name", req.query.name, condition);
-        condition = addIfExists("surname", req.query.surname, condition);
-        condition = addIfExists("email", req.query.email, condition);
+        condition = utilities.addIfExists("name", req.query.name, condition);
+        condition = utilities.addIfExists("surname", req.query.surname, condition);
+        condition = utilities.addIfExists("email", req.query.email, condition);
 
         managerDB.get(condition, "users", function (agents) {
             if (agents != null) {
@@ -102,12 +102,4 @@ module.exports = function (app, render, nodemailer, managerDB, variables) {
             }
         });
     });
-
-    function addIfExists(fieldName, value, object) {
-        if (value) {
-            object[fieldName] = {$regex: ".*" + value + ".*"};
-            return object;
-        }
-        return object;
-    }
 }

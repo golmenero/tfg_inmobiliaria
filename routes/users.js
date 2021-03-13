@@ -1,4 +1,4 @@
-module.exports = function (app, render, nodemailer, managerDB, variables) {
+module.exports = function (app, render, nodemailer, managerDB, variables, utilities) {
     app.get("/user/verification/:code", function (req, res) {
         let condition = {
             'codes.emailActivation': req.params.code
@@ -18,7 +18,7 @@ module.exports = function (app, render, nodemailer, managerDB, variables) {
     });
 
     app.get("/recover/:code", function (req, res) {
-        let dateToday = getDateTime();
+        let dateToday = utilities.getDateTime();
         let condition = {
             'codes.passwordRecover': req.params.code,
         }
@@ -34,7 +34,7 @@ module.exports = function (app, render, nodemailer, managerDB, variables) {
                 } else {
                     let userRecover = users[0];
                     let expirationDateUser = userRecover.codes.passwordRecoverDate;
-                    if (expirated(dateToday, expirationDateUser)) {
+                    if (utilities.expirated(dateToday, expirationDateUser)) {
                         req.flash('error', "Su enlace de recuperación de contraseña ha caducado.");
                         res.redirect('/login');
                     } else {
@@ -181,7 +181,7 @@ module.exports = function (app, render, nodemailer, managerDB, variables) {
                     password: seguro,
                     active: false,
                     codes: {
-                        emailActivation: stringGen(20),
+                        emailActivation: utilities.stringGen(20),
                         passwordRecover: "",
                     },
                     wishes: []
@@ -277,8 +277,8 @@ module.exports = function (app, render, nodemailer, managerDB, variables) {
             email: req.body.correoRecuperacion
         }
         let user = {
-            'codes.passwordRecover': stringGen(20),
-            'codes.passwordRecoverDate': getDateTime(),
+            'codes.passwordRecover':utilities.stringGen(20),
+            'codes.passwordRecoverDate': utilities.getDateTime(),
         }
         managerDB.edit(condition, user, "users", function (result) {
             if (result == null) {
@@ -312,60 +312,6 @@ module.exports = function (app, render, nodemailer, managerDB, variables) {
             }
         });
     });
-
-
-// Obtener una combinacion aleatoria de letras y numeros.
-// Usado para generar el codigo de verificacion de correo electronico.
-    function stringGen(len) {
-        var text = "";
-
-        var charset = "abcdefghijklmnopqrstuvwxyz0123456789";
-
-        for (var i = 0; i < len; i++)
-            text += charset.charAt(Math.floor(Math.random() * charset.length));
-
-        return text;
-    }
-
-    function getDateTime() {
-        let date = new Date();
-
-        let hour = date.getHours();
-        hour = (hour < 10 ? "0" : "") + hour;
-
-        let min = date.getMinutes();
-        min = (min < 10 ? "0" : "") + min;
-
-        let sec = date.getSeconds();
-        sec = (sec < 10 ? "0" : "") + sec;
-
-        let year = date.getFullYear();
-
-        let month = date.getMonth() + 1;
-        month = (month < 10 ? "0" : "") + month;
-
-        let day = date.getDate();
-        day = (day < 10 ? "0" : "") + day;
-
-        return year + ":" + month + ":" + day + ":" + hour + ":" + min + ":" + sec;
-    }
-
-    function expirated(dateToday, expirationDateUser) {
-        let todaySecs = convertToInt(dateToday);
-        let expSecs = convertToInt(expirationDateUser);
-
-        if ((todaySecs - expSecs) > 600)
-            return true;
-        return false;
-    }
-
-    function convertToInt(date) {
-        let array = date.split(':');
-
-        let integer = (parseInt(array[0]) * 31536000) + (parseInt(array[1]) * 2592000) +
-            (parseInt(array[2]) * 86400) + (parseInt(array[3]) * 3600) + (parseInt(array[4]) * 60) + (parseInt(array[5]));
-        return integer;
-    }
 }
 ;
 

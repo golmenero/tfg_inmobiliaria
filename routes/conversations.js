@@ -1,4 +1,4 @@
-module.exports = function (app, render, nodemailer, managerDB, variables) {
+module.exports = function (app, render, nodemailer, managerDB, variables, utilities) {
     app.get("/conversations/add/:id", function (req, res) {
         let idProperty = req.params.id;
         let emailUser = req.session.user.email;

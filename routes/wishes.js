@@ -1,4 +1,4 @@
-module.exports = function (app, render, nodemailer, managerDB, variables) {
+module.exports = function (app, render, nodemailer, managerDB, variables, utilities) {
 
     // PROPIEDADES GUARDADAS
     app.post("/wishes/:id", function (req, res) {
@@ -40,7 +40,7 @@ module.exports = function (app, render, nodemailer, managerDB, variables) {
                 req.flash('error', "No se pudo eliminar de las listas de seguimiento correctamente.")
             } else {
                 req.flash('success', "Eliminado de las listas de seguimiento correctamente.")
-                removeItemOnce(req.session.user.wishes, idWish);
+                utilities.removeItemOnce(req.session.user.wishes, idWish);
             }
             res.redirect("/wishes");
         });
@@ -74,12 +74,4 @@ module.exports = function (app, render, nodemailer, managerDB, variables) {
             }
         });
     });
-
-    function removeItemOnce(arr, value) {
-        var index = arr.indexOf(value);
-        if (index > -1) {
-            arr.splice(index, 1);
-        }
-        return arr;
-    }
 }
