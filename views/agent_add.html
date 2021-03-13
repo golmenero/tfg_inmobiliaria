@@ -4,6 +4,14 @@
 
 {% block contenido_principal %}
 
+<nav aria-label="breadcrumb">
+    <ol class="breadcrumb">
+        <li class="breadcrumb-item"><a href="/">Inicio</a></li>
+        <li class="breadcrumb-item"><a href="/agents">Agentes</a></li>
+        <li class="breadcrumb-item active" aria-current="page">Añadir</li>
+    </ol>
+</nav>
+
 <div class="container">
     <h2 class="sectionHeader">Crear Agente</h2>
     <form class="form-horizontal" method="post" action="/agents/add">

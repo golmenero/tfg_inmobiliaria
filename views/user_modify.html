@@ -3,7 +3,12 @@
 {% block titulo %} ARCA Inmobiliaria{% endblock %}
 
 {% block contenido_principal %}
-
+<nav aria-label="breadcrumb">
+    <ol class="breadcrumb">
+        <li class="breadcrumb-item"><a href="/">Inicio</a></li>
+        <li class="breadcrumb-item active" aria-current="page">Editar Usuario</li>
+    </ol>
+</nav>
 <div class="container">
     <h2 class="sectionHeader">Modificar Contraseña</h2>
     <form class="form-horizontal" method="post" action="/user/edit" encType="multipart/form-data">

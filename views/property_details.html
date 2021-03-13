@@ -3,6 +3,14 @@
 {% block titulo %} ARCA Inmobiliaria {% endblock %}
 
 {% block contenido_principal %}
+<nav aria-label="breadcrumb">
+    <ol class="breadcrumb">
+        <li class="breadcrumb-item"><a href="/">Inicio</a></li>
+        <li class="breadcrumb-item"><a href="/properties/{{property.type}}">Mis Propiedades</a></li>
+        <li class="breadcrumb-item active" aria-current="page">Detalles</li>
+    </ol>
+</nav>
+
 
 <div id="carouselExampleControls" class="carousel slide" data-interval="false">
     <div class="carousel-inner">

@@ -1,6 +1,13 @@
 {% extends "base.html" %} {% block titulo %} ARCA Inmobiliaria {% endblock %}
 
 {% block contenido_principal %}
+<nav aria-label="breadcrumb">
+    <ol class="breadcrumb">
+        <li class="breadcrumb-item"><a href="/">Inicio</a></li>
+        <li class="breadcrumb-item"><a href="/conversations">Conversaciones</a></li>
+        <li class="breadcrumb-item active" aria-current="page">Conversación</li>
+    </ol>
+</nav>
 <div class="container">
     <h2 class="sectionHeader">Mi lista de Seguimiento</h2>
 

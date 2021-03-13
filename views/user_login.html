@@ -3,7 +3,12 @@
 {% block titulo %} ARCA Inmobiliaria {% endblock %}
 
 {% block contenido_principal %}
-
+<nav aria-label="breadcrumb">
+    <ol class="breadcrumb">
+        <li class="breadcrumb-item"><a href="/">Inicio</a></li>
+        <li class="breadcrumb-item active" aria-current="page">Iniciar Sesión</li>
+    </ol>
+</nav>
 <div class="container">
     <h2 class="sectionHeader">Identificación de usuario</h2>
     <form class="form-horizontal" method="post" action="/login">
