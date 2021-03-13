@@ -251,17 +251,6 @@ module.exports = function (app, render, nodemailer, managerDB, variables, utilit
         });
     });
 
-
-    app.get('/home', function (req, res) {
-        let response = render(req.session, 'views/index.html',
-            {
-                error: req.flash('error'),
-                success: req.flash('success')
-            });
-        res.send(response);
-
-    });
-
     app.get("/myproperties", function (req, res) {
         let condition = {}
         condition = utilities.addIfExists("name", req.query.name, condition);
