@@ -236,7 +236,7 @@ module.exports = function (app, render, nodemailer, managerDB, variables, utilit
                         pages.push(i);
                     }
                 }
-                let response = render(req.session, 'views/shop.html',
+                let response = render(req.session, 'views/properties_list.html',
                     {
                         url: req.url.split("?pg=")[0].split("&pg=")[0],
                         typeProp: req.session.typeProp,
