@@ -24,6 +24,29 @@
             <form class="form-horizontal" method="get" action="/myproperties">
                 <div class="form-row">
                     <div class="form-group col-4">
+                        <label class="control-label">Nombre Propietario:</label>
+                        <div>
+                            <input type="text" class="form-control" name="nameOwner"
+                                   placeholder="Ej. Carlos"/>
+                        </div>
+                    </div>
+                    <div class="form-group col-4">
+                        <label class="control-label">Apellidos Propietario:</label>
+                        <div>
+                            <input type="text" class="form-control" name="surnameOwner"
+                                   placeholder="Ej. Gómez Colmenero"/>
+                        </div>
+                    </div>
+                    <div class="form-group col-4">
+                        <label class="control-label">DNI/NIF/NIE Propietario:</label>
+                        <div>
+                            <input type="text" class="form-control" name="dniOwner"
+                                   placeholder="Ej. 55555555L"/>
+                        </div>
+                    </div>
+                </div>
+                <div class="form-row">
+                    <div class="form-group col-4">
                         <label class="control-label">Código:</label>
                         <div>
                             <input type="text" class="form-control" name="code"
@@ -37,7 +60,6 @@
                                    placeholder="Ej. Carlos"/>
                         </div>
                     </div>
-
                 </div>
                 <div class="row">
                     <button type="submit" class="btnSiguiente btn btn-secondary btn-lg btn-block">

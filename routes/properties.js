@@ -255,6 +255,9 @@ module.exports = function (app, render, nodemailer, managerDB, variables, utilit
         let condition = {}
         condition = utilities.addIfExists("name", req.query.name, condition);
         condition = utilities.addIfExists("code", req.query.code, condition);
+        condition = utilities.addIfExists("nameOwner", req.query.nameOwner, condition);
+        condition = utilities.addIfExists("surnameOwner", req.query.surnameOwner, condition);
+        condition = utilities.addIfExists("dniOwner", req.query.dniOwner, condition);
 
         managerDB.get(condition, "properties", function (properties) {
             if (properties == null) {
