@@ -15,7 +15,7 @@
             {% for conversation in conversations %}
             <div class="displayDiv row">
                 <div class="col-3">
-                    <img class='imgLogo' src="propertiesimg/{{ property._id.toString() }}.png" alt="logo"/>
+                    <img class='imgLogo' src="propertiesimg/{{ conversation.propertyID.toString()}}_0.png" alt="logo"/>
                 </div>
                 <div class="col-9">
                     <a class="displayProperty" id="displayProperty" href="/properties/{{ property._id.toString() }}">

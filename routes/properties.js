@@ -4,7 +4,8 @@ module.exports = function (app, render, nodemailer, managerDB, variables, utilit
         let condition = {"_id": managerDB.mongo.ObjectID(req.params.id)};
         managerDB.get(condition, "properties", function (properties) {
             if (properties == null) {
-                res.send("Ocurrió un error");
+                req.flash('error', 'Ocurrió un error al mostrar los detalles de propiedad especificada.')
+                res.redirect('/myproperties');
             } else {
                 let response = render(req.session, 'views/property_details.html', {
                     property: properties[0],
@@ -224,7 +225,8 @@ module.exports = function (app, render, nodemailer, managerDB, variables, utilit
 
         managerDB.getPG(condition, "properties", pg, function (properties, total) {
             if (properties == null) {
-                res.send("Error al listar ");
+                req.flash('error', 'Ocurrió un error al encontrar las propiedades.')
+                res.redirect('/myproperties');
             } else {
                 let lastPg = total / 4;
                 if (total % 4 > 0) {
@@ -236,8 +238,9 @@ module.exports = function (app, render, nodemailer, managerDB, variables, utilit
                         pages.push(i);
                     }
                 }
-                let response = render(req.session, 'views/properties_list.html',
+                let response = render(req.session, 'views/property_list.html',
                     {
+                        user: req.session.user,
                         url: req.url.split("?pg=")[0].split("&pg=")[0],
                         typeProp: req.session.typeProp,
                         properties: properties,
@@ -261,12 +264,13 @@ module.exports = function (app, render, nodemailer, managerDB, variables, utilit
 
         managerDB.get(condition, "properties", function (properties) {
             if (properties == null) {
-                res.send("Error al listar ");
+                req.flash('error', 'Ocurrió un error al listar sus propiedades.')
+                res.redirect('/myproperties');
             } else {
                 let response = render(req.session, 'views/property_myproperties.html',
                     {
                         properties: properties,
-                        user: req.session.user.email,
+                        user: req.session.user,
                         error: req.flash('error'),
                         success: req.flash('success')
                     });
@@ -274,6 +278,5 @@ module.exports = function (app, render, nodemailer, managerDB, variables, utilit
             }
         });
     });
-
 
 }

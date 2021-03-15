@@ -416,11 +416,13 @@
                     <h5 class="displayPrice">Precio: {{ property.price }} €</h5>
                 </div>
             </a>
+            {% if user.permission == 'U' %}
             <div class="row">
                 <a type="button" class="centeredComponent btn btn-secondary"
                    href="/conversations/add/{{ property._id.toString() }}">Contactar <span
                         class="fas fa-comment-dots"></span></a>
             </div>
+            {% endif %}
         </div>
     </div>
     {% endfor%}
