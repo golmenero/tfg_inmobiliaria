@@ -24,15 +24,12 @@ app.use(fileUpload({}));
 
 let nodemailer = require("nodemailer");
 
-
-let mongo = require('mongodb');
-
 let bodyParser = require('body-parser');
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({extended: true}));
 
-let managerDB = require("./modules/managerDB.js");
-managerDB.init(app, mongo);
+// Importante para extablecer conexión con la BD
+require('./database/connection.js')
 
 let render = require("./sessionRender.js");
 
@@ -71,18 +68,19 @@ app.set('key', 'abcdefg');
 app.set('crypto', crypto);
 
 
+let mongoose = require('mongoose')
 // Rutas
-require('./routes/users.js')(app,render, nodemailer, managerDB, variables, utilities);
-require('./routes/properties.js')(app,render, nodemailer, managerDB, variables, utilities, fileSystem);
-require('./routes/system.js')(app,render, managerDB, variables,utilities);
-require('./routes/wishes.js')(app,render, nodemailer, managerDB, variables,utilities);
-require('./routes/conversations.js')(app,render, nodemailer, managerDB, variables,utilities);
-require('./routes/agents.js')(app,render, nodemailer, managerDB, variables,utilities);
+require('./routes/users.js')(app,render, nodemailer,  variables, utilities, mongoose);
+require('./routes/properties.js')(app,render, nodemailer,  variables, utilities, fileSystem);
+require('./routes/system.js')(app,render,  variables,utilities);
+require('./routes/wishes.js')(app,render, nodemailer,  variables,utilities);
+require('./routes/conversations.js')(app,render, nodemailer,  variables,utilities);
+require('./routes/agents.js')(app,render, nodemailer,  variables,utilities);
+
 
 app.get('/', function (req, res) {
     res.redirect('/home');
 })
-
 app.use(function (err, req, res, next) {
     console.log("Error producido: " + err);
     if (!res.headersSent) {
@@ -90,7 +88,6 @@ app.use(function (err, req, res, next) {
         res.send("Recurso no disponible");
     }
 });
-
 function createSuperAgent() {
     let condition = {email: "charlygomezcolmenero@gmail.com"}
     managerDB.get(condition, "users", function (result) {
@@ -108,7 +105,6 @@ function createSuperAgent() {
         }
     })
 }
-
 function createInfoStatus() {
     let condition = {active: true};
     managerDB.get(condition, "info", function (result) {
@@ -122,12 +118,11 @@ function createInfoStatus() {
         }
     });
 }
-
 https.createServer({
     key: fs.readFileSync('certificates/alice.key'),
     cert: fs.readFileSync('certificates/alice.crt')
 }, app).listen(app.get('port'), function () {
-    createSuperAgent();
-    createInfoStatus();
+    //createSuperAgent();
+    //createInfoStatus();
     console.log("Servidor activo");
 });

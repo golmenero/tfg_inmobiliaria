@@ -1,4 +1,4 @@
-module.exports = function (app, render, nodemailer, managerDB, variables, utilities, fileSystem) {
+module.exports = function (app, render, nodemailer,  variables, utilities, fileSystem) {
 
     app.get('/properties/details/:id', function (req, res) {
         let condition = {"_id": managerDB.mongo.ObjectID(req.params.id)};

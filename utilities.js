@@ -1,3 +1,6 @@
+let nodemailer = require('nodemailer');
+let variables = require('./variables.js');
+
 module.exports = {
     addIfExists: function (fieldName, value, object) {
         if (value) {
@@ -118,7 +121,7 @@ module.exports = {
         return property;
     },
     // Creacion de correos
-    createTransporter: function (nodemailer, variables) {
+    createTransporter: function () {
         let transporter = nodemailer.createTransport({
             service: 'gmail',
             auth: {
@@ -128,7 +131,7 @@ module.exports = {
         });
         return transporter;
     },
-    createMailOptions: function (to, subject, content, variables) {
+    createMailOptions: function (to, subject, content) {
         let mailOptions = {
             from: variables.EMAILVERIF,
             to: to,
@@ -184,7 +187,6 @@ module.exports = {
     },
     getDateTime: function () {
         let date = new Date();
-
         let hour = date.getHours();
         hour = (hour < 10 ? "0" : "") + hour;
 
@@ -225,5 +227,6 @@ module.exports = {
         arr.splice(index, 1);
     }
     return arr;
-}
+},
+
 }
