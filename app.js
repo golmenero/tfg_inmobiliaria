@@ -75,7 +75,7 @@ require('./routes/properties.js')(app,render, nodemailer,  variables, utilities,
 require('./routes/system.js')(app,render,  variables,utilities);
 require('./routes/wishes.js')(app,render, nodemailer,  variables,utilities);
 require('./routes/conversations.js')(app,render, nodemailer,  variables,utilities);
-require('./routes/agents.js')(app,render, nodemailer,  variables,utilities);
+require('./routes/agents.js')(app,render, nodemailer,  variables,utilities, mongoose);
 
 
 app.get('/', function (req, res) {
