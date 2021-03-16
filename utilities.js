@@ -4,7 +4,10 @@ let variables = require('./variables.js');
 module.exports = {
     addIfExists: function (fieldName, value, object) {
         if (value) {
-            object[fieldName] = {$regex: ".*" + value + ".*"};
+            object[fieldName] = {
+                $regex: ".*" + value + ".*",
+                $options: 'i'
+            };
             return object;
         }
         return object;
@@ -39,7 +42,7 @@ module.exports = {
                 return elemento;
         }
     },
-    buildOwner: function(req){
+    buildOwner: function (req) {
         let owner = {
             name: this.parseElement("input", req.body.nameOwner),
             surname: this.parseElement("input", req.body.surnameOwner),
@@ -222,12 +225,12 @@ module.exports = {
             (parseInt(array[2]) * 86400) + (parseInt(array[3]) * 3600) + (parseInt(array[4]) * 60) + (parseInt(array[5]));
         return integer;
     },
-    removeItemOnce: function(arr, value) {
-    var index = arr.indexOf(value);
-    if (index > -1) {
-        arr.splice(index, 1);
-    }
-    return arr;
-},
+    removeItemOnce: function (arr, value) {
+        var index = arr.indexOf(value);
+        if (index > -1) {
+            arr.splice(index, 1);
+        }
+        return arr;
+    },
 
 }

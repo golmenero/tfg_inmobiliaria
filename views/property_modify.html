@@ -258,7 +258,6 @@
             </div>
         </div>
         {% endif %}
-
         <!-- DATOS DE LOCAL -------------------------------------------------------------------------------------------------------------------------------------------------->
         {% if property.type == 'local'%}
         <div id="divAttLocal">
@@ -423,14 +422,14 @@
             <div class="div-field form-row">
                 <label class="control-label col-sm-2" for="nameOwner">Nombre:</label>
                 <div class="col-sm-12">
-                    <input type="text" class="form-control" name="nameOwner" placeholder="Ej. Claudia" value="{{property.nameOwner}}"
+                    <input type="text" class="form-control" name="nameOwner" placeholder="Ej. Claudia" value="{{property.owner.name}}"
                     />
                 </div>
             </div>
             <div class="div-field form-row">
                 <label class="control-label col-sm-2" for="surnameOwner">Apellidos:</label>
                 <div class="col-sm-12">
-                    <input type="text" class="form-control" name="surnameOwner" placeholder="Ej. Pérez Peláez" value="{{property.surnameOwner}}"
+                    <input type="text" class="form-control" name="surnameOwner" placeholder="Ej. Pérez Peláez" value="{{property.owner.surname}}"
                     />
                 </div>
             </div>
@@ -438,14 +437,14 @@
                 <div class="form-group col-sm-3">
                     <label class="control-label" for="dniOwner">DNI/NIF/NIE:</label>
                     <div>
-                        <input type="text" class="form-control" name="dniOwner" placeholder="Ej. 55555555E" value="{{property.dniOwner}}"
+                        <input type="text" class="form-control" name="dniOwner" placeholder="Ej. 55555555E" value="{{property.owner.dni}}"
                         />
                     </div>
                 </div>
                 <div class="form-group col-sm-3">
                     <label class="control-label" for="phoneOwner">Teléfono:</label>
                     <div>
-                        <input type="number" class="form-control" name="phoneOwner" placeholder="Ej. 666666666" value="{{property.phoneOwner}}"
+                        <input type="number" class="form-control" name="phoneOwner" placeholder="Ej. 666666666" value="{{property.owner.phone}}"
                         />
                     </div>
                 </div>
@@ -453,7 +452,7 @@
                     <label class="control-label" for="emailOwner">Correo Electrónico:</label>
                     <div>
                         <input type="email" class="form-control" name="emailOwner"
-                               placeholder="Ej. propietario@gmail.com" value="{{property.emailOwner}}"
+                               placeholder="Ej. propietario@gmail.com" value="{{property.owner.email}}"
                         />
                     </div>
                 </div>
@@ -461,7 +460,7 @@
             <div class="div-field form-row">
                 <label class="control-label col-sm-2" for="addressOwner">Dirección:</label>
                 <div class="col-sm-12">
-                    <input type="text" class="form-control" name="addressOwner" placeholder="Ej. C/ Uría 10, P-4D" value="{{property.addressOwner}}"
+                    <input type="text" class="form-control" name="addressOwner" placeholder="Ej. C/ Uría 10, P-4D" value="{{property.owner.address}}"
                     />
                 </div>
             </div>

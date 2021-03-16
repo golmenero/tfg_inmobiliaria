@@ -33,9 +33,10 @@ module.exports = function (app, render, nodemailer, variables, utilities, fileSy
             req.flash('error', 'Ocurrió un error al encontrar la propiedad especificada.')
             res.redirect('/myproperties');
         } else {
+            let propertyFull = await viviendaModel.populate(property, {path: 'owner'})
             let response = render(req.session, 'views/property_modify.html',
                 {
-                    property: property,
+                    property: propertyFull,
                     error: req.flash('error'),
                     success: req.flash('success')
                 });
@@ -44,12 +45,14 @@ module.exports = function (app, render, nodemailer, variables, utilities, fileSy
     });
 
     app.post('/properties/edit/:id', async function (req, res) {
-        let owner = await ownerModel.findOne({dni: req.body.dniOwner});
+        let ownerCond = utilities.buildOwner(req);
+        // Debemos buscar el usuario por todos sus parametros
+        let owner = await ownerModel.findOne(ownerCond);
 
         let idO = null;
         // Si no encuentra el propietario lo añade
         if (owner === null) {
-            let ownerAdd = new ownerModel(utilities.buildOwner(req));
+            let ownerAdd = new ownerModel(ownerCond);
             let response = await ownerAdd.save();
             if (response === null) {
                 req.flash('error', 'No se ha podido añadir el propietario.')
@@ -63,7 +66,6 @@ module.exports = function (app, render, nodemailer, variables, utilities, fileSy
         // Creamos la propiedad y le añadimos el id del propietario
         let propertyNew = utilities.buildProperty(req);
         propertyNew = {...propertyNew, ...idO}
-        console.log(propertyNew)
 
         // Añadimos las imágenes en carpeta y las asignamos a la propiedad
         let arrayImg = await utilities.getArrayImg(req.files.imginmueble, req.params.id, fileSystem);
@@ -82,6 +84,7 @@ module.exports = function (app, render, nodemailer, variables, utilities, fileSy
         // Si la encuentra compara los precios y, si es menor, envia un correo a todos los usuarios que tengan la propiedad en seguimiento.
         else {
             if (property.price > propertyNew.price) {
+                console.log("BAJO DE PRECIO");
                 let condition2 = {
                     wishes: req.params.id
                 }
@@ -93,11 +96,12 @@ module.exports = function (app, render, nodemailer, variables, utilities, fileSy
                             'Aviso de ARCA Inmobiliaria', "<h1>Una propiedad de su lista de seguimiento ha bajado de precio.</h1>" +
                             "<p>>https://localhost:8081/properties/details/" + req.params.id + "</p>", variables);
 
-                        transporter.sendMail(mailOptions);
+                        let result = await transporter.sendMail(mailOptions);
                     }
                 }
-
             }
+            req.flash('success', "Propiedad editada correctamente.")
+            res.redirect("/myproperties");
         }
     });
 
@@ -285,40 +289,37 @@ module.exports = function (app, render, nodemailer, variables, utilities, fileSy
     });
 
     app.get("/myproperties", async function (req, res) {
-        let owner = {};
-        owner = utilities.addIfExists("name", req.query.nameOwner, owner);
-        owner = utilities.addIfExists("surname", req.query.surnameOwner, owner);
-        owner = utilities.addIfExists("dni", req.query.dniOwner, owner);
+        // Preparamos el filtro de propiedades
         let condition = {}
         condition = utilities.addIfExists("name", req.query.name, condition);
         condition = utilities.addIfExists("code", req.query.code, condition);
 
-        if (Object.keys(owner).length != 0) {
-            owners = await ownerModel.find({owner});
-            for(let i = 0; i<owners.length; i++){
+        // Preparamos el filtro de propietarios
+        let ownerData = {};
+        ownerData = utilities.addIfExists("name", req.query.nameOwner, ownerData);
+        ownerData = utilities.addIfExists("surname", req.query.surnameOwner, ownerData);
+        ownerData = utilities.addIfExists("dni", req.query.dniOwner, ownerData);
 
+        // Si los datos del propietario no estan vacios (se ha rellenado algun campo del filtro) lo añadimos a la condicion
+        if (Object.keys(ownerData).length != 0) {
+            let ownersId = await ownerModel.find(ownerData).distinct("_id");
+            for (let i = 0; i < ownersId.length; i++) {
+                ownersId[i] = ownersId[i].toString();
             }
+            condition.owner = {$in: ownersId};
         }
+
+        console.log(condition);
 
         let properties = await viviendaModel.find(condition);
-        console.log(properties)
-        let propertiesFil = await viviendaModel.populate(properties, {path: 'owner'})
-
-
-        console.log(propertiesFil)
-        if (propertiesFil == null) {
-            req.flash('error', 'Ocurrió un error al listar sus propiedades.')
-            res.redirect('/myproperties');
-        } else {
-            let response = render(req.session, 'views/property_myproperties.html',
-                {
-                    properties: propertiesFil,
-                    user: req.session.user,
-                    error: req.flash('error'),
-                    success: req.flash('success')
-                });
-            res.send(response);
-        }
+        let response = render(req.session, 'views/property_myproperties.html',
+            {
+                properties: properties,
+                user: req.session.user,
+                error: req.flash('error'),
+                success: req.flash('success')
+            });
+        res.send(response);
     });
 
 
