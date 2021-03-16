@@ -75,7 +75,6 @@ module.exports = function (app, render, nodemailer, variables, utilities, fileSy
         let condition = {"_id": mongoose.mongo.ObjectID(req.params.id)};
         let property = await viviendaModel.findOneAndUpdate(condition, propertyNew);
 
-        console.log(property)
         // Si no la encuentra lanza un error
         if (property === null) {
             req.flash('error', "Error al editar la propiedad.")
@@ -84,7 +83,6 @@ module.exports = function (app, render, nodemailer, variables, utilities, fileSy
         // Si la encuentra compara los precios y, si es menor, envia un correo a todos los usuarios que tengan la propiedad en seguimiento.
         else {
             if (property.price > propertyNew.price) {
-                console.log("BAJO DE PRECIO");
                 let condition2 = {
                     wishes: req.params.id
                 }
@@ -96,7 +94,7 @@ module.exports = function (app, render, nodemailer, variables, utilities, fileSy
                             'Aviso de ARCA Inmobiliaria', "<h1>Una propiedad de su lista de seguimiento ha bajado de precio.</h1>" +
                             "<p>>https://localhost:8081/properties/details/" + req.params.id + "</p>", variables);
 
-                        let result = await transporter.sendMail(mailOptions);
+                        await transporter.sendMail(mailOptions);
                     }
                 }
             }
@@ -136,7 +134,7 @@ module.exports = function (app, render, nodemailer, variables, utilities, fileSy
         let idO = null;
         if (foundOwner === null) {
             let modelOwner = new ownerModel(owner);
-            let result = modelOwner.save();
+            let result = await modelOwner.save();
             if (result === null) {
                 req.flash('error', "No se ha podido añadir al propietario del inmueble.")
                 res.redirect('/properties/' + req.session.typeProp)
@@ -164,7 +162,7 @@ module.exports = function (app, render, nodemailer, variables, utilities, fileSy
                 break;
         }
 
-        let saved = model.save();
+        let saved = await model.save();
         // Si la propiedad no se guarda correctamente manda un error
         if (saved === null) {
             req.flash('error', "La propiedad no se pudo añadir correctamente.")
@@ -308,8 +306,6 @@ module.exports = function (app, render, nodemailer, variables, utilities, fileSy
             }
             condition.owner = {$in: ownersId};
         }
-
-        console.log(condition);
 
         let properties = await viviendaModel.find(condition);
         let response = render(req.session, 'views/property_myproperties.html',

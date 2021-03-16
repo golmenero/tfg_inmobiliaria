@@ -22,7 +22,6 @@ module.exports = function (app, render, nodemailer, variables, utilities, mongoo
             req.flash('error', "No se encontro ninguna cuenta con esta información. Vuelva a intentarlo.");
             res.redirect('/login');
         } else {
-            console.log(user)
             let expirationDateUser = user.codes.passwordRecoverDate;
             if (utilities.expirated(dateToday, expirationDateUser)) {
                 req.flash('error', "Su enlace de recuperación de contraseña ha caducado.");
