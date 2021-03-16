@@ -73,7 +73,7 @@ let mongoose = require('mongoose')
 require('./routes/users.js')(app,render, nodemailer,  variables, utilities, mongoose);
 require('./routes/properties.js')(app,render, nodemailer,  variables, utilities, fileSystem, mongoose);
 require('./routes/system.js')(app,render,  variables,utilities);
-require('./routes/wishes.js')(app,render, nodemailer,  variables,utilities);
+require('./routes/wishes.js')(app,render, nodemailer, variables,utilities, mongoose);
 require('./routes/conversations.js')(app,render, nodemailer,  variables,utilities);
 require('./routes/agents.js')(app,render, nodemailer,  variables,utilities, mongoose);
 
