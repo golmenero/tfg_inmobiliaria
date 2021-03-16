@@ -202,19 +202,18 @@ module.exports = function (app, render, nodemailer, variables, utilities, mongoo
                 "<h2>Verifique su correo electrónico haciendo click en el siguiente enlace:</h2>" +
                 "<p>https://localhost:8081/user/verification/" + user.codes.emailActivation + "</p>");
 
-            transporter.sendMail(mailOptions, function (error) {
+            transporter.sendMail(mailOptions, async function (error) {
                 if (error) {
                     req.flash('error', "Ocurrió un error inesperado al enviar el correo de verificación.")
                     res.redirect("/login");
                 } else {
-                    user.save(function (err, user) {
-                        if (user == null) {
-                            req.flash('error', "Ocurrió un error inesperado al añadir su usuario al sistema.")
-                        } else {
-                            req.flash('success', "Se ha enviado un mensaje a su bandeja de entrada. Revísela para activar su perfil.")
-                            res.redirect("/login");
-                        }
-                    });
+                    let user = await user.save();
+                    if (user === null) {
+                        req.flash('error', "Ocurrió un error inesperado al añadir su usuario al sistema.")
+                    } else {
+                        req.flash('success', "Se ha enviado un mensaje a su bandeja de entrada. Revísela para activar su perfil.")
+                        res.redirect("/login");
+                    }
                 }
             })
             // Si ya existe un usuario.
@@ -242,13 +241,13 @@ module.exports = function (app, render, nodemailer, variables, utilities, mongoo
             email: req.body.email,
             password: decrypted
         }
-        let user = await userModel.findOne(condition).exec();
-        if (user == null) {
+        let user = await userModel.findOne(condition);
+        if (user === null) {
             req.flash('error', "Usuario y/o contraseña incorrectos")
             req.session.user = null;
             res.redirect("/login");
         } else {
-            if (user.active === true) {
+            if (user.active == true) {
                 req.session.user = user;
                 req.flash('success', "Ha iniciado sesión correctamente.")
                 if (req.session.typeProp != undefined) {

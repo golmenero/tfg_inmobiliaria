@@ -71,7 +71,7 @@ app.set('crypto', crypto);
 let mongoose = require('mongoose')
 // Rutas
 require('./routes/users.js')(app,render, nodemailer,  variables, utilities, mongoose);
-require('./routes/properties.js')(app,render, nodemailer,  variables, utilities, fileSystem);
+require('./routes/properties.js')(app,render, nodemailer,  variables, utilities, fileSystem, mongoose);
 require('./routes/system.js')(app,render,  variables,utilities);
 require('./routes/wishes.js')(app,render, nodemailer,  variables,utilities);
 require('./routes/conversations.js')(app,render, nodemailer,  variables,utilities);

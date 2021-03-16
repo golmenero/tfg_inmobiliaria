@@ -6,7 +6,7 @@
 <nav aria-label="breadcrumb">
     <ol class="breadcrumb">
         <li class="breadcrumb-item"><a href="/">Inicio</a></li>
-        <li class="breadcrumb-item"><a href="/properties/{{property.type}}">Mis Propiedades</a></li>
+        <li class="breadcrumb-item"><a href="/properties/{{property.type}}">Propiedades</a></li>
         <li class="breadcrumb-item active" aria-current="page">Detalles</li>
     </ol>
 </nav>
@@ -39,7 +39,7 @@
 <div class="container">
     <h2 class="sectionHeader">Detalles de "{{property.name}}"</h2>
     {% if user.permission == 'A' || user.permission == 'S' %}
-    <h3 class="sectionHeader">Código: "{{property.code}}"</h3>
+    <h3 class="sectionHeader">Código: {{property.code}}</h3>
     {% endif %}
 
     <!-- DATOS DE PROPIETARIO -->
@@ -59,21 +59,21 @@
             <div class="card-body">
                 <div class="row">
                     <div class="col-12">
-                        <h5>Nombre del Propietario: {{property.nameOwner}} {{property.surnameOwner}}<small
+                        <h5>Nombre del Propietario: {{property.owner.name}} {{property.owner.surname}}<small
                                 class="text-muted"> - DNI/NIF/NIE:
-                            {{property.dniOwner}}</small>
+                            {{property.owner.dni}}</small>
                         </h5>
                     </div>
                 </div>
                 <div class="row col-12">
                     <div class="col-4">
-                        <p><span class="font-weight-bold">Teléfono: </span>{{property.phoneOwner}}</p>
+                        <p><span class="font-weight-bold">Teléfono: </span>{{property.owner.phone}}</p>
                     </div>
                     <div class="col-4">
-                        <p><span class="font-weight-bold">E-Mail: </span>{{property.emailOwner}}</p>
+                        <p><span class="font-weight-bold">E-Mail: </span>{{property.owner.email}}</p>
                     </div>
                     <div class="col-4">
-                        <p><span class="font-weight-bold">Dirección: </span>{{property.addressOwner}}</p>
+                        <p><span class="font-weight-bold">Dirección: </span>{{property.owner.address}}</p>
                     </div>
                 </div>
             </div>

@@ -1,114 +1,118 @@
-module.exports = function (app, render, nodemailer,  variables, utilities, fileSystem) {
+let userModel = require('../database/userModel');
+let viviendaModel = require('../database/viviendaModel');
+let localModel = require('../database/localModel');
+let sueloModel = require('../database/sueloModel');
+let ownerModel = require('../database/ownerModel');
 
-    app.get('/properties/details/:id', function (req, res) {
-        let condition = {"_id": managerDB.mongo.ObjectID(req.params.id)};
-        managerDB.get(condition, "properties", function (properties) {
-            if (properties == null) {
-                req.flash('error', 'Ocurrió un error al mostrar los detalles de propiedad especificada.')
-                res.redirect('/myproperties');
-            } else {
-                let response = render(req.session, 'views/property_details.html', {
-                    property: properties[0],
-                    user: req.session.user,
-                    error: req.flash('error'),
-                    success: req.flash('success')
-                });
-                res.send(response);
-            }
-        });
+module.exports = function (app, render, nodemailer, variables, utilities, fileSystem, mongoose) {
+
+    app.get('/properties/details/:id', async function (req, res) {
+        let condition = {"_id": mongoose.mongo.ObjectID(req.params.id)};
+        let property = await viviendaModel.findOne(condition);
+        let propertyFull = await viviendaModel.populate(property, {path: 'owner'})
+
+        if (property == null) {
+            req.flash('error', 'Ocurrió un error al mostrar los detalles de propiedad especificada.')
+            res.redirect('/myproperties');
+        } else {
+            let response = render(req.session, 'views/property_details.html', {
+                property: propertyFull,
+                user: req.session.user,
+                error: req.flash('error'),
+                success: req.flash('success')
+            });
+            res.send(response);
+        }
     });
 
     // EDITAR PROPIEDADES
-    app.get('/properties/edit/:id', function (req, res) {
-        let condition = {"_id": managerDB.mongo.ObjectID(req.params.id)};
-        managerDB.get(condition, "properties", function (properties) {
-            if (properties == null) {
-                req.flash('error', 'Ocurrió un error al encontrar la propiedad especificada.')
-                res.redirect('/myproperties');
-            } else {
-                let response = render(req.session, 'views/property_modify.html',
-                    {
-                        property: properties[0],
-                        error: req.flash('error'),
-                        success: req.flash('success')
-                    });
-                res.send(response);
-            }
-        });
+    app.get('/properties/edit/:id', async function (req, res) {
+        let condition = {"_id": mongoose.mongo.ObjectID(req.params.id)};
+        let property = await viviendaModel.findOne(condition);
+        if (property == null) {
+            req.flash('error', 'Ocurrió un error al encontrar la propiedad especificada.')
+            res.redirect('/myproperties');
+        } else {
+            let response = render(req.session, 'views/property_modify.html',
+                {
+                    property: property,
+                    error: req.flash('error'),
+                    success: req.flash('success')
+                });
+            res.send(response);
+        }
     });
 
-    app.post('/properties/edit/:id', function (req, res) {
-        let condition = {"_id": managerDB.mongo.ObjectID(req.params.id)};
-        managerDB.get(condition, "properties", function (result) {
-            if (result == null) {
-                req.flash('error', "Error al editar la propiedad.")
-                res.redirect('/myproperties')
-            } else {
-                let property = result[0];
-                let propertyNew = utilities.buildProperty(req);
-                if (property.price > propertyNew.price) {
-                    let condition2 = {
-                        wishes: req.params.id
-                    }
-                    managerDB.get(condition2, "users", function (result) {
-                        if (result != null) {
-                            for (let i = 0; i< result.length; i++) {
-                                let transporter = utilities.createTransporter(nodemailer,variables);
-                                let mailOptions = utilities.createMailOptions(result[i].email,
-                                    'Aviso de ARCA Inmobiliaria', "<h1>Una propiedad de su lista de seguimiento ha bajado de precio.</h1>" +
-                                    "<p>>https://localhost:8081/properties/details/" + req.params.id + "</p>", variables);
+    app.post('/properties/edit/:id', async function (req, res) {
+        let owner = await ownerModel.findOne({dni: req.body.dniOwner});
 
-                                transporter.sendMail(mailOptions);
-                            }
-                        }
-                        utilities.getArrayImg(req.files.imginmueble, req.params.id, fileSystem).then(arrayImg => {
-                            let condition = {"_id": managerDB.mongo.ObjectID(req.params.id)};
-                            propertyNew = {...propertyNew, ...{media: arrayImg,}};
+        let idO = null;
+        // Si no encuentra el propietario lo añade
+        if (owner === null) {
+            let ownerAdd = new ownerModel(utilities.buildOwner(req));
+            let response = await ownerAdd.save();
+            if (response === null) {
+                req.flash('error', 'No se ha podido añadir el propietario.')
+                res.redirect('/properties/' + req.session.typeProp);
+            }
+            idO = {owner: mongoose.mongo.ObjectID(ownerAdd.id)};
+        } else {
+            idO = {owner: mongoose.mongo.ObjectID(owner.id)};
+        }
 
-                            managerDB.edit(condition, propertyNew, "properties", function (result) {
-                                if (result == null) {
-                                    req.flash('error', "Error al añadir la propiedad.")
-                                    res.redirect('/myproperties')
-                                } else {
-                                    req.flash('success', "La propiedad se editó correctamente.")
-                                    res.redirect('/myproperties')
-                                }
-                            });
-                        });
-                    })
-                }else{
-                    utilities.getArrayImg(req.files.imginmueble, req.params.id,fileSystem).then(arrayImg => {
-                        let condition = {"_id": managerDB.mongo.ObjectID(req.params.id)};
-                        propertyNew = {...propertyNew, ...{media: arrayImg,}};
+        // Creamos la propiedad y le añadimos el id del propietario
+        let propertyNew = utilities.buildProperty(req);
+        propertyNew = {...propertyNew, ...idO}
+        console.log(propertyNew)
 
-                        managerDB.edit(condition, propertyNew, "properties", function (result) {
-                            if (result == null) {
-                                req.flash('error', "Error al añadir la propiedad.")
-                                res.redirect('/myproperties')
-                            } else {
-                                req.flash('success', "La propiedad se editó correctamente.")
-                                res.redirect('/myproperties')
-                            }
-                        });
-                    });
+        // Añadimos las imágenes en carpeta y las asignamos a la propiedad
+        let arrayImg = await utilities.getArrayImg(req.files.imginmueble, req.params.id, fileSystem);
+        propertyNew = {...propertyNew, ...arrayImg}
+
+        // Modificamos la propiedad
+        let condition = {"_id": mongoose.mongo.ObjectID(req.params.id)};
+        let property = await viviendaModel.findOneAndUpdate(condition, propertyNew);
+
+        console.log(property)
+        // Si no la encuentra lanza un error
+        if (property === null) {
+            req.flash('error', "Error al editar la propiedad.")
+            res.redirect('/myproperties')
+        }
+        // Si la encuentra compara los precios y, si es menor, envia un correo a todos los usuarios que tengan la propiedad en seguimiento.
+        else {
+            if (property.price > propertyNew.price) {
+                let condition2 = {
+                    wishes: req.params.id
                 }
-            }
-        });
-    })
+                let users = await userModel.find(condition2);
+                if (users != null) {
+                    for (let i = 0; i < users.length; i++) {
+                        let transporter = utilities.createTransporter(nodemailer, variables);
+                        let mailOptions = utilities.createMailOptions(users[i].email,
+                            'Aviso de ARCA Inmobiliaria', "<h1>Una propiedad de su lista de seguimiento ha bajado de precio.</h1>" +
+                            "<p>>https://localhost:8081/properties/details/" + req.params.id + "</p>", variables);
 
-    // ELIMINAR PROPIEDADES
-    app.get('/properties/delete/:id', function (req, res) {
-        let condition = {"_id": managerDB.mongo.ObjectID(req.params.id)};
-        managerDB.delete(condition, "properties", function (properties) {
-            if (properties == null) {
-                req.flash('error', "Error al eliminar la propiedad.")
-                res.redirect('/myproperties')
-            } else {
-                // Usamos el paquete fs-extra para eliminar el directorio
-                fileSystem.remove('public/propertiesimg/' + req.params.id);
-                res.redirect("/myproperties");
+                        transporter.sendMail(mailOptions);
+                    }
+                }
+
             }
-        });
+        }
+    });
+
+// ELIMINAR PROPIEDADES
+    app.get('/properties/delete/:id', async function (req, res) {
+        let condition = {"_id": mongoose.mongo.ObjectID(req.params.id)};
+        let propiedad = await viviendaModel.deleteOne();
+        if (propiedad === null) {
+            req.flash('error', "Error al eliminar la propiedad.")
+            res.redirect('/myproperties')
+        } else {
+            // Usamos el paquete fs-extra para eliminar el directorio
+            fileSystem.remove('public/propertiesimg/' + req.params.id);
+            res.redirect("/myproperties");
+        }
     });
 
     app.get('/properties/add', function (req, res) {
@@ -120,42 +124,69 @@ module.exports = function (app, render, nodemailer,  variables, utilities, fileS
         res.send(response);
     })
 
-    app.post('/properties/add', function (req, res) {
+    app.post('/properties/add', async function (req, res) {
+        // Primero debemos tratar con el propietario
+        let owner = utilities.buildOwner(req);
+        let foundOwner = await ownerModel.findOne({dni: owner.dni, email: owner.email});
+
+        let idO = null;
+        if (foundOwner === null) {
+            let modelOwner = new ownerModel(owner);
+            let result = modelOwner.save();
+            if (result === null) {
+                req.flash('error', "No se ha podido añadir al propietario del inmueble.")
+                res.redirect('/properties/' + req.session.typeProp)
+            }
+            idO = modelOwner._id;
+        } else {
+            idO = foundOwner._id;
+        }
+
+        // Ahora tratamos con la propiedad, añadiendole el id del propietario
+        let model;
         let property = utilities.buildProperty(req);
-        // Connect to DB
-        managerDB.add(property, "properties", function (id) {
-            if (id == null) {
-                req.flash('error', "La propiedad no se pudo añadir correctamente.")
+        let prop = {...property, ...{owner: idO}};
+
+
+        switch (req.body.type) {
+            case 'vivienda':
+                model = new viviendaModel(prop);
+                break;
+            case 'local':
+                model = new localModel(prop);
+                break;
+            case 'suelo':
+                model = new sueloModel(prop);
+                break;
+        }
+
+        let saved = model.save();
+        // Si la propiedad no se guarda correctamente manda un error
+        if (saved === null) {
+            req.flash('error', "La propiedad no se pudo añadir correctamente.")
+            res.redirect('/properties/' + req.session.typeProp)
+        }
+        // Si se guarda, utilizamos su ID para guardar las imagenes y luego editamos la propiedad añadiéndole el array.
+        else {
+            let arrayImg = await utilities.getArrayImg(req.files.imginmueble, mongoose.mongo.ObjectID(model._id), fileSystem);
+            let condition = {"_id": mongoose.mongo.ObjectID(model._id)};
+            let property = {media: arrayImg,}
+            let result = await viviendaModel.findOneAndUpdate(condition, property);
+
+            if (result === null) {
+                req.flash('error', "Error al añadir las imágenes de la propiedad.")
                 res.redirect('/properties/' + req.session.typeProp)
             } else {
-                if (req.files != null) {
-                    utilities.getArrayImg(req.files.imginmueble, id, fileSystem).then(arrayImg => {
-                        let condition = {"_id": managerDB.mongo.ObjectID(id)};
-                        let property = {
-                            media: arrayImg,
-                        }
-                        managerDB.edit(condition, property, "properties", function (result) {
-                            if (result == null) {
-                                req.flash('error', "Error al añadir las imágenes de la propiedad.")
-                                res.redirect('/properties/' + req.session.typeProp)
-                            } else {
-                                req.flash('success', "La propiedad se añadió correctamente.")
-                                res.redirect("/myproperties");
-                            }
-                        });
-                    })
-                }
+                req.flash('success', "La propiedad se añadió correctamente.")
+                res.redirect("/myproperties");
             }
-        })
+        }
     });
 
-    app.get('/properties/:type', function (req, res) {
-        let condition = {
-            type: req.params.type,
-        };
+    app.get('/properties/:type', async function (req, res) {
+        let condition = {type: req.params.type};
         condition = utilities.addIfExists("name", req.query.name, condition);
         condition = utilities.addIfExists("typeOp", req.query.typeOp, condition);
-
         if (req.params.type == 'vivienda') {
             condition = utilities.addIfExists("address", req.query.address, condition);
             condition = utilities.addIfExists("city", req.query.city, condition);
@@ -214,7 +245,6 @@ module.exports = function (app, render, nodemailer,  variables, utilities, fileS
         // Guardamos el tipo en sesion
         req.session.typeProp = req.params.type;
 
-
         if (req.query.search != null)
             condition = {"name": {$regex: ".*" + req.query.search + ".*"}};
 
@@ -223,60 +253,73 @@ module.exports = function (app, render, nodemailer,  variables, utilities, fileS
             pg = 1;
         }
 
-        managerDB.getPG(condition, "properties", pg, function (properties, total) {
-            if (properties == null) {
-                req.flash('error', 'Ocurrió un error al encontrar las propiedades.')
-                res.redirect('/myproperties');
-            } else {
-                let lastPg = total / 4;
-                if (total % 4 > 0) {
-                    lastPg = lastPg + 1;
-                }
-                let pages = [];
-                for (let i = pg - 2; i <= pg + 2; i++) {
-                    if (i > 0 && i <= lastPg) {
-                        pages.push(i);
-                    }
-                }
-                let response = render(req.session, 'views/property_list.html',
-                    {
-                        user: req.session.user,
-                        url: req.url.split("?pg=")[0].split("&pg=")[0],
-                        typeProp: req.session.typeProp,
-                        properties: properties,
-                        pages: pages,
-                        actual: pg,
-                        error: req.flash('error'),
-                        success: req.flash('success')
-                    });
-                res.send(response);
+        let total = await viviendaModel.find(condition).countDocuments();
+        let properties = await viviendaModel.find(condition).skip((pg - 1) * 4).limit(4);
+        if (properties == null) {
+            req.flash('error', 'Ocurrió un error al encontrar las propiedades.')
+            res.redirect('/myproperties');
+        } else {
+            let lastPg = total / 4;
+            if (total % 4 > 0) {
+                lastPg = lastPg + 1;
             }
-        });
+            let pages = [];
+            for (let i = pg - 2; i <= pg + 2; i++) {
+                if (i > 0 && i <= lastPg) {
+                    pages.push(i);
+                }
+            }
+            let response = render(req.session, 'views/property_list.html',
+                {
+                    user: req.session.user,
+                    url: req.url.split("?pg=")[0].split("&pg=")[0],
+                    typeProp: req.session.typeProp,
+                    properties: properties,
+                    pages: pages,
+                    actual: pg,
+                    error: req.flash('error'),
+                    success: req.flash('success')
+                });
+            res.send(response);
+        }
     });
 
-    app.get("/myproperties", function (req, res) {
+    app.get("/myproperties", async function (req, res) {
+        let owner = {};
+        owner = utilities.addIfExists("name", req.query.nameOwner, owner);
+        owner = utilities.addIfExists("surname", req.query.surnameOwner, owner);
+        owner = utilities.addIfExists("dni", req.query.dniOwner, owner);
         let condition = {}
         condition = utilities.addIfExists("name", req.query.name, condition);
         condition = utilities.addIfExists("code", req.query.code, condition);
-        condition = utilities.addIfExists("nameOwner", req.query.nameOwner, condition);
-        condition = utilities.addIfExists("surnameOwner", req.query.surnameOwner, condition);
-        condition = utilities.addIfExists("dniOwner", req.query.dniOwner, condition);
 
-        managerDB.get(condition, "properties", function (properties) {
-            if (properties == null) {
-                req.flash('error', 'Ocurrió un error al listar sus propiedades.')
-                res.redirect('/myproperties');
-            } else {
-                let response = render(req.session, 'views/property_myproperties.html',
-                    {
-                        properties: properties,
-                        user: req.session.user,
-                        error: req.flash('error'),
-                        success: req.flash('success')
-                    });
-                res.send(response);
+        if (Object.keys(owner).length != 0) {
+            owners = await ownerModel.find({owner});
+            for(let i = 0; i<owners.length; i++){
+
             }
-        });
+        }
+
+        let properties = await viviendaModel.find(condition);
+        console.log(properties)
+        let propertiesFil = await viviendaModel.populate(properties, {path: 'owner'})
+
+
+        console.log(propertiesFil)
+        if (propertiesFil == null) {
+            req.flash('error', 'Ocurrió un error al listar sus propiedades.')
+            res.redirect('/myproperties');
+        } else {
+            let response = render(req.session, 'views/property_myproperties.html',
+                {
+                    properties: propertiesFil,
+                    user: req.session.user,
+                    error: req.flash('error'),
+                    success: req.flash('success')
+                });
+            res.send(response);
+        }
     });
+
 
 }

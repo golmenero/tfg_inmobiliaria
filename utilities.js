@@ -20,7 +20,7 @@ module.exports = {
     },
     addIfExistsCB: function (fieldName, value, object) {
         if (value == "on") {
-            object[fieldName] = "Si";
+            object[fieldName] = true;
         }
         return object;
 
@@ -28,9 +28,9 @@ module.exports = {
     parseElement: function (tipoElemento, elemento) {
         if (tipoElemento == "checkbox") {
             if (elemento == undefined)
-                return "No";
+                return false;
             else
-                return "Si";
+                return true;
         }
         if (tipoElemento == "input") {
             if (elemento == undefined)
@@ -38,6 +38,17 @@ module.exports = {
             else
                 return elemento;
         }
+    },
+    buildOwner: function(req){
+        let owner = {
+            name: this.parseElement("input", req.body.nameOwner),
+            surname: this.parseElement("input", req.body.surnameOwner),
+            dni: this.parseElement("input", req.body.dniOwner),
+            phone: this.parseElement("input", req.body.phoneOwner),
+            email: this.parseElement("input", req.body.emailOwner),
+            address: this.parseElement("input", req.body.addressOwner)
+        }
+        return owner;
     },
     buildProperty: function (req) {
         let prop = null;
@@ -67,7 +78,6 @@ module.exports = {
                 aireAcon: this.parseElement("checkbox", req.body.checkAireAcon),
                 amueblado: this.parseElement("checkbox", req.body.checkAmueblado),
                 animales: this.parseElement("checkbox", req.body.checkAnimales),
-
             }
         }
         if (propertyType == "local") {
@@ -90,7 +100,7 @@ module.exports = {
                 extintores: this.parseElement("checkbox", req.body.checkExtintoresLoc),
                 iluminacion: this.parseElement("checkbox", req.body.checkIluminacionLoc),
                 calefaccion: this.parseElement("checkbox", req.body.checkCalefaccionLoc),
-                aireAcon: this.parseElement("checkbox", req.body.checkAireAconLoc)
+                aireAcon: this.parseElement("checkbox", req.body.checkAireAconLoc),
             }
         }
         if (propertyType == "suelo") {
@@ -106,19 +116,10 @@ module.exports = {
                 edifArea: parseInt(this.parseElement("input", req.body.areaEdifSue)),
                 price: parseInt(this.parseElement("input", req.body.priceSue)),
                 accesoAgua: this.parseElement("checkbox", req.body.accesoAguaSue),
-                accesoLuz: this.parseElement("checkbox", req.body.accesoLuzSue)
+                accesoLuz: this.parseElement("checkbox", req.body.accesoLuzSue),
             }
         }
-        owner = {
-            nameOwner: this.parseElement("input", req.body.nameOwner),
-            surnameOwner: this.parseElement("input", req.body.surnameOwner),
-            dniOwner: this.parseElement("input", req.body.dniOwner),
-            phoneOwner: this.parseElement("input", req.body.phoneOwner),
-            emailOwner: this.parseElement("input", req.body.emailOwner),
-            addressOwner: this.parseElement("input", req.body.addressOwner)
-        };
-        let property = {...prop, ...owner};
-        return property;
+        return prop;
     },
     // Creacion de correos
     createTransporter: function () {
@@ -153,16 +154,16 @@ module.exports = {
     // Gestion de imágenes
     getArrayImg: async function (files, id, fileSystem) {
         // Usamos el paquete fs-extra para crear el directorio
-        await fileSystem.ensureDir("public/propertiesimg/" + id)
+        await fileSystem.ensureDir("public/propertiesimg/" + id.toString())
         // Vaciamos el directorio si tiene contenido
-        await fileSystem.emptyDir("public/propertiesimg/" + id);
+        await fileSystem.emptyDir("public/propertiesimg/" + id.toString());
 
         let arrayImg = [];
 
         // Usamos el paquete express-fileupload para meter las imagenes en el directorio
         if (Array.isArray(files)) {
             for (let counter = 0; counter < files.length; counter++) {
-                name = 'public/propertiesimg/' + id + "/" + id + "_" + counter + '.png';
+                name = 'public/propertiesimg/' + id.toString() + "/" + id.toString() + "_" + counter + '.png';
                 await files[counter].mv(name);
                 arrayImg.push(name.replace("public", ""));
             }
