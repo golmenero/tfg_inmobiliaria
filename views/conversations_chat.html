@@ -9,7 +9,17 @@
     </ol>
 </nav>
 <div class="container">
-    <h2 class="sectionHeader">Mi lista de Seguimiento</h2>
+    <h2 class="sectionHeader">Sala de chat</h2>
+    <div class="row">
+        <div class="col-11">
+            <h3>{{conversation.property.name}} ({{conversation.property.type}})  - Operación: {{conversation.property.typeOp}}/{{conversation.property.price}} €</h3>
+        </div>
+        <div class="col-1">
+            <a class="btn btn-secondary float-right"
+               href="/properties/details/{{ conversation.property._id.toString() }}"><span class="far fa-eye"></span></a>
+        </div>
+    </div>
+
     <form class="inline-form" method="post" action="/conversations/send/{{conversation._id.toString()}}"
           encType="multipart/form-data">
         <div id="message-container" class="message-container overflow-auto">

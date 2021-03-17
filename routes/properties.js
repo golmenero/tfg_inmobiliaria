@@ -91,7 +91,7 @@ module.exports = function (app, render, nodemailer, variables, utilities, fileSy
                         let transporter = utilities.createTransporter(nodemailer, variables);
                         let mailOptions = utilities.createMailOptions(users[i].email,
                             'Aviso de ARCA Inmobiliaria', "<h1>Una propiedad de su lista de seguimiento ha bajado de precio.</h1>" +
-                            "<p>>https://localhost:8081/properties/details/" + req.params.id + "</p>", variables);
+                            "<p>Échale un vistazo: https://localhost:8081/properties/details/" + req.params.id + "</p>", variables);
 
                         await transporter.sendMail(mailOptions);
                     }
