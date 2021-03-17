@@ -74,9 +74,10 @@
         <table class="table table-hover">
             <thead class="thead-dark">
             <tr>
+                <th scope="col-md-3"></th>
                 <th scope="col-md-1">Código</th>
-                <th scope="col-md-4">Nombre</th>
-                <th scope="col-md-2">Tipo</th>
+                <th scope="col-md-2">Nombre</th>
+                <th scope="col-md-1">Tipo</th>
                 <th scope="col-md-2">Precio</th>
                 <th scope="col-md-1"></th>
                 <th scope="col-md-1"></th>
@@ -86,6 +87,7 @@
             <tbody>
             {% for property in properties %}
             <tr>
+                <td><img class='img-table'  src="propertiesimg/{{property._id.toString()}}/{{property._id.toString()}}_0.png"/> </td>
                 <td>{{ property.code }}</td>
                 <td>{{ property.name }}</td>
                 <td>{{ property.type }}</td>

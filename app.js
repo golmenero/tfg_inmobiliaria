@@ -57,6 +57,8 @@ app.use("/wishes", routerUserSession);
 app.use("/agents", routerUserSession);
 app.use("/agents/*", routerUserSession);
 app.use("/info/*", routerUserSession);
+app.use("/conversations", routerUserSession);
+app.use("/conversations/*", routerUserSession);
 
 app.use(express.static('public'));
 
@@ -74,7 +76,7 @@ require('./routes/users.js')(app,render, nodemailer,  variables, utilities, mong
 require('./routes/properties.js')(app,render, nodemailer,  variables, utilities, fileSystem, mongoose);
 require('./routes/system.js')(app,render,  variables,utilities);
 require('./routes/wishes.js')(app,render, nodemailer, variables,utilities, mongoose);
-require('./routes/conversations.js')(app,render, nodemailer,  variables,utilities);
+require('./routes/conversations.js')(app,render, nodemailer,  variables,mongoose);
 require('./routes/agents.js')(app,render, nodemailer,  variables,utilities, mongoose);
 
 
@@ -88,41 +90,37 @@ app.use(function (err, req, res, next) {
         res.send("Recurso no disponible");
     }
 });
-function createSuperAgent() {
+
+
+let userModel = require('./database/userModel');
+let infoModel = require('./database/infoModel');
+
+async function initParams() {
+    let seguro = app.get("crypto").createHmac('sha256', app.get('key')).update("admin").digest('hex');
     let condition = {email: "charlygomezcolmenero@gmail.com"}
-    managerDB.get(condition, "users", function (result) {
-        if(result == null || result.length == 0){
-            let seguro = app.get("crypto").createHmac('sha256', app.get('key')).update("admin").digest('hex');
-            let user = {
-                name: "Carlos",
-                surname: "Gómez Colmenero",
-                email: "charlygomezcolmenero@gmail.com",
-                permission: 'S',
-                password: seguro,
-                active: true,
-            }
-            managerDB.add(user, "users", function (id) {});
-        }
-    })
+    let conditionInfo = {active: true}
+    let user = {
+        name: "Carlos",
+        surname: "Gómez Colmenero",
+        email: "charlygomezcolmenero@gmail.com",
+        permission: 'S',
+        password: seguro,
+        active: true,
+    }
+    let info = {
+        phones: variables.TELEFONOS,
+        emails: variables.EMAILS,
+        active: true
+    };
+
+    await infoModel.findOneAndReplace(conditionInfo,info);
+    await userModel.findOneAndReplace(condition, user);
 }
-function createInfoStatus() {
-    let condition = {active: true};
-    managerDB.get(condition, "info", function (result) {
-        if(result == null || result.length == 0){
-            let info = {
-                phones: variables.TELEFONOS,
-                emails: variables.EMAILS,
-                active: true
-            };
-            managerDB.add(info, "info", function (id) {});
-        }
-    });
-}
+
 https.createServer({
     key: fs.readFileSync('certificates/alice.key'),
     cert: fs.readFileSync('certificates/alice.crt')
-}, app).listen(app.get('port'), function () {
-    //createSuperAgent();
-    //createInfoStatus();
+}, app).listen(app.get('port'), async function () {
+    await initParams();
     console.log("Servidor activo");
 });

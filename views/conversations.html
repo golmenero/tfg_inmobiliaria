@@ -10,68 +10,38 @@
 <div class="container">
     <h2 class="sectionHeader">Conversaciones</h2>
 
-    <div id="message-container">
-        <form id="send-container">
+    <div class="div-field table-responsive">
+        <table class="table table-hover">
+            <thead class="thead-dark">
+            <tr>
+                <th scope="col-md-3"></th>
+                <th scope="col-md-3">Nombre</th>
+                <th scope="col-md-2">Tipo</th>
+                <th scope="col-md-2">Precio</th>
+                <th scope="col-md-1">Propiedad</th>
+                <th scope="col-md-1">Acceso</th>
+            </tr>
+            </thead>
+            <tbody>
             {% for conversation in conversations %}
-            <div class="displayDiv row">
-                <div class="col-3">
-                    <img class='imgLogo' src="propertiesimg/{{ conversation.propertyID.toString()}}_0.png" alt="logo"/>
-                </div>
-                <div class="col-9">
-                    <a class="displayProperty" id="displayProperty" href="/properties/{{ property._id.toString() }}">
-                        <div class="d-inline">
-                            {% if property.type == 'vivienda' %}
-                            <span class="badge badge-primary">Vivienda</span>
-                            {%endif%}
-                            {% if property.type == 'local' %}
-                            <span class="badge badge-secondary">Local</span>
-                            {%endif%}
-                            {% if property.type == 'suelo' %}
-                            <span class="badge badge-dark">Suelo</span>
-                            {%endif%}
-                            {% if property.typeOp == 'Venta' %}
-                            <span class="badge badge-info">Venta</span>
-                            {%endif%}
-
-                            {% if property.typeOp == 'Alquiler' %}
-                            <span class="badge badge-success">Alquiler</span>
-                            {%endif%}
-                        </div>
-
-                        <div class="row">
-                            <h4>{{ property.name }}</h4>
-                        </div>
-                        <div class="row">
-                            {% if property.type == 'vivienda' %}
-                            <p> En {{property.address}} , {{property.city}} - {{property.area}}
-                                m²</p>
-                            {%endif%}
-                            {% if property.type == 'local' %}
-                            <p> En {{property.address}} , {{property.city}} - {{property.area}}
-                                m²</p>
-                            {%endif%}
-
-                            {% if property.type == 'suelo' %}
-                            <p class="text-capitalize">{{property.type}} en {{property.city}} - {{property.area}} m²
-                                ({{property.edifArea}}
-                                edificables)</p>
-                            {%endif%}
-                        </div>
-                        <div class="row">
-                            <p class="truncate">{{property.description}}</p>
-                        </div>
-                        <div class="row float-right">
-                            <h5 class="displayPrice">Precio: {{ property.price }} €</h5>
-                        </div>
-                    </a>
-                    <div class="row">
-                        <button type="button" class="centeredComponent btn btn-secondary">Contactar <span
-                                class="fas fa-comment-dots"></span></button>
-                    </div>
-                </div>
-            </div>
+            <tr>
+                <td><img class='img-table' src="propertiesimg/{{ conversation.property._id.toString()}}/{{ conversation.property._id.toString()}}_0.png"
+                         alt="Imagen de Propiedad"/></td>
+                <td>{{conversation.property.name }}</td>
+                <td>{{ conversation.property.type }}</td>
+                <td>{{ conversation.property.price }}</td>
+                <td>
+                    <a class="btn btn-secondary float-right"
+                       href="/properties/details/{{conversation.property._id.toString() }}">Ver propiedad</span></a>
+                </td>
+                <td>
+                    <a class="btn btn-dark float-right"
+                       href="/conversations/chat/{{ conversation._id.toString() }}">Acceso</span></a>
+                </td>
+            </tr>
             {% endfor %}
-        </form>
+            </tbody>
+        </table>
     </div>
 </div>
 {% endblock %}

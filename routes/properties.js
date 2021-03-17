@@ -1,17 +1,16 @@
 let userModel = require('../database/userModel');
-let viviendaModel = require('../database/viviendaModel');
-let localModel = require('../database/localModel');
-let sueloModel = require('../database/sueloModel');
+
+let propertyModel = require('../database/propertyModel');
 let ownerModel = require('../database/ownerModel');
 
 module.exports = function (app, render, nodemailer, variables, utilities, fileSystem, mongoose) {
 
     app.get('/properties/details/:id', async function (req, res) {
         let condition = {"_id": mongoose.mongo.ObjectID(req.params.id)};
-        let property = await viviendaModel.findOne(condition);
-        let propertyFull = await viviendaModel.populate(property, {path: 'owner'})
+        let property = await propertyModel.findOne(condition);
+        let propertyFull = await propertyModel.populate(property, {path: 'owner'})
 
-        if (property == null) {
+        if (propertyFull == null) {
             req.flash('error', 'Ocurrió un error al mostrar los detalles de propiedad especificada.')
             res.redirect('/myproperties');
         } else {
@@ -28,12 +27,12 @@ module.exports = function (app, render, nodemailer, variables, utilities, fileSy
     // EDITAR PROPIEDADES
     app.get('/properties/edit/:id', async function (req, res) {
         let condition = {"_id": mongoose.mongo.ObjectID(req.params.id)};
-        let property = await viviendaModel.findOne(condition);
+        let property = await propertyModel.findOne(condition);
         if (property == null) {
             req.flash('error', 'Ocurrió un error al encontrar la propiedad especificada.')
             res.redirect('/myproperties');
         } else {
-            let propertyFull = await viviendaModel.populate(property, {path: 'owner'})
+            let propertyFull = await propertyModel.populate(property, {path: 'owner'})
             let response = render(req.session, 'views/property_modify.html',
                 {
                     property: propertyFull,
@@ -73,7 +72,7 @@ module.exports = function (app, render, nodemailer, variables, utilities, fileSy
 
         // Modificamos la propiedad
         let condition = {"_id": mongoose.mongo.ObjectID(req.params.id)};
-        let property = await viviendaModel.findOneAndUpdate(condition, propertyNew);
+        let property = await propertyModel.findOneAndUpdate(condition, propertyNew);
 
         // Si no la encuentra lanza un error
         if (property === null) {
@@ -106,7 +105,7 @@ module.exports = function (app, render, nodemailer, variables, utilities, fileSy
 // ELIMINAR PROPIEDADES
     app.get('/properties/delete/:id', async function (req, res) {
         let condition = {"_id": mongoose.mongo.ObjectID(req.params.id)};
-        let propiedad = await viviendaModel.deleteOne();
+        let propiedad = await propertyModel.deleteOne();
         if (propiedad === null) {
             req.flash('error', "Error al eliminar la propiedad.")
             res.redirect('/myproperties')
@@ -145,22 +144,9 @@ module.exports = function (app, render, nodemailer, variables, utilities, fileSy
         }
 
         // Ahora tratamos con la propiedad, añadiendole el id del propietario
-        let model;
         let property = utilities.buildProperty(req);
         let prop = {...property, ...{owner: idO}};
-
-
-        switch (req.body.type) {
-            case 'vivienda':
-                model = new viviendaModel(prop);
-                break;
-            case 'local':
-                model = new localModel(prop);
-                break;
-            case 'suelo':
-                model = new sueloModel(prop);
-                break;
-        }
+        let model = new propertyModel(prop);
 
         let saved = await model.save();
         // Si la propiedad no se guarda correctamente manda un error
@@ -173,7 +159,7 @@ module.exports = function (app, render, nodemailer, variables, utilities, fileSy
             let arrayImg = await utilities.getArrayImg(req.files.imginmueble, mongoose.mongo.ObjectID(model._id), fileSystem);
             let condition = {"_id": mongoose.mongo.ObjectID(model._id)};
             let property = {media: arrayImg,}
-            let result = await viviendaModel.findOneAndUpdate(condition, property);
+            let result = await propertyModel.findOneAndUpdate(condition, property);
 
             if (result === null) {
                 req.flash('error', "Error al añadir las imágenes de la propiedad.")
@@ -255,8 +241,8 @@ module.exports = function (app, render, nodemailer, variables, utilities, fileSy
             pg = 1;
         }
 
-        let total = await viviendaModel.find(condition).countDocuments();
-        let properties = await viviendaModel.find(condition).skip((pg - 1) * 4).limit(4);
+        let total = await propertyModel.find(condition).countDocuments();
+        let properties = await propertyModel.find(condition).skip((pg - 1) * 4).limit(4);
         if (properties == null) {
             req.flash('error', 'Ocurrió un error al encontrar las propiedades.')
             res.redirect('/myproperties');
@@ -307,7 +293,7 @@ module.exports = function (app, render, nodemailer, variables, utilities, fileSy
             condition.owner = {$in: ownersId};
         }
 
-        let properties = await viviendaModel.find(condition);
+        let properties = await propertyModel.find(condition);
         let response = render(req.session, 'views/property_myproperties.html',
             {
                 properties: properties,

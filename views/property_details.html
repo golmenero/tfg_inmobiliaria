@@ -37,7 +37,7 @@
 </div>
 
 <div class="container">
-    <h2 class="sectionHeader">Detalles de "{{property.name}}"</h2>
+    <h2 class="sectionHeader">Detalles de {{property.name}}</h2>
     {% if user.permission == 'A' || user.permission == 'S' %}
     <h3 class="sectionHeader">Código: {{property.code}}</h3>
     {% endif %}
@@ -105,8 +105,12 @@
                 </button>
             </form>
             {% endif %}
-            <button type="button" class="btn btn-secondary"><span class="fas fa-comment-dots"></span>Contactar
-            </button>
+            <form class="inline-form" method="get"
+                  action="/conversations/add/{{ property._id.toString() }}"
+                  encType="multipart/form-data">
+                <button type="submit" class="btn btn-secondary"><span class="fas fa-comment-dots"></span>Contactar
+                </button>
+            </form>
         </div>
         {% endif %}
     </div>

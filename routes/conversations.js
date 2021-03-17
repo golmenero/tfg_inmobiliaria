@@ -1,80 +1,101 @@
-module.exports = function (app, render, nodemailer, managerDB, variables, utilities) {
-    app.get("/conversations/add/:id", function (req, res) {
-        let idProperty = managerDB.mongo.ObjectID(req.params.id);
-        let emailSession = req.session.user.email;
-        let emailAgent = variables.EMAILAGENTCONVERSATION;
+let conversationModel = require('../database/conversationModel');
+let userModel = require('../database/userModel');
+let agentModel = require('../database/agentModel');
+
+module.exports = function (app, render, nodemailer, variables, mongoose) {
+    app.get("/conversations/add/:id", async function (req, res) {
+        let property = mongoose.mongo.ObjectID(req.params.id);
+
+        // El usuario siempre es el que crea la conversación.
+        let user = await userModel.findOne({email: req.session.user.email}).distinct('_id');
+        let agent = await agentModel.findOne({email: variables.EMAILAGENTCONVERSATION}).distinct('_id');
 
         let condition = {
-            $or: [{
-                "agentEmail": emailSession
-            },
-                {
-                    "userEmail": emailSession
-                }]
+            user: user,
+            agent: agent,
+            property: property,
         }
-        managerDB.get(condition, "conversations", function (conversations) {
-            if (conversations == null || conversations.length == 0) {
-                let conversation = {
-                    "agentEmail": emailAgent,
-                    "userEmail": emailSession,
-                    "propertyId": idProperty,
-                    messages: [],
-                }
-                managerDB.add(conversation, "conversations", function (id) {
-                    if (id != null) {
-                        res.redirect("/conversations/" + id);
-                    } else {
-                        req.flash('error', "No se ha podido añadir la conversacion.")
-                        res.redirect("/properties");
-                    }
-                })
+
+        // Buscamos la conversacion
+        let conversation = await conversationModel.findOne(condition);
+        if (conversation == null) {
+            // Si no la encuentra, lo añadimos
+            let conversacionNew = new conversationModel(condition);
+            let response = await conversacionNew.save();
+            if (response === null) {
+                req.flash('error', "No se ha podido añadir la conversacion.")
+                res.redirect("/properties/" + req.session.typeProp);
             } else {
-                res.redirect("/conversations/" + conversations[0]._id.toString());
+                res.redirect("/conversations/chat/" + conversacionNew._id);
             }
-        });
+        }
+        // Si la encontramos, redirigimos
+        else {
+            res.redirect("/conversations/chat/" + conversation._id.toString());
+        }
     });
 
-    app.get("/conversations/chat/:id", function (req, res) {
-        let email = req.session.user.email;
-        let condition = {"_id": managerDB.mongo.ObjectID(req.params.id)}
-        managerDB.get(condition, "conversations", function (conversations) {
-            if (conversations == null || conversations.length == 0) {
-                req.flash('error', "No se ha podido encontrar la conversacion.")
-                res.redirect("/conversations");
-            } else {
-                let response = render(req.session, 'views/conversations_chat.html',
-                    {
-                        conversations: conversations[0],
-                        user: req.session.user,
-                        error: req.flash('error'),
-                        success: req.flash('success')
-                    });
-                res.send(response);
-            }
-        });
-    });
+    app.get("/conversations/chat/:id", async function (req, res) {
+        let condition = {"_id": mongoose.mongo.ObjectID(req.params.id)}
 
-    app.get("/conversations", function (req, res) {
-        let email = req.session.user.email;
-        let condition = {
-            $or: [{
-                "agentEmail": email,
-            },
+        let conversation = await conversationModel.findOne(condition);
+        if (conversation == null) {
+            req.flash('error', "No se ha podido encontrar la conversacion.")
+            res.redirect("/conversations");
+        } else {
+            let response = render(req.session, 'views/conversations_chat.html',
                 {
-                    "userEmail": email,
-                }]
-        }
-        managerDB.get(condition, "conversations", function (conversations) {
-            let response = render(req.session, 'views/conversations.html',
-                {
-                    conversations: conversations,
+                    conversation: conversation,
                     user: req.session.user,
                     error: req.flash('error'),
                     success: req.flash('success')
                 });
             res.send(response);
-        });
+        }
+    });
+
+    app.get("/conversations", async function (req, res) {
+        let userId = await userModel.find({email: req.session.user.email}).distinct("_id");
+        let condition = {
+            $or: [{
+                "agent": userId,
+            },
+                {
+                    "user": userId,
+                }]
+        }
+
+        let conversations = await conversationModel.find(condition).populate('agent').populate('user').populate('property');
+        let response = render(req.session, 'views/conversations.html',
+            {
+                conversations: conversations,
+                user: req.session.user,
+                error: req.flash('error'),
+                success: req.flash('success')
+            });
+        res.send(response);
+    });
+
+    app.post("/conversations/send/:id", async function (req, res) {
+        let condition = {"_id": mongoose.mongo.ObjectID(req.params.id)}
+        if (req.body.messageInput.length === 0 || !req.body.messageInput.trim()) {
+            req.flash('error', "No puede enviar un mensaje vacío.")
+            res.redirect('/conversations/chat/' + req.params.id);
+        } else {
+            let message = {
+                $push: {
+                    messages: {
+                        from: req.session.user.permission,
+                        text: req.body.messageInput
+                    }
+                }
+            }
+
+            let result = await conversationModel.findOneAndUpdate(condition, message)
+            if (result === null)
+                req.flash('error', "No se ha podido enviar el mensaje.")
+            res.redirect('/conversations/chat/' + req.params.id);
+        }
     });
 
 }
-;

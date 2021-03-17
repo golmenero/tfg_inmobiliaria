@@ -1,5 +1,5 @@
 let userModel = require('../database/userModel');
-let viviendaModel = require('../database/viviendaModel');
+let propertyModel = require('../database/propertyModel');
 let loggerModel = require('../database/loggerModel');
 
 module.exports = function (app, render, nodemailer, variables, utilities, mongoose) {
@@ -18,7 +18,7 @@ module.exports = function (app, render, nodemailer, variables, utilities, mongoo
             req.session.user.wishes.push(req.params.id);
 
             let condition = {"_id": mongoose.mongo.ObjectID(req.params.id)};
-            let property = await viviendaModel.findOne(condition);
+            let property = await propertyModel.findOne(condition);
             let logger = new loggerModel({
                 type: "wish",
                 propertyType: property.type,
@@ -57,7 +57,7 @@ module.exports = function (app, render, nodemailer, variables, utilities, mongoo
             })
             let condition2 = {"_id": {$in: mapWishes}}
 
-            let properties = await viviendaModel.find(condition2);
+            let properties = await propertyModel.find(condition2);
             if (properties != null) {
                 let response = render(req.session, 'views/wishes_mywishes.html',
                     {
