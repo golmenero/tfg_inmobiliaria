@@ -44,19 +44,20 @@
     </form>
     <script>
 
-        function update(data) {
+        function actualiza(data) {
             $.ajax({
                 type: 'POST',
                 data: data,
-                url: '/notifications/load',
+                url: '/conversations/loadMsg',
             }).done(function (data) {
-                let notifications = data.notifications;
-                if (notifications > 0) {
-                    $('#notificationsBadge').text(notifications)
-                    $('#notificationsBadge').show();
-                } else {
-                    $('#notificationsBadge').text("0")
-                    $('#notificationsBadge').hide();
+                let msgs = data.newMessages;
+                for (let i = 0; i < msgs.length; i++) {
+                    let message = msgs[i];
+                    if (message.from == '{{user.permission}}') {
+                        $('#message-container').append("<div><p class=\"message-pr\">" + message.text + "</p></div>");
+                    } else {
+                        $('#message-container').append(" <div><p class=\"message-pl\">" + message.text + "</p></div>");
+                    }
                 }
             });
         }
@@ -64,13 +65,14 @@
         $(document).ready(function () {
             let data = {
                 _id: "{{conversation.id}}",
-                permission: '{{user.permission}}',
+                permission: '{{user.permission}}'
             }
 
-            if(data._id != "") {
+            console.log(data)
+            if (data._id != "") {
                 update(data);
                 let func = setInterval(function () {
-                    update(data);
+                    actualiza(data);
                 }, 1000)
             }
         });

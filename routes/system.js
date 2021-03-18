@@ -1,5 +1,6 @@
 let loggerModel = require('../database/loggerModel')
 let infoModel = require('../database/infoModel')
+let conversationModel = require('../database/conversationModel');
 
 module.exports = function (app, render, variables, utilities, mongoose) {
     app.get('/home', function (req, res) {
@@ -71,6 +72,25 @@ module.exports = function (app, render, variables, utilities, mongoose) {
     app.post('/notifications/load', async function (req,res){
         let notifications = await utilities.getNotifs(req.body.permission, mongoose.mongo.ObjectID(req.body._id));
         res.send({notifications: notifications});
+    })
+
+    app.post('/conversations/loadMsg', async function (req,res){
+        let condition = {
+            "_id": mongoose.mongo.ObjectID(req.body._id)
+        }
+        let conversation = await conversationModel.findOne(condition);
+        let mensajes = [];
+        let allMsgs = [];
+        for(let i=0; i< conversation.messages.length; i++){
+            let msg = conversation.messages[i];
+            if(!msg.seen && msg.from != req.body.permission){
+                msg.seen = true;
+                mensajes.push(msg);
+            }
+            allMsgs.push(msg)
+        }
+        await conversationModel.findOneAndUpdate(condition,{messages: allMsgs});
+        res.send({newMessages: mensajes});
     })
 }
 
