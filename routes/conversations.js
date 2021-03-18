@@ -21,12 +21,13 @@ module.exports = function (app, render, nodemailer, variables, utilities, mongoo
         if (conversation == null) {
             // Si no la encuentra, lo añadimos
             let msg = {
-                messages : [{
+                messages: [{
                     from: "S",
                     text: "¡Hola! Escríbenos un mensaje y un agente te responderá a la mayor brevedad posible. " +
                         "Si lo deseas, puedes encontrar otros métodos de contacto en la sección Contacto.",
                     date: utilities.getDateChat(),
-                        time: utilities.getTimeChat(),
+                    time: utilities.getTimeChat(),
+                    seen: true,
                 }],
             }
             let conversacionNew = new conversationModel({...condition, ...msg});
@@ -48,6 +49,12 @@ module.exports = function (app, render, nodemailer, variables, utilities, mongoo
         let condition = {"_id": mongoose.mongo.ObjectID(req.params.id)}
 
         let conversation = await conversationModel.findOne(condition).populate('property');
+        for (let i = 0; i < conversation.messages.length; i++) {
+            if (conversation.messages[i].from != req.session.user.permission)
+                conversation.messages[i].seen = true;
+        }
+        let response = await conversationModel.findOneAndUpdate(condition, conversation);
+
         if (conversation == null) {
             req.flash('error', "No se ha podido encontrar la conversacion.")
             res.redirect("/conversations");
@@ -55,7 +62,6 @@ module.exports = function (app, render, nodemailer, variables, utilities, mongoo
             let response = render(req.session, 'views/conversations_chat.html',
                 {
                     conversation: conversation,
-                    user: req.session.user,
                     error: req.flash('error'),
                     success: req.flash('success')
                 });
@@ -74,11 +80,18 @@ module.exports = function (app, render, nodemailer, variables, utilities, mongoo
                 }]
         }
 
-        let conversations = await conversationModel.find(condition).populate('agent').populate('user').populate('property');
+        let conversations = await conversationModel.find(condition)
+            .populate('agent').populate('user').populate('property');
+
+        // Asignamos los mensajes a las conversaciones
+        for (let i = 0; i < conversations.length; i++) {
+            let conversation = conversations[i];
+            let countUnseen = conversation.messages.filter(msg => (!msg.seen && msg.from != req.session.user.permission)).length;
+            conversation['unseenCount'] = countUnseen;
+        }
         let response = render(req.session, 'views/conversations.html',
             {
                 conversations: conversations,
-                user: req.session.user,
                 error: req.flash('error'),
                 success: req.flash('success')
             });
@@ -95,7 +108,10 @@ module.exports = function (app, render, nodemailer, variables, utilities, mongoo
                 $push: {
                     messages: {
                         from: req.session.user.permission,
-                        text: req.body.messageInput
+                        text: req.body.messageInput,
+                        date: utilities.getDateChat(),
+                        time: utilities.getTimeChat(),
+                        seen: false,
                     }
                 }
             }

@@ -1,7 +1,7 @@
 let loggerModel = require('../database/loggerModel')
 let infoModel = require('../database/infoModel')
 
-module.exports = function (app, render, variables, utilities) {
+module.exports = function (app, render, variables, utilities, mongoose) {
     app.get('/home', function (req, res) {
         let response = render(req.session, 'views/index.html',
             {
@@ -17,7 +17,6 @@ module.exports = function (app, render, variables, utilities) {
         let info = await infoModel.findOne(condition);
         let respuesta = render(req.session, 'views/info_contact.html', {
             info: info,
-            user: req.session.user,
             error: req.flash('error'),
             success: req.flash('success')
         });
@@ -63,11 +62,15 @@ module.exports = function (app, render, variables, utilities) {
             arrayTypeYear: arrayTypeYear,
             arrayType: arrayType,
             arrayWishes: array,
-            user: req.session.user,
             error: req.flash('error'),
             success: req.flash('success')
         });
         res.send(respuesta);
     });
+
+    app.post('/notifications/load', async function (req,res){
+        let notifications = await utilities.getNotifs(req.body.permission, mongoose.mongo.ObjectID(req.body._id));
+        res.send({notifications: notifications});
+    })
 }
 

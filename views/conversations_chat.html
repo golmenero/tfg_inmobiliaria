@@ -12,11 +12,13 @@
     <h2 class="sectionHeader">Sala de chat</h2>
     <div class="row">
         <div class="col-11">
-            <h3>{{conversation.property.name}} ({{conversation.property.type}})  - Operación: {{conversation.property.typeOp}}/{{conversation.property.price}} €</h3>
+            <h3>{{conversation.property.name}} ({{conversation.property.type}}) - Operación:
+                {{conversation.property.typeOp}}/{{conversation.property.price}} €</h3>
         </div>
         <div class="col-1">
             <a class="btn btn-secondary float-right"
-               href="/properties/details/{{ conversation.property._id.toString() }}"><span class="far fa-eye"></span></a>
+               href="/properties/details/{{ conversation.property._id.toString() }}"><span
+                    class="far fa-eye"></span></a>
         </div>
     </div>
 
@@ -40,5 +42,38 @@
             <button class="col-2 btn btn-secondary" type="submit">Enviar</button>
         </div>
     </form>
+    <script>
+
+        function update(data) {
+            $.ajax({
+                type: 'POST',
+                data: data,
+                url: '/notifications/load',
+            }).done(function (data) {
+                let notifications = data.notifications;
+                if (notifications > 0) {
+                    $('#notificationsBadge').text(notifications)
+                    $('#notificationsBadge').show();
+                } else {
+                    $('#notificationsBadge').text("0")
+                    $('#notificationsBadge').hide();
+                }
+            });
+        }
+
+        $(document).ready(function () {
+            let data = {
+                _id: "{{conversation.id}}",
+                permission: '{{user.permission}}',
+            }
+
+            if(data._id != "") {
+                update(data);
+                let func = setInterval(function () {
+                    update(data);
+                }, 1000)
+            }
+        });
+    </script>
 </div>
 {% endblock %}

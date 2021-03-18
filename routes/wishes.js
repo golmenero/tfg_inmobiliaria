@@ -62,7 +62,6 @@ module.exports = function (app, render, nodemailer, variables, utilities, mongoo
                 let response = render(req.session, 'views/wishes_mywishes.html',
                     {
                         properties: properties,
-                        user: req.session.user,
                         error: req.flash('error'),
                         success: req.flash('success')
                     });

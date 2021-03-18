@@ -71,10 +71,11 @@ app.set('crypto', crypto);
 
 
 let mongoose = require('mongoose')
+
 // Rutas
 require('./routes/users.js')(app,render, nodemailer,  variables, utilities, mongoose);
 require('./routes/properties.js')(app,render, nodemailer,  variables, utilities, fileSystem, mongoose);
-require('./routes/system.js')(app,render,  variables,utilities);
+require('./routes/system.js')(app,render,  variables,utilities, mongoose);
 require('./routes/wishes.js')(app,render, nodemailer, variables,utilities, mongoose);
 require('./routes/conversations.js')(app,render, nodemailer,  variables, utilities, mongoose);
 require('./routes/agents.js')(app,render, nodemailer,  variables,utilities, mongoose);
@@ -116,6 +117,9 @@ async function initParams() {
     await infoModel.findOneAndReplace(conditionInfo,info);
     await userModel.findOneAndReplace(condition, user);
 }
+
+// You can clear a periodic function by uncommenting:
+// clearInterval(intervalId);
 
 https.createServer({
     key: fs.readFileSync('certificates/alice.key'),

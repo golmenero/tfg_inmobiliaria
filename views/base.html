@@ -114,14 +114,16 @@
                     <a class="nav-link" href="/agents">Agentes</a>
                 </li>
                 {% endif %}
-                {% if user.permission == 'A' ||  user.permission == 'S' %}
+                {% if user.permission == 'A' || user.permission == 'S' %}
                 <li class="nav-item active">
                     <a class="nav-link" href="/info/statistics">Estadísticas</a>
                 </li>
                 {% endif %}
                 {% if user.permission != undefined %}
                 <li class="nav-item active">
-                    <a class="nav-link" href="/conversations">Mensajes</a>
+                    <a class="nav-link" href="/conversations">Mensajes
+                        <span id="notificationsBadge" class="badge badge-danger" style="display: none;">0</span>
+                    </a>
                 </li>
                 {% endif %}
                 <li class="nav-item active">
@@ -213,6 +215,40 @@
         <p class="footerP">Carlos Gómez Piñeiro - Agente de la Propiedad Inmobiliaria</p>
         <p class="footerP">+34 985 470 012 / +34 647 270 438 / info@arca-inmobiliaria.com</p>
     </footer>
+
+    <script>
+
+        function update(data) {
+            $.ajax({
+                type: 'POST',
+                data: data,
+                url: '/notifications/load',
+            }).done(function (data) {
+                let notifications = data.notifications;
+                if (notifications > 0) {
+                    $('#notificationsBadge').text(notifications)
+                    $('#notificationsBadge').show();
+                } else {
+                    $('#notificationsBadge').text("0")
+                    $('#notificationsBadge').hide();
+                }
+            });
+        }
+
+        $(document).ready(function () {
+            let data = {
+                _id: "{{user._id}}",
+                permission: '{{user.permission}}',
+            }
+
+            if(data._id != "") {
+                update(data);
+                let func = setInterval(function () {
+                    update(data);
+                }, 1000)
+            }
+        });
+    </script>
 </div>
 </body>
 </html>

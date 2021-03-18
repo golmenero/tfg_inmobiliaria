@@ -16,7 +16,6 @@ module.exports = function (app, render, nodemailer, variables, utilities, fileSy
         } else {
             let response = render(req.session, 'views/property_details.html', {
                 property: propertyFull,
-                user: req.session.user,
                 error: req.flash('error'),
                 success: req.flash('success')
             });
@@ -118,7 +117,6 @@ module.exports = function (app, render, nodemailer, variables, utilities, fileSy
 
     app.get('/properties/add', function (req, res) {
         let response = render(req.session, 'views/property_add.html', {
-            user: req.session.user.email,
             error: req.flash('error'),
             success: req.flash('success')
         });
@@ -259,7 +257,6 @@ module.exports = function (app, render, nodemailer, variables, utilities, fileSy
             }
             let response = render(req.session, 'views/property_list.html',
                 {
-                    user: req.session.user,
                     url: req.url.split("?pg=")[0].split("&pg=")[0],
                     typeProp: req.session.typeProp,
                     properties: properties,
@@ -297,7 +294,6 @@ module.exports = function (app, render, nodemailer, variables, utilities, fileSy
         let response = render(req.session, 'views/property_myproperties.html',
             {
                 properties: properties,
-                user: req.session.user,
                 error: req.flash('error'),
                 success: req.flash('success')
             });

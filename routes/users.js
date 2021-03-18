@@ -1,4 +1,5 @@
 let userModel = require('../database/userModel');
+let functionNotificaciones = null;
 
 module.exports = function (app, render, nodemailer, variables, utilities, mongoose) {
     app.get("/user/verification/:code", async function (req, res) {
@@ -127,6 +128,7 @@ module.exports = function (app, render, nodemailer, variables, utilities, mongoo
 
     app.get('/disconnect', function (req, res) {
         req.session.user = null;
+
         res.redirect('/login');
     })
 
@@ -166,7 +168,6 @@ module.exports = function (app, render, nodemailer, variables, utilities, mongoo
 
     app.get("/signin", function (req, res) {
         let respuesta = render(req.session, 'views/user_signin.html', {
-            user: req.session.user,
             error: req.flash('error'),
             success: req.flash('success')
         });
@@ -225,7 +226,6 @@ module.exports = function (app, render, nodemailer, variables, utilities, mongoo
 
     app.get("/login", function (req, res) {
         let response = render(req.session, 'views/user_login.html', {
-            user: req.session.user,
             error: req.flash("error"),
             success: req.flash("success")
         });
@@ -249,6 +249,7 @@ module.exports = function (app, render, nodemailer, variables, utilities, mongoo
             if (user.active == true) {
                 req.session.user = user;
                 req.flash('success', "Ha iniciado sesión correctamente.")
+
                 if (req.session.typeProp != undefined) {
                     res.redirect('/properties/' + req.session.typeProp)
                 } else {

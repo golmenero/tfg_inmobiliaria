@@ -1,5 +1,6 @@
 let nodemailer = require('nodemailer');
 let variables = require('./variables.js');
+let conversationsModel = require('./database/conversationModel');
 
 module.exports = {
     addIfExists: function (fieldName, value, object) {
@@ -252,5 +253,24 @@ module.exports = {
 
         return day + ", " + month;
     },
+    // Funcion periodica de leer notificaicones
+    getNotifs: async function (permission, id){
+        let condition = {
+            $or: [{
+                "agent": id,
+            },
+                {
+                    "user": id,
+                }]
+        }
 
+        let conversations = await conversationsModel.find(condition);
+        let counter = 0;
+        for(let i = 0; i<conversations.length; i++){
+            let messages = conversations[i].messages;
+            let counter2 = messages.filter(msg => (!msg.seen && msg.from != permission)).length;
+            counter += counter2;
+        }
+        return counter;
+    },
 }

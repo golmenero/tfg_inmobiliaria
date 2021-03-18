@@ -25,9 +25,15 @@
             <tbody>
             {% for conversation in conversations %}
             <tr>
-                <td><img class='img-table' src="propertiesimg/{{ conversation.property._id.toString()}}/{{ conversation.property._id.toString()}}_0.png"
+                <td><img class='img-table'
+                         src="propertiesimg/{{ conversation.property._id.toString()}}/{{ conversation.property._id.toString()}}_0.png"
                          alt="Imagen de Propiedad"/></td>
-                <td>{{conversation.property.name }}</td>
+                <td>
+                    {% if conversation.unseenCount > 0 %}
+                    <span id="notificationsBadge{{conversation._id}}" class="badge badge-danger">{{conversation.unseenCount}}</span>
+                    {% endif %}
+                    {{conversation.property.name }}
+                </td>
                 <td>{{ conversation.property.type }}</td>
                 <td>{{ conversation.property.price }}</td>
                 <td>
