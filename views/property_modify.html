@@ -174,7 +174,7 @@
             </div>
             <div class="div-field form-row">
                 <div class="form-check col-sm-2">
-                    {% if property.garaje == 'Si' %}
+                    {% if property.garaje == true %}
                     <input type="checkbox" class="form-check-input" name="checkGaraje" checked>
                     {% else %}
                     <input type="checkbox" class="form-check-input" name="checkGaraje">
@@ -182,7 +182,7 @@
                     <label class="form-check-label" for="checkGaraje">Garaje</label>
                 </div>
                 <div class="form-check col-sm-2">
-                    {% if property.piscina == 'Si' %}
+                    {% if property.piscina == true %}
                     <input type="checkbox" class="form-check-input" name="checkPiscina" checked>
                     {% else %}
                     <input type="checkbox" class="form-check-input" name="checkPiscina">
@@ -190,7 +190,7 @@
                     <label class="form-check-label" for="checkPiscina">Piscina</label>
                 </div>
                 <div class="form-check col-sm-2">
-                    {% if property.terraza == 'Si' %}
+                    {% if property.terraza == true %}
                     <input type="checkbox" class="form-check-input" name="checkTerraza" checked>
                     {% else %}
                     <input type="checkbox" class="form-check-input" name="checkTerraza">
@@ -198,7 +198,7 @@
                     <label class="form-check-label" for="checkTerraza">Terraza</label>
                 </div>
                 <div class="form-check col-sm-2">
-                    {% if property.trastero == 'Si' %}
+                    {% if property.trastero == true %}
                     <input type="checkbox" class="form-check-input" name="checkTrastero" checked>
                     {% else %}
                     <input type="checkbox" class="form-check-input" name="checkTrastero">
@@ -206,7 +206,7 @@
                     <label class="form-check-label" for="checkTrastero">Trastero</label>
                 </div>
                 <div class="form-check col-sm-2">
-                    {% if property.jardin == 'Si' %}
+                    {% if property.jardin == true %}
                     <input type="checkbox" class="form-check-input" name="checkJardin" checked>
                     {% else %}
                     <input type="checkbox" class="form-check-input" name="checkJardin">
@@ -214,7 +214,7 @@
                     <label class="form-check-label" for="checkJardin">Jardín</label>
                 </div>
                 <div class="form-check col-sm-2">
-                    {% if property.ascensor == 'Si' %}
+                    {% if property.ascensor == true %}
                     <input type="checkbox" class="form-check-input" name="checkAscensor" checked>
                     {% else %}
                     <input type="checkbox" class="form-check-input" name="checkAscensor">
@@ -224,7 +224,7 @@
             </div>
             <div class="div-field form-row">
                 <div class="form-check col-sm-2">
-                    {% if property.calefaccion == 'Si' %}
+                    {% if property.calefaccion == true %}
                     <input type="checkbox" class="form-check-input" name="checkCalefaccion" checked>
                     {% else %}
                     <input type="checkbox" class="form-check-input" name="checkCalefaccion">
@@ -232,7 +232,7 @@
                     <label class="form-check-label" for="checkCalefaccion">Calefacción</label>
                 </div>
                 <div class="form-check col-sm-2">
-                    {% if property.aireAcon == 'Si' %}
+                    {% if property.aireAcon == true %}
                     <input type="checkbox" class="form-check-input" name="checkAireAcon" checked>
                     {% else %}
                     <input type="checkbox" class="form-check-input" name="checkAireAcon">
@@ -240,7 +240,7 @@
                     <label class="form-check-label" for="checkAireAcon">Aire Acondicionado</label>
                 </div>
                 <div class="form-check col-sm-2">
-                    {% if property.amueblado == 'Si' %}
+                    {% if property.amueblado == true %}
                     <input type="checkbox" class="form-check-input" name="checkAmueblado" checked>
                     {% else %}
                     <input type="checkbox" class="form-check-input" name="checkAmueblado">
@@ -248,7 +248,7 @@
                     <label class="form-check-label" for="checkAmueblado">Amueblado</label>
                 </div>
                 <div class="form-check col-sm-2">
-                    {% if property.animales == 'Si' %}
+                    {% if property.animales == true %}
                     <input type="checkbox" class="form-check-input" name="checkAnimales" checked>
                     {% else %}
                     <input type="checkbox" class="form-check-input" name="checkAnimales">
@@ -299,7 +299,7 @@
             </div>
             <div class="div-field form-row">
                 <div class="form-check col-sm-2">
-                    {% if property.escaparate == 'Si' %}
+                    {% if property.escaparate == true %}
                     <input type="checkbox" class="form-check-input" name="checkEscaparateLoc" checked>
                     {% else %}
                     <input type="checkbox" class="form-check-input" name="checkEscaparateLoc">
@@ -307,7 +307,7 @@
                     <label class="form-check-label" for="checkEscaparateLoc">Escaparate</label>
                 </div>
                 <div class="form-check col-sm-2">
-                    {% if property.aparcamiento == 'Si' %}
+                    {% if property.aparcamiento == true %}
                     <input type="checkbox" class="form-check-input" name="checkAparcamientoLoc" checked>
                     {% else %}
                     <input type="checkbox" class="form-check-input" name="checkAparcamientoLoc">
@@ -315,7 +315,7 @@
                     <label class="form-check-label" for="checkAparcamientoLoc">Aparcamiento</label>
                 </div>
                 <div class="form-check col-sm-2">
-                    {% if property.cargaYdescarga == 'Si' %}
+                    {% if property.cargaYdescarga == true %}
                     <input type="checkbox" class="form-check-input" name="checkCargaYDescargaLoc" checked>
                     {% else %}
                     <input type="checkbox" class="form-check-input" name="checkCargaYDescargaLoc">
@@ -323,7 +323,7 @@
                     <label class="form-check-label" for="checkCargaYDescargaLoc">Carga y Descarga</label>
                 </div>
                 <div class="form-check col-sm-2">
-                    {% if property.extintores == 'Si' %}
+                    {% if property.extintores == true %}
                     <input type="checkbox" class="form-check-input" name="checkExtintoresLoc" checked>
                     {% else %}
                     <input type="checkbox" class="form-check-input" name="checkExtintoresLoc">
@@ -331,7 +331,7 @@
                     <label class="form-check-label" for="checkExtintoresLoc">Extintores</label>
                 </div>
                 <div class="form-check col-sm-2">
-                    {% if property.iluminacion == 'Si' %}
+                    {% if property.iluminacion == true %}
                     <input type="checkbox" class="form-check-input" name="checkIluminacionLoc" checked>
                     {% else %}
                     <input type="checkbox" class="form-check-input" name="checkIluminacionLoc">
@@ -341,7 +341,7 @@
             </div>
             <div class="div-field form-row">
                 <div class="form-check col-sm-2">
-                    {% if property.calefaccion == 'Si' %}
+                    {% if property.calefaccion == true %}
                     <input type="checkbox" class="form-check-input" name="checkCalefaccionLoc" checked>
                     {% else %}
                     <input type="checkbox" class="form-check-input" name="checkCalefaccionLoc">
@@ -349,7 +349,7 @@
                     <label class="form-check-label" for="checkCalefaccionLoc">Calefacción</label>
                 </div>
                 <div class="form-check col-sm-2">
-                    {% if property.aireAcon == 'Si' %}
+                    {% if property.aireAcon == true %}
                     <input type="checkbox" class="form-check-input" name="checkAireAconLoc" checked>
                     {% else %}
                     <input type="checkbox" class="form-check-input" name="checkAireAconLoc">
@@ -391,7 +391,7 @@
             </div>
             <div class="div-field form-row">
                 <div class="form-check col-sm-3">
-                    {% if property.accesoAgua == 'Si' %}
+                    {% if property.accesoAgua == true %}
                     <input type="checkbox" class="form-check-input" name="accesoAguaSue" checked>
                     {% else %}
                     <input type="checkbox" class="form-check-input" name="accesoAguaSue">
@@ -399,7 +399,7 @@
                     <label class="form-check-label" for="accesoAguaSue">Acceso a Agua</label>
                 </div>
                 <div class="form-check col-sm-3">
-                    {% if property.accesoLuz == 'Si' %}
+                    {% if property.accesoLuz == true %}
                     <input type="checkbox" class="form-check-input" name="accesoLuzSue" checked>
                     {% else %}
                     <input type="checkbox" class="form-check-input" name="accesoLuzSue">

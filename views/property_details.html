@@ -231,7 +231,7 @@
     {% if property.type == 'vivienda' %}
     <div class="div-field row ">
         <!-- GARAJE -->
-        {% if property.garaje == 'Si' %}
+        {% if property.garaje == true %}
         <div class="col-2">
             <div class="row field-icon">
                 <span class="fa-2x fas fa-car"> </span>
@@ -252,7 +252,7 @@
         {% endif %}
 
         <!-- PISCINA -->
-        {% if property.piscina == 'Si' %}
+        {% if property.piscina == true %}
         <div class="col-2">
             <div class="row field-icon">
                 <span class="fa-2x fas fa-swimming-pool"></span>
@@ -273,7 +273,7 @@
         {% endif %}
 
         <!-- TERRAZA -->
-        {% if property.terraza == 'Si' %}
+        {% if property.terraza == true %}
         <div class="col-2">
             <div class="row field-icon">
                 <span class="fa-2x fas fa-dungeon"></span>
@@ -294,7 +294,7 @@
         {% endif %}
 
         <!-- TRASTERO -->
-        {% if property.trastero == 'Si' %}
+        {% if property.trastero == true %}
         <div class="col-2">
             <div class="row field-icon">
                 <span class="fa-2x fas fa-box-open"></span>
@@ -315,7 +315,7 @@
         {% endif %}
 
         <!-- JARDIN -->
-        {% if property.jardin == 'Si' %}
+        {% if property.jardin == true %}
         <div class="col-2">
             <div class="row field-icon">
                 <span class="fa-2x fas  fa-leaf"></span>
@@ -336,7 +336,7 @@
         {% endif %}
 
         <!-- ASCENSOR -->
-        {% if property.ascensor == 'Si' %}
+        {% if property.ascensor == true %}
         <div class="col-2">
             <div class="row field-icon">
                 <span class="fa-2x fas fa-angle-double-up"></span>
@@ -361,7 +361,7 @@
     {% if property.type == 'vivienda' || property.type == 'local' %}
     <div class="div-field row">
         <!-- CALEFACCION -->
-        {% if property.calefaccion == 'Si' %}
+        {% if property.calefaccion == true %}
         <div class="col-3">
             <div class="row field-icon">
                 <span class="fa-2x fas fa-fire-alt"> </span>
@@ -381,7 +381,7 @@
         </div>
         {% endif %}
         <!-- AIRE ACONDICIONADO -->
-        {% if property.aireAcon == 'Si' %}
+        {% if property.aireAcon == true %}
         <div class="col-3">
             <div class="row field-icon">
                 <span class="fa-2x fas fa-wind"></span>
@@ -405,7 +405,7 @@
 
         {% if property.type == 'vivienda' %}
         <!-- AMUEBLADO -->
-        {% if property.amueblado == 'Si' %}
+        {% if property.amueblado == true %}
         <div class="col-3">
             <div class="row field-icon">
                 <span class="fa-2x fas fa-couch"></span>
@@ -425,7 +425,7 @@
         </div>
         {% endif %}
         <!-- ANIMALES -->
-        {% if property.animales == 'Si' %}
+        {% if property.animales == true %}
         <div class="col-3">
             <div class="row field-icon">
                 <span class="fa-2x fas fa-dog"></span>
@@ -449,7 +449,7 @@
 
         {% if property.type == 'local' %}
         <!-- ESCAPARATE -->
-        {% if property.escaparate == 'Si' %}
+        {% if property.escaparate == true %}
         <div class="col-3">
             <div class="row field-icon">
                 <span class="fa-2x fas fa-store"></span>
@@ -469,7 +469,7 @@
         </div>
         {% endif %}
         <!-- APARCAMIENTO -->
-        {% if property.aparcamiento == 'Si' %}
+        {% if property.aparcamiento == true %}
         <div class="col-3">
             <div class="row field-icon">
                 <span class="fa-2x fas fa-parking"></span>
@@ -493,7 +493,7 @@
 
     {% if property.type == 'local' %}
     <div class="div-field row">
-        {% if property.cargaYdescarga == 'Si' %}
+        {% if property.cargaYdescarga == true %}
         <!-- CARGA Y DESCARGA -->
         <div class="col-4">
             <div class="row field-icon">
@@ -514,7 +514,7 @@
         </div>
         {% endif %}
         <!-- EXTINTORES -->
-        {% if property.extintores == 'Si' %}
+        {% if property.extintores == true %}
         <div class="col-4">
             <div class="row field-icon">
                 <span class="fa-2x fas fa-fire-extinguisher"></span>
@@ -534,7 +534,7 @@
         </div>
         {% endif %}
         <!-- ILUMINACION -->
-        {% if property.iluminacion == 'Si' %}
+        {% if property.iluminacion == true %}
         <div class="col-4">
             <div class="row field-icon">
                 <span class="fa-2x fas fa-lightbulb"></span>
@@ -559,7 +559,7 @@
     {% if property.type == 'suelo' %}
     <div class="div-field row">
         <!-- ACCESO A AGUA -->
-        {% if property.accesoAgua == 'Si' %}
+        {% if property.accesoAgua == true %}
         <div class="col-6">
             <div class="row field-icon">
                 <span class="fa-2x fas fa-hand-holding-water"> </span>
@@ -579,7 +579,7 @@
         </div>
         {% endif %}
         <!-- ACCESO A LUZ -->
-        {% if property.accesoLuz == 'Si' %}
+        {% if property.accesoLuz == true %}
         <div class="col-6">
             <div class="row field-icon">
                 <span class="fa-2x fas fa-lightbulb"></span>

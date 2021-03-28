@@ -1,5 +1,4 @@
 let userModel = require('../database/userModel');
-let functionNotificaciones = null;
 
 module.exports = function (app, render, nodemailer, variables, utilities, mongoose) {
     app.get("/user/verification/:code", async function (req, res) {
