@@ -1,80 +1,60 @@
-{% extends "base.html" %} {% block titulo %} ARCA Inmobiliaria {% endblock %} {% block contenido_principal %}
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+{% extends "../base.html" %} {% block titulo %} ARCA Inmobiliaria {% endblock %} {% block contenido_principal %}
 <nav aria-label="breadcrumb">
     <ol class="breadcrumb">
         <li class="breadcrumb-item"><a href="/">Inicio</a></li>
         <li class="breadcrumb-item"><a href="/myproperties">Mis Propiedades</a></li>
-        <li class="breadcrumb-item active" aria-current="page">Añadir</li>
+        <li class="breadcrumb-item active" aria-current="page">Editar</li>
     </ol>
 </nav>
+
+
 <div class="container">
-    <h2 class="sectionHeader">¿Qué tipo de propiedad desea añadir?</h2>
-    <form class="form-horizontal" method="post" action="/properties/add" encType="multipart/form-data">
-        <div class="progress">
-            <div class="progress-bar progress-bar-striped progress-bar-animated bg-success" role="progressbar"
-                 aria-valuenow="0"
-                 aria-valuemin="0" aria-valuemax="100"></div>
-        </div>
+    <h2 class="sectionHeader">Edite los campos deseados</h2>
+    <form class="form-horizontal" method="post" action="/properties/edit/{{property._id.toString()}}"
+          encType="multipart/form-data">
 
         <div id="divErrorCampos" class="row" style="display: none;">
             <div class="msgInfoUser alert alert-danger col-md-12" role="alert">
                 Rellene todos los campos, por favor.
             </div>
         </div>
-        <!-- FASE INICIAL ---------------------------------------------------------------------------------------------------------------------------------------------------->
-        <div id="divAddOptions">
-            <a class="propAddLink row" id="displayVivienda">
-                <div class="col-2 float-left">
-                    <img class='imgLogo' src="/img/icons/house.png" alt="logo"/>
-                </div>
-                <div class="col-9">
-                    <h3>Vivienda</h3>
-                    <p class="lead">Para ser habitado por personas.</p>
-                    <p>El más completo de todos. Desde esta opción podrás modificar una gran cantidad de campos.</p>
-                </div>
-            </a>
-            <a class="propAddLink row" id="displayLocal">
-                <div class="col-2 float-left">
-                    <img class='imgLogo' src="/img/icons/local.png" alt="logo"/>
-                </div>
-                <div class="col-9">
-                    <h3>Local</h3>
-                    <p class="lead">Para establecer o iniciar un comercio, instalación industrial etc.</p>
-                    <p>Preparado para trabajar con los campos más adecuados y con prestaciones específicas.</p>
-                </div>
-            </a>
-            <a class="propAddLink row" id="displaySuelo">
-                <div class="col-2 float-left">
-                    <img class='imgLogo' src="/img/icons/suelo.png" alt="logo"/>
-                </div>
-                <div class="col-9">
-                    <h3>Suelo</h3>
-                    <p class="lead">Para edificar o trabajar en el.</p>
-                    <p>El más sencillo, preparado con los datos necesarios para añadir todas las características.</p>
-                </div>
-            </a>
-        </div>
 
-        <!-- DATOS COMUNES --------------------------------------------------------------------------------------------------------------------------------------------------->
-        <div id="divAttCommon" style="display: none;">
+        <div id="divAttCommon">
+            <div class="div-field form-row" style="display: none;">
+                <label class="control-label" for="type">Tipo:</label>
+                <div>
+                    <select id='type' class="form-control" name="type">
+                        <option value="vivienda">Vivienda
+                        </option>
+                        <option value="local">Local
+                        </option>
+                        <option value="suelo">Suelo
+                        </option>
+                    </select>
+                </div>
+                <script> $("#type").val('{{property.type}}'); </script>
+            </div>
+
             <div class="div-field form-row">
                 <div class="form-group col-sm-4">
                     <label class="control-label" for="code">Código:</label>
                     <div>
                         <input id='code' type="text" class="form-control" name="code"
-                               placeholder="Ej. V001"/>
+                              value="{{property.code}}" placeholder="Ej. V001"/>
                     </div>
                 </div>
                 <div class="form-group col-sm-4">
-                    <label class="control-label" for="type">Tipo:</label>
+                    <label class="control-label" for="name">Nombre:</label>
                     <div>
-                        <select id='type' class="form-control" name="type">
-                            <option value="vivienda">Vivienda
-                            </option>
-                            <option value="local">Local
-                            </option>
-                            <option value="suelo">Suelo
-                            </option>
-                        </select>
+                        <input type="text" class="form-control" name="name" value="{{property.name}}"
+                               placeholder="Ej. Chalet con Piscina en el Centro"/>
                     </div>
                 </div>
                 <div class="form-group col-sm-4">
@@ -88,27 +68,22 @@
                             </option>
                         </select>
                     </div>
-                </div>
-            </div>
-            <div class="div-field form-row">
-                <label class="control-label col-sm-2" for="name">Nombre:</label>
-                <div class="col-sm-12">
-                    <input type="text" class="form-control" name="name"
-                           placeholder="Ej. Chalet con Piscina en el Centro"/>
+                    <script> $("#typeOp").val('{{property.typeOp}}'); </script>
                 </div>
             </div>
             <div id='divAddress' class="div-field form-row">
                 <div class="form-group col-sm-9">
                     <label class="control-label" for="address">Dirección (Solo Calle y Portal):</label>
                     <div>
-                        <input id='address' type="text" class="form-control" name="address"
+                        <input id='address' type="text" class="form-control" name="address" value="{{property.address}}"
                                placeholder="Ej. Avenida/Portal/Escalera/Piso"/>
                     </div>
                 </div>
                 <div class="form-group col-sm-3">
                     <label class="control-label" for="floorV">Piso:</label>
                     <div>
-                        <input type="number" class="form-control" name="floorV" placeholder="Ej. 1"/>
+                        <input type="number" class="form-control" name="floorV" value="{{property.floor}}"
+                               placeholder="Ej. 1"/>
                     </div>
                 </div>
             </div>
@@ -126,25 +101,28 @@
             <div class="div-field form-row">
                 <label class="control-label col-sm-2" for="description">Descripción:</label>
                 <div class="col-sm-12">
-                    <textarea class="form-control" name="description"
-                              rows="5"></textarea>
+                    <textarea class="form-control" name="description" id="exampleFormControlTextarea1"
+                              rows="5">{{property.description}}</textarea>
                 </div>
             </div>
             <div class="div-field form-row">
                 <label class="control-label col-sm-2" for="city">Población/Ciudad:</label>
                 <div class="col-sm-12">
-                    <input type="text" class="form-control" name="city" placeholder="Ej. Oviedo"/>
+                    <input type="text" class="form-control" name="city" placeholder="Ej. Oviedo"
+                           value="{{property.city}}"/>
                 </div>
             </div>
         </div>
 
         <!-- DATOS DE VIVIENDA ----------------------------------------------------------------------------------------------------------------------------------------------->
-        <div id="divAttVivienda" style="display: none;">
+        {% if property.type == 'vivienda'%}
+        <div id="divAttVivienda">
             <div class="div-field form-row">
                 <div class="form-group col-sm-2">
                     <label class="control-label" for="area">Superficie (m²):</label>
                     <div>
-                        <input type="number" class="form-control" name="area" placeholder="Ej. 100"/>
+                        <input type="number" class="form-control" name="area" placeholder="Ej. 100"
+                               value="{{property.area}}"/>
                     </div>
                 </div>
                 <div class="form-group col-sm-2">
@@ -160,6 +138,7 @@
                             <option value="4">4 o mas
                             </option>
                         </select>
+                        <script> $("#numHabs").val('{{property.numHabs}}'); </script>
                     </div>
                 </div>
                 <div class="form-group col-sm-2">
@@ -175,74 +154,118 @@
                             <option value="4">4 o mas
                             </option>
                         </select>
+                        <script> $("#numBan").val('{{property.numBan}}'); </script>
                     </div>
                 </div>
                 <div class="form-group col-sm-3">
                     <label class="control-label" for="price">Precio (€):</label>
                     <div>
-                        <input type="number" class="form-control" name="price" placeholder="Ej. 1000"/>
+                        <input type="number" class="form-control" name="price" placeholder="Ej. 1000"
+                               value="{{property.price}}"/>
                     </div>
                 </div>
                 <div class="form-group col-sm-3">
                     <label class="control-label" for="priceCom">Gastos de Comunidad (€):</label>
                     <div>
-                        <input type="number" class="form-control" name="priceCom" placeholder="Ej. 1000"/>
+                        <input type="number" class="form-control" name="priceCom" placeholder="Ej. 1000"
+                               value="{{property.priceCom}}"/>
                     </div>
                 </div>
             </div>
             <div class="div-field form-row">
                 <div class="form-check col-sm-2">
+                    {% if property.garaje == true %}
+                    <input type="checkbox" class="form-check-input" name="checkGaraje" checked>
+                    {% else %}
                     <input type="checkbox" class="form-check-input" name="checkGaraje">
+                    {% endif %}
                     <label class="form-check-label" for="checkGaraje">Garaje</label>
                 </div>
                 <div class="form-check col-sm-2">
+                    {% if property.piscina == true %}
+                    <input type="checkbox" class="form-check-input" name="checkPiscina" checked>
+                    {% else %}
                     <input type="checkbox" class="form-check-input" name="checkPiscina">
+                    {% endif %}
                     <label class="form-check-label" for="checkPiscina">Piscina</label>
                 </div>
                 <div class="form-check col-sm-2">
+                    {% if property.terraza == true %}
+                    <input type="checkbox" class="form-check-input" name="checkTerraza" checked>
+                    {% else %}
                     <input type="checkbox" class="form-check-input" name="checkTerraza">
+                    {% endif %}
                     <label class="form-check-label" for="checkTerraza">Terraza</label>
                 </div>
                 <div class="form-check col-sm-2">
+                    {% if property.trastero == true %}
+                    <input type="checkbox" class="form-check-input" name="checkTrastero" checked>
+                    {% else %}
                     <input type="checkbox" class="form-check-input" name="checkTrastero">
+                    {% endif %}
                     <label class="form-check-label" for="checkTrastero">Trastero</label>
                 </div>
                 <div class="form-check col-sm-2">
+                    {% if property.jardin == true %}
+                    <input type="checkbox" class="form-check-input" name="checkJardin" checked>
+                    {% else %}
                     <input type="checkbox" class="form-check-input" name="checkJardin">
+                    {% endif %}
                     <label class="form-check-label" for="checkJardin">Jardín</label>
                 </div>
                 <div class="form-check col-sm-2">
+                    {% if property.ascensor == true %}
+                    <input type="checkbox" class="form-check-input" name="checkAscensor" checked>
+                    {% else %}
                     <input type="checkbox" class="form-check-input" name="checkAscensor">
+                    {% endif %}
                     <label class="form-check-label" for="checkAscensor">Ascensor</label>
                 </div>
             </div>
             <div class="div-field form-row">
                 <div class="form-check col-sm-2">
+                    {% if property.calefaccion == true %}
+                    <input type="checkbox" class="form-check-input" name="checkCalefaccion" checked>
+                    {% else %}
                     <input type="checkbox" class="form-check-input" name="checkCalefaccion">
+                    {% endif %}
                     <label class="form-check-label" for="checkCalefaccion">Calefacción</label>
                 </div>
                 <div class="form-check col-sm-2">
+                    {% if property.aireAcon == true %}
+                    <input type="checkbox" class="form-check-input" name="checkAireAcon" checked>
+                    {% else %}
                     <input type="checkbox" class="form-check-input" name="checkAireAcon">
+                    {% endif %}
                     <label class="form-check-label" for="checkAireAcon">Aire Acondicionado</label>
                 </div>
                 <div class="form-check col-sm-2">
+                    {% if property.amueblado == true %}
+                    <input type="checkbox" class="form-check-input" name="checkAmueblado" checked>
+                    {% else %}
                     <input type="checkbox" class="form-check-input" name="checkAmueblado">
+                    {% endif %}
                     <label class="form-check-label" for="checkAmueblado">Amueblado</label>
                 </div>
                 <div class="form-check col-sm-2">
+                    {% if property.animales == true %}
+                    <input type="checkbox" class="form-check-input" name="checkAnimales" checked>
+                    {% else %}
                     <input type="checkbox" class="form-check-input" name="checkAnimales">
+                    {% endif %}
                     <label class="form-check-label" for="checkAnimales">Permite Animales</label>
                 </div>
             </div>
         </div>
-
+        {% endif %}
         <!-- DATOS DE LOCAL -------------------------------------------------------------------------------------------------------------------------------------------------->
-        <div id="divAttLocal" style="display: none;">
+        {% if property.type == 'local'%}
+        <div id="divAttLocal">
             <div class="div-field form-row">
                 <div class="form-group col-sm-3">
                     <label class="control-label" for="areaLoc">Superficie (m²):</label>
                     <div>
-                        <input type="number" class="form-control" name="areaLoc" placeholder="Ej. 100"/>
+                        <input type="number" class="form-control" name="areaLoc" value="{{property.area}}" placeholder="Ej. 100"/>
                     </div>
                 </div>
                 <div class="form-group col-sm-3">
@@ -258,61 +281,91 @@
                             <option value="4">4 o mas
                             </option>
                         </select>
+                        <script> $("#numAsLoc").val('{{property.numAseos}}'); </script>
                     </div>
                 </div>
                 <div class="form-group col-sm-3">
                     <label class="control-label" for="priceLoc">Precio (€):</label>
                     <div>
-                        <input type="number" class="form-control" name="priceLoc" placeholder="Ej. 1000"/>
+                        <input type="number" value="{{property.price}}" class="form-control" name="priceLoc" placeholder="Ej. 1000"/>
                     </div>
                 </div>
                 <div class="form-group col-sm-3">
                     <label class="control-label" for="priceComLoc">Gastos de Comunidad (€):</label>
                     <div>
-                        <input type="number" class="form-control" name="priceComLoc" placeholder="Ej. 1000"/>
+                        <input type="number" value="{{property.priceCom}}" class="form-control" name="priceComLoc" placeholder="Ej. 1000"/>
                     </div>
                 </div>
             </div>
             <div class="div-field form-row">
                 <div class="form-check col-sm-2">
+                    {% if property.escaparate == true %}
+                    <input type="checkbox" class="form-check-input" name="checkEscaparateLoc" checked>
+                    {% else %}
                     <input type="checkbox" class="form-check-input" name="checkEscaparateLoc">
+                    {% endif %}
                     <label class="form-check-label" for="checkEscaparateLoc">Escaparate</label>
                 </div>
                 <div class="form-check col-sm-2">
+                    {% if property.aparcamiento == true %}
+                    <input type="checkbox" class="form-check-input" name="checkAparcamientoLoc" checked>
+                    {% else %}
                     <input type="checkbox" class="form-check-input" name="checkAparcamientoLoc">
+                    {% endif %}
                     <label class="form-check-label" for="checkAparcamientoLoc">Aparcamiento</label>
                 </div>
                 <div class="form-check col-sm-2">
+                    {% if property.cargaYdescarga == true %}
+                    <input type="checkbox" class="form-check-input" name="checkCargaYDescargaLoc" checked>
+                    {% else %}
                     <input type="checkbox" class="form-check-input" name="checkCargaYDescargaLoc">
+                    {% endif %}
                     <label class="form-check-label" for="checkCargaYDescargaLoc">Carga y Descarga</label>
                 </div>
                 <div class="form-check col-sm-2">
+                    {% if property.extintores == true %}
+                    <input type="checkbox" class="form-check-input" name="checkExtintoresLoc" checked>
+                    {% else %}
                     <input type="checkbox" class="form-check-input" name="checkExtintoresLoc">
+                    {% endif %}
                     <label class="form-check-label" for="checkExtintoresLoc">Extintores</label>
                 </div>
                 <div class="form-check col-sm-2">
+                    {% if property.iluminacion == true %}
+                    <input type="checkbox" class="form-check-input" name="checkIluminacionLoc" checked>
+                    {% else %}
                     <input type="checkbox" class="form-check-input" name="checkIluminacionLoc">
+                    {% endif %}
                     <label class="form-check-label" for="checkIluminacionLoc">Iuminación</label>
                 </div>
             </div>
             <div class="div-field form-row">
                 <div class="form-check col-sm-2">
+                    {% if property.calefaccion == true %}
+                    <input type="checkbox" class="form-check-input" name="checkCalefaccionLoc" checked>
+                    {% else %}
                     <input type="checkbox" class="form-check-input" name="checkCalefaccionLoc">
+                    {% endif %}
                     <label class="form-check-label" for="checkCalefaccionLoc">Calefacción</label>
                 </div>
                 <div class="form-check col-sm-2">
+                    {% if property.aireAcon == true %}
+                    <input type="checkbox" class="form-check-input" name="checkAireAconLoc" checked>
+                    {% else %}
                     <input type="checkbox" class="form-check-input" name="checkAireAconLoc">
+                    {% endif %}
                     <label class="form-check-label" for="checkAireAconLoc">Aire Acondicionado</label>
                 </div>
             </div>
         </div>
-
+        {% endif %}
         <!-- DATOS DE SUELO -------------------------------------------------------------------------------------------------------------------------------------------------->
+        {% if property.type == 'suelo'%}
         <div id="divAttSuelo" style="display: none;">
             <div class="div-field form-row">
                 <label class="control-label col-sm-2" for="situationSue">Situación:</label>
                 <div class="col-sm-12">
-                    <input type="text" class="form-control" name="situationSue" placeholder="Ej. San Quintín"
+                    <input type="text" class="form-control" name="situationSue" placeholder="Ej. San Quintín" value="{{property.situation}}"
                     />
                 </div>
             </div>
@@ -320,35 +373,43 @@
                 <div class="form-group col-sm-4">
                     <label class="control-label" for="areaSue">Superficie Total (m²):</label>
                     <div>
-                        <input type="number" class="form-control" name="areaSue" placeholder="Ej. 100"/>
+                        <input type="number" class="form-control" name="areaSue" placeholder="Ej. 100" value="{{property.area}}"/>
                     </div>
                 </div>
                 <div class="form-group col-sm-4">
                     <label class="control-label" for="areaEdifSue">Superficie Edificable (m²):</label>
                     <div>
-                        <input type="number" class="form-control" name="areaEdifSue" placeholder="Ej. 100"/>
+                        <input type="number" class="form-control" name="areaEdifSue" placeholder="Ej. 100" value="{{property.edifArea}}"/>
                     </div>
                 </div>
                 <div class="form-group col-sm-4">
                     <label class="control-label" for="priceSue">Precio Total(€):</label>
                     <div>
-                        <input type="number" class="form-control" name="priceSue" placeholder="Ej. 1000"/>
+                        <input type="number" class="form-control" name="priceSue" placeholder="Ej. 1000" value="{{property.price}}"/>
                     </div>
                 </div>
             </div>
             <div class="div-field form-row">
                 <div class="form-check col-sm-3">
+                    {% if property.accesoAgua == true %}
+                    <input type="checkbox" class="form-check-input" name="accesoAguaSue" checked>
+                    {% else %}
                     <input type="checkbox" class="form-check-input" name="accesoAguaSue">
+                    {% endif %}
                     <label class="form-check-label" for="accesoAguaSue">Acceso a Agua</label>
                 </div>
                 <div class="form-check col-sm-3">
+                    {% if property.accesoLuz == true %}
+                    <input type="checkbox" class="form-check-input" name="accesoLuzSue" checked>
+                    {% else %}
                     <input type="checkbox" class="form-check-input" name="accesoLuzSue">
+                    {% endif %}
                     <label class="form-check-label" for="accesoLuzSue">Acceso a Luz</label>
                 </div>
             </div>
         </div>
-
-        <div id="divPropertiesButtons" style="display: none;">
+        {% endif %}
+        <div id="divPropertiesButtons">
             <div class="row">
                 <button id="btnPropertiesS" type="button" class="btnSiguiente btn btn-success btn-lg btn-block">
                     Siguiente
@@ -361,14 +422,14 @@
             <div class="div-field form-row">
                 <label class="control-label col-sm-2" for="nameOwner">Nombre:</label>
                 <div class="col-sm-12">
-                    <input type="text" class="form-control" name="nameOwner" placeholder="Ej. Claudia"
+                    <input type="text" class="form-control" name="nameOwner" placeholder="Ej. Claudia" value="{{property.owner.name}}"
                     />
                 </div>
             </div>
             <div class="div-field form-row">
                 <label class="control-label col-sm-2" for="surnameOwner">Apellidos:</label>
                 <div class="col-sm-12">
-                    <input type="text" class="form-control" name="surnameOwner" placeholder="Ej. Pérez Peláez"
+                    <input type="text" class="form-control" name="surnameOwner" placeholder="Ej. Pérez Peláez" value="{{property.owner.surname}}"
                     />
                 </div>
             </div>
@@ -376,14 +437,14 @@
                 <div class="form-group col-sm-3">
                     <label class="control-label" for="dniOwner">DNI/NIF/NIE:</label>
                     <div>
-                        <input type="text" class="form-control" name="dniOwner" placeholder="Ej. 55555555E"
+                        <input type="text" class="form-control" name="dniOwner" placeholder="Ej. 55555555E" value="{{property.owner.dni}}"
                         />
                     </div>
                 </div>
                 <div class="form-group col-sm-3">
                     <label class="control-label" for="phoneOwner">Teléfono:</label>
                     <div>
-                        <input type="number" class="form-control" name="phoneOwner" placeholder="Ej. 666666666"
+                        <input type="number" class="form-control" name="phoneOwner" placeholder="Ej. 666666666" value="{{property.owner.phone}}"
                         />
                     </div>
                 </div>
@@ -391,7 +452,7 @@
                     <label class="control-label" for="emailOwner">Correo Electrónico:</label>
                     <div>
                         <input type="email" class="form-control" name="emailOwner"
-                               placeholder="Ej. propietario@gmail.com"
+                               placeholder="Ej. propietario@gmail.com" value="{{property.owner.email}}"
                         />
                     </div>
                 </div>
@@ -399,7 +460,7 @@
             <div class="div-field form-row">
                 <label class="control-label col-sm-2" for="addressOwner">Dirección:</label>
                 <div class="col-sm-12">
-                    <input type="text" class="form-control" name="addressOwner" placeholder="Ej. C/ Uría 10, P-4D"
+                    <input type="text" class="form-control" name="addressOwner" placeholder="Ej. C/ Uría 10, P-4D" value="{{property.owner.address}}"
                     />
                 </div>
             </div>
@@ -449,7 +510,7 @@
                         <button type="button" class="buttonOverview btn custom-base-style" data-toggle="collapse"
                                 data-target="#propertyCollapse"
                                 aria-expanded="true" aria-controls="propertyCollapse">
-                            <h4>Datos de la Propiedad</h4>
+                            <h2>Datos de la Propiedad</h2>
                         </button>
                     </h5>
                 </div>
@@ -627,7 +688,7 @@
                         <button type="button" class="buttonOverview btn custom-base-style" data-toggle="collapse"
                                 data-target="#ownerCollapse"
                                 aria-expanded="true" aria-controls="ownerCollapse">
-                            <h4>Datos del Propietario</h4>
+                            <h2>Datos del Propietario</h2>
                         </button>
                     </h5>
                 </div>
@@ -667,6 +728,9 @@
                     </button>
                 </div>
             </div>
+            <div class="row">
+
+            </div>
         </div>
 
         <!-- SCRIPTS --------------------------------------------------------------------------------------------------------------------------------------------------------->
@@ -676,31 +740,16 @@
             let property = null;
             let owner = null;
 
-            // PASO A FASE 1
-            $('#displayVivienda').on('click', function () {
-                phase1("vivienda")
+            $(document).ready(writeMap($('#address').val()));
 
-
-                // ESTO ES PARA DEBUG - BORRAR
-                prerellenar();
-            });
-            $('#displayLocal').on('click', function () {
-                phase1("local")
-            });
-            $('#displaySuelo').on('click', function () {
-                phase1("suelo")
-            });
-            // Si se cambia el selector de tipo cambia el formulario
-            $("#type").change(function () {
-                phase1($("#type").val());
-            });
             // Mostrar el mapa al dejar de escribir la dirección
             $('#address').focusout(function () {
                 writeMap($('#address').val());
             });
+
             // PASO DE FASE 1 (Propiedades) A FASE 2 (Propietario)
             $('#btnPropertiesS').on('click', function () {
-                let tipo = $("#type").val();
+                let tipo =  '{{property.type}}'
                 let campos = false;
                 if (tipo == 'vivienda') {
                     property = {
@@ -728,7 +777,7 @@
                         amueblado: $("[name='checkAmueblado']").prop('checked'),
                         animales: $("[name='checkAnimales']").prop('checked')
                     }
-                    if (property.typeOp != "" && checkProperty(property.code) && checkProperty(property.name) && checkProperty(property.address) && checkProperty(property.floor) && checkProperty(property.description) &&
+                    if (property.typeOp != ""&& checkProperty(property.code) && checkProperty(property.name) && checkProperty(property.address) && checkProperty(property.floor) && checkProperty(property.description) &&
                         checkProperty(property.city) && checkProperty(property.area) && checkProperty(property.numHabs) && checkProperty(property.numBan) &&
                         checkProperty(property.price) && checkProperty(property.priceCom) && checkProperty(property)) {
                         campos = true;
@@ -747,7 +796,7 @@
                         area: $("[name='areaLoc']").val(),
                         numAseos: $("[name='numAsLoc']").val(),
                         price: $("[name='priceLoc']").val(),
-                        priceCom: $("[name='priceCom']").val(),
+                        priceCom: $("[name='priceComLoc']").val(),
                         escaparate: $("[name='checkEscaparateLoc']").prop('checked'),
                         aparcamiento: $("[name='checkAparcamientoLoc']").prop('checked'),
                         cargaYdescarga: $("[name='checkCargaYDescargaLoc']").prop('checked'),
@@ -756,7 +805,7 @@
                         calefaccion: $("[name='checkCalefaccionLoc']").prop('checked'),
                         aireAcon: $("[name='checkAireAconLoc']").prop('checked')
                     }
-                    if (property.typeOp != "" && checkProperty(property.code) && checkProperty(property.name) && checkProperty(property.address) && checkProperty(property.floor) && checkProperty(property.description) &&
+                    if (checkProperty(property.typeOp)&& checkProperty(property.code)  && checkProperty(property.name) && checkProperty(property.address) && checkProperty(property.floor) && checkProperty(property.description) &&
                         checkProperty(property.city) && checkProperty(property.area) && checkProperty(property.numAseos) && checkProperty(property.price) &&
                         checkProperty(property.priceCom)) {
                         campos = true;
@@ -777,7 +826,7 @@
                         accesoAgua: $("[name='accesoAguaSue']").prop('checked'),
                         accesoLuz: $("[name='accesoLuzSue']").prop('checked')
                     }
-                    if (property.typeOp != "" && checkProperty(property.code) && checkProperty(property.name) && checkProperty(property.description) && checkProperty(property.city) &&
+                    if (property.typeOp != ""&& checkProperty(property.code) && checkProperty(property.name) && checkProperty(property.description) && checkProperty(property.city) &&
                         checkProperty(property.situation) && checkProperty(property.area) && checkProperty(property.edifArea) &&
                         checkProperty(property.price)) {
                         campos = true;
@@ -860,13 +909,12 @@
                 if (type == "suelo") {
                     $('#divAttSuelo').show();
                     $('#divAddress').hide();
+                    $('#divMapContainer').hide();
                 }
 
                 $('#divOwner').hide();
                 $('#divPictures').hide();
 
-                $("#type").val(type);
-                adjustProgressBar(25)
                 setHeader("Añada la información de la propiedad");
             }
 
@@ -889,10 +937,9 @@
                 $('#divOverviewPropietario').hide();
 
                 $('#divPictures').hide();
-
                 $('#divOwner').show();
-                adjustProgressBar(50)
-                setHeader("Añada la información del propietario.");
+
+                setHeader("Edite la información del propietario.");
             }
 
             function phase3() {
@@ -914,10 +961,9 @@
                 $('#divOverviewPropietario').hide();
 
                 $('#divOwner').hide();
-
                 $('#divPictures').show();
-                adjustProgressBar(75)
-                setHeader("Añada las imágenes que desee.");
+
+                setHeader("Introduzca las nuevas imágenes.");
             }
 
             function phase4() {
@@ -951,8 +997,7 @@
                 }
 
                 fillFields();
-                adjustProgressBar(100)
-                setHeader("Resumen de la información introducida.");
+                setHeader("Resumen de datos modificados.");
             }
 
             function fillFields() {
@@ -1022,10 +1067,6 @@
                 $('.sectionHeader').text(textI);
             }
 
-            function adjustProgressBar(value) {
-                $('.progress-bar').css("width", value + "%").text(value + "%");
-            }
-
             function writeMap(address) {
                 $.get(location.protocol + '//nominatim.openstreetmap.org/search?format=json&q=' + address, function (data) {
                     if (data[0] != undefined) {
@@ -1069,57 +1110,11 @@
             function hasDetail(detail) {
                 return (detail == true) ? "Si" : "No";
             }
-
-            // Para ahorrar tiempo. BORRAR
-            function prerellenar() {
-                $("[name='name']").val("Piso precioso en el Cristo");
-                $("[name='address']").val("Avd Cristo Cadenas 44");
-                $("[name='floorV']").val("4");
-                $("[name='description']").val("Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum");
-                $("[name='city']").val("Oviedo");
-                $("[name='area']").val("100");
-                $("[name='numHabs']").val('2');
-                $("[name='numBan']").val('1');
-                $("[name='price']").val('1200');
-                $("[name='priceCom']").val('100');
-                $("[name='checkGaraje']").prop('checked', true);
-                $("[name='checkPiscina']").prop('checked', true);
-                $("[name='checkTerraza']").prop('checked', true);
-                $("[name='checkTrastero']").prop('checked', true);
-                $("[name='checkJardin']").prop('checked', true);
-                $("[name='checkAscensor']").prop('checked', true);
-                $("[name='checkCalefaccion']").prop('checked', true);
-                $("[name='checkAireAcon']").prop('checked', true);
-                $("[name='checkAmueblado']").prop('checked', true);
-                $("[name='checkAnimales']").prop('checked', true);
-                $("[name='nameOwner']").val('Claudia');
-                $("[name='surnameOwner']").val('Pérez');
-                $("[name='dniOwner']").val('444444444L');
-                $("[name='phoneOwner']").val('666666666');
-                $("[name='emailOwner']").val("claudia@email.com");
-                $("[name='addressOwner']").val('Calle de La Pepita 12');
-
-                $("[name='areaLoc']").val("200");
-                $("[name='numAsLoc']").val("3");
-                $("[name='priceLoc']").val("1500");
-                $("[name='priceComLoc']").val("600");
-                $("[name='checkEscaparateLoc']").prop('checked', true);
-                $("[name='checkAparcamientoLoc']").prop('checked', true);
-                $("[name='checkCargaYDescargaLoc']").prop('checked', true);
-                $("[name='checkExtintoresLoc']").prop('checked', true);
-                $("[name='checkIluminacionLoc']").prop('checked', true);
-                $("[name='checkCalefaccionLoc']").prop('checked', true);
-                $("[name='checkAireAconLoc']").prop('checked', true);
-
-                $("[name='situationSue']").val("San Quintín");
-                $("[name='areaSue']").val("111");
-                $("[name='areaEdifSue']").val("12");
-                $("[name='priceSue']").val("20000");
-                $("[name='accesoLuzSue']").prop('checked', true);
-                $("[name='accesoAguaSue']").prop('checked', true);
-            }
         </script>
     </form>
-</div>
+
 
     {% endblock %}
+</div>
+</body>
+</html>

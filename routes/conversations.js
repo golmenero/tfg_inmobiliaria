@@ -59,7 +59,7 @@ module.exports = function (app, render, nodemailer, variables, utilities, mongoo
             req.flash('error', "No se ha podido encontrar la conversacion.")
             res.redirect("/conversations");
         } else {
-            let response = render(req.session, 'views/conversations_chat.html',
+            let response = render(req.session, 'views/conversations/conversations_chat.html',
                 {
                     conversation: conversation,
                     error: req.flash('error'),
@@ -89,7 +89,7 @@ module.exports = function (app, render, nodemailer, variables, utilities, mongoo
             let countUnseen = conversation.messages.filter(msg => (!msg.seen && msg.from != req.session.user.permission)).length;
             conversation['unseenCount'] = countUnseen;
         }
-        let response = render(req.session, 'views/conversations.html',
+        let response = render(req.session, 'views/conversations/conversations.html',
             {
                 conversations: conversations,
                 error: req.flash('error'),

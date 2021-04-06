@@ -1,5 +1,5 @@
 let mongoose = require('mongoose');
-let variables = require('../variables');
+let variables = require('../help/variables');
 let db = mongoose.connection;
 
 mongoose.connect(variables.URL, {

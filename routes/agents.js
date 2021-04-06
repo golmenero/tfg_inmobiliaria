@@ -11,7 +11,7 @@ module.exports = function (app, render, nodemailer, variables, utilities, mongoo
 
         let agents = await agentModel.find(condition);
         if (agents != null) {
-            let respuesta = render(req.session, 'views/agent_list.html', {
+            let respuesta = render(req.session, 'views/agents/agent_list.html', {
                 agents: agents,
                 error: req.flash('error'),
                 success: req.flash('success')
@@ -24,7 +24,7 @@ module.exports = function (app, render, nodemailer, variables, utilities, mongoo
     });
 
     app.get('/agents/add', function (req, res) {
-        let response = render(req.session, 'views/agent_add.html', {
+        let response = render(req.session, 'views/agents/agent_add.html', {
             error: req.flash('error'),
             success: req.flash('success')
         });
@@ -58,7 +58,7 @@ module.exports = function (app, render, nodemailer, variables, utilities, mongoo
             req.flash('error', "El agente no se pudo editar correctamente.")
             res.redirect('/agents');
         } else {
-            let response = render(req.session, 'views/agent_modify.html', {
+            let response = render(req.session, 'views/agents/agent_modify.html', {
                 agent: agent,
                 error: req.flash('error'),
                 success: req.flash('success')

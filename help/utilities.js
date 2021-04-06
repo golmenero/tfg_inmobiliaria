@@ -1,6 +1,6 @@
 let nodemailer = require('nodemailer');
 let variables = require('./variables.js');
-let conversationsModel = require('./database/conversationModel');
+let conversationsModel = require('../database/conversationModel');
 
 module.exports = {
     addIfExists: function (fieldName, value, object) {

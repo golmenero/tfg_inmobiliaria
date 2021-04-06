@@ -1,60 +1,52 @@
-{% extends "base.html" %}
+{% extends "../base.html" %}
 
 {% block titulo %} ARCA Inmobiliaria {% endblock %}
 
 {% block contenido_principal %}
+
 <nav aria-label="breadcrumb">
     <ol class="breadcrumb">
         <li class="breadcrumb-item"><a href="/">Inicio</a></li>
         <li class="breadcrumb-item"><a href="/agents">Agentes</a></li>
-        <li class="breadcrumb-item active" aria-current="page">Modificar</li>
+        <li class="breadcrumb-item active" aria-current="page">Añadir</li>
     </ol>
 </nav>
+
 <div class="container">
-    <h2 class="sectionHeader">Edición de Agente Existente</h2>
-    <h3>Si deja un campo vacío, éste mantendrá su estado original.</h3>
-    <form class="form-horizontal" method="post" action="/agents/edit/{{agent._id.toString()}}">
+    <h2 class="sectionHeader">Creación de Nuevo Agente</h2>
+    <form class="form-horizontal" method="post" action="/agents/add">
         <div class="form-group">
             <label class="control-label col-sm-2" for="name">Nombre:</label>
             <div class="col-sm-10">
-                <input type="text" class="form-control" name="name" placeholder="Nombre del Agente" value="{{agent.name}}" required="true"/>
+                <input type="text" class="form-control" name="name" placeholder="Nombre del Agente" required="true"/>
             </div>
         </div>
         <div class="form-group">
             <label class="control-label col-sm-2" for="surname">Apellidos:</label>
             <div class="col-sm-10">
-                <input type="text" class="form-control" name="surname" value="{{agent.surname}}" placeholder="Apellidos del Agente"
+                <input type="text" class="form-control" name="surname" placeholder="Apellidos del Agente"
                        required="true"/>
             </div>
         </div>
         <div class="form-group">
             <label class="control-label col-sm-2" for="email">Email:</label>
             <div class="col-sm-10">
-                <input type="email" class="form-control" name="email" value="{{agent.email}}"
+                <input type="email" class="form-control" name="email"
                        placeholder="email@email.com" required="true"/>
             </div>
         </div>
         <div class="form-group">
-            <label class="control-label col-sm-2" for="password">Nueva Contraseña:</label>
+            <label class="control-label col-sm-2" for="password">Contraseña:</label>
             <div class="col-sm-10">
-                <input id="password" type="password" class="form-control"  name="password"
+                <input id="password" type="password" class="form-control" name="password"
                        placeholder="Contraseña" required="true"/>
             </div>
         </div>
         <div class="form-group">
             <div class="col-sm-offset-2 col-sm-10">
-                <button type="submit" class="btn btn-primary">Editar Agente</button>
+                <button type="submit" class="btn btn-primary">Registrar Agente</button>
             </div>
         </div>
-
-        <script>
-            function checkProperty(name) {
-                if (name == "" || name == null) {
-                    return false;
-                }
-                return true;
-            }
-        </script>
     </form>
 </div>
 {% endblock %}

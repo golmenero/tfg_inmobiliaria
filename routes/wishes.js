@@ -59,7 +59,7 @@ module.exports = function (app, render, nodemailer, variables, utilities, mongoo
 
             let properties = await propertyModel.find(condition2);
             if (properties != null) {
-                let response = render(req.session, 'views/wishes_mywishes.html',
+                let response = render(req.session, 'views/wishes/wishes_mywishes.html',
                     {
                         properties: properties,
                         error: req.flash('error'),

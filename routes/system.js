@@ -16,7 +16,7 @@ module.exports = function (app, render, variables, utilities, mongoose) {
     app.get("/info/contact", async function (req, res) {
         let condition = {active: true};
         let info = await infoModel.findOne(condition);
-        let respuesta = render(req.session, 'views/info_contact.html', {
+        let respuesta = render(req.session, 'views/info/info_contact.html', {
             info: info,
             error: req.flash('error'),
             success: req.flash('success')
@@ -59,7 +59,7 @@ module.exports = function (app, render, variables, utilities, mongoose) {
         let arrayTypeYear = [utilities.typeThisYear(result, 'vivienda'), utilities.typeThisYear(result, 'local'), utilities.typeThisYear(result, 'suelo')];
 
 
-        let respuesta = render(req.session, 'views/info_statistics.html', {
+        let respuesta = render(req.session, 'views/info/info_statistics.html', {
             arrayTypeYear: arrayTypeYear,
             arrayType: arrayType,
             arrayWishes: array,

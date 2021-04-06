@@ -5,8 +5,8 @@ let app = express();
 let fs = require('fs');
 let https = require('https');
 let flash = require('connect-flash')
-let variables = require('./variables.js')
-let utilities = require('./utilities.js')
+let variables = require('./help/variables.js')
+let utilities = require('./help/utilities.js')
 
 let expressSession = require('express-session');
 app.use(expressSession({
@@ -31,7 +31,7 @@ app.use(bodyParser.urlencoded({extended: true}));
 // Importante para extablecer conexión con la BD
 require('./database/connection.js')
 
-let render = require("./sessionRender.js");
+let render = require("./help/sessionRender.js");
 
 let fileSystem = require('fs-extra');
 

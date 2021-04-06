@@ -1,7 +1,7 @@
 let userModel = require('../database/userModel');
 
 module.exports = function (app, render, nodemailer, variables, utilities, mongoose) {
-    app.get("/user/verification/:code", async function (req, res) {
+    app.get("/users/verification/:code", async function (req, res) {
         let condition = {'codes.emailActivation': req.params.code}
         let user = {"active": true,}
         let result = await userModel.findOneAndUpdate(condition, user);
@@ -27,7 +27,7 @@ module.exports = function (app, render, nodemailer, variables, utilities, mongoo
                 req.flash('error', "Su enlace de recuperación de contraseña ha caducado.");
                 res.redirect('/login');
             } else {
-                let respuesta = render(req.session, 'views/user_passwordRecover.html', {
+                let respuesta = render(req.session, 'views/users/user_passwordRecover.html', {
                     passwordRecover: req.params.code,
                     error: req.flash('error'),
                     success: req.flash('success')
@@ -62,14 +62,14 @@ module.exports = function (app, render, nodemailer, variables, utilities, mongoo
     });
 
     // EDITAR CONTRASEÑA USUARIOS
-    app.get('/user/edit', async function (req, res) {
+    app.get('/users/edit', async function (req, res) {
         let condition = {"_id": mongoose.mongo.ObjectID(req.session.user._id)};
         let user = userModel.findOneAndUpdate(condition);
         if (user == null) {
             req.flash('error', "No se pudo encontrar al usuario.");
             res.redirect("/properties/" + req.session.typeProp);
         } else {
-            let response = render(req.session, 'views/user_modify.html',
+            let response = render(req.session, 'views/users/user_modify.html',
                 {
                     user: user,
                     error: req.flash('error'),
@@ -79,7 +79,7 @@ module.exports = function (app, render, nodemailer, variables, utilities, mongoo
         }
     });
 
-    app.post('/user/edit', async function (req, res) {
+    app.post('/users/edit', async function (req, res) {
         let user = {};
         (req.body.name != "") ? user["name"] = req.body.name : user;
         (req.body.surname != "") ? user["surname"] = req.body.surname : user;
@@ -100,7 +100,7 @@ module.exports = function (app, render, nodemailer, variables, utilities, mongoo
         res.redirect("/properties/" + req.session.typeProp);
     });
 
-    app.post("/user/delete", async function (req, res) {
+    app.post("/users/delete", async function (req, res) {
         if (req.session.user.permission != 'S') {
             let encrypted = app.get("crypto").createHmac('sha256', app.get('key'))
                 .update(req.body.password).digest('hex');
@@ -166,7 +166,7 @@ module.exports = function (app, render, nodemailer, variables, utilities, mongoo
     });
 
     app.get("/signin", function (req, res) {
-        let respuesta = render(req.session, 'views/user_signin.html', {
+        let respuesta = render(req.session, 'views/users/user_signin.html', {
             error: req.flash('error'),
             success: req.flash('success')
         });
@@ -199,7 +199,7 @@ module.exports = function (app, render, nodemailer, variables, utilities, mongoo
             let mailOptions = utilities.createMailOptions(req.body.email, 'Verifique su correo electrónico.',
                 "<h1>Gracias por registrarse en nuestra aplicación</h1>" +
                 "<h2>Verifique su correo electrónico haciendo click en el siguiente enlace:</h2>" +
-                "<p>https://localhost:8081/user/verification/" + user.codes.emailActivation + "</p>");
+                "<p>https://localhost:8081/users/verification/" + user.codes.emailActivation + "</p>");
 
             transporter.sendMail(mailOptions, async function (error) {
                 if (error) {
@@ -224,7 +224,7 @@ module.exports = function (app, render, nodemailer, variables, utilities, mongoo
     });
 
     app.get("/login", function (req, res) {
-        let response = render(req.session, 'views/user_login.html', {
+        let response = render(req.session, 'views/users/user_login.html', {
             error: req.flash("error"),
             success: req.flash("success")
         });

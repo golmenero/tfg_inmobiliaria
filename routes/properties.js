@@ -14,7 +14,7 @@ module.exports = function (app, render, nodemailer, variables, utilities, fileSy
             req.flash('error', 'Ocurrió un error al mostrar los detalles de propiedad especificada.')
             res.redirect('/myproperties');
         } else {
-            let response = render(req.session, 'views/property_details.html', {
+            let response = render(req.session, 'views/properties/property_details.html', {
                 property: propertyFull,
                 error: req.flash('error'),
                 success: req.flash('success')
@@ -32,7 +32,7 @@ module.exports = function (app, render, nodemailer, variables, utilities, fileSy
             res.redirect('/myproperties');
         } else {
             let propertyFull = await propertyModel.populate(property, {path: 'owner'})
-            let response = render(req.session, 'views/property_modify.html',
+            let response = render(req.session, 'views/properties/property_modify.html',
                 {
                     property: propertyFull,
                     error: req.flash('error'),
@@ -116,7 +116,7 @@ module.exports = function (app, render, nodemailer, variables, utilities, fileSy
     });
 
     app.get('/properties/add', function (req, res) {
-        let response = render(req.session, 'views/property_add.html', {
+        let response = render(req.session, 'views/properties/property_add.html', {
             error: req.flash('error'),
             success: req.flash('success')
         });
@@ -255,7 +255,7 @@ module.exports = function (app, render, nodemailer, variables, utilities, fileSy
                     pages.push(i);
                 }
             }
-            let response = render(req.session, 'views/property_list.html',
+            let response = render(req.session, 'views/properties/property_list.html',
                 {
                     url: req.url.split("?pg=")[0].split("&pg=")[0],
                     typeProp: req.session.typeProp,
@@ -291,7 +291,7 @@ module.exports = function (app, render, nodemailer, variables, utilities, fileSy
         }
 
         let properties = await propertyModel.find(condition);
-        let response = render(req.session, 'views/property_myproperties.html',
+        let response = render(req.session, 'views/properties/property_myproperties.html',
             {
                 properties: properties,
                 error: req.flash('error'),
