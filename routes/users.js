@@ -181,7 +181,7 @@ module.exports = function (app, render, nodemailer, variables, utilities, mongoo
         // Intentamos obtener el usuario por el email
         let user = await userModel.findOne(condition1);
         if (user === null) {
-            let user = new userModel({
+            let newUser = new userModel({
                 name: req.body.name,
                 surname: req.body.surname,
                 email: req.body.email,
@@ -199,15 +199,15 @@ module.exports = function (app, render, nodemailer, variables, utilities, mongoo
             let mailOptions = utilities.createMailOptions(req.body.email, 'Verifique su correo electrónico.',
                 "<h1>Gracias por registrarse en nuestra aplicación</h1>" +
                 "<h2>Verifique su correo electrónico haciendo click en el siguiente enlace:</h2>" +
-                "<p>https://localhost:8081/users/verification/" + user.codes.emailActivation + "</p>");
+                "<p>https://localhost:8081/users/verification/" + newUser.codes.emailActivation + "</p>");
 
             transporter.sendMail(mailOptions, async function (error) {
                 if (error) {
                     req.flash('error', "Ocurrió un error inesperado al enviar el correo de verificación.")
                     res.redirect("/login");
                 } else {
-                    let user = await user.save();
-                    if (user === null) {
+                    let response = await newUser.save();
+                    if (response === null) {
                         req.flash('error', "Ocurrió un error inesperado al añadir su usuario al sistema.")
                     } else {
                         req.flash('success', "Se ha enviado un mensaje a su bandeja de entrada. Revísela para activar su perfil.")
