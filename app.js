@@ -56,7 +56,7 @@ app.use("/wishes/*", routerUserSession);
 app.use("/wishes", routerUserSession);
 app.use("/agents", routerUserSession);
 app.use("/agents/*", routerUserSession);
-app.use("/info/*", routerUserSession);
+app.use("/info/statistics", routerUserSession);
 app.use("/conversations", routerUserSession);
 app.use("/conversations/*", routerUserSession);
 
