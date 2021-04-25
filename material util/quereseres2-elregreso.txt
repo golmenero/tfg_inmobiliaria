@@ -2,8 +2,8 @@
 Fase de Analisis y diseño en planificacion
 :) E-R texto
 :) JSON!?!?!?
-JSON en interaccion
 :) Explicar por que exprtess es bueno  pg51
 :) Cambiar logica por modulos pg 66
 :) Leyenda PG 118
 MaxLength y min length inputs
+sECCION 7.3.3.

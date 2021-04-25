@@ -162,18 +162,22 @@
         </div>
     </nav>
     {% if success != undefined %}
-    <div class="row">
+    {% for s in success %}
+    <div class="msgInfoUser row">
         <div class="msgInfoUser alert alert-success col-md-12" role="alert">
-            {{success}}
+            {{s}}
         </div>
     </div>
+    {% endfor %}
     {% endif %}
     {% if error != undefined %}
-    <div class="row">
+    {% for e in error %}
+    <div class="msgInfoUser row">
         <div class="msgInfoUser alert alert-danger col-md-12" role="alert">
-            {{error}}
+            {{e}}
         </div>
     </div>
+    {% endfor %}
     {% endif %}
 
     <!-- Pantalla de asegurar que quiere borrar el perfil  -->

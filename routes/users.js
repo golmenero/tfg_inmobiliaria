@@ -195,29 +195,38 @@ module.exports = function (app, render, nodemailer, variables, utilities, mongoo
                 wishes: []
             });
 
-            let transporter = utilities.createTransporter();
-            let mailOptions = utilities.createMailOptions(req.body.email, 'Verifique su correo electrónico.',
-                "<h1>Gracias por registrarse en nuestra aplicación</h1>" +
-                "<h2>Verifique su correo electrónico haciendo click en el siguiente enlace:</h2>" +
-                "<p>https://localhost:8081/users/verification/" + newUser.codes.emailActivation + "</p>");
+            let error = newUser.validateSync();
+            let errorMsgs = utilities.getErrors(error.errors);
 
-            transporter.sendMail(mailOptions, async function (error) {
-                if (error) {
-                    req.flash('error', "Ocurrió un error inesperado al enviar el correo de verificación.")
-                    res.redirect("/login");
-                } else {
-                    let response = await newUser.save();
-                    if (response === null) {
-                        req.flash('error', "Ocurrió un error inesperado al añadir su usuario al sistema.")
-                    } else {
-                        req.flash('success', "Se ha enviado un mensaje a su bandeja de entrada. Revísela para activar su perfil.")
+            if(errorMsgs.length <= 0) {
+                let transporter = utilities.createTransporter();
+                let mailOptions = utilities.createMailOptions(req.body.email, 'Verifique su correo electrónico.',
+                    "<h1>Gracias por registrarse en nuestra aplicación</h1>" +
+                    "<h2>Verifique su correo electrónico haciendo click en el siguiente enlace:</h2>" +
+                    "<p>https://localhost:8081/users/verification/" + newUser.codes.emailActivation + "</p>");
+
+                transporter.sendMail(mailOptions, async function (error) {
+                    if (error) {
+                        req.flash('error', ["Ocurrió un error inesperado al enviar el correo de verificación."])
                         res.redirect("/login");
+                    } else {
+                        let response = await newUser.save();
+                        if (response === null) {
+                            req.flash('error', ["Ocurrió un error inesperado al añadir su usuario al sistema."])
+                        } else {
+                            req.flash('success', ["Se ha enviado un mensaje a su bandeja de entrada. Revísela para activar su perfil."])
+                            res.redirect("/login");
+                        }
                     }
-                }
-            })
-            // Si ya existe un usuario.
+                })
+            } else{
+                req.flash('error', errorMsgs)
+                res.redirect("/signin");
+            }
+
+        // Si ya existe un usuario.
         } else {
-            req.flash('error', "Este correo electrónico ya pertenece a una cuenta. Intente usar uno diferente.")
+            req.flash('error', ["Este correo electrónico ya pertenece a una cuenta. Utilice uno diferente."])
             res.redirect("/signin");
         }
 

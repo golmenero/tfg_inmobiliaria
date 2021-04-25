@@ -278,5 +278,11 @@ module.exports = {
             counter += counter2;
         }
         return counter;
-    },
+    }, getErrors(errors){
+        let output = [];
+        for(let prop in errors){
+            output.push(errors[prop].message);
+        }
+        return output;
+    }
 }
