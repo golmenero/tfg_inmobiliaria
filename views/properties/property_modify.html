@@ -16,7 +16,7 @@
 
 
 <div class="container">
-    <h2 class="sectionHeader">Edite los campos deseados</h2>
+    <h2 class="sectionHeader">Edite la información de la propiedad.</h2>
     <form class="form-horizontal" method="post" action="/properties/edit/{{property._id.toString()}}"
           encType="multipart/form-data">
 
@@ -361,7 +361,7 @@
         {% endif %}
         <!-- DATOS DE SUELO -------------------------------------------------------------------------------------------------------------------------------------------------->
         {% if property.type == 'suelo'%}
-        <div id="divAttSuelo" style="display: none;">
+        <div id="divAttSuelo">
             <div class="div-field form-row">
                 <label class="control-label col-sm-2" for="situationSue">Situación:</label>
                 <div class="col-sm-12">
@@ -915,7 +915,7 @@
                 $('#divOwner').hide();
                 $('#divPictures').hide();
 
-                setHeader("Añada la información de la propiedad");
+                setHeader("Edite la información de la propiedad.");
             }
 
             function phase2() {

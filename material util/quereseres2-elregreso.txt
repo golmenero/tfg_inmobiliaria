@@ -1,0 +1,11 @@
+Tabla Requisitos
+Fase de Analisis 
+Fase de Diseño
+QUitar Links de Indice
+E-R texto
+JSON!?!?!?
+JSON en interaccion
+Explicar por que exprtess es bueno  pg51
+Cambiar logica por modulos pg 66
+Leyenda PG 118
+MaxLength y min length inputs

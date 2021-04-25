@@ -3,7 +3,13 @@ let variables = require('./variables.js');
 let conversationsModel = require('../database/conversationModel');
 
 module.exports = {
-    addIfExists: function (fieldName, value, object) {
+    addIfExistsSimple: function (fieldName, value, object) {
+        if (value) {
+            object[fieldName] =  value;
+            return object;
+        }
+        return object;
+    }, addIfExists: function (fieldName, value, object) {
         if (value) {
             object[fieldName] = {
                 $regex: ".*" + value + ".*",
@@ -233,7 +239,7 @@ module.exports = {
         }
         return arr;
     },
-    getDateChat: function () {
+    getTimeChat: function () {
         let date = new Date();
         let hour = date.getHours();
         hour = (hour < 10 ? "0" : "") + hour;
@@ -243,7 +249,7 @@ module.exports = {
 
         return hour + ":" + min;
     },
-    getTimeChat: function () {
+    getDateChat: function () {
         let date = new Date();
         let month = date.getMonth() + 1;
         month = (month < 10 ? "0" : "") + month;

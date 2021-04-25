@@ -91,10 +91,10 @@ module.exports = function (app, render, nodemailer, variables, utilities, mongoo
 
         let response = await agentModel.deleteOne(condition);
         if (response === null) {
-            req.flash('error', "No se pudo eliminar el usuario.");
+            req.flash('error', "No se pudo eliminar el agente.");
             res.redirect("/agents");
         } else {
-            req.flash('success', "Usuario eliminado correctamente.");
+            req.flash('success', "Agente eliminado correctamente.");
             res.redirect("/agents");
         }
     });

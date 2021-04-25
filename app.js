@@ -60,6 +60,7 @@ app.use("/info/*", routerUserSession);
 app.use("/conversations", routerUserSession);
 app.use("/conversations/*", routerUserSession);
 
+
 app.use(express.static('public'));
 
 // Variables
@@ -73,12 +74,12 @@ app.set('crypto', crypto);
 let mongoose = require('mongoose')
 
 // Rutas
-require('./routes/users.js')(app,render, nodemailer,  variables, utilities, mongoose);
-require('./routes/properties.js')(app,render, nodemailer,  variables, utilities, fileSystem, mongoose);
-require('./routes/system.js')(app,render,  variables,utilities, mongoose);
-require('./routes/wishes.js')(app,render, nodemailer, variables,utilities, mongoose);
-require('./routes/conversations.js')(app,render, nodemailer,  variables, utilities, mongoose);
-require('./routes/agents.js')(app,render, nodemailer,  variables,utilities, mongoose);
+require('./routes/users.js')(app, render, nodemailer, variables, utilities, mongoose);
+require('./routes/properties.js')(app, render, nodemailer, variables, utilities, fileSystem, mongoose);
+require('./routes/system.js')(app, render, variables, utilities, mongoose);
+require('./routes/wishes.js')(app, render, nodemailer, variables, utilities, mongoose);
+require('./routes/conversations.js')(app, render, nodemailer, variables, utilities, mongoose);
+require('./routes/agents.js')(app, render, nodemailer, variables, utilities, mongoose);
 
 
 app.get('/', function (req, res) {
@@ -100,31 +101,40 @@ async function initParams() {
     let seguro = app.get("crypto").createHmac('sha256', app.get('key')).update("admin").digest('hex');
     let condition = {email: "charlygomezcolmenero@gmail.com"}
     let conditionInfo = {active: true}
-    let user = {
-        name: "Carlos",
-        surname: "Gómez Colmenero",
-        email: "charlygomezcolmenero@gmail.com",
-        permission: 'S',
-        password: seguro,
-        active: true,
-    }
-    let info = {
-        phones: variables.TELEFONOS,
-        emails: variables.EMAILS,
-        active: true
-    };
 
-    await infoModel.findOneAndReplace(conditionInfo,info);
-    await userModel.findOneAndReplace(condition, user);
+    let resInfo = await infoModel.findOne(conditionInfo);
+    let resUser = await userModel.findOne(condition);
+
+    if (!resInfo) {
+        let info = new infoModel({
+            phones: variables.TELEFONOS,
+            emails: variables.EMAILS,
+            active: true
+        });
+        await info.save();
+    }
+    if (!resUser) {
+        let user = new userModel({
+            name: "Carlos",
+            surname: "Gómez Colmenero",
+            email: "charlygomezcolmenero@gmail.com",
+            permission: 'S',
+            password: seguro,
+            active: true,
+        });
+        await user.save();
+    }
 }
 
-// You can clear a periodic function by uncommenting:
-// clearInterval(intervalId);
 
-https.createServer({
+let server = https.createServer({
     key: fs.readFileSync('certificates/alice.key'),
-    cert: fs.readFileSync('certificates/alice.crt')
-}, app).listen(app.get('port'), async function () {
+    cert: fs.readFileSync('certificates/alice.crt'),
+}, app);
+server.listen(app.get('port'), async function () {
     await initParams();
     console.log("Servidor activo");
 });
+
+
+module.exports = server;

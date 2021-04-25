@@ -31,7 +31,7 @@ let propertyMinSchema = new Schema({
             type: String,
             required: true,
             maxLength: 255,
-            minLength: 30,
+            minLength: 5,
         },
         city: {
             type: String,
@@ -111,8 +111,8 @@ let propertyMinSchema = new Schema({
         // Local
         numAseos: {
             type:Number,
-            max: 1000,
-            min: 10,
+            max: 100,
+            min: 0,
         },
         escaparate: Boolean,
         aparcamiento: Boolean,

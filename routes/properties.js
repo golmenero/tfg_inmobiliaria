@@ -111,6 +111,7 @@ module.exports = function (app, render, nodemailer, variables, utilities, fileSy
         } else {
             // Usamos el paquete fs-extra para eliminar el directorio
             fileSystem.remove('public/propertiesimg/' + req.params.id);
+            req.flash('success', "Propiedad eliminada correctamente.")
             res.redirect("/myproperties");
         }
     });
@@ -176,8 +177,8 @@ module.exports = function (app, render, nodemailer, variables, utilities, fileSy
         if (req.params.type == 'vivienda') {
             condition = utilities.addIfExists("address", req.query.address, condition);
             condition = utilities.addIfExists("city", req.query.city, condition);
-            condition = utilities.addIfExists("numHabs", parseInt(req.query.numHabs), condition);
-            condition = utilities.addIfExists("numBan", parseInt(req.query.numBan), condition);
+            condition = utilities.addIfExistsSimple("numHabs", parseInt(req.query.numHabs), condition);
+            condition = utilities.addIfExistsSimple("numBan", parseInt(req.query.numBan), condition);
             // Superficie
             condition = utilities.addIfExistsGTLT("area", req.query.areaMin, req.query.areaMax, condition);
             // Precios
@@ -198,7 +199,7 @@ module.exports = function (app, render, nodemailer, variables, utilities, fileSy
         if (req.params.type == 'local') {
             condition = utilities.addIfExists("address", req.query.addressLoc, condition);
             condition = utilities.addIfExists("city", req.query.cityLoc, condition);
-            condition = utilities.addIfExists("numAseos", req.query.numAseosLoc, condition);
+            condition = utilities.addIfExistsSimple("numAseos", req.query.numAseosLoc, condition);
             // Superficie
             condition = utilities.addIfExistsGTLT("area", req.query.areaMinLoc, req.query.areaMaxLoc, condition);
             // Precios

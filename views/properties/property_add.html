@@ -661,9 +661,7 @@
                 </div>
                 <div class="col-sm-6">
                     <button id="btnOverwievS" type="submit" class="btnSiguiente btn btn-success btn-lg btn-block">
-                        Confirmar
-                        Y
-                        Guardar
+                        Confirmar Y Guardar
                     </button>
                 </div>
             </div>
@@ -679,10 +677,6 @@
             // PASO A FASE 1
             $('#displayVivienda').on('click', function () {
                 phase1("vivienda")
-
-
-                // ESTO ES PARA DEBUG - BORRAR
-                prerellenar();
             });
             $('#displayLocal').on('click', function () {
                 phase1("local")
@@ -747,7 +741,7 @@
                         area: $("[name='areaLoc']").val(),
                         numAseos: $("[name='numAsLoc']").val(),
                         price: $("[name='priceLoc']").val(),
-                        priceCom: $("[name='priceCom']").val(),
+                        priceCom: $("[name='priceComLoc']").val(),
                         escaparate: $("[name='checkEscaparateLoc']").prop('checked'),
                         aparcamiento: $("[name='checkAparcamientoLoc']").prop('checked'),
                         cargaYdescarga: $("[name='checkCargaYDescargaLoc']").prop('checked'),
@@ -756,6 +750,7 @@
                         calefaccion: $("[name='checkCalefaccionLoc']").prop('checked'),
                         aireAcon: $("[name='checkAireAconLoc']").prop('checked')
                     }
+                    console.log(property)
                     if (property.typeOp != "" && checkProperty(property.code) && checkProperty(property.name) && checkProperty(property.address) && checkProperty(property.floor) && checkProperty(property.description) &&
                         checkProperty(property.city) && checkProperty(property.area) && checkProperty(property.numAseos) && checkProperty(property.price) &&
                         checkProperty(property.priceCom)) {
@@ -867,7 +862,7 @@
 
                 $("#type").val(type);
                 adjustProgressBar(25)
-                setHeader("Añada la información de la propiedad");
+                setHeader("Añada la información de la propiedad.");
             }
 
             function phase2() {
@@ -1069,7 +1064,7 @@
             function hasDetail(detail) {
                 return (detail == true) ? "Si" : "No";
             }
-
+            /**
             // Para ahorrar tiempo. BORRAR
             function prerellenar() {
                 $("[name='name']").val("Piso precioso en el Cristo");
@@ -1118,6 +1113,7 @@
                 $("[name='accesoLuzSue']").prop('checked', true);
                 $("[name='accesoAguaSue']").prop('checked', true);
             }
+             */
         </script>
     </form>
 </div>

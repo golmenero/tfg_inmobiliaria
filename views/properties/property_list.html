@@ -13,7 +13,7 @@
 
     <div class="headerButtonOverview card-header">
         <h5 class="mb-0">
-            <button type="button" class="buttonOverview btn custom-base-style" data-toggle="collapse"
+            <button id="btnExpandFilter" type="button" class="buttonOverview btn custom-base-style" data-toggle="collapse"
                     data-target="#propertyFilter"
                     aria-expanded="false" aria-controls="propertyFilter">
                 <span class="fas fa-search"></span><span class="font-weight-bold">Filtro de Propiedades</span>
@@ -54,7 +54,7 @@
                         </div>
                     </div>
                     <div class="form-group col-4">
-                        <label class="control-label" for="address">Población/Ciudad:</label>
+                        <label class="control-label" for="city">Población/Ciudad:</label>
                         <div>
                             <input id='city' type="text" class="form-control" name="city"
                                    placeholder="Ej. Oviedo"/>
@@ -356,7 +356,7 @@
                 </div>
                 {% endif %}
                 <div class="row">
-                    <button type="submit" class="btnSiguiente btn btn-dark btn-lg btn-block">
+                    <button id="btnAplicarFiltros" type="submit" class="btnSiguiente btn btn-dark btn-lg btn-block">
                         Aplicar Filtros
                     </button>
                 </div>
