@@ -17,7 +17,7 @@ let userSchema = new Schema({
     email: {
         type: String,
         required: [true,"Debe tener al menos un email"],
-        maxLength: [100,"El correo electrónico no puede tener más de 50 letras."],
+        maxLength: [50,"El correo electrónico no puede tener más de 50 letras."],
         minLength: [8,"El correo electrónico no puede tener menos de 8 letras."],
     },
     permission: {

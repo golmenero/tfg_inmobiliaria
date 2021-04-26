@@ -6,9 +6,9 @@ module.exports = function (app, render, nodemailer, variables, utilities, mongoo
         let user = {"active": true,}
         let result = await userModel.findOneAndUpdate(condition, user);
         if (result === null) {
-            req.flash('error', "Su correo no se ha podido verificar correctamente.")
+            req.flash('error', ["Su correo no se ha podido verificar correctamente."])
         } else {
-            req.flash('success', "Su correo electrónico se ha verificado correctamente.")
+            req.flash('success', ["Su correo electrónico se ha verificado correctamente."])
         }
         res.redirect("/login");
     });
@@ -19,12 +19,12 @@ module.exports = function (app, render, nodemailer, variables, utilities, mongoo
 
         let user = await userModel.findOne(condition);
         if (user === null) {
-            req.flash('error', "No se encontro ninguna cuenta con esta información. Vuelva a intentarlo.");
+            req.flash('error', ["No se encontro ninguna cuenta con esta información. Vuelva a intentarlo."]);
             res.redirect('/login');
         } else {
             let expirationDateUser = user.codes.passwordRecoverDate;
             if (utilities.expirated(dateToday, expirationDateUser)) {
-                req.flash('error', "Su enlace de recuperación de contraseña ha caducado.");
+                req.flash('error', ["Su enlace de recuperación de contraseña ha caducado."]);
                 res.redirect('/login');
             } else {
                 let respuesta = render(req.session, 'views/users/user_passwordRecover.html', {
@@ -43,7 +43,7 @@ module.exports = function (app, render, nodemailer, variables, utilities, mongoo
         let passwordR = req.body.passwordR;
 
         if (password != passwordR) {
-            req.flash('error', "Las contraseñas no coinciden.");
+            req.flash('error', ["Las contraseñas no coinciden."]);
             res.redirect('/recover/' + code);
         } else {
             let condition = {"codes.passwordRecover": code}
@@ -61,12 +61,11 @@ module.exports = function (app, render, nodemailer, variables, utilities, mongoo
         }
     });
 
-    // EDITAR CONTRASEÑA USUARIOS
     app.get('/users/edit', async function (req, res) {
         let condition = {"_id": mongoose.mongo.ObjectID(req.session.user._id)};
         let user = userModel.findOneAndUpdate(condition);
         if (user == null) {
-            req.flash('error', "No se pudo encontrar al usuario.");
+            req.flash('error', ["No se pudo encontrar al usuario."]);
             res.redirect("/properties/" + req.session.typeProp);
         } else {
             let response = render(req.session, 'views/users/user_modify.html',
@@ -80,9 +79,10 @@ module.exports = function (app, render, nodemailer, variables, utilities, mongoo
     });
 
     app.post('/users/edit', async function (req, res) {
-        let user = {};
-        (req.body.name != "") ? user["name"] = req.body.name : user;
-        (req.body.surname != "") ? user["surname"] = req.body.surname : user;
+        let user = {
+            name: req.body.name,
+            surname: req.body.surname,
+        };
 
         if (req.body.password != "") {
             let seguro = app.get("crypto").createHmac('sha256', app.get('key')).update(req.body.password).digest('hex');
@@ -108,26 +108,25 @@ module.exports = function (app, render, nodemailer, variables, utilities, mongoo
             if (encrypted == req.session.user.password) {
                 let result = await userModel.deleteOne(condition);
                 if (result == null) {
-                    req.flash('error', "No se pudo eliminar el usuario.");
+                    req.flash('error', ["No se pudo eliminar el usuario."]);
                     res.redirect("/properties/" + req.session.typeProp);
                 } else {
                     req.session.user = null;
-                    req.flash('success', "Usuario eliminado correctamente.");
+                    req.flash('success', ["Usuario eliminado correctamente."]);
                     res.redirect("/login");
                 }
             } else {
-                req.flash('error', "Contraseña incorrecta.");
+                req.flash('error', ["Contraseña incorrecta."]);
                 res.redirect("/properties/" + req.session.typeProp);
             }
         } else {
-            req.flash('error', "El administrador no puede eliminar su cuenta, lo sentimos.");
+            req.flash('error', ["El administrador no puede eliminar su cuenta, lo sentimos."]);
             res.redirect("/properties/" + req.session.typeProp);
         }
     });
 
     app.get('/disconnect', function (req, res) {
         req.session.user = null;
-
         res.redirect('/login');
     })
 
@@ -139,10 +138,10 @@ module.exports = function (app, render, nodemailer, variables, utilities, mongoo
         }
         let userFound = await userModel.findOne(condition);
         if (userFound === null) {
-            req.flash('error', "No se encontró ningún usuario con ese correo electrónico.");
+            req.flash('error', ["No se encontró ningún usuario con ese correo electrónico."]);
             res.redirect("/login");
         } else if (userFound.permission == 'S' || userFound.permission == 'A') {
-            req.flash('error', "Un agente no puede modificar su contraseña. Póngase en contacto con su administrador.");
+            req.flash('error', ["Un agente no puede modificar su contraseña. Póngase en contacto con su administrador."]);
             res.redirect('/login');
         } else {
             // No necesitamos comprobar que sea null porque ya lo hacemos en la primera query.
@@ -155,10 +154,10 @@ module.exports = function (app, render, nodemailer, variables, utilities, mongoo
 
             transporter.sendMail(mailOptions, function (error) {
                 if (error) {
-                    req.flash('error', "Ocurrió un error al enviar su correo de reestablecimiento de contraseña.");
+                    req.flash('error', ["Ocurrió un error al enviar su correo de reestablecimiento de contraseña."]);
                     res.redirect("/login");
                 } else {
-                    req.flash('success', "Se ha enviado un mensaje a su correo con instrucciones para reestablecer su contraseña.");
+                    req.flash('success', ["Se ha enviado un mensaje a su correo con instrucciones para reestablecer su contraseña."]);
                     res.redirect("/login");
                 }
             })
@@ -198,7 +197,7 @@ module.exports = function (app, render, nodemailer, variables, utilities, mongoo
             let error = newUser.validateSync();
             let errorMsgs = utilities.getErrors(error.errors);
 
-            if(errorMsgs.length <= 0) {
+            if (errorMsgs.length <= 0) {
                 let transporter = utilities.createTransporter();
                 let mailOptions = utilities.createMailOptions(req.body.email, 'Verifique su correo electrónico.',
                     "<h1>Gracias por registrarse en nuestra aplicación</h1>" +
@@ -219,12 +218,12 @@ module.exports = function (app, render, nodemailer, variables, utilities, mongoo
                         }
                     }
                 })
-            } else{
+            } else {
                 req.flash('error', errorMsgs)
                 res.redirect("/signin");
             }
 
-        // Si ya existe un usuario.
+            // Si ya existe un usuario.
         } else {
             req.flash('error', ["Este correo electrónico ya pertenece a una cuenta. Utilice uno diferente."])
             res.redirect("/signin");

@@ -7,3 +7,28 @@ Fase de Analisis y diseño en planificacion
 :) Leyenda PG 118
 MaxLength y min length inputs
 sECCION 7.3.3.
+
+1. Crear Perfil Usuario
+2. Editar
+3. Eliminar
+4. Crear Perfil Agente
+5. Editar
+6. Eliminar
+7. Inicio de Sesion
+8. Ver Estadisticas de Ventas
+9. Crear Propiedad
+10. Editar Propiedad
+11. Eliminar Propiedad
+12. Ver Propiedades
+13. Ver detalles de Propiedades
+14. Filtrar Propiedades
+15. Ver Conversaciones
+16. Enviar Mensaje
+17. Ver Mensajes Recibidos
+18. Añadir a Seguimiento
+19. Eliminar de Seguimientos
+20. Ver Seguimientos
+21. Ver Informacion de Contacto
+22. Editar Informacion de Contacto
+
+CASO DE USO DE RECUPERAR CONTRASEÑA IGUAL EH

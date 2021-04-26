@@ -8,5 +8,5 @@ module.exports = {
     PASSVERIF: "TFG_UO257386",
     IMGFOLDER: "public/propertiesimg",
     TELEFONOS: "+34 985 470 012",
-    EMAILS: "info@arca-agenciainmobiliaria.com"
+    EMAILS: "info@arca-agenciainmobiliaria.com",
 };
