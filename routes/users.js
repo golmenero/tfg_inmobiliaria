@@ -79,35 +79,37 @@ module.exports = function (app, render, nodemailer, variables, utilities, mongoo
     });
 
     app.post('/users/edit', async function (req, res) {
+        let oldPass = req.body.oldPassword;
         let user = {
             name: req.body.name,
             surname: req.body.surname,
+            password: app.get("crypto").createHmac('sha256', app.get('key')).update(req.body.password).digest('hex'),
         };
-
-        if (req.body.password != "") {
-            let seguro = app.get("crypto").createHmac('sha256', app.get('key')).update(req.body.password).digest('hex');
-            user["password"] = seguro;
-        }
 
         let id = req.session.user._id;
         let condition = {"_id": mongoose.mongo.ObjectId(id)};
 
         // Hacemos el proceso de actualizacion de otra manera para poder correr los validadores de mongoose
         let oldUser = await userModel.findOne(condition);
-        let userM = new userModel(utilities.updateIfNecessary(oldUser, user));
-        let error = userM.validateSync();
+        if (oldUser.password == app.get("crypto").createHmac('sha256', app.get('key')).update(oldPass).digest('hex')) {
+            let userM = new userModel(utilities.updateIfNecessary(oldUser, user));
+            let error = userM.validateSync();
 
-        if (!error) {
-            let result = await userM.save();
-            if (result === null) {
-                req.flash('error', ["Ocurrió un error al modificar su perfil."]);
+            if (!error) {
+                let result = await userM.save();
+                if (result === null) {
+                    req.flash('error', ["Ocurrió un error al modificar su perfil."]);
+                } else {
+                    req.flash('success', ["Su perfil se ha modificado correctamente."]);
+                }
+                res.redirect("/home");
             } else {
-                req.flash('success', ["Su perfil se ha modificado correctamente."]);
+                let errorMsgs = utilities.getErrors(error.errors);
+                req.flash('error', errorMsgs)
+                res.redirect("/users/edit");
             }
-            res.redirect("/home");
         } else {
-            let errorMsgs = utilities.getErrors(error.errors);
-            req.flash('error', errorMsgs)
+            req.flash('error', ["Contraseña Incorrecta. Inténtelo de nuevo."]);
             res.redirect("/users/edit");
         }
     });
