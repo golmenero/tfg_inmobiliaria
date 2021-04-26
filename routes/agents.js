@@ -19,7 +19,7 @@ module.exports = function (app, render, nodemailer, variables, utilities, mongoo
             res.send(respuesta);
         } else {
             req.flash('error', "Ocurrió un error al listar los agentes.")
-            res.redirect("/properties/" + req.session.typeProp);
+            res.redirect("/properties/vivienda");
         }
     });
 

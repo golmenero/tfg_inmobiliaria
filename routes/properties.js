@@ -54,7 +54,7 @@ module.exports = function (app, render, nodemailer, variables, utilities, fileSy
             let response = await ownerAdd.save();
             if (response === null) {
                 req.flash('error', 'No se ha podido añadir el propietario.')
-                res.redirect('/properties/' + req.session.typeProp);
+                res.redirect('/properties/vivienda');
             }
             idO = {owner: mongoose.mongo.ObjectID(ownerAdd.id)};
         } else {
@@ -135,7 +135,7 @@ module.exports = function (app, render, nodemailer, variables, utilities, fileSy
             let result = await modelOwner.save();
             if (result === null) {
                 req.flash('error', "No se ha podido añadir al propietario del inmueble.")
-                res.redirect('/properties/' + req.session.typeProp)
+                res.redirect('/properties/vivienda')
             }
             idO = modelOwner._id;
         } else {
@@ -151,7 +151,7 @@ module.exports = function (app, render, nodemailer, variables, utilities, fileSy
         // Si la propiedad no se guarda correctamente manda un error
         if (saved === null) {
             req.flash('error', "La propiedad no se pudo añadir correctamente.")
-            res.redirect('/properties/' + req.session.typeProp)
+            res.redirect('/properties/' + property.type)
         }
         // Si se guarda, utilizamos su ID para guardar las imagenes y luego editamos la propiedad añadiéndole el array.
         else {
@@ -162,7 +162,7 @@ module.exports = function (app, render, nodemailer, variables, utilities, fileSy
 
             if (result === null) {
                 req.flash('error', "Error al añadir las imágenes de la propiedad.")
-                res.redirect('/properties/' + req.session.typeProp)
+                res.redirect('/properties/' + property.type)
             } else {
                 req.flash('success', "La propiedad se añadió correctamente.")
                 res.redirect("/myproperties");
@@ -171,6 +171,9 @@ module.exports = function (app, render, nodemailer, variables, utilities, fileSy
     });
 
     app.get('/properties/:type', async function (req, res) {
+        if(req.params.type == undefined){
+            res.redirect("/properties/vivienda")
+        }
         let condition = {type: req.params.type};
         condition = utilities.addIfExists("name", req.query.name, condition);
         condition = utilities.addIfExists("typeOp", req.query.typeOp, condition);
@@ -229,9 +232,6 @@ module.exports = function (app, render, nodemailer, variables, utilities, fileSy
             condition = utilities.addIfExistsCB("accesoLuz", req.query.checkAccesoLuzSue, condition);
         }
 
-        // Guardamos el tipo en sesion
-        req.session.typeProp = req.params.type;
-
         if (req.query.search != null)
             condition = {"name": {$regex: ".*" + req.query.search + ".*"}};
 
@@ -259,7 +259,7 @@ module.exports = function (app, render, nodemailer, variables, utilities, fileSy
             let response = render(req.session, 'views/properties/property_list.html',
                 {
                     url: req.url.split("?pg=")[0].split("&pg=")[0],
-                    typeProp: req.session.typeProp,
+                    typeProp: req.params.type,
                     properties: properties,
                     pages: pages,
                     actual: pg,
@@ -299,6 +299,10 @@ module.exports = function (app, render, nodemailer, variables, utilities, fileSy
                 success: req.flash('success')
             });
         res.send(response);
+    });
+
+    app.get("/properties", function (req,res){
+       res.redirect('/properties/vivienda')
     });
 
 

@@ -5,7 +5,7 @@ let conversationsModel = require('../database/conversationModel');
 module.exports = {
     addIfExistsSimple: function (fieldName, value, object) {
         if (value) {
-            object[fieldName] =  value;
+            object[fieldName] = value;
             return object;
         }
         return object;
@@ -260,7 +260,7 @@ module.exports = {
         return day + ", " + month;
     },
     // Funcion periodica de leer notificaicones
-    getNotifs: async function (permission, id){
+    getNotifs: async function (permission, id) {
         let condition = {
             $or: [{
                 "agent": id,
@@ -272,17 +272,24 @@ module.exports = {
 
         let conversations = await conversationsModel.find(condition);
         let counter = 0;
-        for(let i = 0; i<conversations.length; i++){
+        for (let i = 0; i < conversations.length; i++) {
             let messages = conversations[i].messages;
             let counter2 = messages.filter(msg => (!msg.seen && msg.from != permission)).length;
             counter += counter2;
         }
         return counter;
-    }, getErrors(errors){
+    }, getErrors(errors) {
         let output = [];
-        for(let prop in errors){
+        for (let prop in errors) {
             output.push(errors[prop].message);
         }
         return output;
+    }, updateIfNecessary(oldOne, newOne) {
+        for(let p in oldOne){
+            if(newOne[p]){
+                oldOne[p] = newOne[p];
+            }
+        }
+        return oldOne;
     }
 }

@@ -3,7 +3,7 @@ let userModel = require('../database/userModel');
 module.exports = function (app, render, nodemailer, variables, utilities, mongoose) {
     app.get("/users/verification/:code", async function (req, res) {
         let condition = {'codes.emailActivation': req.params.code}
-        let user = {"active": true,}
+        let user = {"active": true}
         let result = await userModel.findOneAndUpdate(condition, user);
         if (result === null) {
             req.flash('error', ["Su correo no se ha podido verificar correctamente."])
@@ -66,7 +66,7 @@ module.exports = function (app, render, nodemailer, variables, utilities, mongoo
         let user = userModel.findOneAndUpdate(condition);
         if (user == null) {
             req.flash('error', ["No se pudo encontrar al usuario."]);
-            res.redirect("/properties/" + req.session.typeProp);
+            res.redirect("/properties/vivienda");
         } else {
             let response = render(req.session, 'views/users/user_modify.html',
                 {
@@ -88,16 +88,28 @@ module.exports = function (app, render, nodemailer, variables, utilities, mongoo
             let seguro = app.get("crypto").createHmac('sha256', app.get('key')).update(req.body.password).digest('hex');
             user["password"] = seguro;
         }
+
         let id = req.session.user._id;
         let condition = {"_id": mongoose.mongo.ObjectId(id)};
 
-        let result = await userModel.findOneAndUpdate(condition, user);
-        if (result === null) {
-            req.flash('error', "Ocurrió un error al modificar su perfil.");
+        // Hacemos el proceso de actualizacion de otra manera para poder correr los validadores de mongoose
+        let oldUser = await userModel.findOne(condition);
+        let userM = new userModel(utilities.updateIfNecessary(oldUser, user));
+        let error = userM.validateSync();
+
+        if (!error) {
+            let result = await userM.save();
+            if (result === null) {
+                req.flash('error', ["Ocurrió un error al modificar su perfil."]);
+            } else {
+                req.flash('success', ["Su perfil se ha modificado correctamente."]);
+            }
+            res.redirect("/home");
         } else {
-            req.flash('success', "Su perfil se ha modificado correctamente.");
+            let errorMsgs = utilities.getErrors(error.errors);
+            req.flash('error', errorMsgs)
+            res.redirect("/users/edit");
         }
-        res.redirect("/properties/" + req.session.typeProp);
     });
 
     app.post("/users/delete", async function (req, res) {
@@ -109,7 +121,7 @@ module.exports = function (app, render, nodemailer, variables, utilities, mongoo
                 let result = await userModel.deleteOne(condition);
                 if (result == null) {
                     req.flash('error', ["No se pudo eliminar el usuario."]);
-                    res.redirect("/properties/" + req.session.typeProp);
+                    res.redirect("/home");
                 } else {
                     req.session.user = null;
                     req.flash('success', ["Usuario eliminado correctamente."]);
@@ -117,11 +129,11 @@ module.exports = function (app, render, nodemailer, variables, utilities, mongoo
                 }
             } else {
                 req.flash('error', ["Contraseña incorrecta."]);
-                res.redirect("/properties/" + req.session.typeProp);
+                res.redirect("/home");
             }
         } else {
-            req.flash('error', ["El administrador no puede eliminar su cuenta, lo sentimos."]);
-            res.redirect("/properties/" + req.session.typeProp);
+            req.flash('error', ["Un super-agente no puede eliminar su cuenta, lo sentimos."]);
+            res.redirect("/home");
         }
     });
 
@@ -193,11 +205,8 @@ module.exports = function (app, render, nodemailer, variables, utilities, mongoo
                 },
                 wishes: []
             });
-
             let error = newUser.validateSync();
-            let errorMsgs = utilities.getErrors(error.errors);
-
-            if (errorMsgs.length <= 0) {
+            if (!error) {
                 let transporter = utilities.createTransporter();
                 let mailOptions = utilities.createMailOptions(req.body.email, 'Verifique su correo electrónico.',
                     "<h1>Gracias por registrarse en nuestra aplicación</h1>" +
@@ -219,11 +228,10 @@ module.exports = function (app, render, nodemailer, variables, utilities, mongoo
                     }
                 })
             } else {
+                let errorMsgs = utilities.getErrors(error.errors);
                 req.flash('error', errorMsgs)
                 res.redirect("/signin");
             }
-
-            // Si ya existe un usuario.
         } else {
             req.flash('error', ["Este correo electrónico ya pertenece a una cuenta. Utilice uno diferente."])
             res.redirect("/signin");
@@ -257,11 +265,7 @@ module.exports = function (app, render, nodemailer, variables, utilities, mongoo
                 req.session.user = user;
                 req.flash('success', "Ha iniciado sesión correctamente.")
 
-                if (req.session.typeProp != undefined) {
-                    res.redirect('/properties/' + req.session.typeProp)
-                } else {
-                    res.redirect('/home');
-                }
+                res.redirect('/home');
             } else {
                 req.flash('error', "Su correo no ha sido verificado. Revise su bandeja de entrada.")
                 res.redirect("/login");

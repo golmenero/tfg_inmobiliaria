@@ -29,7 +29,7 @@ let userSchema = new Schema({
     password: {
         type: String,
         required: [true,"Debe tener al menos una contraseña"],
-        maxLength: [50,"La contraseña debe tener menos de 50 caracteres."],
+        maxLength: [100,"La contraseña debe tener menos de 100 caracteres."],
         minLength: [8,"La contraseña debe tener al menos 8 caracteres."],
     },
     active: {
@@ -39,13 +39,13 @@ let userSchema = new Schema({
     codes: {
         emailActivation: {
             type: String,
-            maxLength: [25,"El codigo de activacion debe tener menos de 25 caracteres"],
-            minLength: [8,"El codigo de activacion debe tener mas de 8 caracteres"],
+            maxLength: [255,"El codigo de activacion debe tener menos de 255 caracteres"],
+            minLength: [0,"El codigo de activacion debe tener, al menos, un caracter"],
         },
         passwordRecover: {
             type: String,
-            maxLength: [25,"El codigo de recuperacion de contraseña debe tener menos de 25 caracteres"],
-            minLength: [0 ,"El codigo de activacion debe tener al menos 0 caracteres"],
+            maxLength: [255,"El codigo de recuperacion de contraseña debe tener menos de 255 caracteres"],
+            minLength: [0 ,"El codigo de activacion debe tener, al menos, un caracter"],
         },
         passwordRecoverDate: {
             type: String

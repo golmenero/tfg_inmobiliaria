@@ -34,7 +34,7 @@ module.exports = function (app, render, nodemailer, variables, utilities, mongoo
             let response = await conversacionNew.save();
             if (response === null) {
                 req.flash('error', "No se ha podido añadir la conversacion.")
-                res.redirect("/properties/" + req.session.typeProp);
+                res.redirect("/home");
             } else {
                 res.redirect("/conversations/chat/" + conversacionNew._id);
             }
