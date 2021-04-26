@@ -259,17 +259,17 @@ module.exports = function (app, render, nodemailer, variables, utilities, mongoo
         }
         let user = await userModel.findOne(condition);
         if (user === null) {
-            req.flash('error', "Usuario y/o contraseña incorrectos")
+            req.flash('error', ["Usuario y/o contraseña incorrectos"])
             req.session.user = null;
             res.redirect("/login");
         } else {
             if (user.active == true) {
                 req.session.user = user;
-                req.flash('success', "Ha iniciado sesión correctamente.")
+                req.flash('success', ["Ha iniciado sesión correctamente."])
 
                 res.redirect('/home');
             } else {
-                req.flash('error', "Su correo no ha sido verificado. Revise su bandeja de entrada.")
+                req.flash('error', ["Su correo no ha sido verificado. Revise su bandeja de entrada."])
                 res.redirect("/login");
             }
         }

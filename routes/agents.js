@@ -18,7 +18,7 @@ module.exports = function (app, render, nodemailer, variables, utilities, mongoo
             });
             res.send(respuesta);
         } else {
-            req.flash('error', "Ocurrió un error al listar los agentes.")
+            req.flash('error', ["Ocurrió un error al listar los agentes."])
             res.redirect("/properties/vivienda");
         }
     });
@@ -40,14 +40,27 @@ module.exports = function (app, render, nodemailer, variables, utilities, mongoo
             password: app.get("crypto").createHmac('sha256', app.get('key')).update(req.body.password).digest('hex'),
             active: true
         });
-        // Connect to DB
-        let response = await agent.save(agent);
-        if (response === null) {
-            req.flash('error', "El agente no se pudo añadir correctamente.")
+        let anyAgente = await agentModel.findOne({email: req.body.email});
+        if (anyAgente != null) {
+            req.flash('error', ["Ya existe un agente con ese correo electrónico."])
             res.redirect('/agents');
         } else {
-            req.flash('success', "El agente se añadió correctamente.")
-            res.redirect('/agents');
+            let error = agent.validateSync();
+            if (!error) {
+                // Connect to DB
+                let response = await agent.save();
+                if (response === null) {
+                    req.flash('error', ["El agente no se pudo añadir correctamente."])
+                    res.redirect('/agents');
+                } else {
+                    req.flash('success', ["El agente se añadió correctamente."])
+                    res.redirect('/agents');
+                }
+            } else {
+                let errorMsgs = utilities.getErrors(error.errors);
+                req.flash('error', errorMsgs)
+                res.redirect("/agents/add");
+            }
         }
     });
 
@@ -55,7 +68,7 @@ module.exports = function (app, render, nodemailer, variables, utilities, mongoo
         let condition = {"_id": mongoose.Types.ObjectId(req.params.id)};
         let agent = await agentModel.findOne(condition);
         if (agent === null) {
-            req.flash('error', "El agente no se pudo editar correctamente.")
+            req.flash('error', ["El agente no se pudo editar correctamente."])
             res.redirect('/agents');
         } else {
             let response = render(req.session, 'views/agents/agent_modify.html', {
@@ -68,21 +81,38 @@ module.exports = function (app, render, nodemailer, variables, utilities, mongoo
     });
 
     app.post('/agents/edit/:id', async function (req, res) {
-        let agent = {}
+        let agent = {
+            name: req.body.name,
+            surname: req.body.surname,
+            email: req.body.email,
+            password: app.get("crypto").createHmac('sha256', app.get('key')).update(req.body.password).digest('hex')
+        }
         let condition = {"_id": mongoose.Types.ObjectId(req.params.id)};
-        (req.body.name != "") ? agent["name"] = req.body.name : agent;
-        (req.body.surname != "") ? agent["surname"] = req.body.surname : agent;
-        (req.body.email != "") ? agent["email"] = req.body.email : agent;
-        (req.body.password != "") ? agent["password"] = app.get("crypto").createHmac('sha256', app.get('key')).update(req.body.password).digest('hex') : agent;
-
-        // Connect to DB
-        let response = await agentModel.findOneAndUpdate(condition, agent);
-        if (response === null) {
-            req.flash('error', "El agente no se pudo editar correctamente.")
-            res.redirect('/agents');
-        } else {
-            req.flash('success', "El agente se editó correctamente.")
-            res.redirect('/agents');
+        let oldAgent = await agentModel.findOne(condition);
+        if (oldAgent.email != agent.email) {
+            let otherAgent = await agentModel.findOne({email: req.body.email});
+            if (otherAgent != null) {
+                req.flash('error', ["Ya existe un agente con ese correo electrónico."])
+                res.redirect('/agents');
+            } else {
+                let agentM = new agentModel(utilities.updateIfNecessary(oldAgent, agent));
+                let error = agentM.validateSync();
+                if (!error) {
+                    // Connect to DB
+                    let response = await agentM.save();
+                    if (response === null) {
+                        req.flash('error', ["El agente no se pudo editar correctamente."])
+                        res.redirect('/agents');
+                    } else {
+                        req.flash('success', ["El agente se editó correctamente."])
+                        res.redirect('/agents');
+                    }
+                } else {
+                    let errorMsgs = utilities.getErrors(error.errors);
+                    req.flash('error', errorMsgs)
+                    res.redirect("/agents/edit/" + req.params.id);
+                }
+            }
         }
     });
 
@@ -91,10 +121,10 @@ module.exports = function (app, render, nodemailer, variables, utilities, mongoo
 
         let response = await agentModel.deleteOne(condition);
         if (response === null) {
-            req.flash('error', "No se pudo eliminar el agente.");
+            req.flash('error', ["No se pudo eliminar el agente."]);
             res.redirect("/agents");
         } else {
-            req.flash('success', "Agente eliminado correctamente.");
+            req.flash('success', ["Agente eliminado correctamente."]);
             res.redirect("/agents");
         }
     });
