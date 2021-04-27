@@ -11,7 +11,7 @@ module.exports = function (app, render, nodemailer, variables, utilities, fileSy
         let propertyFull = await propertyModel.populate(property, {path: 'owner'})
 
         if (propertyFull == null) {
-            req.flash('error', ['Ocurrió un error al mostrar los detalles de propiedad especificada.'])
+            req.flash('error', ['Ocurrió un error al mostrar los detalles de la propiedad especificada.'])
             res.redirect('/myproperties');
         } else {
             let response = render(req.session, 'views/properties/property_details.html', {
@@ -46,7 +46,7 @@ module.exports = function (app, render, nodemailer, variables, utilities, fileSy
         let ownerCond = utilities.buildOwner(req);
         // Debemos buscar el usuario por todos sus parametros
         let owner = await ownerModel.findOne(ownerCond);
-let errorMsgs = [];
+        let errorMsgs = [];
         let idO = null;
         // Si no encuentra el propietario lo añade
         if (owner === null) {
@@ -59,7 +59,7 @@ let errorMsgs = [];
                     res.redirect('/properties/vivienda');
                 }
                 idO = {owner: mongoose.mongo.ObjectID(ownerAdd.id)};
-            } else{
+            } else {
                 errorMsgs = utilities.getErrors(error.errors);
                 res.redirect('/myproperties')
             }
@@ -109,7 +109,7 @@ let errorMsgs = [];
                 req.flash('success', ["Propiedad editada correctamente."])
                 res.redirect("/myproperties");
             }
-        }else{
+        } else {
             let errorMsgs = utilities.getErrors(error.errors);
             req.flash('error', errorMsgs)
             res.redirect("/myproperties");
@@ -304,6 +304,11 @@ let errorMsgs = [];
         ownerData = utilities.addIfExists("surname", req.query.surnameOwner, ownerData);
         ownerData = utilities.addIfExists("dni", req.query.dniOwner, ownerData);
 
+        let pg = parseInt(req.query.pg);
+        if (req.query.pg == null) {
+            pg = 1;
+        }
+
         // Si los datos del propietario no estan vacios (se ha rellenado algun campo del filtro) lo añadimos a la condicion
         if (Object.keys(ownerData).length != 0) {
             let ownersId = await ownerModel.find(ownerData).distinct("_id");
@@ -313,14 +318,31 @@ let errorMsgs = [];
             condition.owner = {$in: ownersId};
         }
 
-        let properties = await propertyModel.find(condition);
-        let response = render(req.session, 'views/properties/property_myproperties.html',
-            {
-                properties: properties,
-                error: req.flash('error'),
-                success: req.flash('success')
-            });
-        res.send(response);
+        let total = await propertyModel.find(condition).countDocuments();
+        let properties = await propertyModel.find(condition).skip((pg - 1) * 4).limit(5);
+        if(properties != null){
+            let lastPg = total / 4;
+            if (total % 4 > 0) {
+                lastPg = lastPg + 1;
+            }
+            let pages = [];
+            for (let i = pg - 2; i <= pg + 2; i++) {
+                if (i > 0 && i <= lastPg) {
+                    pages.push(i);
+                }
+            }
+
+            let response = render(req.session, 'views/properties/property_myproperties.html',
+                {
+                    properties: properties,
+                    error: req.flash('error'),
+                    success: req.flash('success'),
+                    pages: pages,
+                    actual: pg,
+                });
+            res.send(response);
+        }
+
     });
 
     app.get("/properties", function (req, res) {

@@ -94,15 +94,15 @@
                 <td>{{ property.price }}</td>
                 <td>
                     <a class="btn btn-warning float-right"
-                       href="/properties/edit/{{ property._id.toString() }}"><span class="fas fa-edit"></span></a>
+                       href="/properties/edit/{{ property._id.toString() }}"><span class="fas fa-edit"></span>Modificar</a>
                 </td>
                 <td>
                     <a class="btn btn-success float-right"
-                       href="/properties/details/{{ property._id.toString() }}"><span class="far fa-eye"></span></a>
+                       href="/properties/details/{{ property._id.toString() }}"><span class="far fa-eye"></span>Ver</a>
                 </td>
                 <td>
                     <a class="btn btn-danger float-right"
-                       href="/properties/delete/{{ property._id.toString() }}"><span class="fas fa-trash"></span></a>
+                       href="/properties/delete/{{ property._id.toString() }}"><span class="fas fa-trash"></span>Eliminar</a>
                 </td>
             </tr>
             {% endfor %}
@@ -110,9 +110,29 @@
         </table>
     </div>
 
+    <!--Paginaciónmostrarlaactual y 2 anterioresy dossiguientes-->
+    <div class="row text-center">
+        <ul class="pagination">
+            {% for page in pages %}
+            <li class="page-item" id="pi-{{page}}">
+                {% if url.includes('?') %}
+                <a class="page-link" href="{{url}}&pg={{page}}">{{page}}</a>
+                {% else %}
+                <a class="page-link" href="{{url}}?pg={{page}}">{{page}}</a>
+                {% endif %}
+            </li>
+            {% endfor %}
+            <script>
+                $("#pi-{{actual}}").addClass("active");
+            </script>
+        </ul>
+    </div>
+
     <div class="row">
         <a href="/properties/add" role="button" class="btnSiguiente btn btn-success btn-lg btn-block">Agregar propiedad</a>
     </div>
+
+
 </div>
 
 {% endblock %}

@@ -28,11 +28,15 @@
             {% for message in conversation.messages %}
             {% if user.permission == message.from %}
             <div>
-                <p class="message-pr">{{message.text}}</p>
+                <p class="message-pr">{{message.text}}
+                <span class="message-date-pr">{{message.date}} ~ {{message.time}}</span>
+                </p>
             </div>
             {% else %}
             <div>
-                <p class="message-pl">{{message.text}}</p>
+                <p class="message-pl">{{message.text}}
+                    <span class="message-date-pr">{{message.date}} ~ {{message.time}}</span>
+                </p>
             </div>
             {% endif %}
             {% endfor %}
@@ -54,9 +58,9 @@
                 for (let i = 0; i < msgs.length; i++) {
                     let message = msgs[i];
                     if (message.from == '{{user.permission}}') {
-                        $('#message-container').append("<div><p class=\"message-pr\">" + message.text + "</p></div>");
+                        $('#message-container').append("<div><p class=\"message-pr\">" + message.text + "<span class=\"message-date-pr\">" + message.date + '~' +  message.time + "</span></p></div>");
                     } else {
-                        $('#message-container').append(" <div><p class=\"message-pl\">" + message.text + "</p></div>");
+                        $('#message-container').append(" <div><p class=\"message-pl\">" + message.text + "<span class=\"message-date-pr\">" + message.date + '~' +  message.time + "</span></p></div>");
                     }
                 }
             });

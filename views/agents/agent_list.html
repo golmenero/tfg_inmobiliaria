@@ -10,7 +10,7 @@
 </nav>
 
 <div class="container">
-    <h2 class="sectionHeader">Propiedades Publicadas</h2>
+    <h2 class="sectionHeader">Gestión de Agentes</h2>
 
     <div class="headerButtonOverview card-header">
         <h5 class="mb-0">
@@ -74,11 +74,11 @@
                 <td>{{ agent.email }}</td>
                 <td>
                     <a class="btn btn-warning float-right"
-                       href="/agents/edit/{{ agent._id.toString() }}"><span class="fas fa-edit"></span></a>
+                       href="/agents/edit/{{ agent._id.toString() }}"><span class="fas fa-edit"></span>Modificar</a>
                 </td>
                 <td>
                     <a class="btn btn-danger float-right"
-                       href="/agents/delete/{{ agent._id.toString() }}"><span class="fas fa-trash"></span></a>
+                       href="/agents/delete/{{ agent._id.toString() }}"><span class="fas fa-trash"></span>Eliminar</a>
                 </td>
             </tr>
             {% endfor %}

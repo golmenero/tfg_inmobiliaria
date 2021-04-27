@@ -52,7 +52,7 @@ module.exports = function (app, render, nodemailer, variables, utilities, mongoo
 
             let result = await userModel.findOneAndUpdate(condition, user);
             if (result === null) {
-                req.flash('error', "Ocurrio un error al modificar su contraseña.");
+                req.flash('error', "Ocurrió un error al modificar su contraseña.");
                 res.redirect('/recover/code/' + code);
             } else {
                 req.flash('success', 'Contraseña actualizada correctamente.');
@@ -259,7 +259,7 @@ module.exports = function (app, render, nodemailer, variables, utilities, mongoo
         }
         let user = await userModel.findOne(condition);
         if (user === null) {
-            req.flash('error', ["Usuario y/o contraseña incorrectos"])
+            req.flash('error', ["Usuario y/o contraseña incorrectos."])
             req.session.user = null;
             res.redirect("/login");
         } else {

@@ -5,7 +5,7 @@ let loggerModel = require('../database/loggerModel');
 module.exports = function (app, render, nodemailer, variables, utilities, mongoose) {
 
     // PROPIEDADES GUARDADAS
-    app.post("/wishes/:id", async function (req, res) {
+    app.post("/wishes/add/:id", async function (req, res) {
         let condition = {email: req.session.user.email};
         let user = {$push: {wishes: req.params.id}}
 
@@ -49,7 +49,7 @@ module.exports = function (app, render, nodemailer, variables, utilities, mongoo
 
         let users = await userModel.find(condition);
         if (users == null) {
-            req.flash('error', "No se pudo encontrar su usuario al añadir su seguimiento.")
+            req.flash('error', "No se pudo encontrar su usuario al listar sus seguimientos.")
             res.redirect("/properties");
         } else {
             let mapWishes = users[0].wishes.map(function (obj) {
