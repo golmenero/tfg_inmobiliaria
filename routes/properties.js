@@ -11,7 +11,7 @@ module.exports = function (app, render, nodemailer, variables, utilities, fileSy
         let propertyFull = await propertyModel.populate(property, {path: 'owner'})
 
         if (propertyFull == null) {
-            req.flash('error', 'Ocurrió un error al mostrar los detalles de propiedad especificada.')
+            req.flash('error', ['Ocurrió un error al mostrar los detalles de propiedad especificada.'])
             res.redirect('/myproperties');
         } else {
             let response = render(req.session, 'views/properties/property_details.html', {
@@ -28,7 +28,7 @@ module.exports = function (app, render, nodemailer, variables, utilities, fileSy
         let condition = {"_id": mongoose.mongo.ObjectID(req.params.id)};
         let property = await propertyModel.findOne(condition);
         if (property == null) {
-            req.flash('error', 'Ocurrió un error al encontrar la propiedad especificada.')
+            req.flash('error', ['Ocurrió un error al encontrar la propiedad especificada.'])
             res.redirect('/myproperties');
         } else {
             let propertyFull = await propertyModel.populate(property, {path: 'owner'})
@@ -46,17 +46,23 @@ module.exports = function (app, render, nodemailer, variables, utilities, fileSy
         let ownerCond = utilities.buildOwner(req);
         // Debemos buscar el usuario por todos sus parametros
         let owner = await ownerModel.findOne(ownerCond);
-
+let errorMsgs = [];
         let idO = null;
         // Si no encuentra el propietario lo añade
         if (owner === null) {
             let ownerAdd = new ownerModel(ownerCond);
-            let response = await ownerAdd.save();
-            if (response === null) {
-                req.flash('error', 'No se ha podido añadir el propietario.')
-                res.redirect('/properties/vivienda');
+            let error = ownerAdd.validateSync();
+            if (!error) {
+                let response = await ownerAdd.save();
+                if (response === null) {
+                    req.flash('error', ['No se ha podido añadir el propietario.'])
+                    res.redirect('/properties/vivienda');
+                }
+                idO = {owner: mongoose.mongo.ObjectID(ownerAdd.id)};
+            } else{
+                errorMsgs = utilities.getErrors(error.errors);
+                res.redirect('/myproperties')
             }
-            idO = {owner: mongoose.mongo.ObjectID(ownerAdd.id)};
         } else {
             idO = {owner: mongoose.mongo.ObjectID(owner.id)};
         }
@@ -69,34 +75,43 @@ module.exports = function (app, render, nodemailer, variables, utilities, fileSy
         let arrayImg = await utilities.getArrayImg(req.files.imginmueble, req.params.id, fileSystem);
         propertyNew = {...propertyNew, ...arrayImg}
 
-        // Modificamos la propiedad
+        // Modificamos la propiedad (Lo hacemos de la forma compleja para poder validarlo)
         let condition = {"_id": mongoose.mongo.ObjectID(req.params.id)};
-        let property = await propertyModel.findOneAndUpdate(condition, propertyNew);
+        let oldProperty = await propertyModel.findOne(condition);
+        let propertyM = new propertyModel(utilities.updateIfNecessary(oldProperty, propertyNew))
+        let error = propertyM.validateSync();
 
-        // Si no la encuentra lanza un error
-        if (property === null) {
-            req.flash('error', "Error al editar la propiedad.")
-            res.redirect('/myproperties')
-        }
-        // Si la encuentra compara los precios y, si es menor, envia un correo a todos los usuarios que tengan la propiedad en seguimiento.
-        else {
-            if (property.price > propertyNew.price) {
-                let condition2 = {
-                    wishes: req.params.id
-                }
-                let users = await userModel.find(condition2);
-                if (users != null) {
-                    for (let i = 0; i < users.length; i++) {
-                        let transporter = utilities.createTransporter(nodemailer, variables);
-                        let mailOptions = utilities.createMailOptions(users[i].email,
-                            'Aviso de ARCA Inmobiliaria', "<h1>Una propiedad de su lista de seguimiento ha bajado de precio.</h1>" +
-                            "<p>Échale un vistazo: https://localhost:8081/properties/details/" + req.params.id + "</p>", variables);
+        if (!error) {
+            let result = await propertyM.save();
+            // Si no la encuentra lanza un error
+            if (result === null) {
+                req.flash('error', ["Error al editar la propiedad."])
+                res.redirect('/myproperties')
+            }
+            // Si la encuentra compara los precios y, si es menor, envia un correo a todos los usuarios que tengan la propiedad en seguimiento.
+            else {
+                if (oldProperty.price > propertyNew.price) {
+                    let condition2 = {
+                        wishes: req.params.id
+                    }
+                    let users = await userModel.find(condition2);
+                    if (users != null) {
+                        for (let i = 0; i < users.length; i++) {
+                            let transporter = utilities.createTransporter(nodemailer, variables);
+                            let mailOptions = utilities.createMailOptions(users[i].email,
+                                'Aviso de ARCA Inmobiliaria', "<h1>Una propiedad de su lista de seguimiento ha bajado de precio.</h1>" +
+                                "<p>Échale un vistazo: https://localhost:8081/properties/details/" + req.params.id + "</p>", variables);
 
-                        await transporter.sendMail(mailOptions);
+                            await transporter.sendMail(mailOptions);
+                        }
                     }
                 }
+                req.flash('success', ["Propiedad editada correctamente."])
+                res.redirect("/myproperties");
             }
-            req.flash('success', "Propiedad editada correctamente.")
+        }else{
+            let errorMsgs = utilities.getErrors(error.errors);
+            req.flash('error', errorMsgs)
             res.redirect("/myproperties");
         }
     });
@@ -106,12 +121,12 @@ module.exports = function (app, render, nodemailer, variables, utilities, fileSy
         let condition = {"_id": mongoose.mongo.ObjectID(req.params.id)};
         let propiedad = await propertyModel.deleteOne();
         if (propiedad === null) {
-            req.flash('error', "Error al eliminar la propiedad.")
+            req.flash('error', ["Error al eliminar la propiedad."])
             res.redirect('/myproperties')
         } else {
             // Usamos el paquete fs-extra para eliminar el directorio
             fileSystem.remove('public/propertiesimg/' + req.params.id);
-            req.flash('success', "Propiedad eliminada correctamente.")
+            req.flash('success', ["Propiedad eliminada correctamente."])
             res.redirect("/myproperties");
         }
     });
@@ -134,7 +149,7 @@ module.exports = function (app, render, nodemailer, variables, utilities, fileSy
             let modelOwner = new ownerModel(owner);
             let result = await modelOwner.save();
             if (result === null) {
-                req.flash('error', "No se ha podido añadir al propietario del inmueble.")
+                req.flash('error', ["No se ha podido añadir al propietario del inmueble."])
                 res.redirect('/properties/vivienda')
             }
             idO = modelOwner._id;
@@ -145,33 +160,40 @@ module.exports = function (app, render, nodemailer, variables, utilities, fileSy
         // Ahora tratamos con la propiedad, añadiendole el id del propietario
         let property = utilities.buildProperty(req);
         let prop = {...property, ...{owner: idO}};
+
         let model = new propertyModel(prop);
-
-        let saved = await model.save();
-        // Si la propiedad no se guarda correctamente manda un error
-        if (saved === null) {
-            req.flash('error', "La propiedad no se pudo añadir correctamente.")
-            res.redirect('/properties/' + property.type)
-        }
-        // Si se guarda, utilizamos su ID para guardar las imagenes y luego editamos la propiedad añadiéndole el array.
-        else {
-            let arrayImg = await utilities.getArrayImg(req.files.imginmueble, mongoose.mongo.ObjectID(model._id), fileSystem);
-            let condition = {"_id": mongoose.mongo.ObjectID(model._id)};
-            let property = {media: arrayImg,}
-            let result = await propertyModel.findOneAndUpdate(condition, property);
-
-            if (result === null) {
-                req.flash('error', "Error al añadir las imágenes de la propiedad.")
+        let error = model.validateSync();
+        if (!error) {
+            let saved = await model.save();
+            // Si la propiedad no se guarda correctamente manda un error
+            if (saved === null) {
+                req.flash('error', ["La propiedad no se pudo añadir correctamente."])
                 res.redirect('/properties/' + property.type)
-            } else {
-                req.flash('success', "La propiedad se añadió correctamente.")
-                res.redirect("/myproperties");
             }
+            // Si se guarda, utilizamos su ID para guardar las imagenes y luego editamos la propiedad añadiéndole el array.
+            else {
+                let arrayImg = await utilities.getArrayImg(req.files.imginmueble, mongoose.mongo.ObjectID(model._id), fileSystem);
+                let condition = {"_id": mongoose.mongo.ObjectID(model._id)};
+                let property = {media: arrayImg,}
+                let result = await propertyModel.findOneAndUpdate(condition, property);
+
+                if (result === null) {
+                    req.flash('error', ["Error al añadir las imágenes de la propiedad."])
+                    res.redirect('/properties/' + property.type)
+                } else {
+                    req.flash('success', ["La propiedad se añadió correctamente."])
+                    res.redirect("/myproperties");
+                }
+            }
+        } else {
+            let errorMsgs = utilities.getErrors(error.errors);
+            req.flash('error', errorMsgs)
+            res.redirect("/properties/add");
         }
     });
 
     app.get('/properties/:type', async function (req, res) {
-        if(req.params.type == undefined){
+        if (req.params.type == undefined) {
             res.redirect("/properties/vivienda")
         }
         let condition = {type: req.params.type};
@@ -243,7 +265,7 @@ module.exports = function (app, render, nodemailer, variables, utilities, fileSy
         let total = await propertyModel.find(condition).countDocuments();
         let properties = await propertyModel.find(condition).skip((pg - 1) * 4).limit(4);
         if (properties == null) {
-            req.flash('error', 'Ocurrió un error al encontrar las propiedades.')
+            req.flash('error', ['Ocurrió un error al encontrar las propiedades.'])
             res.redirect('/myproperties');
         } else {
             let lastPg = total / 4;
@@ -301,8 +323,8 @@ module.exports = function (app, render, nodemailer, variables, utilities, fileSy
         res.send(response);
     });
 
-    app.get("/properties", function (req,res){
-       res.redirect('/properties/vivienda')
+    app.get("/properties", function (req, res) {
+        res.redirect('/properties/vivienda')
     });
 
 

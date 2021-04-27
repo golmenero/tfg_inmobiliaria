@@ -8,7 +8,7 @@
 </nav>
 <div class="container">
     <h2 class="sectionHeader">¿Qué tipo de propiedad desea añadir?</h2>
-    <form class="form-horizontal" method="post" action="/properties/add" encType="multipart/form-data">
+    <form id="addPropForm" class="form-horizontal" method="post" action="/properties/add" encType="multipart/form-data">
         <div class="progress">
             <div class="progress-bar progress-bar-striped progress-bar-animated bg-success" role="progressbar"
                  aria-valuenow="0"
@@ -61,7 +61,7 @@
                     <label class="control-label" for="code">Código:</label>
                     <div>
                         <input id='code' type="text" class="form-control" name="code"
-                               placeholder="Ej. V001"/>
+                               placeholder="Ej. V001"  maxlength="10" minlength="1"/>
                     </div>
                 </div>
                 <div class="form-group col-sm-4">
@@ -94,7 +94,8 @@
                 <label class="control-label col-sm-2" for="name">Nombre:</label>
                 <div class="col-sm-12">
                     <input type="text" class="form-control" name="name"
-                           placeholder="Ej. Chalet con Piscina en el Centro"/>
+                           placeholder="Ej. Chalet con Piscina en el Centro"
+                           maxlength="30" minlength="4"/>
                 </div>
             </div>
             <div id='divAddress' class="div-field form-row">
@@ -102,13 +103,15 @@
                     <label class="control-label" for="address">Dirección (Solo Calle y Portal):</label>
                     <div>
                         <input id='address' type="text" class="form-control" name="address"
-                               placeholder="Ej. Avenida/Portal/Escalera/Piso"/>
+                               placeholder="Ej. Avenida/Portal/Escalera/Piso"
+                               maxlength="50" minlength="5"/>
                     </div>
                 </div>
                 <div class="form-group col-sm-3">
                     <label class="control-label" for="floorV">Piso:</label>
                     <div>
-                        <input type="number" class="form-control" name="floorV" placeholder="Ej. 1"/>
+                        <input type="number" class="form-control" name="floorV"
+                               placeholder="Ej. 1"  max="10000" min="0"/>
                     </div>
                 </div>
             </div>
@@ -127,13 +130,14 @@
                 <label class="control-label col-sm-2" for="description">Descripción:</label>
                 <div class="col-sm-12">
                     <textarea class="form-control" name="description"
-                              rows="5"></textarea>
+                              rows="5"  maxlength="255" minlength="5"></textarea>
                 </div>
             </div>
             <div class="div-field form-row">
                 <label class="control-label col-sm-2" for="city">Población/Ciudad:</label>
                 <div class="col-sm-12">
-                    <input type="text" class="form-control" name="city" placeholder="Ej. Oviedo"/>
+                    <input type="text" class="form-control" name="city" placeholder="Ej. Oviedo"
+                           maxlength="25" minlength="2"/>
                 </div>
             </div>
         </div>
@@ -144,7 +148,8 @@
                 <div class="form-group col-sm-2">
                     <label class="control-label" for="area">Superficie (m²):</label>
                     <div>
-                        <input type="number" class="form-control" name="area" placeholder="Ej. 100"/>
+                        <input type="number" class="form-control" name="area"
+                               placeholder="Ej. 100"  max="10000000" min="10"/>
                     </div>
                 </div>
                 <div class="form-group col-sm-2">
@@ -180,13 +185,15 @@
                 <div class="form-group col-sm-3">
                     <label class="control-label" for="price">Precio (€):</label>
                     <div>
-                        <input type="number" class="form-control" name="price" placeholder="Ej. 1000"/>
+                        <input type="number" class="form-control" name="price"
+                               placeholder="Ej. 1000" max="10000000" min="0"/>
                     </div>
                 </div>
                 <div class="form-group col-sm-3">
                     <label class="control-label" for="priceCom">Gastos de Comunidad (€):</label>
                     <div>
-                        <input type="number" class="form-control" name="priceCom" placeholder="Ej. 1000"/>
+                        <input type="number" class="form-control" name="priceCom"
+                               placeholder="Ej. 1000"  max="10000" min="0"/>
                     </div>
                 </div>
             </div>
@@ -242,7 +249,8 @@
                 <div class="form-group col-sm-3">
                     <label class="control-label" for="areaLoc">Superficie (m²):</label>
                     <div>
-                        <input type="number" class="form-control" name="areaLoc" placeholder="Ej. 100"/>
+                        <input type="number" class="form-control" name="areaLoc"
+                               placeholder="Ej. 100"  max="10000000" min="10"/>
                     </div>
                 </div>
                 <div class="form-group col-sm-3">
@@ -263,13 +271,15 @@
                 <div class="form-group col-sm-3">
                     <label class="control-label" for="priceLoc">Precio (€):</label>
                     <div>
-                        <input type="number" class="form-control" name="priceLoc" placeholder="Ej. 1000"/>
+                        <input type="number" class="form-control" name="priceLoc"
+                               placeholder="Ej. 1000" max="10000000" min="0"/>
                     </div>
                 </div>
                 <div class="form-group col-sm-3">
                     <label class="control-label" for="priceComLoc">Gastos de Comunidad (€):</label>
                     <div>
-                        <input type="number" class="form-control" name="priceComLoc" placeholder="Ej. 1000"/>
+                        <input type="number" class="form-control" name="priceComLoc"
+                               placeholder="Ej. 1000" max="10000" min="0"/>
                     </div>
                 </div>
             </div>
@@ -312,7 +322,8 @@
             <div class="div-field form-row">
                 <label class="control-label col-sm-2" for="situationSue">Situación:</label>
                 <div class="col-sm-12">
-                    <input type="text" class="form-control" name="situationSue" placeholder="Ej. San Quintín"
+                    <input type="text" class="form-control" name="situationSue"
+                           placeholder="Ej. San Quintín" maxlength="50" minlength="5"
                     />
                 </div>
             </div>
@@ -320,19 +331,22 @@
                 <div class="form-group col-sm-4">
                     <label class="control-label" for="areaSue">Superficie Total (m²):</label>
                     <div>
-                        <input type="number" class="form-control" name="areaSue" placeholder="Ej. 100"/>
+                        <input type="number" class="form-control" name="areaSue"
+                               placeholder="Ej. 100"  max="10000000" min="10"/>
                     </div>
                 </div>
                 <div class="form-group col-sm-4">
                     <label class="control-label" for="areaEdifSue">Superficie Edificable (m²):</label>
                     <div>
-                        <input type="number" class="form-control" name="areaEdifSue" placeholder="Ej. 100"/>
+                        <input type="number" class="form-control" name="areaEdifSue"
+                               placeholder="Ej. 100"  max="10000000" min="0"/>
                     </div>
                 </div>
                 <div class="form-group col-sm-4">
                     <label class="control-label" for="priceSue">Precio Total(€):</label>
                     <div>
-                        <input type="number" class="form-control" name="priceSue" placeholder="Ej. 1000"/>
+                        <input type="number" class="form-control" name="priceSue"
+                               placeholder="Ej. 1000" max="10000000" min="0"/>
                     </div>
                 </div>
             </div>
@@ -361,14 +375,16 @@
             <div class="div-field form-row">
                 <label class="control-label col-sm-2" for="nameOwner">Nombre:</label>
                 <div class="col-sm-12">
-                    <input type="text" class="form-control" name="nameOwner" placeholder="Ej. Claudia"
+                    <input type="text" class="form-control" name="nameOwner"
+                           placeholder="Ej. Claudia" maxLength="20" minLength="2"
                     />
                 </div>
             </div>
             <div class="div-field form-row">
                 <label class="control-label col-sm-2" for="surnameOwner">Apellidos:</label>
                 <div class="col-sm-12">
-                    <input type="text" class="form-control" name="surnameOwner" placeholder="Ej. Pérez Peláez"
+                    <input type="text" class="form-control" name="surnameOwner"
+                           placeholder="Ej. Pérez Peláez" maxLength="30" minLength="2"
                     />
                 </div>
             </div>
@@ -376,14 +392,16 @@
                 <div class="form-group col-sm-3">
                     <label class="control-label" for="dniOwner">DNI/NIF/NIE:</label>
                     <div>
-                        <input type="text" class="form-control" name="dniOwner" placeholder="Ej. 55555555E"
+                        <input type="text" class="form-control" name="dniOwner"
+                               placeholder="Ej. 55555555E" maxLength="15" minLength="8"
                         />
                     </div>
                 </div>
                 <div class="form-group col-sm-3">
                     <label class="control-label" for="phoneOwner">Teléfono:</label>
                     <div>
-                        <input type="number" class="form-control" name="phoneOwner" placeholder="Ej. 666666666"
+                        <input type="number" class="form-control" name="phoneOwner"
+                               placeholder="Ej. 666666666" max="999999999" min="111111111"
                         />
                     </div>
                 </div>
@@ -391,7 +409,7 @@
                     <label class="control-label" for="emailOwner">Correo Electrónico:</label>
                     <div>
                         <input type="email" class="form-control" name="emailOwner"
-                               placeholder="Ej. propietario@gmail.com"
+                               placeholder="Ej. propietario@gmail.com" maxLength="50" minLength="8"
                         />
                     </div>
                 </div>
@@ -399,7 +417,8 @@
             <div class="div-field form-row">
                 <label class="control-label col-sm-2" for="addressOwner">Dirección:</label>
                 <div class="col-sm-12">
-                    <input type="text" class="form-control" name="addressOwner" placeholder="Ej. C/ Uría 10, P-4D"
+                    <input type="text" class="form-control" name="addressOwner"
+                           placeholder="Ej. C/ Uría 10, P-4D" maxLength="50" minLength="5"
                     />
                 </div>
             </div>
@@ -441,7 +460,7 @@
         </div>
 
 
-        <!-- RESUMEN FINAL - GENERAL ----------------------------------------------------------------------------------------------------------------------------------------->
+        <!-- RESUMEN FINAL ----------------------------------------------------------------------------------------------------------------------------------------->
         <div id="divCommonOverview" style="display: none;">
             <div class="noBorder card">
                 <div class="headerButtonOverview card-header" id="headingOne">
@@ -694,6 +713,8 @@
             });
             // PASO DE FASE 1 (Propiedades) A FASE 2 (Propietario)
             $('#btnPropertiesS').on('click', function () {
+                let form = $('#addPropForm');
+                if(form[0].checkValidity() === true){
                 let tipo = $("#type").val();
                 let campos = false;
                 if (tipo == 'vivienda') {
@@ -783,26 +804,34 @@
                     phase2();
                 else
                     $('#divErrorCampos').show();
+                } else{
+                    form.find(':submit').click();
+                }
             });
             // PASO DE FASE 2 (Propietario) A FASE 3 (Multimedia)
             $('#btnOwnerS').on('click', function () {
-                let campos = false;
-                owner = {
-                    name: $("[name='nameOwner']").val(),
-                    surname: $("[name='surnameOwner']").val(),
-                    dni: $("[name='dniOwner']").val(),
-                    phoneNumber: $("[name='phoneOwner']").val(),
-                    email: $("[name='emailOwner']").val(),
-                    address: $("[name='addressOwner']").val()
+                let form = $('#addPropForm');
+                if(form[0].checkValidity() === true) {
+                    let campos = false;
+                    owner = {
+                        name: $("[name='nameOwner']").val(),
+                        surname: $("[name='surnameOwner']").val(),
+                        dni: $("[name='dniOwner']").val(),
+                        phoneNumber: $("[name='phoneOwner']").val(),
+                        email: $("[name='emailOwner']").val(),
+                        address: $("[name='addressOwner']").val()
+                    }
+                    if (checkProperty(owner.name) && checkProperty(owner.surname) && checkProperty(owner.dni) && checkProperty(owner.phoneNumber) &&
+                        checkProperty(owner.email) && checkProperty(owner.address)) {
+                        campos = true;
+                    }
+                    if (campos == true)
+                        phase3();
+                    else
+                        $('#divErrorCampos').show();
+                }else{
+                    form.find(':submit').click();
                 }
-                if (checkProperty(owner.name) && checkProperty(owner.surname) && checkProperty(owner.dni) && checkProperty(owner.phoneNumber) &&
-                    checkProperty(owner.email) && checkProperty(owner.address)) {
-                    campos = true;
-                }
-                if (campos == true)
-                    phase3();
-                else
-                    $('#divErrorCampos').show();
             });
             // VUELTA DE FASE 2 (Propietario) A FASE 1 (Propiedades)
             $('#btnOwnerA').on('click', function () {
@@ -1064,56 +1093,6 @@
             function hasDetail(detail) {
                 return (detail == true) ? "Si" : "No";
             }
-            /**
-            // Para ahorrar tiempo. BORRAR
-            function prerellenar() {
-                $("[name='name']").val("Piso precioso en el Cristo");
-                $("[name='address']").val("Avd Cristo Cadenas 44");
-                $("[name='floorV']").val("4");
-                $("[name='description']").val("Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum");
-                $("[name='city']").val("Oviedo");
-                $("[name='area']").val("100");
-                $("[name='numHabs']").val('2');
-                $("[name='numBan']").val('1');
-                $("[name='price']").val('1200');
-                $("[name='priceCom']").val('100');
-                $("[name='checkGaraje']").prop('checked', true);
-                $("[name='checkPiscina']").prop('checked', true);
-                $("[name='checkTerraza']").prop('checked', true);
-                $("[name='checkTrastero']").prop('checked', true);
-                $("[name='checkJardin']").prop('checked', true);
-                $("[name='checkAscensor']").prop('checked', true);
-                $("[name='checkCalefaccion']").prop('checked', true);
-                $("[name='checkAireAcon']").prop('checked', true);
-                $("[name='checkAmueblado']").prop('checked', true);
-                $("[name='checkAnimales']").prop('checked', true);
-                $("[name='nameOwner']").val('Claudia');
-                $("[name='surnameOwner']").val('Pérez');
-                $("[name='dniOwner']").val('444444444L');
-                $("[name='phoneOwner']").val('666666666');
-                $("[name='emailOwner']").val("claudia@email.com");
-                $("[name='addressOwner']").val('Calle de La Pepita 12');
-
-                $("[name='areaLoc']").val("200");
-                $("[name='numAsLoc']").val("3");
-                $("[name='priceLoc']").val("1500");
-                $("[name='priceComLoc']").val("600");
-                $("[name='checkEscaparateLoc']").prop('checked', true);
-                $("[name='checkAparcamientoLoc']").prop('checked', true);
-                $("[name='checkCargaYDescargaLoc']").prop('checked', true);
-                $("[name='checkExtintoresLoc']").prop('checked', true);
-                $("[name='checkIluminacionLoc']").prop('checked', true);
-                $("[name='checkCalefaccionLoc']").prop('checked', true);
-                $("[name='checkAireAconLoc']").prop('checked', true);
-
-                $("[name='situationSue']").val("San Quintín");
-                $("[name='areaSue']").val("111");
-                $("[name='areaEdifSue']").val("12");
-                $("[name='priceSue']").val("20000");
-                $("[name='accesoLuzSue']").prop('checked', true);
-                $("[name='accesoAguaSue']").prop('checked', true);
-            }
-             */
         </script>
     </form>
 </div>

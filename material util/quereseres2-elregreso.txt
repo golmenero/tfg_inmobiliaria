@@ -22,13 +22,14 @@ sECCION 7.3.3.
 12. Ver Propiedades
 13. Ver detalles de Propiedades
 14. Filtrar Propiedades
-15. Ver Conversaciones
-16. Enviar Mensaje
-17. Ver Mensajes Recibidos
-18. Añadir a Seguimiento
-19. Eliminar de Seguimientos
-20. Ver Seguimientos
-21. Ver Informacion de Contacto
-22. Editar Informacion de Contacto
+15. Ver Propiedades Publicadas
+16. Ver Conversaciones
+17. Enviar Mensaje
+18. Ver Mensajes Recibidos
+19. Añadir a Seguimiento
+20. Eliminar de Seguimientos
+21. Ver Seguimientos
+22. Ver Informacion de Contacto
+23. Editar Informacion de Contacto
 
-CASO DE USO DE RECUPERAR CONTRASEÑA IGUAL EH
+CASO DE USO DE VER LA LISTA DE PROPIEDADES
