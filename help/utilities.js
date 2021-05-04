@@ -286,7 +286,7 @@ module.exports = {
         return output;
     }, updateIfNecessary(oldOne, newOne) {
         for(let p in oldOne){
-            if(newOne[p]){
+            if(typeof  newOne[p] != 'undefined' && newOne[p] != null){
                 oldOne[p] = newOne[p];
             }
         }

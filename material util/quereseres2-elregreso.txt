@@ -32,4 +32,29 @@ sECCION 7.3.3.
 22. Ver Informacion de Contacto
 23. Editar Informacion de Contacto
 
-CASO DE USO DE VER LA LISTA DE PROPIEDADES
+141 wachin
+
+Pantalla Principal
+Inicio en Sesion en el Sistema
+Gestion de Usuarios
+- Registrarse
+- Editar Usuario
+- Recuperar Contraseña
+Gestion de Agentes
+- Añadir Agente
+- Editar Agente
+- Gestion de Agentes
+Conversaciones
+- Lista de conversaciones
+- Chat
+Estadisticas y Contacto
+- Estadisticas
+- Contacto
+Gestion de Propiedades
+- Lista de Propiedades
+- Detalles de Propiedad
+- Añadir Pripiedad (todos)
+- Editar Propiedad (todos)
+- Mis Propiedades
+Gestion de Seguimientos
+- Mis seguimientos

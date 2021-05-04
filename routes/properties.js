@@ -70,7 +70,6 @@ module.exports = function (app, render, nodemailer, variables, utilities, fileSy
         // Creamos la propiedad y le añadimos el id del propietario
         let propertyNew = utilities.buildProperty(req);
         propertyNew = {...propertyNew, ...idO}
-
         // Añadimos las imágenes en carpeta y las asignamos a la propiedad
         let arrayImg = await utilities.getArrayImg(req.files.imginmueble, req.params.id, fileSystem);
         propertyNew = {...propertyNew, ...arrayImg}
