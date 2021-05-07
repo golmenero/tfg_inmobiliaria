@@ -1,6 +1,11 @@
 let agentModel = require('../database/agentModel');
 
 module.exports = function (app, render, nodemailer, variables, utilities, mongoose) {
+
+    /**
+     * Peticion GET
+     * Muestra la lista de agentes existentes.
+     */
     app.get('/agents', async function (req, res) {
         let condition = {
             permission: 'A'
@@ -23,6 +28,10 @@ module.exports = function (app, render, nodemailer, variables, utilities, mongoo
         }
     });
 
+    /**
+     * Peticion GET
+     * Muestra una interfaz que permite añadir un agente.
+     */
     app.get('/agents/add', function (req, res) {
         let response = render(req.session, 'views/agents/agent_add.html', {
             error: req.flash('error'),
@@ -31,6 +40,10 @@ module.exports = function (app, render, nodemailer, variables, utilities, mongoo
         res.send(response);
     })
 
+    /**
+     * Peticion POS
+     * Obtiene el agente introducido en el formulario, lo construye y lo publica en Base de Datos.
+     */
     app.post('/agents/add', async function (req, res) {
         let agent = new agentModel({
             name: req.body.name,
@@ -64,6 +77,11 @@ module.exports = function (app, render, nodemailer, variables, utilities, mongoo
         }
     });
 
+    /**
+     * Peticion GET
+     * Obtiene el agente que se desea editar y muestra la pantalla de edición con sus datos.
+     * :id -> El id del agente que se desea editar.
+     */
     app.get('/agents/edit/:id', async function (req, res) {
         let condition = {"_id": mongoose.Types.ObjectId(req.params.id)};
         let agent = await agentModel.findOne(condition);
@@ -80,6 +98,11 @@ module.exports = function (app, render, nodemailer, variables, utilities, mongoo
         }
     });
 
+    /**
+     * Peticion POST
+     * Obtiene los nuevos datos del agente, comprueba su validez y los actualiza en Base de Datos.
+     * :id -> El id del agente que se desea editar.
+     */
     app.post('/agents/edit/:id', async function (req, res) {
         let agent = {
             name: req.body.name,
@@ -116,6 +139,11 @@ module.exports = function (app, render, nodemailer, variables, utilities, mongoo
         }
     });
 
+    /**
+     * Peticion GET
+     * Elimina el agente con un id dado.
+     * :id -> El id del agente que se desea eliminar.
+     */
     app.get('/agents/delete/:id', async function (req, res) {
         let condition = {"_id": mongoose.Types.ObjectId(req.params.id)};
 

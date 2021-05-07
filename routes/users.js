@@ -1,6 +1,12 @@
 let userModel = require('../database/userModel');
 
 module.exports = function (app, render, nodemailer, variables, utilities, mongoose) {
+
+    /**
+     * Peticion GET
+     * Método que permite verificar el perfil de usuario basándose en un código.
+     * :code -> El código de verificación de usuario.
+     */
     app.get("/users/verification/:code", async function (req, res) {
         let condition = {'codes.emailActivation': req.params.code}
         let user = {"active": true}
@@ -13,6 +19,11 @@ module.exports = function (app, render, nodemailer, variables, utilities, mongoo
         res.redirect("/login");
     });
 
+    /**
+     * Peticion GET
+     * Muestra la pantalla de recuperación de contraseña.
+     * :code -> El código de recuperación de contraseña.
+     */
     app.get("/recover/:code", async function (req, res) {
         let dateToday = utilities.getDateTime();
         let condition = {'codes.passwordRecover': req.params.code}
@@ -37,6 +48,11 @@ module.exports = function (app, render, nodemailer, variables, utilities, mongoo
         }
     });
 
+    /**
+     * Peticion POST
+     * Obtiene la nueva contraseña introducida por el usuario y, si esta cumple con los requisitos, se actualiza.
+     * :code -> El código de recuperación de contraseña.
+     */
     app.post("/recover/:code", async function (req, res) {
         let code = req.params.code;
         let password = req.body.password;
@@ -61,6 +77,10 @@ module.exports = function (app, render, nodemailer, variables, utilities, mongoo
         }
     });
 
+    /**
+     * Peticion GET
+     * Muestra la pantalla de edición de usuario con los datos del usuario cargado en sesión.
+     */
     app.get('/users/edit', async function (req, res) {
         let condition = {"_id": mongoose.mongo.ObjectID(req.session.user._id)};
         let user = userModel.findOneAndUpdate(condition);
@@ -78,6 +98,10 @@ module.exports = function (app, render, nodemailer, variables, utilities, mongoo
         }
     });
 
+    /**
+     * Peticion POST
+     * Actualiza el usuario en sesión con los datos introducidos.
+     */
     app.post('/users/edit', async function (req, res) {
         let oldPass = req.body.oldPassword;
         let user = {
@@ -114,6 +138,10 @@ module.exports = function (app, render, nodemailer, variables, utilities, mongoo
         }
     });
 
+    /**
+     * Peticion POST
+     * Elimina por completo la cuenta del usuario cargado en sesión.
+     */
     app.post("/users/delete", async function (req, res) {
         if (req.session.user.permission != 'S') {
             let encrypted = app.get("crypto").createHmac('sha256', app.get('key'))
@@ -139,11 +167,19 @@ module.exports = function (app, render, nodemailer, variables, utilities, mongoo
         }
     });
 
+    /**
+     * Peticion GET
+     * Elimina al usuario de sesión.
+     */
     app.get('/disconnect', function (req, res) {
         req.session.user = null;
         res.redirect('/login');
     })
 
+    /**
+     * Peticion POST
+     * Comprueba que sea posible editar la contraseña y, si lo es, envía un correo electrónico.
+     */
     app.post('/recover', async function (req, res) {
         let condition = {email: req.body.correoRecuperacion}
         let user = {
@@ -178,6 +214,10 @@ module.exports = function (app, render, nodemailer, variables, utilities, mongoo
         }
     });
 
+    /**
+     * Peticion GET
+     * Muestra la pantalla de registro.
+     */
     app.get("/signin", function (req, res) {
         let respuesta = render(req.session, 'views/users/user_signin.html', {
             error: req.flash('error'),
@@ -186,6 +226,10 @@ module.exports = function (app, render, nodemailer, variables, utilities, mongoo
         res.send(respuesta);
     });
 
+    /**
+     * Peticion POST
+     * Obtiene los datos de registro, los valida y, si son válidos, lo añade a la Base de Datos
+     */
     app.post('/signin', async function (req, res) {
         let seguro = app.get("crypto").createHmac('sha256', app.get('key')).update(req.body.password).digest('hex');
         let condition1 = {
@@ -241,6 +285,10 @@ module.exports = function (app, render, nodemailer, variables, utilities, mongoo
 
     });
 
+    /**
+     * Peticion GET
+     * Muestra la pantalla de inicio de sesión.
+     */
     app.get("/login", function (req, res) {
         let response = render(req.session, 'views/users/user_login.html', {
             error: req.flash("error"),
@@ -249,6 +297,10 @@ module.exports = function (app, render, nodemailer, variables, utilities, mongoo
         res.send(response);
     });
 
+    /**
+     * Peticion POST
+     * Obtiene los datos de inicio de sesión y, si son correctos, carga al usuario en sesión.
+     */
     app.post("/login", async function (req, res) {
         let decrypted = app.get("crypto").createHmac('sha256', app.get('key'))
             .update(req.body.password).digest('hex');

@@ -5,6 +5,11 @@ let ownerModel = require('../database/ownerModel');
 
 module.exports = function (app, render, nodemailer, variables, utilities, fileSystem, mongoose) {
 
+    /**
+     * Peticion GET
+     * Obtiene la propiedad con un ID y muestra sus detalles en pantalla.
+     * :id -> El id de la propiedad a la cual se le quieren ver los detalles.
+     */
     app.get('/properties/details/:id', async function (req, res) {
         let condition = {"_id": mongoose.mongo.ObjectID(req.params.id)};
         let property = await propertyModel.findOne(condition);
@@ -23,7 +28,11 @@ module.exports = function (app, render, nodemailer, variables, utilities, fileSy
         }
     });
 
-    // EDITAR PROPIEDADES
+    /**
+     * Peticion GET
+     * Obtiene la propiedad que se desea editar y muestra la pantalla de edición con ésta.
+     * :id -> El id de la propiedad a la cual se le quieren ver los detalles.
+     */
     app.get('/properties/edit/:id', async function (req, res) {
         let condition = {"_id": mongoose.mongo.ObjectID(req.params.id)};
         let property = await propertyModel.findOne(condition);
@@ -42,6 +51,10 @@ module.exports = function (app, render, nodemailer, variables, utilities, fileSy
         }
     });
 
+    /**
+     * Peticion POST
+     * Procesa la propiedad editada y, si es válida, la actualiza en la Base de Datos
+     */
     app.post('/properties/edit/:id', async function (req, res) {
         let ownerCond = utilities.buildOwner(req);
         // Debemos buscar el usuario por todos sus parametros
@@ -115,7 +128,12 @@ module.exports = function (app, render, nodemailer, variables, utilities, fileSy
         }
     });
 
-// ELIMINAR PROPIEDADES
+
+    /**
+     * Peticion GET
+     * Obtiene la propiedad con un ID y la elimina de Base de Datos.
+     * :id -> El id de la propiedad que se desea eliminar
+     */
     app.get('/properties/delete/:id', async function (req, res) {
         let condition = {"_id": mongoose.mongo.ObjectID(req.params.id)};
         let propiedad = await propertyModel.deleteOne();
@@ -130,6 +148,10 @@ module.exports = function (app, render, nodemailer, variables, utilities, fileSy
         }
     });
 
+    /**
+     * Peticion GET
+     * Muestra la pantalla de añadir nueva propiedad.
+     */
     app.get('/properties/add', function (req, res) {
         let response = render(req.session, 'views/properties/property_add.html', {
             error: req.flash('error'),
@@ -138,6 +160,10 @@ module.exports = function (app, render, nodemailer, variables, utilities, fileSy
         res.send(response);
     })
 
+    /**
+     * Peticion POST
+     * Obtiene los datos del formulario, construye la propiedad y la publica en la Base de Datos.
+     */
     app.post('/properties/add', async function (req, res) {
         // Primero debemos tratar con el propietario
         let owner = utilities.buildOwner(req);
@@ -191,6 +217,11 @@ module.exports = function (app, render, nodemailer, variables, utilities, fileSy
         }
     });
 
+    /**
+     * Peticion GET
+     * Muestra las propiedades en pantalla en funcion del tipo seleccionado
+     * :type -> El tipo deleccionado. Si no existe, se asigna el tipo "vivienda"
+     */
     app.get('/properties/:type', async function (req, res) {
         if (req.params.type == undefined) {
             res.redirect("/properties/vivienda")
@@ -291,6 +322,10 @@ module.exports = function (app, render, nodemailer, variables, utilities, fileSy
         }
     });
 
+    /**
+     * Peticion GET
+     * Muestra las propiedades publicadas por los agentes
+     */
     app.get("/myproperties", async function (req, res) {
         // Preparamos el filtro de propiedades
         let condition = {}
@@ -344,6 +379,10 @@ module.exports = function (app, render, nodemailer, variables, utilities, fileSy
 
     });
 
+    /**
+     * Peticion GET
+     * Redirige la peticion a las viviendas
+     */
     app.get("/properties", function (req, res) {
         res.redirect('/properties/vivienda')
     });

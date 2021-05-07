@@ -4,7 +4,11 @@ let loggerModel = require('../database/loggerModel');
 
 module.exports = function (app, render, nodemailer, variables, utilities, mongoose) {
 
-    // PROPIEDADES GUARDADAS
+    /**
+     * Peticion POST
+     * Añade el seguimiento al usuario con un id específico.
+     * :id -> El id de la propiedad que se desea seguir.
+     */
     app.post("/wishes/add/:id", async function (req, res) {
         let condition = {email: req.session.user.email};
         let user = {$push: {wishes: req.params.id}}
@@ -30,6 +34,11 @@ module.exports = function (app, render, nodemailer, variables, utilities, mongoo
         res.redirect("/wishes")
     });
 
+    /**
+     * Peticion GET
+     * Elimina de Base de Datos el seguimiento del usuario.
+     * :id -> El id de la propiedad que se desea dejar de seguir.
+     */
     app.get("/wishes/delete/:id", async function (req, res) {
         let condition = {email: req.session.user.email};
         let user = {$pull: {wishes: req.params.id}}
@@ -44,6 +53,10 @@ module.exports = function (app, render, nodemailer, variables, utilities, mongoo
         res.redirect("/wishes");
     });
 
+    /**
+     * Peticion GET
+     * Muestra una lista de seguimientos.
+     */
     app.get("/wishes", async function (req, res) {
         let condition = {"email": req.session.user.email};
 

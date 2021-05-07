@@ -3,6 +3,11 @@ let userModel = require('../database/userModel');
 let agentModel = require('../database/agentModel');
 
 module.exports = function (app, render, nodemailer, variables, utilities, mongoose) {
+    /**
+     * Peticion GET
+     * Crea la nueva conversación abierta por el cliente y la muestra en pantalla.
+     * :id -> El id de la propiedad sobre la cual se va a crear la conversación.
+     */
     app.get("/conversations/add/:id", async function (req, res) {
         let property = mongoose.mongo.ObjectID(req.params.id);
 
@@ -45,6 +50,11 @@ module.exports = function (app, render, nodemailer, variables, utilities, mongoo
         }
     });
 
+    /**
+     * Peticion GET
+     * Muestra la pantalla de chat con el id aportado.
+     * :id -> El id del chat que se desea abrir.
+     */
     app.get("/conversations/chat/:id", async function (req, res) {
         let condition = {"_id": mongoose.mongo.ObjectID(req.params.id)}
 
@@ -69,6 +79,10 @@ module.exports = function (app, render, nodemailer, variables, utilities, mongoo
         }
     });
 
+    /**
+     * Peticion GET
+     * Muestra una lista con las conversaciones del usuario.
+     */
     app.get("/conversations", async function (req, res) {
         let userId = await userModel.find({email: req.session.user.email}).distinct("_id");
         let condition = {
@@ -98,6 +112,11 @@ module.exports = function (app, render, nodemailer, variables, utilities, mongoo
         res.send(response);
     });
 
+    /**
+     * Peticion POST
+     * Método encargado de actualizar la Base de Datos con el nuevo mensaje.
+     * :id -> El id de la conversacion a la que pertenece.
+     */
     app.post("/conversations/send/:id", async function (req, res) {
         let condition = {"_id": mongoose.mongo.ObjectID(req.params.id)}
         if (req.body.messageInput.length === 0 || !req.body.messageInput.trim()) {

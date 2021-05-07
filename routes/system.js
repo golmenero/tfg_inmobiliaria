@@ -3,6 +3,10 @@ let infoModel = require('../database/infoModel')
 let conversationModel = require('../database/conversationModel');
 
 module.exports = function (app, render, variables, utilities, mongoose) {
+    /**
+     * Peticion GET
+     * Muestra la pantalla principal.
+     */
     app.get('/home', function (req, res) {
         let response = render(req.session, 'views/index.html',
             {
@@ -13,6 +17,10 @@ module.exports = function (app, render, variables, utilities, mongoose) {
 
     });
 
+    /**
+     * Peticion GET
+     * Muestra la pantalla de contacto.
+     */
     app.get("/info/contact", async function (req, res) {
         let condition = {active: true};
         let info = await infoModel.findOne(condition);
@@ -24,6 +32,10 @@ module.exports = function (app, render, variables, utilities, mongoose) {
         res.send(respuesta);
     });
 
+    /**
+     * Peticion POST
+     * Actualiza la información de contacto con los datos introducidos por el agente.
+     */
     app.post("/info/contact/edit", async function (req, res) {
         let condition = {active: true};
         let info = {active: true};
@@ -44,6 +56,10 @@ module.exports = function (app, render, variables, utilities, mongoose) {
 
     });
 
+    /**
+     * Peticion GET
+     * Muestra la pantalla de estadísticas.
+     */
     app.get("/info/statistics", async function (req, res) {
         let condition = {
             type: 'wish'
@@ -69,11 +85,19 @@ module.exports = function (app, render, variables, utilities, mongoose) {
         res.send(respuesta);
     });
 
+    /**
+     * Peticion POST
+     * Método encargado de obtener las notificaciones de los mensajes y mandarlos a la interfaz.
+     */
     app.post('/notifications/load', async function (req,res){
         let notifications = await utilities.getNotifs(req.body.permission, mongoose.mongo.ObjectID(req.body._id));
         res.send({notifications: notifications});
     })
 
+    /**
+     * Peticion POS
+     * Carga los mensajes que se envían al chat en tiempo real.
+     */
     app.post('/conversations/loadMsg', async function (req,res){
         let condition = {
             "_id": mongoose.mongo.ObjectID(req.body._id)

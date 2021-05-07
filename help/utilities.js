@@ -3,13 +3,29 @@ let variables = require('./variables.js');
 let conversationsModel = require('../database/conversationModel');
 
 module.exports = {
+    /**
+     * Método para generar las queries a MongoDB.
+     * Añade una propiedad y un valor a un campo si existe.
+     * fieldName -> El nombre del campo.
+     * value -> El valor del campo.
+     * object -> El objeto que se desea eliminar.
+     */
     addIfExistsSimple: function (fieldName, value, object) {
         if (value) {
             object[fieldName] = value;
             return object;
         }
         return object;
-    }, addIfExists: function (fieldName, value, object) {
+    },
+    /**
+     * Método para generar las queries a MongoDB.
+     * Añade una propiedad y un valor a un campo si existe.
+     * En este caso, edita el componente para que permita todos los campos que contengan el valor.
+     * fieldName -> El nombre del campo.
+     * value -> El valor del campo.
+     * object -> El objeto que se desea eliminar.
+     */
+    addIfExists: function (fieldName, value, object) {
         if (value) {
             object[fieldName] = {
                 $regex: ".*" + value + ".*",
@@ -19,6 +35,14 @@ module.exports = {
         }
         return object;
     },
+    /**
+     * Método para generar las queries a MongoDB.
+     * Añade una comprobacion numérica de límite superior e inferior.
+     * fieldName -> El nombre del campo.
+     * valueGreater -> El valor superior del campo.
+     * valueLower -> El valor inferior del campo.
+     * object -> El objeto que se desea eliminar.
+     */
     addIfExistsGTLT: function (fieldName, valueGreater, valueLower, object) {
         if (valueGreater && valueLower) {
             object[fieldName] = {
@@ -28,6 +52,13 @@ module.exports = {
         }
         return object;
     },
+    /**
+     * Método para generar las queries a MongoDB.
+     * Permite convertir los atributos de un Selector a un booleano
+     * fieldName -> El nombre del campo.
+     * value -> El valor del campo.
+     * object -> El objeto que se desea eliminar.
+     */
     addIfExistsCB: function (fieldName, value, object) {
         if (value == "on") {
             object[fieldName] = true;
@@ -35,6 +66,13 @@ module.exports = {
         return object;
 
     },
+    /**
+     * Método para generar las queries a MongoDB.
+     * Permite convertir los valores seleccionados de checkbox e input a un lenguaje que pueda ser interpretado por MongoDB.
+     * Comprueba que los valores sean apropiados y devuelve el valor oportuno.
+     * tipoElemento -> El tipo de elemento a convertir.
+     * elemento -> El elemento que se desea convertir..
+     */
     parseElement: function (tipoElemento, elemento) {
         if (tipoElemento == "checkbox") {
             if (elemento == undefined)
@@ -49,6 +87,10 @@ module.exports = {
                 return elemento;
         }
     },
+    /**
+     * Permite construir el propietario en función del cuerpo
+     * req -> El objeto request del cual se puede sacar el cuerpo.
+     */
     buildOwner: function (req) {
         let owner = {
             name: this.parseElement("input", req.body.nameOwner),
@@ -60,6 +102,10 @@ module.exports = {
         }
         return owner;
     },
+    /**
+     * Permite construir la propiedad en función del cuerpo
+     * req -> El objeto request del cual se puede sacar el cuerpo.
+     */
     buildProperty: function (req) {
         let prop = null;
         let propertyType = req.body.type;
@@ -131,7 +177,9 @@ module.exports = {
         }
         return prop;
     },
-    // Creacion de correos
+    /**
+     * Permite construir el transportador del correo electrónico.
+     */
     createTransporter: function () {
         let transporter = nodemailer.createTransport({
             service: 'gmail',
@@ -142,6 +190,9 @@ module.exports = {
         });
         return transporter;
     },
+    /**
+     * Permite construir las opciones de envio de un correo electrónico.
+     */
     createMailOptions: function (to, subject, content) {
         let mailOptions = {
             from: variables.EMAILVERIF,
@@ -151,17 +202,36 @@ module.exports = {
         }
         return mailOptions;
     },
-    // Estadísticas
+    /**
+     * Permite obtener la cantidad de valores que cumplen una condicion de Mes en un array.
+     * array -> El array en cuestión.
+     * monthI -> El mes que se desea comprobar.
+     */
     sizeMonth: function (array, monthI) {
         return Object.values(array).filter(element => element.month == monthI).length;
     },
+    /**
+     * Permite obtener la cantidad de propiedades dato un tipo, publicados en el mes actual.
+     * array -> El array en cuestión.
+     * type -> El tipo de propiedad.
+     */
     typeThisMonth: function (array, type) {
         return Object.values(array).filter(element => element.propertyType == type).filter(element => element.month == new Date().getMonth() + 1).length;
     },
+    /**
+     * Permite obtener la cantidad de propiedades dato un tipo, publicados en el año actual.
+     * array -> El array en cuestión.
+     * type -> El tipo de propiedad.
+     */
     typeThisYear: function (array, type) {
         return Object.values(array).filter(element => element.propertyType == type).filter(element => element.year == new Date().getFullYear()).length;
     },
-    // Gestion de imágenes
+    /**
+     * Permite cargar una serie de imágenes en un directorio con un id dado.
+     * files -> El array de archivos.
+     * id -> El id que será el nombre del directorio (id de la propiedad).
+     * fileSystem - > El módulo que permite añadir las imágenes a los ficheros.
+     */
     getArrayImg: async function (files, id, fileSystem) {
         // Usamos el paquete fs-extra para crear el directorio
         await fileSystem.ensureDir("public/propertiesimg/" + id.toString())
@@ -185,7 +255,10 @@ module.exports = {
         }
         return arrayImg;
     },
-    // Usado para generar el codigo de verificacion de correo electronico.
+    /**
+     * Permite generar un string aleatorio de letras y números de una longitud aportada.
+     * len -> La longitud aportada.
+     */
     stringGen: function (len) {
         var text = "";
 
@@ -196,6 +269,9 @@ module.exports = {
 
         return text;
     },
+    /**
+     * Permite obtener la fecha y hora actual en un formato correcto.
+     */
     getDateTime: function () {
         let date = new Date();
         let hour = date.getHours();
@@ -217,6 +293,11 @@ module.exports = {
 
         return year + ":" + month + ":" + day + ":" + hour + ":" + min + ":" + sec;
     },
+    /**
+     * Permite comprobar si una fecha ha expirado (si ha pasado el tiempo de permiso)
+     * dateToday -> La fecha actual.
+     * expirationDateUser -> La fecha que se desea comprobar.
+     */
     expirated: function (dateToday, expirationDateUser) {
         let todaySecs = this.convertToInt(dateToday);
         let expSecs = this.convertToInt(expirationDateUser);
@@ -225,6 +306,10 @@ module.exports = {
             return true;
         return false;
     },
+    /**
+     * Permite convertir una fecha a enteros.
+     * date -> La fecha.
+     */
     convertToInt: function (date) {
         let array = date.split(':');
 
@@ -232,6 +317,11 @@ module.exports = {
             (parseInt(array[2]) * 86400) + (parseInt(array[3]) * 3600) + (parseInt(array[4]) * 60) + (parseInt(array[5]));
         return integer;
     },
+    /**
+     * Permite eliminar un item de un array.
+     * arr -> El array.
+     * value -> El item que se desea eliminar.
+     */
     removeItemOnce: function (arr, value) {
         var index = arr.indexOf(value);
         if (index > -1) {
@@ -239,6 +329,9 @@ module.exports = {
         }
         return arr;
     },
+    /**
+     * Permite obtener la hora actual en un formato apropiado para mostrar en el chat.
+     */
     getTimeChat: function () {
         let date = new Date();
         let hour = date.getHours();
@@ -249,6 +342,9 @@ module.exports = {
 
         return hour + ":" + min;
     },
+    /**
+     * Permite obtener la fecha actual en un formato apropiado para mostrar en el chat.
+     */
     getDateChat: function () {
         let date = new Date();
         let month = date.getMonth() + 1;
@@ -259,7 +355,11 @@ module.exports = {
 
         return day + ", " + month;
     },
-    // Funcion periodica de leer notificaicones
+    /**
+     * Permite obtener las notificaciones periódicamente.
+     * permission -> El permiso de aquel que se desea obtener las notificaciones.
+     * id -> El id del agente o del usuario
+     */
     getNotifs: async function (permission, id) {
         let condition = {
             $or: [{
@@ -278,13 +378,24 @@ module.exports = {
             counter += counter2;
         }
         return counter;
-    }, getErrors(errors) {
+    },
+    /**
+     * Permite cargar los errores que se han producido en un array.
+     * errors -> Los errores producidos, antes de ser convertidos..
+     */
+    getErrors(errors) {
         let output = [];
         for (let prop in errors) {
             output.push(errors[prop].message);
         }
         return output;
-    }, updateIfNecessary(oldOne, newOne) {
+    },
+    /**
+     * Actualiza un objeto si es necesario.
+     * oldOne -> El objeto antes de ser actualizado.
+     * newOne -> El nuevo objeto (o fragmento del mismo_
+     */
+    updateIfNecessary(oldOne, newOne) {
         for(let p in oldOne){
             if(typeof  newOne[p] != 'undefined' && newOne[p] != null){
                 oldOne[p] = newOne[p];

@@ -85,6 +85,7 @@ require('./routes/agents.js')(app, render, nodemailer, variables, utilities, mon
 app.get('/', function (req, res) {
     res.redirect('/home');
 })
+
 app.use(function (err, req, res, next) {
     console.log("Error producido: " + err);
     if (!res.headersSent) {
@@ -96,7 +97,6 @@ app.use(function (err, req, res, next) {
 
 let userModel = require('./database/userModel');
 let infoModel = require('./database/infoModel');
-
 async function initParams() {
     let seguro = app.get("crypto").createHmac('sha256', app.get('key')).update("admin").digest('hex');
     let condition = {email: "charlygomezcolmenero@gmail.com"}
