@@ -30,7 +30,7 @@ module.exports = function (app, render, nodemailer, variables, utilities, mongoo
 
     /**
      * Peticion GET
-     * Muestra una interfaz que permite añadir un agente.
+     * Muestra la interfaz encargada de añadir un nuevo agente.
      */
     app.get('/agents/add', function (req, res) {
         let response = render(req.session, 'views/agents/agent_add.html', {
@@ -41,7 +41,7 @@ module.exports = function (app, render, nodemailer, variables, utilities, mongoo
     })
 
     /**
-     * Peticion POS
+     * Peticion POST
      * Obtiene el agente introducido en el formulario, lo construye y lo publica en Base de Datos.
      */
     app.post('/agents/add', async function (req, res) {

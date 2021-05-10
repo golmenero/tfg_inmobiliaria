@@ -31,7 +31,7 @@ module.exports = function (app, render, nodemailer, variables, utilities, fileSy
     /**
      * Peticion GET
      * Obtiene la propiedad que se desea editar y muestra la pantalla de edición con ésta.
-     * :id -> El id de la propiedad a la cual se le quieren ver los detalles.
+     * :id -> El id de la propiedad que se desea editar.
      */
     app.get('/properties/edit/:id', async function (req, res) {
         let condition = {"_id": mongoose.mongo.ObjectID(req.params.id)};
@@ -53,7 +53,8 @@ module.exports = function (app, render, nodemailer, variables, utilities, fileSy
 
     /**
      * Peticion POST
-     * Procesa la propiedad editada y, si es válida, la actualiza en la Base de Datos
+     * Procesa la propiedad editada y, si es válida, la actualiza en la Base de Datos.
+     * :id -> El id de la propiedad que se desea editar.
      */
     app.post('/properties/edit/:id', async function (req, res) {
         let ownerCond = utilities.buildOwner(req);
@@ -131,7 +132,7 @@ module.exports = function (app, render, nodemailer, variables, utilities, fileSy
 
     /**
      * Peticion GET
-     * Obtiene la propiedad con un ID y la elimina de Base de Datos.
+     * Obtiene la propiedad con un ID y la elimina de la Base de Datos.
      * :id -> El id de la propiedad que se desea eliminar
      */
     app.get('/properties/delete/:id', async function (req, res) {
@@ -219,8 +220,8 @@ module.exports = function (app, render, nodemailer, variables, utilities, fileSy
 
     /**
      * Peticion GET
-     * Muestra las propiedades en pantalla en funcion del tipo seleccionado
-     * :type -> El tipo deleccionado. Si no existe, se asigna el tipo "vivienda"
+     * Muestra las propiedades en pantalla en función del tipo seleccionado.
+     * :type -> El tipo deleccionado.
      */
     app.get('/properties/:type', async function (req, res) {
         if (req.params.type == undefined) {
@@ -324,7 +325,7 @@ module.exports = function (app, render, nodemailer, variables, utilities, fileSy
 
     /**
      * Peticion GET
-     * Muestra las propiedades publicadas por los agentes
+     * Muestra las propiedades publicadas por los agentes.
      */
     app.get("/myproperties", async function (req, res) {
         // Preparamos el filtro de propiedades
@@ -381,7 +382,7 @@ module.exports = function (app, render, nodemailer, variables, utilities, fileSy
 
     /**
      * Peticion GET
-     * Redirige la peticion a las viviendas
+     * Redirige la peticion a las viviendas.
      */
     app.get("/properties", function (req, res) {
         res.redirect('/properties/vivienda')

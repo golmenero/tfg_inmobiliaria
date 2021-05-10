@@ -228,7 +228,8 @@ module.exports = function (app, render, nodemailer, variables, utilities, mongoo
 
     /**
      * Peticion POST
-     * Obtiene los datos de registro, los valida y, si son válidos, lo añade a la Base de Datos
+     * Obtiene los datos de registro, los valida y, si son válidos, crea al nuevo usuario y
+     * lo añade a la Base de Datos.
      */
     app.post('/signin', async function (req, res) {
         let seguro = app.get("crypto").createHmac('sha256', app.get('key')).update(req.body.password).digest('hex');

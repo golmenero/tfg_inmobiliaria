@@ -85,36 +85,5 @@ module.exports = function (app, render, variables, utilities, mongoose) {
         res.send(respuesta);
     });
 
-    /**
-     * Peticion POST
-     * Método encargado de obtener las notificaciones de los mensajes y mandarlos a la interfaz.
-     */
-    app.post('/notifications/load', async function (req,res){
-        let notifications = await utilities.getNotifs(req.body.permission, mongoose.mongo.ObjectID(req.body._id));
-        res.send({notifications: notifications});
-    })
-
-    /**
-     * Peticion POS
-     * Carga los mensajes que se envían al chat en tiempo real.
-     */
-    app.post('/conversations/loadMsg', async function (req,res){
-        let condition = {
-            "_id": mongoose.mongo.ObjectID(req.body._id)
-        }
-        let conversation = await conversationModel.findOne(condition);
-        let mensajes = [];
-        let allMsgs = [];
-        for(let i=0; i< conversation.messages.length; i++){
-            let msg = conversation.messages[i];
-            if(!msg.seen && msg.from != req.body.permission){
-                msg.seen = true;
-                mensajes.push(msg);
-            }
-            allMsgs.push(msg)
-        }
-        await conversationModel.findOneAndUpdate(condition,{messages: allMsgs});
-        res.send({newMessages: mensajes});
-    })
 }
 

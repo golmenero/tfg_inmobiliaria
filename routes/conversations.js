@@ -53,7 +53,7 @@ module.exports = function (app, render, nodemailer, variables, utilities, mongoo
     /**
      * Peticion GET
      * Muestra la pantalla de chat con el id aportado.
-     * :id -> El id del chat que se desea abrir.
+     * :id -> El id de la conversación que se desea abrir.
      */
     app.get("/conversations/chat/:id", async function (req, res) {
         let condition = {"_id": mongoose.mongo.ObjectID(req.params.id)}
@@ -115,7 +115,7 @@ module.exports = function (app, render, nodemailer, variables, utilities, mongoo
     /**
      * Peticion POST
      * Método encargado de actualizar la Base de Datos con el nuevo mensaje.
-     * :id -> El id de la conversacion a la que pertenece.
+     * :id -> El id de la conversación a la que pertenece el nuevo mensaje.
      */
     app.post("/conversations/send/:id", async function (req, res) {
         let condition = {"_id": mongoose.mongo.ObjectID(req.params.id)}
@@ -142,4 +142,35 @@ module.exports = function (app, render, nodemailer, variables, utilities, mongoo
         }
     });
 
+    /**
+     * Peticion POST
+     * Carga los mensajes que se envían al chat en tiempo real.
+     */
+    app.post('/conversations/loadMsg', async function (req,res){
+        let condition = {
+            "_id": mongoose.mongo.ObjectID(req.body._id)
+        }
+        let conversation = await conversationModel.findOne(condition);
+        let mensajes = [];
+        let allMsgs = [];
+        for(let i=0; i< conversation.messages.length; i++){
+            let msg = conversation.messages[i];
+            if(!msg.seen && msg.from != req.body.permission){
+                msg.seen = true;
+                mensajes.push(msg);
+            }
+            allMsgs.push(msg)
+        }
+        await conversationModel.findOneAndUpdate(condition,{messages: allMsgs});
+        res.send({newMessages: mensajes});
+    })
+
+    /**
+     * Peticion POST
+     * Método encargado de obtener las notificaciones de los mensajes y mandarlas a la interfaz.
+     */
+    app.post('/notifications/load', async function (req,res){
+        let notifications = await utilities.getNotifs(req.body.permission, mongoose.mongo.ObjectID(req.body._id));
+        res.send({notifications: notifications});
+    })
 }
