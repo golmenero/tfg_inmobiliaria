@@ -4,15 +4,11 @@ let Schema = mongoose.Schema;
 let infoSchema = new Schema({
     phones: {
         type: String,
-        required: true,
-        maxLength: 255,
-        minLength: 10
+        maxLength: [255, "Los teléfonos no pueden superar los 255 caracteres."]
     },
     emails: {
         type: String,
-        required: true,
-        maxLength: 255,
-        minLength: 10
+        maxLength: [255, "Los emails no pueden superar los 255 caracteres."]
     },
     active: {
         type: Boolean,

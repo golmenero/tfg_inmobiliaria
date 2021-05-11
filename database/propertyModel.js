@@ -18,8 +18,8 @@ let propertyMinSchema = new Schema({
         typeOp: {
             type: String,
             required: [true, "La propiedad debe tener un tipo de operación."],
-            maxLength: [10, "El  tipo de operación no debe tener más de 10 caracteres."],
-            minLength: [2, "El  tipo de operación no debe tener menos de 2 caracteres."],
+            maxLength: [10, "El tipo de operación no debe tener más de 10 caracteres."],
+            minLength: [2, "El tipo de operación no debe tener menos de 2 caracteres."],
         },
         name: {
             type: String,
@@ -76,7 +76,7 @@ let propertyMinSchema = new Schema({
         numBan: {
             type: Number,
             max: [4, "El número de baños no debe ser superior a 100."],
-            min: [1, "El número de habitaciones no debe ser inferior a 0."],
+            min: [1, "El número de baños no debe ser inferior a 0."],
         },
         priceCom: {
             type: Number,
@@ -111,8 +111,8 @@ let propertyMinSchema = new Schema({
         // Local
         numAseos: {
             type:Number,
-            max: [4,"El área edificable no debe ser superior a 100."],
-            min: [1, "El área edificable no debe ser inferior a 0."],
+            max: [4,"El número de aseos no debe ser superior a 4."],
+            min: [1, "El número de aseos no debe ser inferior a 1."],
         },
         escaparate: Boolean,
         aparcamiento: Boolean,
