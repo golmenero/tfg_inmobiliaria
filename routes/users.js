@@ -103,38 +103,44 @@ module.exports = function (app, render, nodemailer, variables, utilities, mongoo
      * Actualiza el usuario en sesión con los datos introducidos.
      */
     app.post('/users/edit', async function (req, res) {
-        let oldPass = req.body.oldPassword;
-        let user = {
-            name: req.body.name,
-            surname: req.body.surname,
-            password: app.get("crypto").createHmac('sha256', app.get('key')).update(req.body.password).digest('hex'),
-        };
+        if(req.body.password != req.body.passwordR){
+            req.flash('error', ["Las contraseñas no coinciden."])
+            res.redirect("/users/edit");
+        }
+        else {
+            let oldPass = req.body.oldPassword;
+            let user = {
+                name: req.body.name,
+                surname: req.body.surname,
+                password: app.get("crypto").createHmac('sha256', app.get('key')).update(req.body.password).digest('hex'),
+            };
 
-        let id = req.session.user._id;
-        let condition = {"_id": mongoose.mongo.ObjectId(id)};
+            let id = req.session.user._id;
+            let condition = {"_id": mongoose.mongo.ObjectId(id)};
 
-        // Hacemos el proceso de actualizacion de otra manera para poder correr los validadores de mongoose
-        let oldUser = await userModel.findOne(condition);
-        if (oldUser.password == app.get("crypto").createHmac('sha256', app.get('key')).update(oldPass).digest('hex')) {
-            let userM = new userModel(utilities.updateIfNecessary(oldUser, user));
-            let error = userM.validateSync();
+            // Hacemos el proceso de actualizacion de otra manera para poder correr los validadores de mongoose
+            let oldUser = await userModel.findOne(condition);
+            if (oldUser.password == app.get("crypto").createHmac('sha256', app.get('key')).update(oldPass).digest('hex')) {
+                let userM = new userModel(utilities.updateIfNecessary(oldUser, user));
+                let error = userM.validateSync();
 
-            if (!error) {
-                let result = await userM.save();
-                if (result === null) {
-                    req.flash('error', ["Ocurrió un error al modificar su perfil."]);
+                if (!error) {
+                    let result = await userM.save();
+                    if (result === null) {
+                        req.flash('error', ["Ocurrió un error al modificar su perfil."]);
+                    } else {
+                        req.flash('success', ["Su perfil se ha modificado correctamente."]);
+                    }
+                    res.redirect("/home");
                 } else {
-                    req.flash('success', ["Su perfil se ha modificado correctamente."]);
+                    let errorMsgs = utilities.getErrors(error.errors);
+                    req.flash('error', errorMsgs)
+                    res.redirect("/users/edit");
                 }
-                res.redirect("/home");
             } else {
-                let errorMsgs = utilities.getErrors(error.errors);
-                req.flash('error', errorMsgs)
+                req.flash('error', ["Contraseña Incorrecta. Inténtelo de nuevo."]);
                 res.redirect("/users/edit");
             }
-        } else {
-            req.flash('error', ["Contraseña Incorrecta. Inténtelo de nuevo."]);
-            res.redirect("/users/edit");
         }
     });
 
@@ -232,58 +238,63 @@ module.exports = function (app, render, nodemailer, variables, utilities, mongoo
      * lo añade a la Base de Datos.
      */
     app.post('/signin', async function (req, res) {
-        let seguro = app.get("crypto").createHmac('sha256', app.get('key')).update(req.body.password).digest('hex');
-        let condition1 = {
-            email: req.body.email,
-        }
-        // Intentamos obtener el usuario por el email
-        let user = await userModel.findOne(condition1);
-        if (user === null) {
-            let newUser = new userModel({
-                name: req.body.name,
-                surname: req.body.surname,
-                email: req.body.email,
-                permission: 'U',
-                password: seguro,
-                active: false,
-                codes: {
-                    emailActivation: utilities.stringGen(20),
-                    passwordRecover: "",
-                },
-                wishes: []
-            });
-            let error = newUser.validateSync();
-            if (!error) {
-                let transporter = utilities.createTransporter();
-                let mailOptions = utilities.createMailOptions(req.body.email, 'Verifique su correo electrónico.',
-                    "<h1>Gracias por registrarse en nuestra aplicación</h1>" +
-                    "<h2>Verifique su correo electrónico haciendo click en el siguiente enlace:</h2>" +
-                    "<p>https://localhost:8081/users/verification/" + newUser.codes.emailActivation + "</p>");
-
-                transporter.sendMail(mailOptions, async function (error) {
-                    if (error) {
-                        req.flash('error', ["Ocurrió un error inesperado al enviar el correo de verificación."])
-                        res.redirect("/login");
-                    } else {
-                        let response = await newUser.save();
-                        if (response === null) {
-                            req.flash('error', ["Ocurrió un error inesperado al añadir su usuario al sistema."])
-                        } else {
-                            req.flash('success', ["Se ha enviado un mensaje a su bandeja de entrada. Revísela para activar su perfil."])
-                            res.redirect("/login");
-                        }
-                    }
-                })
-            } else {
-                let errorMsgs = utilities.getErrors(error.errors);
-                req.flash('error', errorMsgs)
-                res.redirect("/signin");
-            }
-        } else {
-            req.flash('error', ["Este correo electrónico ya pertenece a una cuenta. Utilice uno diferente."])
+        if(req.body.password != req.body.passwordR){
+            req.flash('error', ["Las contraseñas no coinciden."])
             res.redirect("/signin");
         }
+        else {
+            let seguro = app.get("crypto").createHmac('sha256', app.get('key')).update(req.body.password).digest('hex');
+            let condition1 = {
+                email: req.body.email,
+            }
+            // Intentamos obtener el usuario por el email
+            let user = await userModel.findOne(condition1);
+            if (user === null) {
+                let newUser = new userModel({
+                    name: req.body.name,
+                    surname: req.body.surname,
+                    email: req.body.email,
+                    permission: 'U',
+                    password: seguro,
+                    active: false,
+                    codes: {
+                        emailActivation: utilities.stringGen(20),
+                        passwordRecover: "",
+                    },
+                    wishes: []
+                });
+                let error = newUser.validateSync();
+                if (!error) {
+                    let transporter = utilities.createTransporter();
+                    let mailOptions = utilities.createMailOptions(req.body.email, 'Verifique su correo electrónico.',
+                        "<h1>Gracias por registrarse en nuestra aplicación</h1>" +
+                        "<h2>Verifique su correo electrónico haciendo click en el siguiente enlace:</h2>" +
+                        "<p>https://localhost:8081/users/verification/" + newUser.codes.emailActivation + "</p>");
 
+                    transporter.sendMail(mailOptions, async function (error) {
+                        if (error) {
+                            req.flash('error', ["Ocurrió un error inesperado al enviar el correo de verificación."])
+                            res.redirect("/login");
+                        } else {
+                            let response = await newUser.save();
+                            if (response === null) {
+                                req.flash('error', ["Ocurrió un error inesperado al añadir su usuario al sistema."])
+                            } else {
+                                req.flash('success', ["Se ha enviado un mensaje a su bandeja de entrada. Revísela para activar su perfil."])
+                                res.redirect("/login");
+                            }
+                        }
+                    })
+                } else {
+                    let errorMsgs = utilities.getErrors(error.errors);
+                    req.flash('error', errorMsgs)
+                    res.redirect("/signin");
+                }
+            } else {
+                req.flash('error', ["Este correo electrónico ya pertenece a una cuenta. Utilice uno diferente."])
+                res.redirect("/signin");
+            }
+        }
     });
 
     /**

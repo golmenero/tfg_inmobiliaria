@@ -35,32 +35,12 @@ let render = require("./help/sessionRender.js");
 
 let fileSystem = require('fs-extra');
 
-let routerUserSession = express.Router();
-routerUserSession.use(function (req, res, next) {
-    if (req.session.user) {
-        // dejamos correr la petición
-        next();
-    } else {
-        res.redirect("/login");
-    }
-});
+// Cargar Los Routers Necesarios
+require("./routers/routerUserSession")(app,express);
+require("./routers/routerAgentSession")(app,express);
+require("./routers/routerSuperAgentSession")(app,express);
 
-//Aplicar routerUsuarioSession
-app.use("/properties/add", routerUserSession);
-app.use("/user/edit", routerUserSession);
-app.use("/user/delete", routerUserSession);
-app.use("/user/edit/*", routerUserSession);
-app.use("/user/delete/*", routerUserSession);
-app.use("/myproperties", routerUserSession);
-app.use("/wishes/*", routerUserSession);
-app.use("/wishes", routerUserSession);
-app.use("/agents", routerUserSession);
-app.use("/agents/*", routerUserSession);
-app.use("/info/statistics", routerUserSession);
-app.use("/conversations", routerUserSession);
-app.use("/conversations/*", routerUserSession);
-
-
+// Establecer la carpeta "public" como estática
 app.use(express.static('public'));
 
 // Variables

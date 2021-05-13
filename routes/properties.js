@@ -82,15 +82,17 @@ module.exports = function (app, render, nodemailer, variables, utilities, fileSy
         }
 
         // Creamos la propiedad y le añadimos el id del propietario
-        let propertyNew = utilities.buildProperty(req);
-        propertyNew = {...propertyNew, ...idO}
+        let propertyNew = {...utilities.buildProperty(req), ...idO}
         // Añadimos las imágenes en carpeta y las asignamos a la propiedad
         let arrayImg = await utilities.getArrayImg(req.files.imginmueble, req.params.id, fileSystem);
         propertyNew = {...propertyNew, ...arrayImg}
 
         // Modificamos la propiedad (Lo hacemos de la forma compleja para poder validarlo)
         let condition = {"_id": mongoose.mongo.ObjectID(req.params.id)};
+
         let oldProperty = await propertyModel.findOne(condition);
+        let oldPrice = oldProperty.price;
+
         let propertyM = new propertyModel(utilities.updateIfNecessary(oldProperty, propertyNew))
         let error = propertyM.validateSync();
 
@@ -103,7 +105,9 @@ module.exports = function (app, render, nodemailer, variables, utilities, fileSy
             }
             // Si la encuentra compara los precios y, si es menor, envia un correo a todos los usuarios que tengan la propiedad en seguimiento.
             else {
-                if (oldProperty.price > propertyNew.price) {
+                console.log(oldPrice)
+                console.log(propertyNew.price)
+                if (oldPrice > propertyNew.price) {
                     let condition2 = {
                         wishes: req.params.id
                     }
@@ -129,7 +133,6 @@ module.exports = function (app, render, nodemailer, variables, utilities, fileSy
         }
     });
 
-
     /**
      * Peticion GET
      * Obtiene la propiedad con un ID y la elimina de la Base de Datos.
@@ -144,6 +147,9 @@ module.exports = function (app, render, nodemailer, variables, utilities, fileSy
         } else {
             // Usamos el paquete fs-extra para eliminar el directorio
             fileSystem.remove('public/propertiesimg/' + req.params.id);
+            // Borramos esta propiedade de los seguimientos de todos los usuarios
+            let user = {$pull: {wishes: req.params.id}}
+            await userModel.updateMany({}, user);
             req.flash('success', ["Propiedad eliminada correctamente."])
             res.redirect("/myproperties");
         }

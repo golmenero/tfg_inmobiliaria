@@ -377,7 +377,7 @@ test('MODELO OWNER, NEG - Tamaños Mínimos', async () => {
 test('MODELO USER, POS - Datos Correctos', async () => {
     let user1 = {
         name: "NewUser1",
-        surname: "NewUsercito1",
+        surname: "NewUserito1",
         email: "newuser1@newuser.com",
         permission: "A",
         password: "c45bbb35d6d56f860eb7b8b6ab21a95cd06bf233a79cac2a7b07f779198e7f33",
@@ -439,7 +439,8 @@ test('MODELO USER, NEG - Tamaños Mínimos', async () => {
         name: "A",
         surname: "A",
         email: "A",
-        password: "A"
+        password: "A",
+        active: true
     }
     let userM = new agentModel(user1);
     let result = await userM.validateSync();
@@ -573,18 +574,6 @@ test('MODELO PROPERTY / SUELO, POS - Datos Correctos', async () => {
 });
 
 test('MODELO PROPERTY, NEG - Campos Requeridos', async () => {
-    let owner = {
-        name: "Propietario 1",
-        surname: "Apellido Propietario 1",
-        dni: "00000000A",
-        phone: 666666666,
-        email: "propietario1@propietario.com",
-        address: "Direccion Propietario 1",
-    }
-    let ownerM = new ownerModel(owner);
-    await ownerM.save();
-    let ownerId = ownerM._id;
-
     let property1 = {}
     let propertyM = new propertyModel(property1);
     let result = await propertyM.validateSync();

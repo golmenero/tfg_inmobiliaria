@@ -31,7 +31,7 @@ module.exports = function (app, render, nodemailer, variables, utilities, mongoo
             });
             await logger.save();
         }
-        res.redirect("/wishes")
+        res.redirect("/properties/details/" + req.params.id);
     });
 
     /**
@@ -50,7 +50,7 @@ module.exports = function (app, render, nodemailer, variables, utilities, mongoo
             req.flash('success', "Eliminado de las listas de seguimiento correctamente.")
             utilities.removeItemOnce(req.session.user.wishes, req.params.id);
         }
-        res.redirect("/wishes");
+        res.redirect("/properties/details/" + req.params.id);
     });
 
     /**
