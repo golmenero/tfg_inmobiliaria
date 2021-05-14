@@ -105,8 +105,6 @@ module.exports = function (app, render, nodemailer, variables, utilities, fileSy
             }
             // Si la encuentra compara los precios y, si es menor, envia un correo a todos los usuarios que tengan la propiedad en seguimiento.
             else {
-                console.log(oldPrice)
-                console.log(propertyNew.price)
                 if (oldPrice > propertyNew.price) {
                     let condition2 = {
                         wishes: req.params.id
