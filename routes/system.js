@@ -85,5 +85,16 @@ module.exports = function (app, render, variables, utilities, mongoose) {
         res.send(respuesta);
     });
 
+    /**
+     * Peticion GET
+     * Muestra la pantalla de ayuda.
+     */
+    app.get("/info/help", async function (req, res) {
+        let respuesta = render(req.session, 'views/info/info_help.html', {
+            error: req.flash('error'),
+            success: req.flash('success')
+        });
+        res.send(respuesta);
+    });
 }
 
