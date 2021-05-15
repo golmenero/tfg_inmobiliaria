@@ -152,7 +152,8 @@
                     <div class="dropdown-menu">
                         <a class="dropdown-item" href="/users/edit">Editar Perfil</a>
                         {% if user.permission != 'S'%}
-                        <a id="eliminarPerfil" class="dropdown-item" data-toggle="modal" data-target="#modeloEliminarPerfil">Eliminar
+                        <a id="eliminarPerfil" class="dropdown-item" data-toggle="modal"
+                           data-target="#modeloEliminarPerfil">Eliminar
                             Perfil</a>
                         {% endif %}
                     </div>
@@ -164,6 +165,20 @@
             </ul>
         </div>
     </nav>
+    <div class="bg-dark text-white w-100 mw-100"  id="divCookie" style="display: none;">
+        <div class="toast-body p-4 d-flex flex-column">
+            <h4>Acerca del uso de Cookies.</h4>
+            <p>
+                Este sitio web utiliza dispositivos de almacenamiento como cookies para recordar quién eres. además de mejorar su experiencia de usuario.
+                Usando este sitio web, consiente el uso de estos dispositivos.
+            </p>
+            <div class="ml-auto">
+                <button type="button" class="btn btn-light" id="btnAccept">
+                    Aceptar Cookies
+                </button>
+            </div>
+        </div>
+    </div>
     {% if success != undefined %}
     {% for s in success %}
     <div class="msgInfoUser row">
@@ -244,6 +259,30 @@
             });
         }
 
+        function setCookie() {
+            document.cookie = "cookie_accept=yes";
+        }
+
+        function getCookie() {
+            let cookies = document.cookie.split(';');
+            let cookie = "cookie_accept=yes";
+            for(let i=0;i < cookies.length;i++) {
+                let c = cookies[i];
+                if(c === cookie){
+                    $('#divCookie').hide();
+                }
+                else{
+                    $('#divCookie').show();
+                }
+            }
+
+        }
+
+        $('#btnAccept').on('click', ()=>{
+            setCookie();
+            $('#divCookie').hide();
+        })
+
         $(document).ready(function () {
             let data = {
                 _id: "{{user._id}}",
@@ -256,6 +295,8 @@
                     update(data);
                 }, 1000)
             }
+
+            getCookie();
         });
     </script>
 </div>
