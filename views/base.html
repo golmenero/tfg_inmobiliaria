@@ -165,11 +165,12 @@
             </ul>
         </div>
     </nav>
-    <div class="bg-dark text-white w-100 mw-100"  id="divCookie" style="display: none;">
+    <div class="bg-dark text-white w-100 mw-100" id="divCookie" style="display: none;">
         <div class="toast-body p-4 d-flex flex-column">
             <h4>Acerca del uso de Cookies.</h4>
             <p>
-                Este sitio web utiliza dispositivos de almacenamiento como cookies para recordar quién eres. además de mejorar su experiencia de usuario.
+                Este sitio web utiliza dispositivos de almacenamiento como cookies para recordar quién eres. además de
+                mejorar su experiencia de usuario.
                 Usando este sitio web, consiente el uso de estos dispositivos.
             </p>
             <div class="ml-auto">
@@ -266,19 +267,14 @@
         function getCookie() {
             let cookies = document.cookie.split(';');
             let cookie = "cookie_accept=yes";
-            for(let i=0;i < cookies.length;i++) {
-                let c = cookies[i];
-                if(c === cookie){
-                    $('#divCookie').hide();
-                }
-                else{
-                    $('#divCookie').show();
-                }
+            if (cookies.includes(cookie)) {
+                $('#divCookie').hide();
+            } else {
+                $('#divCookie').show();
             }
-
         }
 
-        $('#btnAccept').on('click', ()=>{
+        $('#btnAccept').on('click', () => {
             setCookie();
             $('#divCookie').hide();
         })
@@ -288,6 +284,7 @@
                 _id: "{{user._id}}",
                 permission: '{{user.permission}}',
             }
+            getCookie();
 
             if (data._id != "") {
                 update(data);
@@ -295,8 +292,6 @@
                     update(data);
                 }, 1000)
             }
-
-            getCookie();
         });
     </script>
 </div>
