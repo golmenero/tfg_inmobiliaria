@@ -5,9 +5,6 @@ Especificacion tecnica del plan de pruebas
 Ejecucion de las Pruebas del sistema
 	8.5.1 Pruebas de Usabilidad
 	8.5.2 Pruebas de Accesibilidad
-9.4 Preparación del Mantenimiento del Sistema
-9.5 Establecimiento del Acuerdo a nivel de servicio
-9.6 Presentacion y aprobacion del sistema y paso a produccion
 10.2 Conclusiones
 10.3 Ampliaciones
 10.4 Referencias Bibliográficas

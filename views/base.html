@@ -76,6 +76,10 @@
 </script>
 {% endblock %}
 
+<div class="loader-wrapper">
+    <span class="loader"><span class="loader-inner"></span></span>
+</div>
+
 <div id="containerParent">
     <!-- Barra de Navegación superior -->
     <nav class="navbar navbar-expand-lg navbar-dark custom-base-style">
@@ -239,61 +243,66 @@
         <p class="footerP"><span class="font-weight-bold">ARCA AGENCIA INMOBILIARIA</span></p>
         <p class="footerP">Carlos Gómez Piñeiro - Agente de la Propiedad Inmobiliaria</p>
         <p class="footerP">+34 985 470 012 / +34 647 270 438 / info@arca-inmobiliaria.com</p>
+
     </footer>
+</div>
 
-    <script>
+<script>
 
-        function update(data) {
-            $.ajax({
-                type: 'POST',
-                data: data,
-                url: '/notifications/load',
-            }).done(function (data) {
-                let notifications = data.notifications;
-                if (notifications > 0) {
-                    $('#notificationsBadge').text(notifications)
-                    $('#notificationsBadge').show();
-                } else {
-                    $('#notificationsBadge').text("0")
-                    $('#notificationsBadge').hide();
-                }
-            });
-        }
-
-        function setCookie() {
-            document.cookie = "cookie_accept=yes";
-        }
-
-        function getCookie() {
-            let cookies = document.cookie.split(';');
-            let cookie = "cookie_accept=yes";
-            if (cookies.includes(cookie)) {
-                $('#divCookie').hide();
+    function update(data) {
+        $.ajax({
+            type: 'POST',
+            data: data,
+            url: '/notifications/load',
+        }).done(function (data) {
+            let notifications = data.notifications;
+            if (notifications > 0) {
+                $('#notificationsBadge').text(notifications)
+                $('#notificationsBadge').show();
             } else {
-                $('#divCookie').show();
-            }
-        }
-
-        $('#btnAccept').on('click', () => {
-            setCookie();
-            $('#divCookie').hide();
-        })
-
-        $(document).ready(function () {
-            let data = {
-                _id: "{{user._id}}",
-                permission: '{{user.permission}}',
-            }
-            getCookie();
-
-            if (data._id != "") {
-                update(data);
-                let func = setInterval(function () {
-                    update(data);
-                }, 1000)
+                $('#notificationsBadge').text("0")
+                $('#notificationsBadge').hide();
             }
         });
-    </script>
-</div>
+    }
+
+    function setCookie() {
+        document.cookie = "cookie_accept=yes";
+    }
+
+    function getCookie() {
+        let cookies = document.cookie.split(';');
+        let cookie = "cookie_accept=yes";
+        if (cookies.includes(cookie)) {
+            $('#divCookie').hide();
+        } else {
+            $('#divCookie').show();
+        }
+    }
+
+    $('#btnAccept').on('click', () => {
+        setCookie();
+        $('#divCookie').hide();
+    })
+
+    $(window).on('load', () => {
+        $('.loader-wrapper').fadeOut();
+    })
+
+    $(document).ready(function () {
+        let data = {
+            _id: "{{user._id}}",
+            permission: '{{user.permission}}',
+        }
+        getCookie();
+
+        if (data._id != "") {
+            update(data);
+            let func = setInterval(function () {
+                update(data);
+            }, 1000)
+        }
+    });
+</script>
 </body>
 </html>
