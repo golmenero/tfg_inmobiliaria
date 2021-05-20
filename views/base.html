@@ -73,10 +73,12 @@
         $('#password').pwstrength();
     });
 
+
+
 </script>
 {% endblock %}
 
-<div class="loader-wrapper">
+<div class="loader-wrapper" >
     <span class="loader"><span class="loader-inner"></span></span>
 </div>
 
@@ -246,6 +248,7 @@
 
     </footer>
 </div>
+</body>
 
 <script>
 
@@ -286,7 +289,7 @@
     })
 
     $(window).on('load', () => {
-        $('.loader-wrapper').fadeOut();
+        $('.loader-wrapper').fadeOut('slow');
     })
 
     $(document).ready(function () {
@@ -303,6 +306,8 @@
             }, 1000)
         }
     });
+
+
 </script>
-</body>
+
 </html>

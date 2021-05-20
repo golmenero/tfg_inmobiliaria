@@ -1,5 +1,8 @@
-html, body {
-    height: 100vh;
+
+body{
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
 }
 
 .footer {
@@ -10,9 +13,8 @@ html, body {
     height: 7em;
     color: white;
     text-align: center;
-    justify-content: center;
     padding-top: 1.5em;
-    margin-top: 2em;
+    margin-top: auto;
 }
 
 .btn-wishes {
@@ -308,12 +310,22 @@ button.custom-base-style:hover {
     text-align: center;
 }
 
+#containerParent {
+    z-index: 1;
+}
 
 .loader-wrapper {
+    opacity: 90%;
+    z-index: 2;
     background-color: #224226;
-    opacity: 50%;
     height: 100%;
-    text-align: center;
+    width: 100%;
+    position: absolute;
+    top: 0;
+    left: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
 }
 
 .loader {
@@ -322,7 +334,6 @@ button.custom-base-style:hover {
     height: 5em;
     position: relative;
     border: 4px solid #Fff;
-    top: 50%;
     animation: loader 2s infinite ease;
 }
 
