@@ -316,7 +316,7 @@ button.custom-base-style:hover {
 
 .loader-wrapper {
     opacity: 90%;
-    z-index: 2;
+    z-index: 3;
     background-color: #224226;
     height: 100%;
     width: 100%;
@@ -387,4 +387,8 @@ button.custom-base-style:hover {
     100% {
         height: 0%;
     }
+}
+
+.modal-backdrop{
+    z-index: 0;
 }
