@@ -93,7 +93,7 @@
             <div class="div-field form-row">
                 <label class="control-label col-sm-2" for="name">Nombre:</label>
                 <div class="col-sm-12">
-                    <input type="text" class="form-control" name="name"
+                    <input type="text" class="form-control" id="name" name="name"
                            placeholder="Ej. Chalet con Piscina en el Centro"
                            maxlength="30" minlength="4"/>
                 </div>
@@ -110,7 +110,7 @@
                 <div class="form-group col-sm-3">
                     <label class="control-label" for="floorV">Piso:</label>
                     <div>
-                        <input type="number" class="form-control" name="floorV"
+                        <input type="number" class="form-control" id="floorV"  name="floorV"
                                placeholder="Ej. 1"  max="10000" min="0"/>
                     </div>
                 </div>
@@ -129,14 +129,14 @@
             <div class="div-field form-row">
                 <label class="control-label col-sm-2" for="description">Descripción:</label>
                 <div class="col-sm-12">
-                    <textarea class="form-control" name="description"
+                    <textarea class="form-control" id="description" name="description"
                               rows="5"  maxlength="255" minlength="5"></textarea>
                 </div>
             </div>
             <div class="div-field form-row">
                 <label class="control-label col-sm-2" for="city">Población/Ciudad:</label>
                 <div class="col-sm-12">
-                    <input type="text" class="form-control" name="city" placeholder="Ej. Oviedo"
+                    <input type="text" class="form-control" id="city" name="city" placeholder="Ej. Oviedo"
                            maxlength="25" minlength="2"/>
                 </div>
             </div>
@@ -148,7 +148,7 @@
                 <div class="form-group col-sm-2">
                     <label class="control-label" for="area">Superficie (m²):</label>
                     <div>
-                        <input type="number" class="form-control" name="area"
+                        <input type="number" class="form-control" id="area"  name="area"
                                placeholder="Ej. 100"  max="10000000" min="10"/>
                     </div>
                 </div>
@@ -185,59 +185,59 @@
                 <div class="form-group col-sm-3">
                     <label class="control-label" for="price">Precio (€):</label>
                     <div>
-                        <input type="number" class="form-control" name="price"
+                        <input type="number" class="form-control" id="price" name="price"
                                placeholder="Ej. 1000" max="10000000" min="0"/>
                     </div>
                 </div>
                 <div class="form-group col-sm-3">
                     <label class="control-label" for="priceCom">Gastos de Comunidad (€):</label>
                     <div>
-                        <input type="number" class="form-control" name="priceCom"
+                        <input type="number" class="form-control" id="priceCom" name="priceCom"
                                placeholder="Ej. 1000"  max="10000" min="0"/>
                     </div>
                 </div>
             </div>
             <div class="div-field form-row">
                 <div class="form-check col-sm-2">
-                    <input type="checkbox" class="form-check-input" name="checkGaraje">
+                    <input type="checkbox" class="form-check-input" id="checkGaraje" name="checkGaraje">
                     <label class="form-check-label" for="checkGaraje">Garaje</label>
                 </div>
                 <div class="form-check col-sm-2">
-                    <input type="checkbox" class="form-check-input" name="checkPiscina">
+                    <input type="checkbox" class="form-check-input" id="checkPiscina" name="checkPiscina">
                     <label class="form-check-label" for="checkPiscina">Piscina</label>
                 </div>
                 <div class="form-check col-sm-2">
-                    <input type="checkbox" class="form-check-input" name="checkTerraza">
+                    <input type="checkbox" class="form-check-input" id="checkTerraza" name="checkTerraza">
                     <label class="form-check-label" for="checkTerraza">Terraza</label>
                 </div>
                 <div class="form-check col-sm-2">
-                    <input type="checkbox" class="form-check-input" name="checkTrastero">
+                    <input type="checkbox" class="form-check-input" id="checkTrastero" name="checkTrastero">
                     <label class="form-check-label" for="checkTrastero">Trastero</label>
                 </div>
                 <div class="form-check col-sm-2">
-                    <input type="checkbox" class="form-check-input" name="checkJardin">
+                    <input type="checkbox" class="form-check-input" id="checkJardin" name="checkJardin">
                     <label class="form-check-label" for="checkJardin">Jardín</label>
                 </div>
                 <div class="form-check col-sm-2">
-                    <input type="checkbox" class="form-check-input" name="checkAscensor">
+                    <input type="checkbox" class="form-check-input" id="checkAscensor" name="checkAscensor">
                     <label class="form-check-label" for="checkAscensor">Ascensor</label>
                 </div>
             </div>
             <div class="div-field form-row">
                 <div class="form-check col-sm-2">
-                    <input type="checkbox" class="form-check-input" name="checkCalefaccion">
+                    <input type="checkbox" class="form-check-input" id="checkCalefaccion" name="checkCalefaccion">
                     <label class="form-check-label" for="checkCalefaccion">Calefacción</label>
                 </div>
                 <div class="form-check col-sm-2">
-                    <input type="checkbox" class="form-check-input" name="checkAireAcon">
+                    <input type="checkbox" class="form-check-input" id="checkAireAcon" name="checkAireAcon">
                     <label class="form-check-label" for="checkAireAcon">Aire Acondicionado</label>
                 </div>
                 <div class="form-check col-sm-2">
-                    <input type="checkbox" class="form-check-input" name="checkAmueblado">
+                    <input type="checkbox" class="form-check-input" id="checkAmueblado" name="checkAmueblado">
                     <label class="form-check-label" for="checkAmueblado">Amueblado</label>
                 </div>
                 <div class="form-check col-sm-2">
-                    <input type="checkbox" class="form-check-input" name="checkAnimales">
+                    <input type="checkbox" class="form-check-input" id="checkAnimales" name="checkAnimales">
                     <label class="form-check-label" for="checkAnimales">Permite Animales</label>
                 </div>
             </div>
@@ -249,7 +249,7 @@
                 <div class="form-group col-sm-3">
                     <label class="control-label" for="areaLoc">Superficie (m²):</label>
                     <div>
-                        <input type="number" class="form-control" name="areaLoc"
+                        <input type="number" class="form-control" id="areaLoc" name="areaLoc"
                                placeholder="Ej. 100"  max="10000000" min="10"/>
                     </div>
                 </div>
@@ -271,47 +271,47 @@
                 <div class="form-group col-sm-3">
                     <label class="control-label" for="priceLoc">Precio (€):</label>
                     <div>
-                        <input type="number" class="form-control" name="priceLoc"
+                        <input type="number" class="form-control" id="priceLoc" name="priceLoc"
                                placeholder="Ej. 1000" max="10000000" min="0"/>
                     </div>
                 </div>
                 <div class="form-group col-sm-3">
                     <label class="control-label" for="priceComLoc">Gastos de Comunidad (€):</label>
                     <div>
-                        <input type="number" class="form-control" name="priceComLoc"
+                        <input type="number" class="form-control" id="priceComLoc" name="priceComLoc"
                                placeholder="Ej. 1000" max="10000" min="0"/>
                     </div>
                 </div>
             </div>
             <div class="div-field form-row">
                 <div class="form-check col-sm-2">
-                    <input type="checkbox" class="form-check-input" name="checkEscaparateLoc">
+                    <input type="checkbox" class="form-check-input" id="checkEscaparateLoc" name="checkEscaparateLoc">
                     <label class="form-check-label" for="checkEscaparateLoc">Escaparate</label>
                 </div>
                 <div class="form-check col-sm-2">
-                    <input type="checkbox" class="form-check-input" name="checkAparcamientoLoc">
+                    <input type="checkbox" class="form-check-input" id="checkAparcamientoLoc" name="checkAparcamientoLoc">
                     <label class="form-check-label" for="checkAparcamientoLoc">Aparcamiento</label>
                 </div>
                 <div class="form-check col-sm-2">
-                    <input type="checkbox" class="form-check-input" name="checkCargaYDescargaLoc">
+                    <input type="checkbox" class="form-check-input" id="checkCargaYDescargaLoc" name="checkCargaYDescargaLoc">
                     <label class="form-check-label" for="checkCargaYDescargaLoc">Carga y Descarga</label>
                 </div>
                 <div class="form-check col-sm-2">
-                    <input type="checkbox" class="form-check-input" name="checkExtintoresLoc">
+                    <input type="checkbox" class="form-check-input" id="checkExtintoresLoc" name="checkExtintoresLoc">
                     <label class="form-check-label" for="checkExtintoresLoc">Extintores</label>
                 </div>
                 <div class="form-check col-sm-2">
-                    <input type="checkbox" class="form-check-input" name="checkIluminacionLoc">
+                    <input type="checkbox" class="form-check-input" id="checkIluminacionLoc" name="checkIluminacionLoc">
                     <label class="form-check-label" for="checkIluminacionLoc">Iuminación</label>
                 </div>
             </div>
             <div class="div-field form-row">
                 <div class="form-check col-sm-2">
-                    <input type="checkbox" class="form-check-input" name="checkCalefaccionLoc">
+                    <input type="checkbox" class="form-check-input" id="checkCalefaccionLoc" name="checkCalefaccionLoc">
                     <label class="form-check-label" for="checkCalefaccionLoc">Calefacción</label>
                 </div>
                 <div class="form-check col-sm-2">
-                    <input type="checkbox" class="form-check-input" name="checkAireAconLoc">
+                    <input type="checkbox" class="form-check-input" id="checkAireAconLoc" name="checkAireAconLoc">
                     <label class="form-check-label" for="checkAireAconLoc">Aire Acondicionado</label>
                 </div>
             </div>
@@ -322,7 +322,7 @@
             <div class="div-field form-row">
                 <label class="control-label col-sm-2" for="situationSue">Situación:</label>
                 <div class="col-sm-12">
-                    <input type="text" class="form-control" name="situationSue"
+                    <input type="text" class="form-control" id="situationSue"  name="situationSue"
                            placeholder="Ej. San Quintín" maxlength="50" minlength="5"
                     />
                 </div>
@@ -331,32 +331,32 @@
                 <div class="form-group col-sm-4">
                     <label class="control-label" for="areaSue">Superficie Total (m²):</label>
                     <div>
-                        <input type="number" class="form-control" name="areaSue"
+                        <input type="number" class="form-control" id="areaSue" name="areaSue"
                                placeholder="Ej. 100"  max="10000000" min="10"/>
                     </div>
                 </div>
                 <div class="form-group col-sm-4">
                     <label class="control-label" for="areaEdifSue">Superficie Edificable (m²):</label>
                     <div>
-                        <input type="number" class="form-control" name="areaEdifSue"
+                        <input type="number" class="form-control" id="areaEdifSue" name="areaEdifSue"
                                placeholder="Ej. 100"  max="10000000" min="0"/>
                     </div>
                 </div>
                 <div class="form-group col-sm-4">
                     <label class="control-label" for="priceSue">Precio Total(€):</label>
                     <div>
-                        <input type="number" class="form-control" name="priceSue"
+                        <input type="number" class="form-control" id="priceSue" name="priceSue"
                                placeholder="Ej. 1000" max="10000000" min="0"/>
                     </div>
                 </div>
             </div>
             <div class="div-field form-row">
                 <div class="form-check col-sm-3">
-                    <input type="checkbox" class="form-check-input" name="accesoAguaSue">
+                    <input type="checkbox" class="form-check-input" id="accesoAguaSue" name="accesoAguaSue">
                     <label class="form-check-label" for="accesoAguaSue">Acceso a Agua</label>
                 </div>
                 <div class="form-check col-sm-3">
-                    <input type="checkbox" class="form-check-input" name="accesoLuzSue">
+                    <input type="checkbox" class="form-check-input" id="accesoLuzSue" name="accesoLuzSue">
                     <label class="form-check-label" for="accesoLuzSue">Acceso a Luz</label>
                 </div>
             </div>
@@ -375,7 +375,7 @@
             <div class="div-field form-row">
                 <label class="control-label col-sm-2" for="nameOwner">Nombre:</label>
                 <div class="col-sm-12">
-                    <input type="text" class="form-control" name="nameOwner"
+                    <input type="text" class="form-control" id="nameOwner" name="nameOwner"
                            placeholder="Ej. Claudia" maxLength="20" minLength="2"
                     />
                 </div>
@@ -383,7 +383,7 @@
             <div class="div-field form-row">
                 <label class="control-label col-sm-2" for="surnameOwner">Apellidos:</label>
                 <div class="col-sm-12">
-                    <input type="text" class="form-control" name="surnameOwner"
+                    <input type="text" class="form-control" id="surnameOwner" name="surnameOwner"
                            placeholder="Ej. Pérez Peláez" maxLength="30" minLength="2"
                     />
                 </div>
@@ -392,7 +392,7 @@
                 <div class="form-group col-sm-3">
                     <label class="control-label" for="dniOwner">DNI/NIF/NIE:</label>
                     <div>
-                        <input type="text" class="form-control" name="dniOwner"
+                        <input type="text" class="form-control" id="dniOwner" name="dniOwner"
                                placeholder="Ej. 55555555E" maxLength="15" minLength="8"
                         />
                     </div>
@@ -400,7 +400,7 @@
                 <div class="form-group col-sm-3">
                     <label class="control-label" for="phoneOwner">Teléfono:</label>
                     <div>
-                        <input type="number" class="form-control" name="phoneOwner"
+                        <input type="number" class="form-control" id="phoneOwner" name="phoneOwner"
                                placeholder="Ej. 666666666" max="999999999" min="111111111"
                         />
                     </div>
@@ -408,7 +408,7 @@
                 <div class="form-group col-sm-6">
                     <label class="control-label" for="emailOwner">Correo Electrónico:</label>
                     <div>
-                        <input type="email" class="form-control" name="emailOwner"
+                        <input type="email" class="form-control" id="emailOwner" name="emailOwner"
                                placeholder="Ej. propietario@gmail.com" maxLength="50" minLength="8"
                         />
                     </div>
@@ -417,7 +417,7 @@
             <div class="div-field form-row">
                 <label class="control-label col-sm-2" for="addressOwner">Dirección:</label>
                 <div class="col-sm-12">
-                    <input type="text" class="form-control" name="addressOwner"
+                    <input type="text" class="form-control" id="addressOwner" name="addressOwner"
                            placeholder="Ej. C/ Uría 10, P-4D" maxLength="50" minLength="5"
                     />
                 </div>

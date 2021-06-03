@@ -54,7 +54,7 @@
                 <div class="form-group col-sm-4">
                     <label class="control-label" for="name">Nombre:</label>
                     <div>
-                        <input type="text" class="form-control" name="name" value="{{property.name}}"
+                        <input type="text" class="form-control" id="name"  name="name" value="{{property.name}}"
                                placeholder="Ej. Chalet con Piscina en el Centro"
                                maxlength="30" minlength="4"/>
                     </div>
@@ -85,7 +85,7 @@
                 <div class="form-group col-sm-3">
                     <label class="control-label" for="floorV">Piso:</label>
                     <div>
-                        <input type="number" class="form-control" name="floorV" value="{{property.floor}}"
+                        <input type="number" class="form-control" id="floorV"  name="floorV" value="{{property.floor}}"
                                placeholder="Ej. 1" max="10000" min="0"/>
                     </div>
                 </div>
@@ -104,7 +104,7 @@
             <div class="div-field form-row">
                 <label class="control-label col-sm-2" for="description">Descripción:</label>
                 <div class="col-sm-12">
-                    <textarea class="form-control" name="description" id="exampleFormControlTextarea1"
+                    <textarea class="form-control" name="description" id="description" id="exampleFormControlTextarea1"
                               rows="5" maxlength="255" minlength="5"
                     >{{property.description}}</textarea>
                 </div>
@@ -112,7 +112,7 @@
             <div class="div-field form-row">
                 <label class="control-label col-sm-2" for="city">Población/Ciudad:</label>
                 <div class="col-sm-12">
-                    <input type="text" class="form-control" name="city" placeholder="Ej. Oviedo"
+                    <input type="text" class="form-control" name="city" id="city" placeholder="Ej. Oviedo"
                            value="{{property.city}}" maxlength="25" minlength="2"/>
                 </div>
             </div>
@@ -125,7 +125,7 @@
                 <div class="form-group col-sm-2">
                     <label class="control-label" for="area">Superficie (m²):</label>
                     <div>
-                        <input type="number" class="form-control" name="area" placeholder="Ej. 100"
+                        <input type="number" id="area" class="form-control" name="area" placeholder="Ej. 100"
                                value="{{property.area}}" max="10000000" min="10"/>
                     </div>
                 </div>
@@ -164,14 +164,14 @@
                 <div class="form-group col-sm-3">
                     <label class="control-label" for="price">Precio (€):</label>
                     <div>
-                        <input type="number" class="form-control" name="price" placeholder="Ej. 1000"
+                        <input type="number" class="form-control" id="price"  name="price" placeholder="Ej. 1000"
                                value="{{property.price}}" max="10000000" min="0"/>
                     </div>
                 </div>
                 <div class="form-group col-sm-3">
                     <label class="control-label" for="priceCom">Gastos de Comunidad (€):</label>
                     <div>
-                        <input type="number" class="form-control" name="priceCom" placeholder="Ej. 1000"
+                        <input type="number" class="form-control" id="priceCom" name="priceCom" placeholder="Ej. 1000"
                                value="{{property.priceCom}}" max="10000" min="0"/>
                     </div>
                 </div>
@@ -179,7 +179,7 @@
             <div class="div-field form-row">
                 <div class="form-check col-sm-2">
                     {% if property.garaje == true %}
-                    <input type="checkbox" class="form-check-input" name="checkGaraje" checked>
+                    <input type="checkbox" class="form-check-input" id="checkGaraje" name="checkGaraje" checked>
                     {% else %}
                     <input type="checkbox" class="form-check-input" name="checkGaraje">
                     {% endif %}
@@ -187,7 +187,7 @@
                 </div>
                 <div class="form-check col-sm-2">
                     {% if property.piscina == true %}
-                    <input type="checkbox" class="form-check-input" name="checkPiscina" checked>
+                    <input type="checkbox" class="form-check-input" id="checkPiscina" name="checkPiscina" checked>
                     {% else %}
                     <input type="checkbox" class="form-check-input" name="checkPiscina">
                     {% endif %}
@@ -195,7 +195,7 @@
                 </div>
                 <div class="form-check col-sm-2">
                     {% if property.terraza == true %}
-                    <input type="checkbox" class="form-check-input" name="checkTerraza" checked>
+                    <input type="checkbox" class="form-check-input" id="checkTerraza" name="checkTerraza" checked>
                     {% else %}
                     <input type="checkbox" class="form-check-input" name="checkTerraza">
                     {% endif %}
@@ -203,7 +203,7 @@
                 </div>
                 <div class="form-check col-sm-2">
                     {% if property.trastero == true %}
-                    <input type="checkbox" class="form-check-input" name="checkTrastero" checked>
+                    <input type="checkbox" class="form-check-input" id="checkTrastero" name="checkTrastero" checked>
                     {% else %}
                     <input type="checkbox" class="form-check-input" name="checkTrastero">
                     {% endif %}
@@ -211,7 +211,7 @@
                 </div>
                 <div class="form-check col-sm-2">
                     {% if property.jardin == true %}
-                    <input type="checkbox" class="form-check-input" name="checkJardin" checked>
+                    <input type="checkbox" class="form-check-input" id="checkJardin" name="checkJardin" checked>
                     {% else %}
                     <input type="checkbox" class="form-check-input" name="checkJardin">
                     {% endif %}
@@ -219,7 +219,7 @@
                 </div>
                 <div class="form-check col-sm-2">
                     {% if property.ascensor == true %}
-                    <input type="checkbox" class="form-check-input" name="checkAscensor" checked>
+                    <input type="checkbox" class="form-check-input" id="checkAscensor" name="checkAscensor" checked>
                     {% else %}
                     <input type="checkbox" class="form-check-input" name="checkAscensor">
                     {% endif %}
@@ -229,7 +229,7 @@
             <div class="div-field form-row">
                 <div class="form-check col-sm-2">
                     {% if property.calefaccion == true %}
-                    <input type="checkbox" class="form-check-input" name="checkCalefaccion" checked>
+                    <input type="checkbox" class="form-check-input" id="checkCalefaccion" name="checkCalefaccion" checked>
                     {% else %}
                     <input type="checkbox" class="form-check-input" name="checkCalefaccion">
                     {% endif %}
@@ -237,7 +237,7 @@
                 </div>
                 <div class="form-check col-sm-2">
                     {% if property.aireAcon == true %}
-                    <input type="checkbox" class="form-check-input" name="checkAireAcon" checked>
+                    <input type="checkbox" class="form-check-input" id="checkAireAcon" name="checkAireAcon" checked>
                     {% else %}
                     <input type="checkbox" class="form-check-input" name="checkAireAcon">
                     {% endif %}
@@ -245,7 +245,7 @@
                 </div>
                 <div class="form-check col-sm-2">
                     {% if property.amueblado == true %}
-                    <input type="checkbox" class="form-check-input" name="checkAmueblado" checked>
+                    <input type="checkbox" class="form-check-input" id="checkAmueblado" name="checkAmueblado" checked>
                     {% else %}
                     <input type="checkbox" class="form-check-input" name="checkAmueblado">
                     {% endif %}
@@ -253,7 +253,7 @@
                 </div>
                 <div class="form-check col-sm-2">
                     {% if property.animales == true %}
-                    <input type="checkbox" class="form-check-input" name="checkAnimales" checked>
+                    <input type="checkbox" class="form-check-input" id="checkAnimales" name="checkAnimales" checked>
                     {% else %}
                     <input type="checkbox" class="form-check-input" name="checkAnimales">
                     {% endif %}
@@ -269,7 +269,7 @@
                 <div class="form-group col-sm-3">
                     <label class="control-label" for="areaLoc">Superficie (m²):</label>
                     <div>
-                        <input type="number" class="form-control" name="areaLoc"
+                        <input type="number" class="form-control" id="areaLoc" name="areaLoc"
                                value="{{property.area}}" placeholder="Ej. 100"
                                max="10000000" min="10"/>
                     </div>
@@ -293,14 +293,14 @@
                 <div class="form-group col-sm-3">
                     <label class="control-label" for="priceLoc">Precio (€):</label>
                     <div>
-                        <input type="number" value="{{property.price}}" class="form-control"
+                        <input type="number" value="{{property.price}}" id="priceLoc" class="form-control"
                                name="priceLoc" placeholder="Ej. 1000" max="10000000" min="0"/>
                     </div>
                 </div>
                 <div class="form-group col-sm-3">
                     <label class="control-label" for="priceComLoc">Gastos de Comunidad (€):</label>
                     <div>
-                        <input type="number" value="{{property.priceCom}}" class="form-control"
+                        <input type="number" value="{{property.priceCom}}" id="priceComLoc" class="form-control"
                                name="priceComLoc" placeholder="Ej. 1000" max="10000" min="0"/>
                     </div>
                 </div>
@@ -308,7 +308,7 @@
             <div class="div-field form-row">
                 <div class="form-check col-sm-2">
                     {% if property.escaparate == true %}
-                    <input type="checkbox" class="form-check-input" name="checkEscaparateLoc" checked>
+                    <input type="checkbox" class="form-check-input" id="checkEscaparateLoc"  name="checkEscaparateLoc" checked>
                     {% else %}
                     <input type="checkbox" class="form-check-input" name="checkEscaparateLoc">
                     {% endif %}
@@ -316,7 +316,7 @@
                 </div>
                 <div class="form-check col-sm-2">
                     {% if property.aparcamiento == true %}
-                    <input type="checkbox" class="form-check-input" name="checkAparcamientoLoc" checked>
+                    <input type="checkbox" class="form-check-input" id="checkAparcamientoLoc" name="checkAparcamientoLoc" checked>
                     {% else %}
                     <input type="checkbox" class="form-check-input" name="checkAparcamientoLoc">
                     {% endif %}
@@ -324,7 +324,7 @@
                 </div>
                 <div class="form-check col-sm-2">
                     {% if property.cargaYdescarga == true %}
-                    <input type="checkbox" class="form-check-input" name="checkCargaYDescargaLoc" checked>
+                    <input type="checkbox" class="form-check-input" id="checkCargaYDescargaLoc" name="checkCargaYDescargaLoc" checked>
                     {% else %}
                     <input type="checkbox" class="form-check-input" name="checkCargaYDescargaLoc">
                     {% endif %}
@@ -332,7 +332,7 @@
                 </div>
                 <div class="form-check col-sm-2">
                     {% if property.extintores == true %}
-                    <input type="checkbox" class="form-check-input" name="checkExtintoresLoc" checked>
+                    <input type="checkbox" class="form-check-input" id="checkExtintoresLoc" name="checkExtintoresLoc" checked>
                     {% else %}
                     <input type="checkbox" class="form-check-input" name="checkExtintoresLoc">
                     {% endif %}
@@ -340,7 +340,7 @@
                 </div>
                 <div class="form-check col-sm-2">
                     {% if property.iluminacion == true %}
-                    <input type="checkbox" class="form-check-input" name="checkIluminacionLoc" checked>
+                    <input type="checkbox" class="form-check-input" id="checkIluminacionLoc" name="checkIluminacionLoc" checked>
                     {% else %}
                     <input type="checkbox" class="form-check-input" name="checkIluminacionLoc">
                     {% endif %}
@@ -350,7 +350,7 @@
             <div class="div-field form-row">
                 <div class="form-check col-sm-2">
                     {% if property.calefaccion == true %}
-                    <input type="checkbox" class="form-check-input" name="checkCalefaccionLoc" checked>
+                    <input type="checkbox" class="form-check-input" id="checkCalefaccionLoc" name="checkCalefaccionLoc" checked>
                     {% else %}
                     <input type="checkbox" class="form-check-input" name="checkCalefaccionLoc">
                     {% endif %}
@@ -358,7 +358,7 @@
                 </div>
                 <div class="form-check col-sm-2">
                     {% if property.aireAcon == true %}
-                    <input type="checkbox" class="form-check-input" name="checkAireAconLoc" checked>
+                    <input type="checkbox" class="form-check-input" id="checkAireAconLoc" name="checkAireAconLoc" checked>
                     {% else %}
                     <input type="checkbox" class="form-check-input" name="checkAireAconLoc">
                     {% endif %}
@@ -373,7 +373,7 @@
             <div class="div-field form-row">
                 <label class="control-label col-sm-2" for="situationSue">Situación:</label>
                 <div class="col-sm-12">
-                    <input type="text" class="form-control" name="situationSue"
+                    <input type="text" class="form-control" id="situationSue" name="situationSue"
                            placeholder="Ej. San Quintín" value="{{property.situation}}"
                            maxlength="50" minlength="5"/>
                 </div>
@@ -382,7 +382,7 @@
                 <div class="form-group col-sm-4">
                     <label class="control-label" for="areaSue">Superficie Total (m²):</label>
                     <div>
-                        <input type="number" class="form-control" name="areaSue"
+                        <input type="number" class="form-control" id="areaSue" name="areaSue"
                                placeholder="Ej. 100" value="{{property.area}}"
                                max="10000000" min="10"/>
                     </div>
@@ -390,7 +390,7 @@
                 <div class="form-group col-sm-4">
                     <label class="control-label" for="areaEdifSue">Superficie Edificable (m²):</label>
                     <div>
-                        <input type="number" class="form-control" name="areaEdifSue"
+                        <input type="number" class="form-control" id="areaEdifSue" name="areaEdifSue"
                                placeholder="Ej. 100" value="{{property.edifArea}}"
                                max="10000000" min="0"/>
                     </div>
@@ -398,7 +398,7 @@
                 <div class="form-group col-sm-4">
                     <label class="control-label" for="priceSue">Precio Total(€):</label>
                     <div>
-                        <input type="number" class="form-control" name="priceSue"
+                        <input type="number" class="form-control" id="priceSue" name="priceSue"
                                placeholder="Ej. 1000" value="{{property.price}}"
                                max="10000000" min="0"/>
                     </div>
@@ -407,7 +407,7 @@
             <div class="div-field form-row">
                 <div class="form-check col-sm-3">
                     {% if property.accesoAgua == true %}
-                    <input type="checkbox" class="form-check-input" name="accesoAguaSue" checked>
+                    <input type="checkbox" class="form-check-input" id="accesoAguaSue" name="accesoAguaSue" checked>
                     {% else %}
                     <input type="checkbox" class="form-check-input" name="accesoAguaSue">
                     {% endif %}
@@ -415,7 +415,7 @@
                 </div>
                 <div class="form-check col-sm-3">
                     {% if property.accesoLuz == true %}
-                    <input type="checkbox" class="form-check-input" name="accesoLuzSue" checked>
+                    <input type="checkbox" class="form-check-input" id="accesoLuzSue" name="accesoLuzSue" checked>
                     {% else %}
                     <input type="checkbox" class="form-check-input" name="accesoLuzSue">
                     {% endif %}
@@ -437,7 +437,7 @@
             <div class="div-field form-row">
                 <label class="control-label col-sm-2" for="nameOwner">Nombre:</label>
                 <div class="col-sm-12">
-                    <input type="text" class="form-control" name="nameOwner"
+                    <input type="text" class="form-control" id="nameOwner" name="nameOwner"
                            placeholder="Ej. Claudia" value="{{property.owner.name}}"
                            maxLength="20" minLength="2"/>
                 </div>
@@ -445,7 +445,7 @@
             <div class="div-field form-row">
                 <label class="control-label col-sm-2" for="surnameOwner">Apellidos:</label>
                 <div class="col-sm-12">
-                    <input type="text" class="form-control" name="surnameOwner"
+                    <input type="text" class="form-control" id="surnameOwner" name="surnameOwner"
                            placeholder="Ej. Pérez Peláez" value="{{property.owner.surname}}"
                            maxLength="30" minLength="2"/>
                 </div>
@@ -454,7 +454,7 @@
                 <div class="form-group col-sm-3">
                     <label class="control-label" for="dniOwner">DNI/NIF/NIE:</label>
                     <div>
-                        <input type="text" class="form-control" name="dniOwner"
+                        <input type="text" class="form-control" id="dniOwner" name="dniOwner"
                                placeholder="Ej. 55555555E" value="{{property.owner.dni}}"
                                maxLength="15" minLength="8"/>
                     </div>
@@ -462,7 +462,7 @@
                 <div class="form-group col-sm-3">
                     <label class="control-label" for="phoneOwner">Teléfono:</label>
                     <div>
-                        <input type="number" class="form-control" name="phoneOwner"
+                        <input type="number" class="form-control" id="phoneOwner" name="phoneOwner"
                                placeholder="Ej. 666666666" value="{{property.owner.phone}}"
                                max="999999999" min="111111111"/>
                     </div>
@@ -470,7 +470,7 @@
                 <div class="form-group col-sm-6">
                     <label class="control-label" for="emailOwner">Correo Electrónico:</label>
                     <div>
-                        <input type="email" class="form-control" name="emailOwner"
+                        <input type="email" class="form-control" id="emailOwner" name="emailOwner"
                                placeholder="Ej. propietario@gmail.com"
                                value="{{property.owner.email}}"
                                maxLength="50" minLength="8"/>
@@ -480,7 +480,7 @@
             <div class="div-field form-row">
                 <label class="control-label col-sm-2" for="addressOwner">Dirección:</label>
                 <div class="col-sm-12">
-                    <input type="text" class="form-control" name="addressOwner"
+                    <input type="text" class="form-control" id="addressOwner" name="addressOwner"
                            placeholder="Ej. C/ Uría 10, P-4D" value="{{property.owner.address}}"
                            maxLength="50" minLength="5"/>
                 </div>

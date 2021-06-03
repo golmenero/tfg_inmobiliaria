@@ -1,7 +1,6 @@
 Especificacion tecnica del plan de pruebas
-7.5.3 Pruebas de Usabilidad y Accesibilidad
-7.5.4 Pruebas de Adaptabilidad
-7.5.5 Pruebas de Rendimiento
+7.5.5 Pruebas de Adaptabilidad
+7.5.6 Pruebas de Rendimiento
 Ejecucion de las Pruebas del sistema
 	8.5.1 Pruebas de Usabilidad
 	8.5.2 Pruebas de Accesibilidad
