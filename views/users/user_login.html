@@ -5,12 +5,12 @@
 {% block contenido_principal %}
 <nav aria-label="breadcrumb">
     <ol class="breadcrumb">
-        <li class="breadcrumb-item"><a href="/">Inicio</a></li>
-        <li class="breadcrumb-item active" aria-current="page">Iniciar Sesión</li>
+        <li class="breadcrumb-item"><a class="breadcrumb-custom" href="/">Inicio</a></li>
+        <li class="breadcrumb-item active breadcrumb-custom" aria-current="page">Iniciar Sesión</li>
     </ol>
 </nav>
 <div class="container">
-    <h2 class="sectionHeader">Identificación de usuario</h2>
+    <h1 class="sectionHeader">Identificación de usuario</h1>
     <form class="form-horizontal" method="post" action="/login">
         <div class="form-group">
             <label class="control-label col-sm-2" for="email">Email:</label>
@@ -43,7 +43,7 @@
                 <form class="form-horizontal" method="post" action="/recover">
                     <!-- Modal Header -->
                     <div class="modal-header">
-                        <h4 class="modal-title">Introduzca su correo electrónico</h4>
+                        <h3 class="modal-title">Introduzca su correo electrónico</h3>
                     </div>
 
                     <!-- Modal body -->

@@ -5,9 +5,9 @@
 {% block contenido_principal %}
 <nav aria-label="breadcrumb">
     <ol class="breadcrumb">
-        <li class="breadcrumb-item"><a href="/">Inicio</a></li>
-        <li class="breadcrumb-item"><a href="/properties/{{property.type}}">Propiedades</a></li>
-        <li class="breadcrumb-item active" aria-current="page">Detalles</li>
+        <li class="breadcrumb-item"><a class="breadcrumb-custom" href="/">Inicio</a></li>
+        <li class="breadcrumb-item"><a class="breadcrumb-custom" href="/properties/{{property.type}}">Propiedades</a></li>
+        <li class="breadcrumb-item active breadcrumb-custom" aria-current="page">Detalles</li>
     </ol>
 </nav>
 
@@ -17,11 +17,11 @@
         {% for img in property.media %}
         {% if loop.first %}
         <div class="carousel-item active">
-            <img class="img-carousel" src={{img}}>
+            <img class="img-carousel" src={{img}} alt="{{property.name}}">
         </div>
         {% else %}
         <div class="carousel-item">
-            <img class="img-carousel" src={{img}}>
+            <img class="img-carousel" src={{img}} alt="{{property.name}}">
         </div>
         {% endif %}
         {% endfor %}

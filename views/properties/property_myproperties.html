@@ -3,8 +3,8 @@
 {% block contenido_principal %}
 <nav aria-label="breadcrumb">
     <ol class="breadcrumb">
-        <li class="breadcrumb-item"><a href="/">Inicio</a></li>
-        <li class="breadcrumb-item active" aria-current="page">Mis Propiedades</li>
+        <li class="breadcrumb-item"><a class="breadcrumb-custom" href="/">Inicio</a></li>
+        <li class="breadcrumb-item active breadcrumb-custom" aria-current="page">Mis Propiedades</li>
     </ol>
 </nav>
 <div class="container">
@@ -87,7 +87,8 @@
             <tbody>
             {% for property in properties %}
             <tr>
-                <td><img class='img-table'  src="propertiesimg/{{property._id.toString()}}/{{property._id.toString()}}_0.png"/> </td>
+                <td><img class='img-table'  src="propertiesimg/{{property._id.toString()}}/{{property._id.toString()}}_0.png"
+                         alt="Imagen de {{property.name}}"/> </td>
                 <td>{{ property.code }}</td>
                 <td>{{ property.name }}</td>
                 <td>{{ property.type }}</td>

@@ -14,7 +14,7 @@ body{
     color: white;
     text-align: center;
     padding-top: 1.5em;
-    margin-top: auto;
+    margin-top: 2em;
 }
 
 .btn-wishes {
@@ -304,6 +304,18 @@ button.custom-base-style:hover {
 .breadcrumb {
     background-color: white;
     border-radius: 0;
+}
+
+.breadcrumb-custom{
+    color: #224226;
+}
+
+.breadcrumb-custom.active{
+    font-weight: 600;
+}
+
+.breadcrumb-custom{
+    font-weight: 500;
 }
 
 .mini-header {

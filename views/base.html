@@ -84,7 +84,7 @@
 
 <div id="containerParent">
     <!-- Barra de Navegación superior -->
-    <nav class="navbar navbar-expand-lg navbar-dark custom-base-style">
+    <nav role="navigation" aria-label="Main" class="navbar navbar-expand-lg navbar-dark custom-base-style">
         <a class="link-logo navbar-brand" href="/">
             <img class="imgLogo" src="/img/arca.png" alt="logo"/>
         </a>
@@ -218,10 +218,10 @@
                     <!-- Modal body -->
                     <div class="modal-body">
                         <div class="form-group">
-                            <label class="control-label" for="password">Perderá toda la información almacenada en
+                            <label class="control-label" for="confirmPasswordDelete">Perderá toda la información almacenada en
                                 ella.</label>
                             <div class="col-sm-10">
-                                <input id="confirmPasswordDelete" id="password" type="password" class="form-control" name="password"
+                                <input id="confirmPasswordDelete" type="password" class="form-control" name="password"
                                        placeholder="Contraseña" required="true"/>
                             </div>
                         </div>
