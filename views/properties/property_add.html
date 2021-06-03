@@ -7,7 +7,8 @@
     </ol>
 </nav>
 <div class="container">
-    <h2 class="sectionHeader">¿Qué tipo de propiedad desea añadir?</h2>
+    <h1 class="sectionHeader">Añadir nueva Propiedad</h1>
+    <h2 class="sectionHeader" id="headerS">¿Qué tipo de propiedad desea añadir?</h2>
     <form id="addPropForm" class="form-horizontal" method="post" action="/properties/add" encType="multipart/form-data">
         <div class="progress">
             <div class="progress-bar progress-bar-striped progress-bar-animated bg-success" role="progressbar"
@@ -1043,7 +1044,7 @@
             }
 
             function setHeader(textI) {
-                $('.sectionHeader').text(textI);
+                $('#headerS').text(textI);
             }
 
             function adjustProgressBar(value) {

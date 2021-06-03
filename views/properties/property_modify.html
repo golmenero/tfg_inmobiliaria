@@ -16,7 +16,8 @@
 
 
 <div class="container">
-    <h2 class="sectionHeader">Edite la información de la propiedad.</h2>
+    <h1 class="sectionHeader">Editar Propiedad</h1>
+    <h2 class="sectionHeader"  id="headerS">Edite la información de la propiedad.</h2>
     <form id="editPropForm" class="form-horizontal" method="post" action="/properties/edit/{{property._id.toString()}}"
           encType="multipart/form-data">
 
@@ -1095,7 +1096,7 @@
             }
 
             function setHeader(textI) {
-                $('.sectionHeader').text(textI);
+                $('#headerS').text(textI);
             }
 
             function writeMap(address) {
