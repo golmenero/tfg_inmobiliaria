@@ -8,7 +8,7 @@
     </ol>
 </nav>
 <div class="container">
-    <h2 class="sectionHeader">Mis Seguimientos</h2>
+    <h1 class="sectionHeader">Mis Seguimientos</h1>
 
     <div class="table-responsive">
         <table class="table table-hover">
@@ -18,7 +18,8 @@
                 <th scope="col">Tipo</th>
                 <th scope="col">Tipo De Operación</th>
                 <th scope="col">Precio</th>
-                <th scope="col"></th>
+                <th scope="col" class="header-fixed">Ver Propiedad</th>
+                <th scope="col" class="header-fixed">Eliminar Propiedad</th>
             </tr>
             </thead>
             <tbody>
@@ -29,8 +30,10 @@
                 <td>{{ property.typeOp }}</td>
                 <td>{{ property.price }}</td>
                 <td>
-                    <a class="btn btn-danger float-right" href="/wishes/delete/{{ property._id.toString() }}"><span class="fas fa-trash"></span>Eliminar</a>
-                    <a class="btn-wishes btn btn-dark float-right" href="/properties/details/{{ property._id.toString() }}"><span
+                    <a class="btn btn-danger" href="/wishes/delete/{{ property._id.toString() }}"><span class="fas fa-trash"></span>Eliminar</a>
+                </td>
+                <td>
+                    <a class="btn-wishes btn btn-dark" href="/properties/details/{{ property._id.toString() }}"><span
                             class="far fa-eye"></span> Ver</a>
                 </td>
             </tr>

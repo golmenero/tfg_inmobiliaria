@@ -102,6 +102,48 @@
                     </div>
                 </div>
             </div>
+
+            <script>
+                // Mostrar el mapa al dejar de escribir la dirección
+                $('#address').focusout(function () {
+                    writeMap($('#address').val());
+                });
+
+                function writeMap(address) {
+                    $.get(location.protocol + '//nominatim.openstreetmap.org/search?format=json&q=' + address, function (data) {
+                        if (data[0] != undefined) {
+                            $('#divMapa').innerHTML = "";
+                            $('#divMapContainer').show();
+                            $('#errorMap').hide();
+                            let lattitude = data[0].lat;
+                            let longitude = data[0].lon;
+
+                            if (mapaLocal == null)
+                                mapaLocal = L.map('divMapa');
+                            else
+                                mapaLocal.removeLayer(marker);
+                            mapaLocal.setView([lattitude, longitude], 13);
+
+                            L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+                                attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
+                            }).addTo(mapaLocal);
+
+                            marker = L.marker([lattitude, longitude]);
+                            marker.addTo(mapaLocal);
+
+                        } else {
+                            $('#divMapContainer').hide();
+
+                            if ($('#address').val() != "")
+                                $('#errorMap').show();
+                            else
+                                $('#errorMap').hide();
+                        }
+                    });
+                }
+            </script>
+
+
             <div class="div-field form-row">
                 <label class="control-label col-sm-2" for="description">Descripción:</label>
                 <div class="col-sm-12">
@@ -118,6 +160,15 @@
                 </div>
             </div>
         </div>
+
+        <script>
+        function checkCheckBox(value){
+            if(value == "true")
+                return true;
+            else
+                return false;
+        }
+        </script>
 
         <!-- DATOS DE VIVIENDA ----------------------------------------------------------------------------------------------------------------------------------------------->
         {% if property.type == 'vivienda'%}
@@ -179,86 +230,56 @@
             </div>
             <div class="div-field form-row">
                 <div class="form-check col-sm-2">
-                    {% if property.garaje == true %}
                     <input type="checkbox" class="form-check-input" id="checkGaraje" name="checkGaraje" checked>
-                    {% else %}
-                    <input type="checkbox" class="form-check-input" name="checkGaraje">
-                    {% endif %}
                     <label class="form-check-label" for="checkGaraje">Garaje</label>
+                    <script> $('#checkGaraje').prop('checked', checkCheckBox('{{property.garaje}}')); </script>
                 </div>
                 <div class="form-check col-sm-2">
-                    {% if property.piscina == true %}
                     <input type="checkbox" class="form-check-input" id="checkPiscina" name="checkPiscina" checked>
-                    {% else %}
-                    <input type="checkbox" class="form-check-input" name="checkPiscina">
-                    {% endif %}
                     <label class="form-check-label" for="checkPiscina">Piscina</label>
+                    <script> $('#checkPiscina').prop('checked', checkCheckBox('{{property.piscina}}')); </script>
                 </div>
                 <div class="form-check col-sm-2">
-                    {% if property.terraza == true %}
                     <input type="checkbox" class="form-check-input" id="checkTerraza" name="checkTerraza" checked>
-                    {% else %}
-                    <input type="checkbox" class="form-check-input" name="checkTerraza">
-                    {% endif %}
                     <label class="form-check-label" for="checkTerraza">Terraza</label>
+                    <script> $('#checkTerraza').prop('checked', checkCheckBox('{{property.terraza}}')); </script>
                 </div>
                 <div class="form-check col-sm-2">
-                    {% if property.trastero == true %}
                     <input type="checkbox" class="form-check-input" id="checkTrastero" name="checkTrastero" checked>
-                    {% else %}
-                    <input type="checkbox" class="form-check-input" name="checkTrastero">
-                    {% endif %}
                     <label class="form-check-label" for="checkTrastero">Trastero</label>
+                    <script> $('#checkTrastero').prop('checked', checkCheckBox('{{property.trastero}}')); </script>
                 </div>
                 <div class="form-check col-sm-2">
-                    {% if property.jardin == true %}
                     <input type="checkbox" class="form-check-input" id="checkJardin" name="checkJardin" checked>
-                    {% else %}
-                    <input type="checkbox" class="form-check-input" name="checkJardin">
-                    {% endif %}
                     <label class="form-check-label" for="checkJardin">Jardín</label>
+                    <script> $('#checkJardin').prop('checked', checkCheckBox('{{property.jardin}}')); </script>
                 </div>
                 <div class="form-check col-sm-2">
-                    {% if property.ascensor == true %}
                     <input type="checkbox" class="form-check-input" id="checkAscensor" name="checkAscensor" checked>
-                    {% else %}
-                    <input type="checkbox" class="form-check-input" name="checkAscensor">
-                    {% endif %}
                     <label class="form-check-label" for="checkAscensor">Ascensor</label>
+                    <script> $('#checkAscensor').prop('checked', checkCheckBox('{{property.ascensor}}')); </script>
                 </div>
             </div>
             <div class="div-field form-row">
                 <div class="form-check col-sm-2">
-                    {% if property.calefaccion == true %}
                     <input type="checkbox" class="form-check-input" id="checkCalefaccion" name="checkCalefaccion" checked>
-                    {% else %}
-                    <input type="checkbox" class="form-check-input" name="checkCalefaccion">
-                    {% endif %}
                     <label class="form-check-label" for="checkCalefaccion">Calefacción</label>
+                    <script> $('#checkCalefaccion').prop('checked', checkCheckBox('{{property.calefaccion}}')); </script>
                 </div>
                 <div class="form-check col-sm-2">
-                    {% if property.aireAcon == true %}
                     <input type="checkbox" class="form-check-input" id="checkAireAcon" name="checkAireAcon" checked>
-                    {% else %}
-                    <input type="checkbox" class="form-check-input" name="checkAireAcon">
-                    {% endif %}
                     <label class="form-check-label" for="checkAireAcon">Aire Acondicionado</label>
+                    <script> $('#checkAireAcon').prop('checked', checkCheckBox('{{property.aireAcon}}')); </script>
                 </div>
                 <div class="form-check col-sm-2">
-                    {% if property.amueblado == true %}
                     <input type="checkbox" class="form-check-input" id="checkAmueblado" name="checkAmueblado" checked>
-                    {% else %}
-                    <input type="checkbox" class="form-check-input" name="checkAmueblado">
-                    {% endif %}
                     <label class="form-check-label" for="checkAmueblado">Amueblado</label>
+                    <script> $('#checkAmueblado').prop('checked', checkCheckBox('{{property.amueblado}}')); </script>
                 </div>
                 <div class="form-check col-sm-2">
-                    {% if property.animales == true %}
                     <input type="checkbox" class="form-check-input" id="checkAnimales" name="checkAnimales" checked>
-                    {% else %}
-                    <input type="checkbox" class="form-check-input" name="checkAnimales">
-                    {% endif %}
                     <label class="form-check-label" for="checkAnimales">Permite Animales</label>
+                    <script> $('#checkPiscina').prop('checked', checkCheckBox('{{property.animales}}')); </script>
                 </div>
             </div>
         </div>
@@ -308,61 +329,40 @@
             </div>
             <div class="div-field form-row">
                 <div class="form-check col-sm-2">
-                    {% if property.escaparate == true %}
                     <input type="checkbox" class="form-check-input" id="checkEscaparateLoc"  name="checkEscaparateLoc" checked>
-                    {% else %}
-                    <input type="checkbox" class="form-check-input" name="checkEscaparateLoc">
-                    {% endif %}
                     <label class="form-check-label" for="checkEscaparateLoc">Escaparate</label>
+                    <script> $('#checkEscaparateLoc').prop('checked', checkCheckBox('{{property.escaparate}}')); </script>
                 </div>
                 <div class="form-check col-sm-2">
-                    {% if property.aparcamiento == true %}
                     <input type="checkbox" class="form-check-input" id="checkAparcamientoLoc" name="checkAparcamientoLoc" checked>
-                    {% else %}
-                    <input type="checkbox" class="form-check-input" name="checkAparcamientoLoc">
-                    {% endif %}
                     <label class="form-check-label" for="checkAparcamientoLoc">Aparcamiento</label>
+                    <script> $('#checkAparcamientoLoc').prop('checked', checkCheckBox('{{property.aparcamiento}}')); </script>
                 </div>
                 <div class="form-check col-sm-2">
-                    {% if property.cargaYdescarga == true %}
                     <input type="checkbox" class="form-check-input" id="checkCargaYDescargaLoc" name="checkCargaYDescargaLoc" checked>
-                    {% else %}
-                    <input type="checkbox" class="form-check-input" name="checkCargaYDescargaLoc">
-                    {% endif %}
                     <label class="form-check-label" for="checkCargaYDescargaLoc">Carga y Descarga</label>
+                    <script> $('#checkCargaYDescargaLoc').prop('checked', checkCheckBox('{{property.cargaYdescarga}}')); </script>
                 </div>
                 <div class="form-check col-sm-2">
-                    {% if property.extintores == true %}
                     <input type="checkbox" class="form-check-input" id="checkExtintoresLoc" name="checkExtintoresLoc" checked>
-                    {% else %}
-                    <input type="checkbox" class="form-check-input" name="checkExtintoresLoc">
-                    {% endif %}
                     <label class="form-check-label" for="checkExtintoresLoc">Extintores</label>
+                    <script> $('#checkExtintoresLoc').prop('checked', checkCheckBox('{{property.extintores}}')); </script>
                 </div>
                 <div class="form-check col-sm-2">
-                    {% if property.iluminacion == true %}
                     <input type="checkbox" class="form-check-input" id="checkIluminacionLoc" name="checkIluminacionLoc" checked>
-                    {% else %}
-                    <input type="checkbox" class="form-check-input" name="checkIluminacionLoc">
-                    {% endif %}
                     <label class="form-check-label" for="checkIluminacionLoc">Iuminación</label>
+                    <script> $('#checkIluminacionLoc').prop('checked', checkCheckBox('{{property.iluminacion}}')); </script>
                 </div>
             </div>
             <div class="div-field form-row">
                 <div class="form-check col-sm-2">
-                    {% if property.calefaccion == true %}
                     <input type="checkbox" class="form-check-input" id="checkCalefaccionLoc" name="checkCalefaccionLoc" checked>
-                    {% else %}
-                    <input type="checkbox" class="form-check-input" name="checkCalefaccionLoc">
-                    {% endif %}
+                    <script> $('#checkCalefaccionLoc').prop('checked', checkCheckBox('{{property.calefaccion}}')); </script>
                     <label class="form-check-label" for="checkCalefaccionLoc">Calefacción</label>
                 </div>
                 <div class="form-check col-sm-2">
-                    {% if property.aireAcon == true %}
                     <input type="checkbox" class="form-check-input" id="checkAireAconLoc" name="checkAireAconLoc" checked>
-                    {% else %}
-                    <input type="checkbox" class="form-check-input" name="checkAireAconLoc">
-                    {% endif %}
+                    <script> $('#checkAireAconLoc').prop('checked', checkCheckBox('{{property.aireAcon}}')); </script>
                     <label class="form-check-label" for="checkAireAconLoc">Aire Acondicionado</label>
                 </div>
             </div>
@@ -407,20 +407,14 @@
             </div>
             <div class="div-field form-row">
                 <div class="form-check col-sm-3">
-                    {% if property.accesoAgua == true %}
                     <input type="checkbox" class="form-check-input" id="accesoAguaSue" name="accesoAguaSue" checked>
-                    {% else %}
-                    <input type="checkbox" class="form-check-input" name="accesoAguaSue">
-                    {% endif %}
                     <label class="form-check-label" for="accesoAguaSue">Acceso a Agua</label>
+                    <script> $('#checkAccesoAguaSue').prop('checked', checkCheckBox('{{property.accesoAgua}}')); </script>
                 </div>
                 <div class="form-check col-sm-3">
-                    {% if property.accesoLuz == true %}
                     <input type="checkbox" class="form-check-input" id="accesoLuzSue" name="accesoLuzSue" checked>
-                    {% else %}
-                    <input type="checkbox" class="form-check-input" name="accesoLuzSue">
-                    {% endif %}
                     <label class="form-check-label" for="accesoLuzSue">Acceso a Luz</label>
+                    <script> $('#checkAccesoLuzSue').prop('checked', checkCheckBox('{{property.accesoLuz}}')); </script>
                 </div>
             </div>
         </div>
@@ -508,6 +502,7 @@
             </div>
         </div>
         <div id="divPictures" style="display: none;">
+            <label class="control-label" for="imginmueble">Nuevas imágenes:</label>
             <input type="file" class="input-img form-control" name='imginmueble' id="imginmueble" multiple>
             <div class="div-field form-row">
                 <div class="col-sm-6">
@@ -528,13 +523,13 @@
         <div id="divCommonOverview" style="display: none;">
             <div class="noBorder card">
                 <div class="headerButtonOverview card-header" id="headingOne">
-                    <h5 class="mb-0">
+                    <h3 class="mb-0">
                         <button type="button" class="buttonOverview btn custom-base-style" data-toggle="collapse"
                                 data-target="#propertyCollapse"
                                 aria-expanded="true" aria-controls="propertyCollapse">
                             <h2>Datos de la Propiedad</h2>
                         </button>
-                    </h5>
+                    </h3>
                 </div>
                 <div id="propertyCollapse" class="collapse show" aria-labelledby="headingOne" data-parent="#accordion">
                     <!-- RESUMEN FINAL - VIVIENDA --------------------------------------------------------------------------------------------------------------------------------------->
@@ -706,13 +701,13 @@
             </div>
             <div class="noBorder card">
                 <div class="headerButtonOverview buttonOverview card-header" id="headingTwo">
-                    <h5 class="mb-0">
+                    <h3 class="mb-0">
                         <button type="button" class="buttonOverview btn custom-base-style" data-toggle="collapse"
                                 data-target="#ownerCollapse"
                                 aria-expanded="true" aria-controls="ownerCollapse">
                             <h2>Datos del Propietario</h2>
                         </button>
-                    </h5>
+                    </h3>
                 </div>
                 <div id="ownerCollapse" class="collapse show" aria-labelledby="headingTwo" data-parent="#accordion">
                     <!-- RESUMEN FINAL - PROPIETARIO ------------------------------------------------------------------------------------------------------------------------------------->
@@ -763,11 +758,6 @@
             let owner = null;
 
             $(document).ready(writeMap($('#address').val()));
-
-            // Mostrar el mapa al dejar de escribir la dirección
-            $('#address').focusout(function () {
-                writeMap($('#address').val());
-            });
 
             // PASO DE FASE 1 (Propiedades) A FASE 2 (Propietario)
             $('#btnPropertiesS').on('click', function () {
@@ -1097,39 +1087,6 @@
 
             function setHeader(textI) {
                 $('#headerS').text(textI);
-            }
-
-            function writeMap(address) {
-                $.get(location.protocol + '//nominatim.openstreetmap.org/search?format=json&q=' + address, function (data) {
-                    if (data[0] != undefined) {
-                        $('#divMapa').innerHTML = "";
-                        $('#divMapContainer').show();
-                        $('#errorMap').hide();
-                        let lattitude = data[0].lat;
-                        let longitude = data[0].lon;
-
-                        if (mapaLocal == null)
-                            mapaLocal = L.map('divMapa');
-                        else
-                            mapaLocal.removeLayer(marker);
-                        mapaLocal.setView([lattitude, longitude], 13);
-
-                        L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
-                            attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
-                        }).addTo(mapaLocal);
-
-                        marker = L.marker([lattitude, longitude]);
-                        marker.addTo(mapaLocal);
-
-                    } else {
-                        $('#divMapContainer').hide();
-
-                        if ($('#address').val() != "")
-                            $('#errorMap').show();
-                        else
-                            $('#errorMap').hide();
-                    }
-                });
             }
 
             function checkProperty(name) {

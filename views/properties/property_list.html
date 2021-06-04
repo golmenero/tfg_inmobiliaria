@@ -12,15 +12,15 @@
     <h1 class="sectionHeader">Propiedades Disponibles</h1>
 
     <div class="headerButtonOverview card-header">
-        <h5 class="mb-0">
+        <h2 class="mb-0">
             <button id="btnExpandFilter" type="button" class="buttonOverview btn custom-base-style" data-toggle="collapse"
                     data-target="#propertyFilter"
                     aria-expanded="false" aria-controls="propertyFilter">
                 <span class="fas fa-search"></span><span class="font-weight-bold">Filtro de Propiedades</span>
             </button>
-        </h5>
+        </h2>
     </div>
-    <div id="propertyFilter" class="collapse" aria-labelledby="headingOne" data-parent="#accordion">
+    <div id="propertyFilter" class="collapse"  data-parent="#accordion">
         <div class="filter-collapse card-body">
             <form class="form-horizontal" method="get" action="/properties/{{typeProp}}">
                 <div class="form-row">
@@ -37,9 +37,9 @@
                         </div>
                     </div>
                     <div class="form-group col-9">
-                        <label class="control-label">Nombre:</label>
+                        <label class="control-label" for="name">Nombre:</label>
                         <div>
-                            <input type="text" class="form-control" name="name"
+                            <input type="text" class="form-control" id="name" name="name"
                                    placeholder="Ej. Chalet con Piscina en el Centro"/>
                         </div>
                     </div>
@@ -49,41 +49,41 @@
                     <div class="form-group col-4">
                         <label class="control-label" for="address">Dirección (Solo Calle y Portal):</label>
                         <div>
-                            <input id='address' type="text" class="form-control" name="address"
+                            <input id='address' type="text" class="form-control" id="address" name="address"
                                    placeholder="Ej. Avenida/Portal/Escalera/Piso"/>
                         </div>
                     </div>
                     <div class="form-group col-4">
                         <label class="control-label" for="city">Población/Ciudad:</label>
                         <div>
-                            <input id='city' type="text" class="form-control" name="city"
+                            <input id='city' type="text" class="form-control" id="city" name="city"
                                    placeholder="Ej. Oviedo"/>
                         </div>
                     </div>
                     <div class="form-group col-sm-2">
-                        <label class="control-label">Piso Mínimo:</label>
+                        <label class="control-label"  for="floorMin">Piso Mínimo:</label>
                         <div>
-                            <input type="number" class="form-control" name="floorMin" placeholder="Ej. 1"/>
+                            <input type="number" class="form-control" id="floorMin" name="floorMin" placeholder="Ej. 1"/>
                         </div>
                     </div>
                     <div class="form-group col-sm-2">
-                        <label class="control-label">Piso Máximo:</label>
+                        <label class="control-label" for="floorMax">Piso Máximo:</label>
                         <div>
-                            <input type="number" class="form-control" name="floorMax" placeholder="Ej. 1"/>
+                            <input type="number" class="form-control" id="floorMax" name="floorMax" placeholder="Ej. 1"/>
                         </div>
                     </div>
                 </div>
                 <div class=" form-row">
                     <div class="form-group col-sm-2">
-                        <label class="control-label">Superf. Mín.(m²):</label>
+                        <label class="control-label" for="areaMin">Superf. Mín.(m²):</label>
                         <div>
-                            <input type="number" class="form-control" name="areaMin" placeholder="Ej. 1"/>
+                            <input type="number" class="form-control" id="areaMin" name="areaMin" placeholder="Ej. 1"/>
                         </div>
                     </div>
                     <div class="form-group col-sm-2">
-                        <label class="control-label">Superf. Max.(m²):</label>
+                        <label class="control-label" for="areaMax">Superf. Max.(m²):</label>
                         <div>
-                            <input type="number" class="form-control" name="areaMax" placeholder="Ej. 1"/>
+                            <input type="number" class="form-control" id="areaMax" name="areaMax" placeholder="Ej. 1"/>
                         </div>
                     </div>
                     <div class="form-group col-sm-2">
@@ -123,60 +123,60 @@
                     <div class="form-group col-sm-2">
                         <label class="control-label" for="priceMax">Precio Máximo:</label>
                         <div>
-                            <input id='priceMax' type="text" class="form-control" name="priceMax"
+                            <input id='priceMax' type="text" class="form-control" id="priceMax" name="priceMax"
                                    placeholder="Ej. 1000"/>
                         </div>
                     </div>
                     <div class="form-group col-sm-2">
                         <label class="control-label" for="priceMin">Precio Mínimo:</label>
                         <div>
-                            <input id='priceMin' type="text" class="form-control" name="priceMin"
+                            <input id='priceMin' type="text" class="form-control" id="priceMin"name="priceMin"
                                    placeholder="Ej. 100"/>
                         </div>
                     </div>
                 </div>
                 <div class=" form-row">
                     <div class="form-check col-sm-2">
-                        <input type="checkbox" class="form-check-input" name="checkGaraje">
-                        <label class="form-check-label">Garaje</label>
+                        <input type="checkbox" class="form-check-input" id="checkGaraje" name="checkGaraje">
+                        <label class="form-check-label" for="checkGaraje">Garaje</label>
                     </div>
                     <div class="form-check col-sm-2">
-                        <input type="checkbox" class="form-check-input" name="checkPiscina">
-                        <label class="form-check-label">Piscina</label>
+                        <input type="checkbox" class="form-check-input" id="checkPiscina" name="checkPiscina">
+                        <label class="form-check-label" for="checkPiscina">Piscina</label>
                     </div>
                     <div class="form-check col-sm-2">
-                        <input type="checkbox" class="form-check-input" name="checkTerraza">
-                        <label class="form-check-label">Terraza</label>
+                        <input type="checkbox" class="form-check-input" id="checkTerraza" name="checkTerraza">
+                        <label class="form-check-label" for="checkTerraza">Terraza</label>
                     </div>
                     <div class="form-check col-sm-2">
-                        <input type="checkbox" class="form-check-input" name="checkTrastero">
-                        <label class="form-check-label">Trastero</label>
+                        <input type="checkbox" class="form-check-input" id="checkTrastero" name="checkTrastero">
+                        <label class="form-check-label" for="checkTrastero">Trastero</label>
                     </div>
                     <div class="form-check col-sm-2">
-                        <input type="checkbox" class="form-check-input" name="checkJardin">
-                        <label class="form-check-label">Jardín</label>
+                        <input type="checkbox" class="form-check-input" id="checkJardin" name="checkJardin">
+                        <label class="form-check-label" for="checkJardin">Jardín</label>
                     </div>
                     <div class="form-check col-sm-2">
-                        <input type="checkbox" class="form-check-input" name="checkAscensor">
-                        <label class="form-check-label">Ascensor</label>
+                        <input type="checkbox" class="form-check-input" id="checkAscensor" name="checkAscensor">
+                        <label class="form-check-label" for="checkAscensor">Ascensor</label>
                     </div>
                 </div>
                 <div class=" form-row">
                     <div class="form-check col-sm-2">
-                        <input type="checkbox" class="form-check-input" name="checkCalefaccion">
-                        <label class="form-check-label">Calefacción</label>
+                        <input type="checkbox" class="form-check-input" id="checkCalefaccion" name="checkCalefaccion">
+                        <label class="form-check-label" for="checkCalefaccion">Calefacción</label>
                     </div>
                     <div class="form-check col-sm-2">
-                        <input type="checkbox" class="form-check-input" name="checkAmueblado">
-                        <label class="form-check-label">Amueblado</label>
+                        <input type="checkbox" class="form-check-input" id="checkAmueblado" name="checkAmueblado">
+                        <label class="form-check-label" for="checkAmueblado">Amueblado</label>
                     </div>
                     <div class="form-check col-sm-2">
-                        <input type="checkbox" class="form-check-input" name="checkAnimales">
-                        <label class="form-check-label">Permite Animales</label>
+                        <input type="checkbox" class="form-check-input" id="checkAnimales" name="checkAnimales">
+                        <label class="form-check-label" for="checkAnimales">Permite Animales</label>
                     </div>
                     <div class="form-check col-sm-3">
-                        <input type="checkbox" class="form-check-input" name="checkAireAcon">
-                        <label class="form-check-label">Aire Acondicionado</label>
+                        <input type="checkbox" class="form-check-input" id="checkAireAcon" name="checkAireAcon">
+                        <label class="form-check-label" for="checkAireAcon">Aire Acondicionado</label>
                     </div>
                 </div>
                 {% endif %}
@@ -185,41 +185,41 @@
                     <div class="form-group col-6">
                         <label class="control-label" for="addressLoc">Dirección (Solo Calle y Portal):</label>
                         <div>
-                            <input id='addressLoc' type="text" class="form-control" name="addressLoc"
+                            <input id='addressLoc' type="text" class="form-control" id="addressLoc" name="addressLoc"
                                    placeholder="Ej. Avenida/Portal/Escalera/Piso"/>
                         </div>
                     </div>
                     <div class="form-group col-6">
                         <label class="control-label" for="cityLoc">Población/Ciudad:</label>
                         <div>
-                            <input id='cityLoc' type="text" class="form-control" name="cityLoc"
+                            <input id='cityLoc' type="text" class="form-control"  name="cityLoc"
                                    placeholder="Ej. Oviedo"/>
                         </div>
                     </div>
                 </div>
                 <div class=" form-row">
                     <div class="form-group col-sm-3">
-                        <label class="control-label">Superf. Mín. (m²):</label>
+                        <label class="control-label" for="areaMinLoc">Superf. Mín. (m²):</label>
                         <div>
-                            <input type="number" class="form-control" name="areaMinLoc" placeholder="Ej. 1"/>
+                            <input type="number" class="form-control" id="areaMinLoc" name="areaMinLoc" placeholder="Ej. 1"/>
                         </div>
                     </div>
                     <div class="form-group col-sm-3">
-                        <label class="control-label">Superf. Max. (m²):</label>
+                        <label class="control-label" for="areaMaxLoc">Superf. Max. (m²):</label>
                         <div>
-                            <input type="number" class="form-control" name="areaMaxLoc" placeholder="Ej. 1"/>
+                            <input type="number" class="form-control" id="areaMaxLoc" name="areaMaxLoc" placeholder="Ej. 1"/>
                         </div>
                     </div>
                     <div class="form-group col-sm-3">
-                        <label class="control-label">Piso Mínimo:</label>
+                        <label class="control-label" for="floorMinLoc">Piso Mínimo:</label>
                         <div>
-                            <input type="number" class="form-control" name="floorMinLoc" placeholder="Ej. 1"/>
+                            <input type="number" class="form-control" id="floorMinLoc" name="floorMinLoc" placeholder="Ej. 1"/>
                         </div>
                     </div>
                     <div class="form-group col-sm-3">
-                        <label class="control-label">Piso Máximo:</label>
+                        <label class="control-label" for="floorMaxLoc">Piso Máximo:</label>
                         <div>
-                            <input type="number" class="form-control" name="floorMaxLoc" placeholder="Ej. 1"/>
+                            <input type="number" class="form-control" id="floorMaxLoc" name="floorMaxLoc" placeholder="Ej. 1"/>
                         </div>
                     </div>
                 </div>
@@ -242,48 +242,48 @@
                         </div>
                     </div>
                     <div class="form-group col-sm-4">
-                        <label class="control-label">Precio Mínimo:</label>
+                        <label class="control-label" for="priceMinLoc">Precio Mínimo:</label>
                         <div>
-                            <input type="number" class="form-control" name="priceMinLoc" placeholder="Ej. 1"/>
+                            <input type="number" class="form-control" id="priceMinLoc" name="priceMinLoc" placeholder="Ej. 1"/>
                         </div>
                     </div>
                     <div class="form-group col-sm-4">
-                        <label class="control-label">Precio Máximo:</label>
+                        <label class="control-label" for="priceMaxLoc">Precio Máximo:</label>
                         <div>
-                            <input type="number" class="form-control" name="priceMaxLoc" placeholder="Ej. 1"/>
+                            <input type="number" class="form-control" id="priceMaxLoc" name="priceMaxLoc" placeholder="Ej. 1"/>
                         </div>
                     </div>
                 </div>
                 <div class=" form-row">
                     <div class="form-check col-sm-3">
-                        <input type="checkbox" class="form-check-input" name="checkEscaparateLoc">
-                        <label class="form-check-label">Escaparate</label>
+                        <input type="checkbox" class="form-check-input" id="checkEscaparateLoc" name="checkEscaparateLoc">
+                        <label class="form-check-label" for="checkEscaparateLoc">Escaparate</label>
                     </div>
                     <div class="form-check col-sm-3">
-                        <input type="checkbox" class="form-check-input" name="checkAparcamientoLoc">
-                        <label class="form-check-label">Aparcamiento</label>
+                        <input type="checkbox" class="form-check-input" id="checkAparcamientoLoc" name="checkAparcamientoLoc">
+                        <label class="form-check-label" for="checkAparcamientoLoc" >Aparcamiento</label>
                     </div>
                     <div class="form-check col-sm-3">
-                        <input type="checkbox" class="form-check-input" name="checkIluminacionLoc">
-                        <label class="form-check-label">Iluminación</label>
+                        <input type="checkbox" class="form-check-input" id="checkIluminacionLoc" name="checkIluminacionLoc">
+                        <label class="form-check-label" for="checkIluminacionLoc">Iluminación</label>
                     </div>
                     <div class="form-check col-sm-3">
-                        <input type="checkbox" class="form-check-input" name="checkExtintoresLoc">
-                        <label class="form-check-label">Extintores</label>
+                        <input type="checkbox" class="form-check-input" id="checkExtintoresLoc" name="checkExtintoresLoc">
+                        <label class="form-check-label" for="checkExtintoresLoc">Extintores</label>
                     </div>
                 </div>
                 <div class=" form-row">
                     <div class="form-check col-sm-3">
-                        <input type="checkbox" class="form-check-input" name="checkCargaYDescargaLoc">
-                        <label class="form-check-label">Carga Y Descarga</label>
+                        <input type="checkbox" class="form-check-input" id="checkCargaYDescargaLoc" name="checkCargaYDescargaLoc">
+                        <label class="form-check-label" for="checkCargaYDescargaLoc">Carga Y Descarga</label>
                     </div>
                     <div class="form-check col-sm-3">
-                        <input type="checkbox" class="form-check-input" name="checkCalefaccionLoc">
-                        <label class="form-check-label">Calefacción</label>
+                        <input type="checkbox" class="form-check-input" id="checkCalefaccionLoc" name="checkCalefaccionLoc">
+                        <label class="form-check-label" for="checkCalefaccionLoc">Calefacción</label>
                     </div>
                     <div class="form-check col-sm-3">
-                        <input type="checkbox" class="form-check-input" name="checkAireAconLoc">
-                        <label class="form-check-label">Aire Acondicionado</label>
+                        <input type="checkbox" class="form-check-input" id="checkAireAconLoc" name="checkAireAconLoc">
+                        <label class="form-check-label" for="checkAireAconLoc">Aire Acondicionado</label>
                     </div>
                 </div>
                 {% endif %}
@@ -320,38 +320,38 @@
                 </div>
                 <div class=" form-row">
                     <div class="form-group col-sm-3">
-                        <label class="control-label">Superf. Mín.(m²):</label>
+                        <label class="control-label" for="areaMinSue">Superf. Mín.(m²):</label>
                         <div>
-                            <input type="number" class="form-control" name="areaMinSue" placeholder="Ej. 1"/>
+                            <input type="number" class="form-control" id="areaMinSue" name="areaMinSue" placeholder="Ej. 1"/>
                         </div>
                     </div>
                     <div class="form-group col-sm-3">
-                        <label class="control-label">Superf. Max.(m²):</label>
+                        <label class="control-label" for="areaMaxSue">Superf. Max.(m²):</label>
                         <div>
-                            <input type="number" class="form-control" name="areaMaxSue" placeholder="Ej. 1"/>
+                            <input type="number" class="form-control" id="areaMaxSue" name="areaMaxSue" placeholder="Ej. 1"/>
                         </div>
                     </div>
                     <div class="form-group col-sm-3">
-                        <label class="control-label">Superf. Edif. Mín.(m²):</label>
+                        <label class="control-label" for="areaEdifMinSue">Superf. Edif. Mín.(m²):</label>
                         <div>
-                            <input type="number" class="form-control" name="areaEdifMinSue" placeholder="Ej. 1"/>
+                            <input type="number" id="areaEdifMinSue" class="form-control" name="areaEdifMinSue" placeholder="Ej. 1"/>
                         </div>
                     </div>
                     <div class="form-group col-sm-3">
-                        <label class="control-label">Superf. Edif. Max.(m²):</label>
+                        <label class="control-label" for="areaEdifMaxSue">Superf. Edif. Max.(m²):</label>
                         <div>
-                            <input type="number" class="form-control" name="areaEdifMaxSue" placeholder="Ej. 1"/>
+                            <input type="number" class="form-control" id="areaEdifMaxSue" name="areaEdifMaxSue" placeholder="Ej. 1"/>
                         </div>
                     </div>
                 </div>
                 <div class=" form-row">
                     <div class="form-check col-sm-3">
-                        <input type="checkbox" class="form-check-input" name="checkAccesoAguaSue">
-                        <label class="form-check-label">Acceso a Agua</label>
+                        <input type="checkbox" class="form-check-input" id="checkAccesoAguaSue" name="checkAccesoAguaSue">
+                        <label class="form-check-label" for="checkAccesoAguaSue">Acceso a Agua</label>
                     </div>
                     <div class="form-check col-sm-3">
-                        <input type="checkbox" class="form-check-input" name="checkAccesoLuzSue">
-                        <label class="form-check-label">Acceso a Luz</label>
+                        <input type="checkbox" class="form-check-input" id="checkAccesoLuzSue"  name="checkAccesoLuzSue">
+                        <label class="form-check-label" for="checkAccesoLuzSue">Acceso a Luz</label>
                     </div>
                 </div>
                 {% endif %}
@@ -367,7 +367,7 @@
     {% for property in properties %}
     <div class="displayDiv row">
         <div class="col-3">
-            <img class='imgLogo' src="/propertiesimg/{{ property._id.toString() }}/{{ property._id.toString() }}_0.png" alt="Imagen de la propiedad"/>
+            <img class='imgLogo' src="/propertiesimg/{{ property._id.toString() }}/{{ property._id.toString() }}_0.png" alt="Imagen de {{property.name}}"/>
         </div>
         <div class="col-9">
             <a class="displayProperty" id="displayProperty" href="/properties/details/{{ property._id.toString() }}">
@@ -391,7 +391,7 @@
                 </div>
 
                 <div class="row">
-                    <h4>{{ property.name }}</h4>
+                    <h3>{{ property.name }}</h3>
                 </div>
                 <div class="row">
                     {% if property.type == 'vivienda' %}
@@ -413,7 +413,7 @@
                     <p class="truncate">{{property.description}}</p>
                 </div>
                 <div class="row float-right">
-                    <h5 class="displayPrice">Precio: {{ property.price }} €</h5>
+                    <h4 class="displayPrice">Precio: {{ property.price }} €</h4>
                 </div>
             </a>
             {% if user.permission == 'U' %}

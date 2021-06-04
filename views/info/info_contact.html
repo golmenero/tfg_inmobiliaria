@@ -37,15 +37,15 @@
 
     {% if user.permission == 'S' %}
     <div class="headerButtonOverview card-header">
-        <h5 class="mb-0">
+        <h2 class="mb-0">
             <button id="btnEditarContacto" type="button" class="buttonOverview btn custom-base-style" data-toggle="collapse"
                     data-target="#editInfo"
                     aria-expanded="false" aria-controls="propertyFilter">
                 <span class="fas fa-search"></span><span class="font-weight-bold">Editar Info de Contacto</span>
             </button>
-        </h5>
+        </h2>
     </div>
-    <div id="editInfo" class="collapse" aria-labelledby="headingOne" data-parent="#accordion">
+    <div id="editInfo" class="collapse" data-parent="#accordion">
         <div class="filter-collapse card-body">
             <form class="form-horizontal" method="post" action="/info/contact/edit">
                 <div class="div-field form-row">
@@ -56,9 +56,9 @@
                     </div>
                 </div>
                 <div class="div-field form-row">
-                    <label class="control-label" id="emails" for="emails">E-Mails, separados por comas:</label>
+                    <label class="control-label" for="emails">E-Mails, separados por comas:</label>
                     <div class="col-sm-12">
-                    <textarea class="form-control" name="emails" maxlength="255"
+                    <textarea class="form-control" id="emails" name="emails" maxlength="255"
                               rows="3"></textarea>
                     </div>
                 </div>

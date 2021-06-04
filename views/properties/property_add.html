@@ -25,7 +25,7 @@
         <div id="divAddOptions">
             <a class="propAddLink row" id="displayVivienda">
                 <div class="col-2 float-left">
-                    <img class='imgLogo' src="/img/icons/house.png" alt="logo"/>
+                    <img class='imgLogo' src="/img/icons/house.png" alt="Seleccion de Tipo Vivienda"/>
                 </div>
                 <div class="col-9">
                     <h3>Vivienda</h3>
@@ -35,7 +35,7 @@
             </a>
             <a class="propAddLink row" id="displayLocal">
                 <div class="col-2 float-left">
-                    <img class='imgLogo' src="/img/icons/local.png" alt="logo"/>
+                    <img class='imgLogo' src="/img/icons/local.png" alt="Seleccion de Tipo Local"/>
                 </div>
                 <div class="col-9">
                     <h3>Local</h3>
@@ -45,7 +45,7 @@
             </a>
             <a class="propAddLink row" id="displaySuelo">
                 <div class="col-2 float-left">
-                    <img class='imgLogo' src="/img/icons/suelo.png" alt="logo"/>
+                    <img class='imgLogo' src="/img/icons/suelo.png" alt="Seleccion de Tipo Suelo"/>
                 </div>
                 <div class="col-9">
                     <h3>Suelo</h3>
@@ -445,6 +445,7 @@
             </div>
         </div>
         <div id="divPictures" style="display: none;">
+            <label class="control-label" for="imginmueble">Introduzca las imágenes:</label>
             <input type="file" class="input-img form-control" name='imginmueble' id="imginmueble" multiple>
             <div class="div-field form-row">
                 <div class="col-sm-6">
@@ -465,13 +466,13 @@
         <div id="divCommonOverview" style="display: none;">
             <div class="noBorder card">
                 <div class="headerButtonOverview card-header" id="headingOne">
-                    <h5 class="mb-0">
+                    <h3 class="mb-0">
                         <button type="button" class="buttonOverview btn custom-base-style" data-toggle="collapse"
                                 data-target="#propertyCollapse"
                                 aria-expanded="true" aria-controls="propertyCollapse">
                             <h4>Datos de la Propiedad</h4>
                         </button>
-                    </h5>
+                    </h3>
                 </div>
                 <div id="propertyCollapse" class="collapse show" aria-labelledby="headingOne" data-parent="#accordion">
                     <!-- RESUMEN FINAL - VIVIENDA --------------------------------------------------------------------------------------------------------------------------------------->
@@ -643,13 +644,13 @@
             </div>
             <div class="noBorder card">
                 <div class="headerButtonOverview buttonOverview card-header" id="headingTwo">
-                    <h5 class="mb-0">
+                    <h3 class="mb-0">
                         <button type="button" class="buttonOverview btn custom-base-style" data-toggle="collapse"
                                 data-target="#ownerCollapse"
                                 aria-expanded="true" aria-controls="ownerCollapse">
                             <h4>Datos del Propietario</h4>
                         </button>
-                    </h5>
+                    </h3>
                 </div>
                 <div id="ownerCollapse" class="collapse show" aria-labelledby="headingTwo" data-parent="#accordion">
                     <!-- RESUMEN FINAL - PROPIETARIO ------------------------------------------------------------------------------------------------------------------------------------->

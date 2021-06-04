@@ -39,30 +39,30 @@
 <div class="container">
     <h1 class="sectionHeader">Detalles de {{property.name}}</h1>
     {% if user.permission == 'A' || user.permission == 'S' %}
-    <h3 class="sectionHeader">Código: {{property.code}}</h3>
+    <h2 class="sectionHeader">Código: {{property.code}}</h2>
     {% endif %}
 
     <!-- DATOS DE PROPIETARIO -->
     {% if user.permission == 'A' || user.permission == 'S' %}
     <div class="div-field-bottom noBorder card">
         <div class="headerButtonOverview card-header">
-            <h5 class="mb-0">
+            <h2 class="mb-0">
                 <button id="btnDatosPropietario" type="button" class="buttonOverview btn custom-base-style" data-toggle="collapse"
                         data-target="#ownerDetails"
                         aria-expanded="false" aria-controls="ownerDetails">
                     Datos del Propietario
                 </button>
-            </h5>
+            </h2>
         </div>
 
         <div id="ownerDetails" class="collapse" aria-labelledby="headingOne" data-parent="#accordion">
             <div class="card-body">
                 <div class="row">
                     <div class="col-12">
-                        <h5>Nombre del Propietario: {{property.owner.name}} {{property.owner.surname}}<small
+                        <h2>Nombre del Propietario: {{property.owner.name}} {{property.owner.surname}}<small
                                 class="text-muted"> - DNI/NIF/NIE:
                             {{property.owner.dni}}</small>
-                        </h5>
+                        </h2>
                     </div>
                 </div>
                 <div class="row col-12">
@@ -83,11 +83,11 @@
 
     <div class="row">
         <div class="col-8">
-            <h4>Precio de {{property.typeOp}}: {{property.price}} €
+            <h2>Precio de {{property.typeOp}}: {{property.price}} €
                 {% if property.type == 'vivienda' || property.type == 'local' %}<small class="text-muted"> +
                     {{property.priceCom}} € de Gastos de Comunidad</small>
                 {% endif %}
-            </h4>
+            </h2>
         </div>
         {% if user.permission == 'U' %}
         <div class="d-inline-block col-4">
@@ -119,19 +119,19 @@
             <p class="div-field"> {{property.description}}</p>
         </div>
     </div>
-    <div class="row">
+    <div class="row spaced-field">
         {% if property.type == 'vivienda' || property.type == 'local' %}
         <div class="col-6">
-            <p><span class="font-weight-bold"> Dirección: </span> {{property.address}}</p>
+            <h3><span class="font-weight-bold"> Dirección: </span> {{property.address}}</h3>
         </div>
         {% endif %}
         {% if property.type == 'suelo' %}
         <div class="col-6">
-            <p><span class="font-weight-bold"> Situacion: </span> {{property.situation}}</p>
+            <h3><span class="font-weight-bold"> Situacion: </span> {{property.situation}}</h3>
         </div>
         {% endif %}
         <div class="col-6">
-            <p><span class="font-weight-bold"> Población/Ciudad: </span> {{property.city}}</p>
+            <h3><span class="font-weight-bold"> Población/Ciudad: </span> {{property.city}}</h3>
         </div>
     </div>
     <div class="div-field row ">
@@ -141,7 +141,7 @@
                 <span class="fa-3x fas fa-building"> </span>
             </div>
             <div class="row field-icon">
-                <h5>{{property.floor}} Piso</h5>
+                <h4>{{property.floor}} Piso</h4>
             </div>
         </div>
         <div class="col-3">
@@ -149,7 +149,7 @@
                 <span class="fa-3x fas fa-ruler-combined"></span>
             </div>
             <div class="row field-icon">
-                <h5>{{property.area}} m²</h5>
+                <h4>{{property.area}} m²</h4>
             </div>
         </div>
         <div class="col-3">
@@ -157,7 +157,7 @@
                 <span class="fa-3x fas fa-bed"></span>
             </div>
             <div class="row field-icon">
-                <h5>{{property.numHabs}} Habs.</h5>
+                <h4>{{property.numHabs}} Habs.</h4>
             </div>
         </div>
         <div class="col-3">
@@ -165,7 +165,7 @@
                 <span class="fa-3x fas fa-toilet"></span>
             </div>
             <div class="row field-icon">
-                <h5>{{property.numBan}} Baños</h5>
+                <h4>{{property.numBan}} Baños</h4>
             </div>
         </div>
         {% endif %}
@@ -175,7 +175,7 @@
                 <span class="fa-3x fas fa-building"> </span>
             </div>
             <div class="row field-icon">
-                <h5>{{property.floor}} Piso</h5>
+                <h4>{{property.floor}} Piso</h4>
             </div>
         </div>
         <div class="col-4">
@@ -183,7 +183,7 @@
                 <span class="fa-3x fas fa-ruler-combined"></span>
             </div>
             <div class="row field-icon">
-                <h5>{{property.area}} m²</h5>
+                <h4>{{property.area}} m²</h4>
             </div>
         </div>
         <div class="col-4">
@@ -191,7 +191,7 @@
                 <span class="fa-3x fas fa-toilet"></span>
             </div>
             <div class="row field-icon">
-                <h5>{{property.numAseos}} Aseos</h5>
+                <h4>{{property.numAseos}} Aseos</h4>
             </div>
         </div>
         {% endif %}
@@ -201,7 +201,7 @@
                 <span class="fa-3x fas fa-ruler-combined"></span>
             </div>
             <div class="row field-icon">
-                <h5>{{property.area}} m²</h5>
+                <h4>{{property.area}} m²</h4>
             </div>
         </div>
         <div class="col-6">
@@ -209,7 +209,7 @@
                 <span class="fa-3x fas fa-hammer"></span>
             </div>
             <div class="row field-icon">
-                <h5>{{property.edifArea}} Area Edificable</h5>
+                <h4>{{property.edifArea}} Area Edificable</h4>
             </div>
         </div>
         {% endif %}
@@ -226,7 +226,7 @@
         </div>
     </div>
 
-    <h3 class="sectionHeader">Otras Características</h3>
+    <h4 class="sectionHeader">Otras Características</h4>
 
     {% if property.type == 'vivienda' %}
     <div class="div-field row ">
@@ -237,7 +237,7 @@
                 <span class="fa-2x fas fa-car"> </span>
             </div>
             <div class="row field-icon">
-                <h6>Garaje</h6>
+                <h5>Garaje</h5>
             </div>
         </div>
         {% else %}
@@ -246,7 +246,7 @@
                 <span class="fa-2x fas fa-car"> </span>
             </div>
             <div class="row field-icon">
-                <h6>Garaje</h6>
+                <h5>Garaje</h5>
             </div>
         </div>
         {% endif %}
@@ -258,7 +258,7 @@
                 <span class="fa-2x fas fa-swimming-pool"></span>
             </div>
             <div class="row field-icon">
-                <h6>Piscina</h6>
+                <h5>Piscina</h5>
             </div>
         </div>
         {% else %}
@@ -267,7 +267,7 @@
                 <span class="fa-2x fas fa-swimming-pool"></span>
             </div>
             <div class="row field-icon">
-                <h6>Piscina</h6>
+                <h5>Piscina</h5>
             </div>
         </div>
         {% endif %}
@@ -279,7 +279,7 @@
                 <span class="fa-2x fas fa-dungeon"></span>
             </div>
             <div class="row field-icon">
-                <h6>Terraza</h6>
+                <h5>Terraza</h5>
             </div>
         </div>
         {% else %}
@@ -288,7 +288,7 @@
                 <span class="fa-2x fas fa-dungeon"></span>
             </div>
             <div class="row field-icon">
-                <h6>Terraza</h6>
+                <h5>Terraza</h5>
             </div>
         </div>
         {% endif %}
@@ -300,7 +300,7 @@
                 <span class="fa-2x fas fa-box-open"></span>
             </div>
             <div class="row field-icon">
-                <h6>Trastero</h6>
+                <h5>Trastero</h5>
             </div>
         </div>
         {% else %}
@@ -309,7 +309,7 @@
                 <span class="fa-2x fas fa-box-open"></span>
             </div>
             <div class="row field-icon">
-                <h6>Trastero</h6>
+                <h5>Trastero</h5>
             </div>
         </div>
         {% endif %}
@@ -321,7 +321,7 @@
                 <span class="fa-2x fas  fa-leaf"></span>
             </div>
             <div class="row field-icon">
-                <h6>Jardín</h6>
+                <h5>Jardín</h5>
             </div>
         </div>
         {% else %}
@@ -330,7 +330,7 @@
                 <span class="fa-2x fas  fa-leaf"></span>
             </div>
             <div class="row field-icon">
-                <h6>Jardín</h6>
+                <h5>Jardín</h5>
             </div>
         </div>
         {% endif %}
@@ -342,7 +342,7 @@
                 <span class="fa-2x fas fa-angle-double-up"></span>
             </div>
             <div class="row field-icon">
-                <h6>Ascensor</h6>
+                <h5>Ascensor</h5>
             </div>
         </div>
         {% else %}
@@ -351,7 +351,7 @@
                 <span class="fa-2x fas fa-angle-double-up"></span>
             </div>
             <div class="row field-icon">
-                <h6>Ascensor</h6>
+                <h5>Ascensor</h5>
             </div>
         </div>
         {% endif %}
@@ -367,7 +367,7 @@
                 <span class="fa-2x fas fa-fire-alt"> </span>
             </div>
             <div class="row field-icon">
-                <h6>Calefacción</h6>
+                <h5>Calefacción</h5>
             </div>
         </div>
         {% else %}
@@ -376,7 +376,7 @@
                 <span class="fa-2x fas fa-fire-alt"> </span>
             </div>
             <div class="row field-icon">
-                <h6>Calefacción</h6>
+                <h5>Calefacción</h5>
             </div>
         </div>
         {% endif %}
@@ -387,7 +387,7 @@
                 <span class="fa-2x fas fa-wind"></span>
             </div>
             <div class="row field-icon">
-                <h6>Aire Acond.</h6>
+                <h5>Aire Acond.</h5>
             </div>
         </div>
         {% else %}
@@ -396,7 +396,7 @@
                 <span class="fa-2x fas fa-wind"></span>
             </div>
             <div class="row field-icon">
-                <h6>Aire Acond.</h6>
+                <h5>Aire Acond.</h5>
             </div>
         </div>
         {% endif %}
@@ -411,7 +411,7 @@
                 <span class="fa-2x fas fa-couch"></span>
             </div>
             <div class="row field-icon">
-                <h6>Amueblado</h6>
+                <h5>Amueblado</h5>
             </div>
         </div>
         {% else %}
@@ -420,7 +420,7 @@
                 <span class="fa-2x fas fa-couch"></span>
             </div>
             <div class="row field-icon">
-                <h6>Amueblado</h6>
+                <h5>Amueblado</h5>
             </div>
         </div>
         {% endif %}
@@ -431,7 +431,7 @@
                 <span class="fa-2x fas fa-dog"></span>
             </div>
             <div class="row field-icon">
-                <h6>Permite Animales</h6>
+                <h5>Permite Animales</h5>
             </div>
         </div>
         {% else %}
@@ -440,7 +440,7 @@
                 <span class="fa-2x fas fa-dog"></span>
             </div>
             <div class="row field-icon">
-                <h6>Permite Animales</h6>
+                <h5>Permite Animales</h5>
             </div>
         </div>
         {% endif %}
@@ -455,7 +455,7 @@
                 <span class="fa-2x fas fa-store"></span>
             </div>
             <div class="row field-icon">
-                <h6>Escaparate</h6>
+                <h5>Escaparate</h5>
             </div>
         </div>
         {% else %}
@@ -464,7 +464,7 @@
                 <span class="fa-2x fas fa-store"></span>
             </div>
             <div class="row field-icon">
-                <h6>Escaparate</h6>
+                <h5>Escaparate</h5>
             </div>
         </div>
         {% endif %}
@@ -475,7 +475,7 @@
                 <span class="fa-2x fas fa-parking"></span>
             </div>
             <div class="row field-icon">
-                <h6>Aparcamiento</h6>
+                <h5>Aparcamiento</h5>
             </div>
         </div>
         {% else %}
@@ -484,7 +484,7 @@
                 <span class="fa-2x fas fa-parking"></span>
             </div>
             <div class="row field-icon">
-                <h6>Aparcamiento</h6>
+                <h5>Aparcamiento</h5>
             </div>
         </div>
         {% endif %}
@@ -500,7 +500,7 @@
                 <span class="fa-2x fas fa-dolly-flatbed"></span>
             </div>
             <div class="row field-icon">
-                <h6>Carga y Descarga</h6>
+                <h5>Carga y Descarga</h5>
             </div>
         </div>
         {% else %}
@@ -509,7 +509,7 @@
                 <span class="fa-2x fas fa-dolly-flatbed"></span>
             </div>
             <div class="row field-icon">
-                <h6>Carga y Descarga</h6>
+                <h5>Carga y Descarga</h5>
             </div>
         </div>
         {% endif %}
@@ -520,7 +520,7 @@
                 <span class="fa-2x fas fa-fire-extinguisher"></span>
             </div>
             <div class="row field-icon">
-                <h6>Extintores</h6>
+                <h5>Extintores</h5>
             </div>
         </div>
         {% else %}
@@ -529,7 +529,7 @@
                 <span class="fa-2x fas fa-fire-extinguisher"></span>
             </div>
             <div class="row field-icon">
-                <h6>Extintores</h6>
+                <h5>Extintores</h5>
             </div>
         </div>
         {% endif %}
@@ -540,7 +540,7 @@
                 <span class="fa-2x fas fa-lightbulb"></span>
             </div>
             <div class="row field-icon">
-                <h6>Iluminación</h6>
+                <h5>Iluminación</h5>
             </div>
         </div>
         {% else %}
@@ -549,7 +549,7 @@
                 <span class="fa-2x fas fa-lightbulb"></span>
             </div>
             <div class="row field-icon">
-                <h6>Iluminación</h6>
+                <h5>Iluminación</h5>
             </div>
         </div>
         {% endif %}
@@ -565,7 +565,7 @@
                 <span class="fa-2x fas fa-hand-holding-water"> </span>
             </div>
             <div class="row field-icon">
-                <h6>Acceso a Agua</h6>
+                <h5>Acceso a Agua</h5>
             </div>
         </div>
         {% else %}
@@ -574,7 +574,7 @@
                 <span class="fa-2x fas fa-hand-holding-water"> </span>
             </div>
             <div class="row field-icon">
-                <h6>Acceso a Agua</h6>
+                <h5>Acceso a Agua</h5>
             </div>
         </div>
         {% endif %}
@@ -585,7 +585,7 @@
                 <span class="fa-2x fas fa-lightbulb"></span>
             </div>
             <div class="row field-icon">
-                <h6>Acceso a Luz</h6>
+                <h5>Acceso a Luz</h5>
             </div>
         </div>
         {% else %}
@@ -594,7 +594,7 @@
                 <span class="fa-2x fas fa-lightbulb"></span>
             </div>
             <div class="row field-icon">
-                <h6>Acceso a Luz</h6>
+                <h5>Acceso a Luz</h5>
             </div>
         </div>
         {% endif %}

@@ -14,7 +14,7 @@
         <table class="table table-hover">
             <thead class="thead-dark">
             <tr>
-                <th scope="col-md-3"></th>
+                <th scope="col-md-3">Imagen</th>
                 {% if user.permission == 'U'%}
                 <th scope="col-md-3">Nombre</th>
                 <th scope="col-md-2">Tipo</th>
@@ -25,8 +25,8 @@
                 <th scope="col-md-1">Tipo</th>
                 <th scope="col-md-1">Precio</th>
                 {% endif %}
-                <th scope="col-md-1">Propiedad</th>
-                <th scope="col-md-1">Acceso</th>
+                <th class="header-fixed">Propiedad</th>
+                <th class="header-fixed">Acceso</th>
             </tr>
             </thead>
             <tbody>
@@ -49,11 +49,13 @@
                 <td>{{ conversation.property.price }}</td>
                 <td>
                     <a class="btn btn-dark"
-                       href="/properties/details/{{conversation.property._id.toString() }}">Ver propiedad</span></a>
+                       href="/properties/details/{{conversation.property._id.toString() }}"><span
+                            class="far fa-eye"></span> Ver propiedad</span></a>
                 </td>
                 <td>
                     <a class="btn btn-success"
-                       href="/conversations/chat/{{ conversation._id.toString() }}">Acceso</span></a>
+                       href="/conversations/chat/{{ conversation._id.toString() }}"><span
+                            class="fas fa-location-arrow"></span>Acceder a Conversacion</span></a>
                 </td>
             </tr>
             {% endfor %}

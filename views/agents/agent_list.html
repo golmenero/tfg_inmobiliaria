@@ -13,36 +13,36 @@
     <h1 class="sectionHeader">Gestión de Agentes</h1>
 
     <div class="headerButtonOverview card-header">
-        <h5 class="mb-0">
+        <h2 class="mb-0">
             <button type="button" class="buttonOverview btn custom-base-style" data-toggle="collapse"
                     data-target="#agentFilter"
                     aria-expanded="false" aria-controls="agentFilter">
                 <span class="fas fa-search"></span><span class="font-weight-bold">Filtro de Agentes</span>
             </button>
-        </h5>
+        </h2>
     </div>
-    <div id="agentFilter" class="collapse" aria-labelledby="headingOne" data-parent="#accordion">
+    <div id="agentFilter" class="collapse" data-parent="#accordion">
         <div class="filter-collapse card-body">
             <form class="form-horizontal" method="get" action="/agents">
                 <div class="form-row">
                     <div class="form-group col-2">
-                        <label class="control-label">Nombre:</label>
+                        <label class="control-label" for="name">Nombre:</label>
                         <div>
-                            <input type="text" class="form-control" name="name"
+                            <input type="text" class="form-control" id="name" name="name"
                                    placeholder="Ej. Carlos"/>
                         </div>
                     </div>
                     <div class="form-group col-4">
-                        <label class="control-label">Apellidos:</label>
+                        <label class="control-label" for="surname">Apellidos:</label>
                         <div>
-                            <input type="text" class="form-control" name="surname"
+                            <input type="text" class="form-control" id="surname" name="surname"
                                    placeholder="Ej. Gómez Colmenero"/>
                         </div>
                     </div>
                     <div class="form-group col-6">
-                        <label class="control-label">E-Mail:</label>
+                        <label class="control-label" for="email">E-Mail:</label>
                         <div>
-                            <input type="text" class="form-control" name="email"
+                            <input type="text" class="form-control" id="email" name="email"
                                    placeholder="Ej. email@email.com"/>
                         </div>
                     </div>
@@ -61,23 +61,23 @@
         <table class="table table-hover">
             <thead class="thead-dark">
             <tr>
-                <th scope="col-md-4">Nombre y Apellidos</th>
-                <th scope="col-md-4">Email</th>
-                <th scope="col-md-2"></th>
-                <th scope="col-md-2"></th>
+                <th scope="col">Nombre y Apellidos</th>
+                <th scope="col">Email</th>
+                <th scope="col" class="header-fixed">Modificar Agente</th>
+                <th scope="col" class="header-fixed">Eliminar Agente</th>
             </tr>
             </thead>
             <tbody>
             {% for agent in agents %}
-            <tr>
+            <tr scope="row">
                 <td>{{ agent.name }} {{ agent.surname }}</td>
                 <td>{{ agent.email }}</td>
-                <td>
-                    <a class="btn btn-warning float-right"
+                <td class="centeredText">
+                    <a class="btn btn-warning"
                        href="/agents/edit/{{ agent._id.toString() }}"><span class="fas fa-edit"></span>Modificar</a>
                 </td>
-                <td>
-                    <a class="btn btn-danger float-right"
+                <td class="centeredText">
+                    <a class="btn btn-danger"
                        href="/agents/delete/{{ agent._id.toString() }}"><span class="fas fa-trash"></span>Eliminar</a>
                 </td>
             </tr>

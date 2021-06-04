@@ -12,13 +12,13 @@
     <h1 class="sectionHeader">Sala de chat</h1>
     <div class="row">
         <div class="col-11">
-            <h3>{{conversation.property.name}} ({{conversation.property.type}}) - Operación:
-                {{conversation.property.typeOp}}/{{conversation.property.price}} €</h3>
+            <h2>{{conversation.property.name}} ({{conversation.property.type}})</h2>
+            <h3>Operación: {{conversation.property.typeOp}}/{{conversation.property.price}} €</h3>
         </div>
         <div class="col-1">
             <a class="btn btn-dark float-right"
                href="/properties/details/{{ conversation.property._id.toString() }}"><span
-                    class="far fa-eye"></span></a>
+                    class="far fa-eye"></span> Ver Propiedad</a>
         </div>
     </div>
 
@@ -41,8 +41,9 @@
             {% endif %}
             {% endfor %}
         </div>
+        <label class="control-label input-label" for="messageInput">Escribe un mensaje y pulsa enviar.</label>
         <div class="input-chat row">
-            <input class="col-10 form-control" type="text" name="messageInput" id="messageInput">
+            <input class="col-10 form-control" type="text" name="messageInput" id="messageInput" title="Escribe un mensaje">
             <button id="btnEnviarMensaje" class="col-2 btn btn-dark" type="submit">Enviar</button>
         </div>
     </form>

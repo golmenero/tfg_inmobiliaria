@@ -11,52 +11,52 @@
     <h1 class="sectionHeader">Propiedades Publicadas</h1>
 
     <div class="headerButtonOverview card-header">
-        <h5 class="mb-0">
+        <h2 class="mb-0">
             <button type="button" class="buttonOverview btn btn-outline-dark" data-toggle="collapse"
                     data-target="#myPropertiesFilter"
                     aria-expanded="false" aria-controls="myPropertiesFilter">
                 <span class="fas fa-search"></span><span class="font-weight-bold">Filtro de Propiedades</span>
             </button>
-        </h5>
+        </h2>
     </div>
-    <div id="myPropertiesFilter" class="collapse" aria-labelledby="headingOne" data-parent="#accordion">
+    <div id="myPropertiesFilter" class="collapse" data-parent="#accordion">
         <div class="filter-collapse card-body">
             <form class="form-horizontal" method="get" action="/myproperties">
                 <div class="form-row">
                     <div class="form-group col-4">
-                        <label class="control-label">Nombre Propietario:</label>
+                        <label class="control-label" for="nameOwner">Nombre Propietario:</label>
                         <div>
-                            <input type="text" class="form-control" name="nameOwner"
+                            <input type="text" class="form-control" id='nameOwner' name="nameOwner"
                                    placeholder="Ej. Carlos"/>
                         </div>
                     </div>
                     <div class="form-group col-4">
-                        <label class="control-label">Apellidos Propietario:</label>
+                        <label class="control-label" for="surnameOwner">Apellidos Propietario:</label>
                         <div>
-                            <input type="text" class="form-control" name="surnameOwner"
+                            <input type="text" class="form-control" id="surnameOwner" name="surnameOwner"
                                    placeholder="Ej. Gómez Colmenero"/>
                         </div>
                     </div>
                     <div class="form-group col-4">
-                        <label class="control-label">DNI/NIF/NIE Propietario:</label>
+                        <label class="control-label" for="dniOwner">DNI/NIF/NIE Propietario:</label>
                         <div>
-                            <input type="text" class="form-control" name="dniOwner"
+                            <input type="text" class="form-control" id="dniOwner"  name="dniOwner"
                                    placeholder="Ej. 55555555L"/>
                         </div>
                     </div>
                 </div>
                 <div class="form-row">
                     <div class="form-group col-4">
-                        <label class="control-label">Código:</label>
+                        <label class="control-label" for="code">Código:</label>
                         <div>
-                            <input type="text" class="form-control" name="code"
+                            <input type="text" class="form-control" id="code" name="code"
                                    placeholder="Ej. V001"/>
                         </div>
                     </div>
                     <div class="form-group col-8">
-                        <label class="control-label">Nombre:</label>
+                        <label class="control-label" for="name">Nombre:</label>
                         <div>
-                            <input type="text" class="form-control" name="name"
+                            <input type="text" class="form-control" id="name" name="name"
                                    placeholder="Ej. Carlos"/>
                         </div>
                     </div>
@@ -74,35 +74,35 @@
         <table class="table table-hover">
             <thead class="thead-dark">
             <tr>
-                <th scope="col-md-3"></th>
+                <th scope="col-md-3">Imagen</th>
                 <th scope="col-md-1">Código</th>
                 <th scope="col-md-2">Nombre</th>
                 <th scope="col-md-1">Tipo</th>
                 <th scope="col-md-2">Precio</th>
-                <th scope="col-md-1"></th>
-                <th scope="col-md-1"></th>
-                <th scope="col-md-1"></th>
+                <th class="header-fixed">Modificar Propiedad</th>
+                <th class="header-fixed">Ver Propiedad</th>
+                <th class="header-fixed">Eliminar Propiedad</th>
             </tr>
             </thead>
             <tbody>
             {% for property in properties %}
             <tr>
                 <td><img class='img-table'  src="propertiesimg/{{property._id.toString()}}/{{property._id.toString()}}_0.png"
-                         alt="Imagen de {{property.name}}"/> </td>
+                         alt="Imagen de {{property.name}}"/></td>
                 <td>{{ property.code }}</td>
                 <td>{{ property.name }}</td>
                 <td>{{ property.type }}</td>
                 <td>{{ property.price }}</td>
                 <td>
-                    <a class="btn btn-warning float-right"
+                    <a class="btn btn-warning"
                        href="/properties/edit/{{ property._id.toString() }}"><span class="fas fa-edit"></span>Modificar</a>
                 </td>
                 <td>
-                    <a class="btn btn-success float-right"
+                    <a class="btn btn-success"
                        href="/properties/details/{{ property._id.toString() }}"><span class="far fa-eye"></span>Ver</a>
                 </td>
                 <td>
-                    <a class="btn btn-danger float-right"
+                    <a class="btn btn-danger"
                        href="/properties/delete/{{ property._id.toString() }}"><span class="fas fa-trash"></span>Eliminar</a>
                 </td>
             </tr>
