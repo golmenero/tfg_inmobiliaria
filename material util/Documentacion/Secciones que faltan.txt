@@ -1,8 +1,6 @@
 Ejecucion de las Pruebas del sistema
 	8.5.1 Pruebas de Usabilidad
-10.3 Ampliaciones
-10.4 Referencias Bibliográficas
-
+Rehacer Manual
 
 
 
