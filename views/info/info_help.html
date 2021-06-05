@@ -9,21 +9,33 @@
 </nav>
 <div class="container">
     <h1 class="sectionHeader">Ayuda sobre el Sistema</h1>
+    <h2 class="div-field div-field-bottom">Manuales de Usuario</h2>
     <p>Si necesita ayuda respecto al manejo del sistema, puede ponerse en contacto con un agente desde la seccion <a
-            href="/info/contact">Contacto</a></p>
+            href="/info/contact">Contacto.</a></p>
     <p>Si desea conocer más sobre el sistema y su manejo, puede descargar su manual personalizado haciendo click
         {% if user == null %}
-        <a href="https://unioviedo-my.sharepoint.com/:w:/g/personal/uo257386_uniovi_es/EbRtgOrJkHJDithQhQw_aNgB9gd-ro5kDNZ0bQ0CtMzrLQ?e=wqfjaq">Aquí</a>
+        <a href="https://unioviedo-my.sharepoint.com/:w:/g/personal/uo257386_uniovi_es/EbRtgOrJkHJDithQhQw_aNgB9gd-ro5kDNZ0bQ0CtMzrLQ?e=wqfjaq">Aquí.</a>
         {% else %}
         {% if user.permission == 'U' %}
-        <a href="https://unioviedo-my.sharepoint.com/:w:/g/personal/uo257386_uniovi_es/ETUD7kGpJ45DuqqwcgvxE2MBu_V8c54huCJ7JwBewX8kLw?e=F9va62">Aquí</a>
+        <a href="https://unioviedo-my.sharepoint.com/:w:/g/personal/uo257386_uniovi_es/ETUD7kGpJ45DuqqwcgvxE2MBu_V8c54huCJ7JwBewX8kLw?e=F9va62">Aquí.</a>
         {% endif %}
         {% if user.permission == 'A' %}
-        <a href="https://unioviedo-my.sharepoint.com/:w:/g/personal/uo257386_uniovi_es/EaudJwmohm9CgDKqqodN1_MBBzuT_prsGmCzGIYu9PFXqQ?e=pRyQnU">Aquí</a>
+        <a href="https://unioviedo-my.sharepoint.com/:w:/g/personal/uo257386_uniovi_es/EaudJwmohm9CgDKqqodN1_MBBzuT_prsGmCzGIYu9PFXqQ?e=pRyQnU">Aquí.</a>
         {% endif %}
         {% if user.permission == 'S' %}
-        <a href="https://unioviedo-my.sharepoint.com/:w:/g/personal/uo257386_uniovi_es/EaJ_SrQgldRMpzdi_JcF70EBfiVb7aUYTbHNu3vX9C_0bA?e=B3z7QZ">Aquí</a>
+        <a href="https://unioviedo-my.sharepoint.com/:w:/g/personal/uo257386_uniovi_es/EaJ_SrQgldRMpzdi_JcF70EBfiVb7aUYTbHNu3vX9C_0bA?e=B3z7QZ">Aquí.</a>
         {% endif %}
         {% endif %}
+    </p>
+    <h2 class="div-field div-field-bottom">Acerca de la Accesibilidad</h2>
+    <p>
+        Este Sistema cumple con el nivel AA de Accesibilidad Establecido por el WCAG 2.1.
+        <a href="https://www.w3.org/WAI/WCAG2AA-Conformance"
+           title="Explanation of WCAG 2 Level AA conformance">
+            <img height="32" width="88"
+                 src="https://www.w3.org/WAI/WCAG21/wcag2.1AA-v"
+                 alt="Level AA conformance,
+            W3C WAI Web Content Accessibility Guidelines 2.1">
+        </a>
     </p>
 </div>

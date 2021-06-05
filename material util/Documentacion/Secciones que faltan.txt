@@ -1,0 +1,29 @@
+Ejecucion de las Pruebas del sistema
+	8.5.1 Pruebas de Usabilidad
+10.3 Ampliaciones
+10.4 Referencias Bibliográficas
+
+
+
+
+
+
+Pantalla Principal
+Inicio de Sesion
+Registrar Usuario
+Editar Usuario
+Recuperar Contraseña
+Crear Agente
+Editar Agente
+Eliminar Agente
+Lista de Agentes
+Lista de Conversaciones
+Chat
+Estadisticas
+Contacto
+Lista de Pripiedades
+Detalles de Una propiedad
+Añadir pripiedad 1,2,3,4,5
+Editar Propiedad 1,2,3,4
+Propiedades Publicadas
+Lista de Seguimientos
