@@ -1,0 +1,1853 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jmeterTestPlan version="1.2" properties="5.0" jmeter="5.4.1">
+  <hashTree>
+    <TestPlan guiclass="TestPlanGui" testclass="TestPlan" testname="Test Plan" enabled="true">
+      <stringProp name="TestPlan.comments"></stringProp>
+      <boolProp name="TestPlan.functional_mode">false</boolProp>
+      <boolProp name="TestPlan.serialize_threadgroups">false</boolProp>
+      <elementProp name="TestPlan.user_defined_variables" elementType="Arguments" guiclass="ArgumentsPanel" testclass="Arguments" testname="User Defined Variables" enabled="true">
+        <collectionProp name="Arguments.arguments"/>
+      </elementProp>
+      <stringProp name="TestPlan.user_define_classpath"></stringProp>
+    </TestPlan>
+    <hashTree>
+      <ThreadGroup guiclass="ThreadGroupGui" testclass="ThreadGroup" testname="Hilos" enabled="true">
+        <stringProp name="ThreadGroup.on_sample_error">continue</stringProp>
+        <elementProp name="ThreadGroup.main_controller" elementType="LoopController" guiclass="LoopControlPanel" testclass="LoopController" testname="Controlador Bucle" enabled="true">
+          <boolProp name="LoopController.continue_forever">false</boolProp>
+          <stringProp name="LoopController.loops">1</stringProp>
+        </elementProp>
+        <stringProp name="ThreadGroup.num_threads">50</stringProp>
+        <stringProp name="ThreadGroup.ramp_time">1</stringProp>
+        <boolProp name="ThreadGroup.scheduler">false</boolProp>
+        <stringProp name="ThreadGroup.duration"></stringProp>
+        <stringProp name="ThreadGroup.delay"></stringProp>
+        <boolProp name="ThreadGroup.same_user_on_next_iteration">true</boolProp>
+      </ThreadGroup>
+      <hashTree>
+        <ResultCollector guiclass="TableVisualizer" testclass="ResultCollector" testname="Ver Resultados en Árbol" enabled="true">
+          <boolProp name="ResultCollector.error_logging">false</boolProp>
+          <objProp>
+            <name>saveConfig</name>
+            <value class="SampleSaveConfiguration">
+              <time>true</time>
+              <latency>true</latency>
+              <timestamp>true</timestamp>
+              <success>true</success>
+              <label>true</label>
+              <code>true</code>
+              <message>true</message>
+              <threadName>true</threadName>
+              <dataType>true</dataType>
+              <encoding>false</encoding>
+              <assertions>true</assertions>
+              <subresults>true</subresults>
+              <responseData>false</responseData>
+              <samplerData>false</samplerData>
+              <xml>false</xml>
+              <fieldNames>true</fieldNames>
+              <responseHeaders>false</responseHeaders>
+              <requestHeaders>false</requestHeaders>
+              <responseDataOnError>false</responseDataOnError>
+              <saveAssertionResultsFailureMessage>true</saveAssertionResultsFailureMessage>
+              <assertionsResultsToSave>0</assertionsResultsToSave>
+              <bytes>true</bytes>
+              <sentBytes>true</sentBytes>
+              <url>true</url>
+              <threadCounts>true</threadCounts>
+              <idleTime>true</idleTime>
+              <connectTime>true</connectTime>
+            </value>
+          </objProp>
+          <stringProp name="filename"></stringProp>
+        </ResultCollector>
+        <hashTree/>
+        <ResultCollector guiclass="RespTimeGraphVisualizer" testclass="ResultCollector" testname="Response Time Graph" enabled="true">
+          <boolProp name="ResultCollector.error_logging">false</boolProp>
+          <objProp>
+            <name>saveConfig</name>
+            <value class="SampleSaveConfiguration">
+              <time>true</time>
+              <latency>true</latency>
+              <timestamp>true</timestamp>
+              <success>true</success>
+              <label>true</label>
+              <code>true</code>
+              <message>true</message>
+              <threadName>true</threadName>
+              <dataType>true</dataType>
+              <encoding>false</encoding>
+              <assertions>true</assertions>
+              <subresults>true</subresults>
+              <responseData>false</responseData>
+              <samplerData>false</samplerData>
+              <xml>false</xml>
+              <fieldNames>true</fieldNames>
+              <responseHeaders>false</responseHeaders>
+              <requestHeaders>false</requestHeaders>
+              <responseDataOnError>false</responseDataOnError>
+              <saveAssertionResultsFailureMessage>true</saveAssertionResultsFailureMessage>
+              <assertionsResultsToSave>0</assertionsResultsToSave>
+              <bytes>true</bytes>
+              <sentBytes>true</sentBytes>
+              <url>true</url>
+              <threadCounts>true</threadCounts>
+              <idleTime>true</idleTime>
+              <connectTime>true</connectTime>
+            </value>
+          </objProp>
+          <stringProp name="filename"></stringProp>
+          <stringProp name="RespTimeGraph.interval">100</stringProp>
+          <boolProp name="RespTimeGraph.graphsizedynamic">false</boolProp>
+        </ResultCollector>
+        <hashTree/>
+      </hashTree>
+      <TestFragmentController guiclass="TestFragmentControllerGui" testclass="TestFragmentController" testname="Fragmento de Prueba" enabled="false"/>
+      <hashTree>
+        <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="GET /agents" enabled="true">
+          <elementProp name="HTTPsampler.Arguments" elementType="Arguments" guiclass="HTTPArgumentsPanel" testclass="Arguments" enabled="true">
+            <collectionProp name="Arguments.arguments"/>
+          </elementProp>
+          <stringProp name="HTTPSampler.domain">localhost</stringProp>
+          <stringProp name="HTTPSampler.port">8081</stringProp>
+          <stringProp name="HTTPSampler.protocol">https</stringProp>
+          <stringProp name="HTTPSampler.contentEncoding"></stringProp>
+          <stringProp name="HTTPSampler.path">/agents</stringProp>
+          <stringProp name="HTTPSampler.method">GET</stringProp>
+          <boolProp name="HTTPSampler.follow_redirects">true</boolProp>
+          <boolProp name="HTTPSampler.auto_redirects">false</boolProp>
+          <boolProp name="HTTPSampler.use_keepalive">true</boolProp>
+          <boolProp name="HTTPSampler.DO_MULTIPART_POST">false</boolProp>
+          <stringProp name="HTTPSampler.embedded_url_re"></stringProp>
+          <stringProp name="HTTPSampler.connect_timeout"></stringProp>
+          <stringProp name="HTTPSampler.response_timeout"></stringProp>
+        </HTTPSamplerProxy>
+        <hashTree>
+          <HeaderManager guiclass="HeaderPanel" testclass="HeaderManager" testname="Gestor de Cabecera HTTP" enabled="true">
+            <collectionProp name="HeaderManager.headers">
+              <elementProp name="" elementType="Header">
+                <stringProp name="Header.name">content-type</stringProp>
+                <stringProp name="Header.value">application/json</stringProp>
+              </elementProp>
+            </collectionProp>
+          </HeaderManager>
+          <hashTree/>
+          <CookieManager guiclass="CookiePanel" testclass="CookieManager" testname="Cookie Super" enabled="true">
+            <collectionProp name="CookieManager.cookies">
+              <elementProp name="connect.sid" elementType="Cookie" testname="connect.sid">
+                <stringProp name="Cookie.value">s%3Aw-sL79ggKBBIEQHl_jV4wHPvymdUffX7.RCx3L1CvR3F0n1%2BYnd1iR3Fk3%2BumDGV2QYju8XcCn%2Fk</stringProp>
+                <stringProp name="Cookie.domain">localhost</stringProp>
+                <stringProp name="Cookie.path"></stringProp>
+                <boolProp name="Cookie.secure">false</boolProp>
+                <longProp name="Cookie.expires">0</longProp>
+                <boolProp name="Cookie.path_specified">true</boolProp>
+                <boolProp name="Cookie.domain_specified">true</boolProp>
+              </elementProp>
+            </collectionProp>
+            <boolProp name="CookieManager.clearEachIteration">false</boolProp>
+            <boolProp name="CookieManager.controlledByThreadGroup">false</boolProp>
+          </CookieManager>
+          <hashTree/>
+        </hashTree>
+        <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="GET /agents/add" enabled="true">
+          <elementProp name="HTTPsampler.Arguments" elementType="Arguments" guiclass="HTTPArgumentsPanel" testclass="Arguments" enabled="true">
+            <collectionProp name="Arguments.arguments"/>
+          </elementProp>
+          <stringProp name="HTTPSampler.domain">localhost</stringProp>
+          <stringProp name="HTTPSampler.port">8081</stringProp>
+          <stringProp name="HTTPSampler.protocol">https</stringProp>
+          <stringProp name="HTTPSampler.contentEncoding"></stringProp>
+          <stringProp name="HTTPSampler.path">/agents/add</stringProp>
+          <stringProp name="HTTPSampler.method">GET</stringProp>
+          <boolProp name="HTTPSampler.follow_redirects">true</boolProp>
+          <boolProp name="HTTPSampler.auto_redirects">false</boolProp>
+          <boolProp name="HTTPSampler.use_keepalive">true</boolProp>
+          <boolProp name="HTTPSampler.DO_MULTIPART_POST">false</boolProp>
+          <stringProp name="HTTPSampler.embedded_url_re"></stringProp>
+          <stringProp name="HTTPSampler.connect_timeout"></stringProp>
+          <stringProp name="HTTPSampler.response_timeout"></stringProp>
+        </HTTPSamplerProxy>
+        <hashTree>
+          <HeaderManager guiclass="HeaderPanel" testclass="HeaderManager" testname="Gestor de Cabecera HTTP" enabled="true">
+            <collectionProp name="HeaderManager.headers">
+              <elementProp name="" elementType="Header">
+                <stringProp name="Header.name">content-type</stringProp>
+                <stringProp name="Header.value">application/json</stringProp>
+              </elementProp>
+            </collectionProp>
+          </HeaderManager>
+          <hashTree/>
+          <CookieManager guiclass="CookiePanel" testclass="CookieManager" testname="Cookie Super" enabled="true">
+            <collectionProp name="CookieManager.cookies">
+              <elementProp name="connect.sid" elementType="Cookie" testname="connect.sid">
+                <stringProp name="Cookie.value">s%3Aw-sL79ggKBBIEQHl_jV4wHPvymdUffX7.RCx3L1CvR3F0n1%2BYnd1iR3Fk3%2BumDGV2QYju8XcCn%2Fk</stringProp>
+                <stringProp name="Cookie.domain">localhost</stringProp>
+                <stringProp name="Cookie.path"></stringProp>
+                <boolProp name="Cookie.secure">false</boolProp>
+                <longProp name="Cookie.expires">0</longProp>
+                <boolProp name="Cookie.path_specified">true</boolProp>
+                <boolProp name="Cookie.domain_specified">true</boolProp>
+              </elementProp>
+            </collectionProp>
+            <boolProp name="CookieManager.clearEachIteration">false</boolProp>
+            <boolProp name="CookieManager.controlledByThreadGroup">false</boolProp>
+          </CookieManager>
+          <hashTree/>
+        </hashTree>
+        <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="POST /agents/add" enabled="true">
+          <boolProp name="HTTPSampler.postBodyRaw">true</boolProp>
+          <elementProp name="HTTPsampler.Arguments" elementType="Arguments">
+            <collectionProp name="Arguments.arguments">
+              <elementProp name="" elementType="HTTPArgument">
+                <boolProp name="HTTPArgument.always_encode">false</boolProp>
+                <stringProp name="Argument.value">{&#xd;
+	&quot;name&quot;: &quot;Agent&quot;,&#xd;
+	&quot;surname&quot;: &quot;AgentApe&quot;,&#xd;
+	&quot;email&quot;: &quot;agent@agent.com&quot;,&#xd;
+	&quot;passwordR&quot;: &quot;adminadmin&quot;&#xd;
+}</stringProp>
+                <stringProp name="Argument.metadata">=</stringProp>
+              </elementProp>
+            </collectionProp>
+          </elementProp>
+          <stringProp name="HTTPSampler.domain">localhost</stringProp>
+          <stringProp name="HTTPSampler.port">8081</stringProp>
+          <stringProp name="HTTPSampler.protocol">https</stringProp>
+          <stringProp name="HTTPSampler.contentEncoding"></stringProp>
+          <stringProp name="HTTPSampler.path">/agents/add</stringProp>
+          <stringProp name="HTTPSampler.method">POST</stringProp>
+          <boolProp name="HTTPSampler.follow_redirects">true</boolProp>
+          <boolProp name="HTTPSampler.auto_redirects">false</boolProp>
+          <boolProp name="HTTPSampler.use_keepalive">true</boolProp>
+          <boolProp name="HTTPSampler.DO_MULTIPART_POST">false</boolProp>
+          <stringProp name="HTTPSampler.embedded_url_re"></stringProp>
+          <stringProp name="HTTPSampler.connect_timeout"></stringProp>
+          <stringProp name="HTTPSampler.response_timeout"></stringProp>
+        </HTTPSamplerProxy>
+        <hashTree>
+          <HeaderManager guiclass="HeaderPanel" testclass="HeaderManager" testname="Gestor de Cabecera HTTP" enabled="true">
+            <collectionProp name="HeaderManager.headers">
+              <elementProp name="" elementType="Header">
+                <stringProp name="Header.name">content-type</stringProp>
+                <stringProp name="Header.value">application/json</stringProp>
+              </elementProp>
+            </collectionProp>
+          </HeaderManager>
+          <hashTree/>
+          <CookieManager guiclass="CookiePanel" testclass="CookieManager" testname="Cookie Super" enabled="true">
+            <collectionProp name="CookieManager.cookies">
+              <elementProp name="connect.sid" elementType="Cookie" testname="connect.sid">
+                <stringProp name="Cookie.value">s%3Aw-sL79ggKBBIEQHl_jV4wHPvymdUffX7.RCx3L1CvR3F0n1%2BYnd1iR3Fk3%2BumDGV2QYju8XcCn%2Fk</stringProp>
+                <stringProp name="Cookie.domain">localhost</stringProp>
+                <stringProp name="Cookie.path"></stringProp>
+                <boolProp name="Cookie.secure">false</boolProp>
+                <longProp name="Cookie.expires">0</longProp>
+                <boolProp name="Cookie.path_specified">true</boolProp>
+                <boolProp name="Cookie.domain_specified">true</boolProp>
+              </elementProp>
+            </collectionProp>
+            <boolProp name="CookieManager.clearEachIteration">false</boolProp>
+            <boolProp name="CookieManager.controlledByThreadGroup">false</boolProp>
+          </CookieManager>
+          <hashTree/>
+        </hashTree>
+        <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="GET /agents/edit" enabled="true">
+          <elementProp name="HTTPsampler.Arguments" elementType="Arguments" guiclass="HTTPArgumentsPanel" testclass="Arguments" enabled="true">
+            <collectionProp name="Arguments.arguments"/>
+          </elementProp>
+          <stringProp name="HTTPSampler.domain">localhost</stringProp>
+          <stringProp name="HTTPSampler.port">8081</stringProp>
+          <stringProp name="HTTPSampler.protocol">https</stringProp>
+          <stringProp name="HTTPSampler.contentEncoding"></stringProp>
+          <stringProp name="HTTPSampler.path">/agents/edit/60ba3f25e0e16d50544275b0</stringProp>
+          <stringProp name="HTTPSampler.method">GET</stringProp>
+          <boolProp name="HTTPSampler.follow_redirects">true</boolProp>
+          <boolProp name="HTTPSampler.auto_redirects">false</boolProp>
+          <boolProp name="HTTPSampler.use_keepalive">true</boolProp>
+          <boolProp name="HTTPSampler.DO_MULTIPART_POST">false</boolProp>
+          <stringProp name="HTTPSampler.embedded_url_re"></stringProp>
+          <stringProp name="HTTPSampler.connect_timeout"></stringProp>
+          <stringProp name="HTTPSampler.response_timeout"></stringProp>
+        </HTTPSamplerProxy>
+        <hashTree>
+          <HeaderManager guiclass="HeaderPanel" testclass="HeaderManager" testname="Gestor de Cabecera HTTP" enabled="true">
+            <collectionProp name="HeaderManager.headers">
+              <elementProp name="" elementType="Header">
+                <stringProp name="Header.name">content-type</stringProp>
+                <stringProp name="Header.value">application/json</stringProp>
+              </elementProp>
+            </collectionProp>
+          </HeaderManager>
+          <hashTree/>
+          <CookieManager guiclass="CookiePanel" testclass="CookieManager" testname="Cookie Super" enabled="true">
+            <collectionProp name="CookieManager.cookies">
+              <elementProp name="connect.sid" elementType="Cookie" testname="connect.sid">
+                <stringProp name="Cookie.value">s%3Aw-sL79ggKBBIEQHl_jV4wHPvymdUffX7.RCx3L1CvR3F0n1%2BYnd1iR3Fk3%2BumDGV2QYju8XcCn%2Fk</stringProp>
+                <stringProp name="Cookie.domain">localhost</stringProp>
+                <stringProp name="Cookie.path"></stringProp>
+                <boolProp name="Cookie.secure">false</boolProp>
+                <longProp name="Cookie.expires">0</longProp>
+                <boolProp name="Cookie.path_specified">true</boolProp>
+                <boolProp name="Cookie.domain_specified">true</boolProp>
+              </elementProp>
+            </collectionProp>
+            <boolProp name="CookieManager.clearEachIteration">false</boolProp>
+            <boolProp name="CookieManager.controlledByThreadGroup">false</boolProp>
+          </CookieManager>
+          <hashTree/>
+        </hashTree>
+        <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="POST /agents/edit" enabled="true">
+          <boolProp name="HTTPSampler.postBodyRaw">true</boolProp>
+          <elementProp name="HTTPsampler.Arguments" elementType="Arguments">
+            <collectionProp name="Arguments.arguments">
+              <elementProp name="" elementType="HTTPArgument">
+                <boolProp name="HTTPArgument.always_encode">false</boolProp>
+                <stringProp name="Argument.value">{&#xd;
+	&quot;name&quot;: &quot;NewAgente&quot;,&#xd;
+	&quot;surname&quot;: &quot;NewAgentito&quot;,&#xd;
+	&quot;email&quot;: &quot;agentenew@agente.com&quot;&#xd;
+}</stringProp>
+                <stringProp name="Argument.metadata">=</stringProp>
+              </elementProp>
+            </collectionProp>
+          </elementProp>
+          <stringProp name="HTTPSampler.domain">localhost</stringProp>
+          <stringProp name="HTTPSampler.port">8081</stringProp>
+          <stringProp name="HTTPSampler.protocol">https</stringProp>
+          <stringProp name="HTTPSampler.contentEncoding"></stringProp>
+          <stringProp name="HTTPSampler.path">/agents/edit/60ba3f25e0e16d50544275b0</stringProp>
+          <stringProp name="HTTPSampler.method">POST</stringProp>
+          <boolProp name="HTTPSampler.follow_redirects">true</boolProp>
+          <boolProp name="HTTPSampler.auto_redirects">false</boolProp>
+          <boolProp name="HTTPSampler.use_keepalive">true</boolProp>
+          <boolProp name="HTTPSampler.DO_MULTIPART_POST">false</boolProp>
+          <stringProp name="HTTPSampler.embedded_url_re"></stringProp>
+          <stringProp name="HTTPSampler.connect_timeout"></stringProp>
+          <stringProp name="HTTPSampler.response_timeout"></stringProp>
+        </HTTPSamplerProxy>
+        <hashTree>
+          <HeaderManager guiclass="HeaderPanel" testclass="HeaderManager" testname="Gestor de Cabecera HTTP" enabled="true">
+            <collectionProp name="HeaderManager.headers">
+              <elementProp name="" elementType="Header">
+                <stringProp name="Header.name">content-type</stringProp>
+                <stringProp name="Header.value">application/json</stringProp>
+              </elementProp>
+            </collectionProp>
+          </HeaderManager>
+          <hashTree/>
+          <CookieManager guiclass="CookiePanel" testclass="CookieManager" testname="Cookie Super" enabled="true">
+            <collectionProp name="CookieManager.cookies">
+              <elementProp name="connect.sid" elementType="Cookie" testname="connect.sid">
+                <stringProp name="Cookie.value">s%3Aw-sL79ggKBBIEQHl_jV4wHPvymdUffX7.RCx3L1CvR3F0n1%2BYnd1iR3Fk3%2BumDGV2QYju8XcCn%2Fk</stringProp>
+                <stringProp name="Cookie.domain">localhost</stringProp>
+                <stringProp name="Cookie.path"></stringProp>
+                <boolProp name="Cookie.secure">false</boolProp>
+                <longProp name="Cookie.expires">0</longProp>
+                <boolProp name="Cookie.path_specified">true</boolProp>
+                <boolProp name="Cookie.domain_specified">true</boolProp>
+              </elementProp>
+            </collectionProp>
+            <boolProp name="CookieManager.clearEachIteration">false</boolProp>
+            <boolProp name="CookieManager.controlledByThreadGroup">false</boolProp>
+          </CookieManager>
+          <hashTree/>
+        </hashTree>
+        <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="GET /agents/delete" enabled="true">
+          <elementProp name="HTTPsampler.Arguments" elementType="Arguments" guiclass="HTTPArgumentsPanel" testclass="Arguments" enabled="true">
+            <collectionProp name="Arguments.arguments"/>
+          </elementProp>
+          <stringProp name="HTTPSampler.domain">localhost</stringProp>
+          <stringProp name="HTTPSampler.port">8081</stringProp>
+          <stringProp name="HTTPSampler.protocol">https</stringProp>
+          <stringProp name="HTTPSampler.contentEncoding"></stringProp>
+          <stringProp name="HTTPSampler.path">/agents/delete/60ba3f25e0e16d50544275b0</stringProp>
+          <stringProp name="HTTPSampler.method">GET</stringProp>
+          <boolProp name="HTTPSampler.follow_redirects">true</boolProp>
+          <boolProp name="HTTPSampler.auto_redirects">false</boolProp>
+          <boolProp name="HTTPSampler.use_keepalive">true</boolProp>
+          <boolProp name="HTTPSampler.DO_MULTIPART_POST">false</boolProp>
+          <stringProp name="HTTPSampler.embedded_url_re"></stringProp>
+          <stringProp name="HTTPSampler.connect_timeout"></stringProp>
+          <stringProp name="HTTPSampler.response_timeout"></stringProp>
+        </HTTPSamplerProxy>
+        <hashTree>
+          <HeaderManager guiclass="HeaderPanel" testclass="HeaderManager" testname="Gestor de Cabecera HTTP" enabled="true">
+            <collectionProp name="HeaderManager.headers">
+              <elementProp name="" elementType="Header">
+                <stringProp name="Header.name">content-type</stringProp>
+                <stringProp name="Header.value">application/json</stringProp>
+              </elementProp>
+            </collectionProp>
+          </HeaderManager>
+          <hashTree/>
+          <CookieManager guiclass="CookiePanel" testclass="CookieManager" testname="Cookie Super" enabled="true">
+            <collectionProp name="CookieManager.cookies">
+              <elementProp name="connect.sid" elementType="Cookie" testname="connect.sid">
+                <stringProp name="Cookie.value">s%3Aw-sL79ggKBBIEQHl_jV4wHPvymdUffX7.RCx3L1CvR3F0n1%2BYnd1iR3Fk3%2BumDGV2QYju8XcCn%2Fk</stringProp>
+                <stringProp name="Cookie.domain">localhost</stringProp>
+                <stringProp name="Cookie.path"></stringProp>
+                <boolProp name="Cookie.secure">false</boolProp>
+                <longProp name="Cookie.expires">0</longProp>
+                <boolProp name="Cookie.path_specified">true</boolProp>
+                <boolProp name="Cookie.domain_specified">true</boolProp>
+              </elementProp>
+            </collectionProp>
+            <boolProp name="CookieManager.clearEachIteration">false</boolProp>
+            <boolProp name="CookieManager.controlledByThreadGroup">false</boolProp>
+          </CookieManager>
+          <hashTree/>
+        </hashTree>
+        <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="GET /conversations/add" enabled="true">
+          <elementProp name="HTTPsampler.Arguments" elementType="Arguments" guiclass="HTTPArgumentsPanel" testclass="Arguments" enabled="true">
+            <collectionProp name="Arguments.arguments"/>
+          </elementProp>
+          <stringProp name="HTTPSampler.domain">localhost</stringProp>
+          <stringProp name="HTTPSampler.port">8081</stringProp>
+          <stringProp name="HTTPSampler.protocol">https</stringProp>
+          <stringProp name="HTTPSampler.contentEncoding"></stringProp>
+          <stringProp name="HTTPSampler.path">/conversations/add/60ba3f25e0e16d50544275b4</stringProp>
+          <stringProp name="HTTPSampler.method">GET</stringProp>
+          <boolProp name="HTTPSampler.follow_redirects">true</boolProp>
+          <boolProp name="HTTPSampler.auto_redirects">false</boolProp>
+          <boolProp name="HTTPSampler.use_keepalive">true</boolProp>
+          <boolProp name="HTTPSampler.DO_MULTIPART_POST">false</boolProp>
+          <stringProp name="HTTPSampler.embedded_url_re"></stringProp>
+          <stringProp name="HTTPSampler.connect_timeout"></stringProp>
+          <stringProp name="HTTPSampler.response_timeout"></stringProp>
+        </HTTPSamplerProxy>
+        <hashTree>
+          <HeaderManager guiclass="HeaderPanel" testclass="HeaderManager" testname="Gestor de Cabecera HTTP" enabled="true">
+            <collectionProp name="HeaderManager.headers">
+              <elementProp name="" elementType="Header">
+                <stringProp name="Header.name">content-type</stringProp>
+                <stringProp name="Header.value">application/json</stringProp>
+              </elementProp>
+            </collectionProp>
+          </HeaderManager>
+          <hashTree/>
+          <CookieManager guiclass="CookiePanel" testclass="CookieManager" testname="Cookie Super" enabled="true">
+            <collectionProp name="CookieManager.cookies">
+              <elementProp name="connect.sid" elementType="Cookie" testname="connect.sid">
+                <stringProp name="Cookie.value">s%3Aw-sL79ggKBBIEQHl_jV4wHPvymdUffX7.RCx3L1CvR3F0n1%2BYnd1iR3Fk3%2BumDGV2QYju8XcCn%2Fk</stringProp>
+                <stringProp name="Cookie.domain">localhost</stringProp>
+                <stringProp name="Cookie.path"></stringProp>
+                <boolProp name="Cookie.secure">false</boolProp>
+                <longProp name="Cookie.expires">0</longProp>
+                <boolProp name="Cookie.path_specified">true</boolProp>
+                <boolProp name="Cookie.domain_specified">true</boolProp>
+              </elementProp>
+            </collectionProp>
+            <boolProp name="CookieManager.clearEachIteration">false</boolProp>
+            <boolProp name="CookieManager.controlledByThreadGroup">false</boolProp>
+          </CookieManager>
+          <hashTree/>
+        </hashTree>
+        <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="GET /conversations/chat" enabled="true">
+          <elementProp name="HTTPsampler.Arguments" elementType="Arguments" guiclass="HTTPArgumentsPanel" testclass="Arguments" enabled="true">
+            <collectionProp name="Arguments.arguments"/>
+          </elementProp>
+          <stringProp name="HTTPSampler.domain">localhost</stringProp>
+          <stringProp name="HTTPSampler.port">8081</stringProp>
+          <stringProp name="HTTPSampler.protocol">https</stringProp>
+          <stringProp name="HTTPSampler.contentEncoding"></stringProp>
+          <stringProp name="HTTPSampler.path">/conversations/chat/60ba3f25e0e16d50544275b4</stringProp>
+          <stringProp name="HTTPSampler.method">GET</stringProp>
+          <boolProp name="HTTPSampler.follow_redirects">true</boolProp>
+          <boolProp name="HTTPSampler.auto_redirects">false</boolProp>
+          <boolProp name="HTTPSampler.use_keepalive">true</boolProp>
+          <boolProp name="HTTPSampler.DO_MULTIPART_POST">false</boolProp>
+          <stringProp name="HTTPSampler.embedded_url_re"></stringProp>
+          <stringProp name="HTTPSampler.connect_timeout"></stringProp>
+          <stringProp name="HTTPSampler.response_timeout"></stringProp>
+        </HTTPSamplerProxy>
+        <hashTree>
+          <HeaderManager guiclass="HeaderPanel" testclass="HeaderManager" testname="Gestor de Cabecera HTTP" enabled="true">
+            <collectionProp name="HeaderManager.headers">
+              <elementProp name="" elementType="Header">
+                <stringProp name="Header.name">content-type</stringProp>
+                <stringProp name="Header.value">application/json</stringProp>
+              </elementProp>
+            </collectionProp>
+          </HeaderManager>
+          <hashTree/>
+          <CookieManager guiclass="CookiePanel" testclass="CookieManager" testname="Cookie Super" enabled="true">
+            <collectionProp name="CookieManager.cookies">
+              <elementProp name="connect.sid" elementType="Cookie" testname="connect.sid">
+                <stringProp name="Cookie.value">s%3Aw-sL79ggKBBIEQHl_jV4wHPvymdUffX7.RCx3L1CvR3F0n1%2BYnd1iR3Fk3%2BumDGV2QYju8XcCn%2Fk</stringProp>
+                <stringProp name="Cookie.domain">localhost</stringProp>
+                <stringProp name="Cookie.path"></stringProp>
+                <boolProp name="Cookie.secure">false</boolProp>
+                <longProp name="Cookie.expires">0</longProp>
+                <boolProp name="Cookie.path_specified">true</boolProp>
+                <boolProp name="Cookie.domain_specified">true</boolProp>
+              </elementProp>
+            </collectionProp>
+            <boolProp name="CookieManager.clearEachIteration">false</boolProp>
+            <boolProp name="CookieManager.controlledByThreadGroup">false</boolProp>
+          </CookieManager>
+          <hashTree/>
+        </hashTree>
+        <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="GET /conversations" enabled="true">
+          <elementProp name="HTTPsampler.Arguments" elementType="Arguments" guiclass="HTTPArgumentsPanel" testclass="Arguments" enabled="true">
+            <collectionProp name="Arguments.arguments"/>
+          </elementProp>
+          <stringProp name="HTTPSampler.domain">localhost</stringProp>
+          <stringProp name="HTTPSampler.port">8081</stringProp>
+          <stringProp name="HTTPSampler.protocol">https</stringProp>
+          <stringProp name="HTTPSampler.contentEncoding"></stringProp>
+          <stringProp name="HTTPSampler.path">/conversations/chat/60ba3f25e0e16d50544275b4</stringProp>
+          <stringProp name="HTTPSampler.method">GET</stringProp>
+          <boolProp name="HTTPSampler.follow_redirects">true</boolProp>
+          <boolProp name="HTTPSampler.auto_redirects">false</boolProp>
+          <boolProp name="HTTPSampler.use_keepalive">true</boolProp>
+          <boolProp name="HTTPSampler.DO_MULTIPART_POST">false</boolProp>
+          <stringProp name="HTTPSampler.embedded_url_re"></stringProp>
+          <stringProp name="HTTPSampler.connect_timeout"></stringProp>
+          <stringProp name="HTTPSampler.response_timeout"></stringProp>
+        </HTTPSamplerProxy>
+        <hashTree>
+          <HeaderManager guiclass="HeaderPanel" testclass="HeaderManager" testname="Gestor de Cabecera HTTP" enabled="true">
+            <collectionProp name="HeaderManager.headers">
+              <elementProp name="" elementType="Header">
+                <stringProp name="Header.name">content-type</stringProp>
+                <stringProp name="Header.value">application/json</stringProp>
+              </elementProp>
+            </collectionProp>
+          </HeaderManager>
+          <hashTree/>
+          <CookieManager guiclass="CookiePanel" testclass="CookieManager" testname="Cookie Super" enabled="true">
+            <collectionProp name="CookieManager.cookies">
+              <elementProp name="connect.sid" elementType="Cookie" testname="connect.sid">
+                <stringProp name="Cookie.value">s%3Aw-sL79ggKBBIEQHl_jV4wHPvymdUffX7.RCx3L1CvR3F0n1%2BYnd1iR3Fk3%2BumDGV2QYju8XcCn%2Fk</stringProp>
+                <stringProp name="Cookie.domain">localhost</stringProp>
+                <stringProp name="Cookie.path"></stringProp>
+                <boolProp name="Cookie.secure">false</boolProp>
+                <longProp name="Cookie.expires">0</longProp>
+                <boolProp name="Cookie.path_specified">true</boolProp>
+                <boolProp name="Cookie.domain_specified">true</boolProp>
+              </elementProp>
+            </collectionProp>
+            <boolProp name="CookieManager.clearEachIteration">false</boolProp>
+            <boolProp name="CookieManager.controlledByThreadGroup">false</boolProp>
+          </CookieManager>
+          <hashTree/>
+        </hashTree>
+        <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="POST /conversations/send" enabled="true">
+          <boolProp name="HTTPSampler.postBodyRaw">true</boolProp>
+          <elementProp name="HTTPsampler.Arguments" elementType="Arguments">
+            <collectionProp name="Arguments.arguments">
+              <elementProp name="" elementType="HTTPArgument">
+                <boolProp name="HTTPArgument.always_encode">false</boolProp>
+                <stringProp name="Argument.value">{&#xd;
+	&quot;messageInput&quot;: &quot;Hola&quot;	&#xd;
+}</stringProp>
+                <stringProp name="Argument.metadata">=</stringProp>
+              </elementProp>
+            </collectionProp>
+          </elementProp>
+          <stringProp name="HTTPSampler.domain">localhost</stringProp>
+          <stringProp name="HTTPSampler.port">8081</stringProp>
+          <stringProp name="HTTPSampler.protocol">https</stringProp>
+          <stringProp name="HTTPSampler.contentEncoding"></stringProp>
+          <stringProp name="HTTPSampler.path">/conversations/send/60ba3f25e0e16d50544275b4</stringProp>
+          <stringProp name="HTTPSampler.method">POST</stringProp>
+          <boolProp name="HTTPSampler.follow_redirects">true</boolProp>
+          <boolProp name="HTTPSampler.auto_redirects">false</boolProp>
+          <boolProp name="HTTPSampler.use_keepalive">true</boolProp>
+          <boolProp name="HTTPSampler.DO_MULTIPART_POST">false</boolProp>
+          <stringProp name="HTTPSampler.embedded_url_re"></stringProp>
+          <stringProp name="HTTPSampler.connect_timeout"></stringProp>
+          <stringProp name="HTTPSampler.response_timeout"></stringProp>
+        </HTTPSamplerProxy>
+        <hashTree>
+          <HeaderManager guiclass="HeaderPanel" testclass="HeaderManager" testname="Gestor de Cabecera HTTP" enabled="true">
+            <collectionProp name="HeaderManager.headers">
+              <elementProp name="" elementType="Header">
+                <stringProp name="Header.name">content-type</stringProp>
+                <stringProp name="Header.value">application/json</stringProp>
+              </elementProp>
+            </collectionProp>
+          </HeaderManager>
+          <hashTree/>
+          <CookieManager guiclass="CookiePanel" testclass="CookieManager" testname="Cookie Super" enabled="true">
+            <collectionProp name="CookieManager.cookies">
+              <elementProp name="connect.sid" elementType="Cookie" testname="connect.sid">
+                <stringProp name="Cookie.value">s%3Aw-sL79ggKBBIEQHl_jV4wHPvymdUffX7.RCx3L1CvR3F0n1%2BYnd1iR3Fk3%2BumDGV2QYju8XcCn%2Fk</stringProp>
+                <stringProp name="Cookie.domain">localhost</stringProp>
+                <stringProp name="Cookie.path"></stringProp>
+                <boolProp name="Cookie.secure">false</boolProp>
+                <longProp name="Cookie.expires">0</longProp>
+                <boolProp name="Cookie.path_specified">true</boolProp>
+                <boolProp name="Cookie.domain_specified">true</boolProp>
+              </elementProp>
+            </collectionProp>
+            <boolProp name="CookieManager.clearEachIteration">false</boolProp>
+            <boolProp name="CookieManager.controlledByThreadGroup">false</boolProp>
+          </CookieManager>
+          <hashTree/>
+        </hashTree>
+        <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="POST /conversations/loadMsg" enabled="true">
+          <boolProp name="HTTPSampler.postBodyRaw">true</boolProp>
+          <elementProp name="HTTPsampler.Arguments" elementType="Arguments">
+            <collectionProp name="Arguments.arguments">
+              <elementProp name="" elementType="HTTPArgument">
+                <boolProp name="HTTPArgument.always_encode">false</boolProp>
+                <stringProp name="Argument.value">{&#xd;
+	&quot;_id&quot;: &quot;60ba3f25e0e16d50544275b4&quot;,&#xd;
+	&quot;permission&quot;: &quot;A&quot;&#xd;
+}</stringProp>
+                <stringProp name="Argument.metadata">=</stringProp>
+              </elementProp>
+            </collectionProp>
+          </elementProp>
+          <stringProp name="HTTPSampler.domain">localhost</stringProp>
+          <stringProp name="HTTPSampler.port">8081</stringProp>
+          <stringProp name="HTTPSampler.protocol">https</stringProp>
+          <stringProp name="HTTPSampler.contentEncoding"></stringProp>
+          <stringProp name="HTTPSampler.path">/conversations/loadMsg</stringProp>
+          <stringProp name="HTTPSampler.method">POST</stringProp>
+          <boolProp name="HTTPSampler.follow_redirects">true</boolProp>
+          <boolProp name="HTTPSampler.auto_redirects">false</boolProp>
+          <boolProp name="HTTPSampler.use_keepalive">true</boolProp>
+          <boolProp name="HTTPSampler.DO_MULTIPART_POST">false</boolProp>
+          <stringProp name="HTTPSampler.embedded_url_re"></stringProp>
+          <stringProp name="HTTPSampler.connect_timeout"></stringProp>
+          <stringProp name="HTTPSampler.response_timeout"></stringProp>
+        </HTTPSamplerProxy>
+        <hashTree>
+          <HeaderManager guiclass="HeaderPanel" testclass="HeaderManager" testname="Gestor de Cabecera HTTP" enabled="true">
+            <collectionProp name="HeaderManager.headers">
+              <elementProp name="" elementType="Header">
+                <stringProp name="Header.name">content-type</stringProp>
+                <stringProp name="Header.value">application/json</stringProp>
+              </elementProp>
+            </collectionProp>
+          </HeaderManager>
+          <hashTree/>
+          <CookieManager guiclass="CookiePanel" testclass="CookieManager" testname="Cookie Super" enabled="true">
+            <collectionProp name="CookieManager.cookies">
+              <elementProp name="connect.sid" elementType="Cookie" testname="connect.sid">
+                <stringProp name="Cookie.value">s%3Aw-sL79ggKBBIEQHl_jV4wHPvymdUffX7.RCx3L1CvR3F0n1%2BYnd1iR3Fk3%2BumDGV2QYju8XcCn%2Fk</stringProp>
+                <stringProp name="Cookie.domain">localhost</stringProp>
+                <stringProp name="Cookie.path"></stringProp>
+                <boolProp name="Cookie.secure">false</boolProp>
+                <longProp name="Cookie.expires">0</longProp>
+                <boolProp name="Cookie.path_specified">true</boolProp>
+                <boolProp name="Cookie.domain_specified">true</boolProp>
+              </elementProp>
+            </collectionProp>
+            <boolProp name="CookieManager.clearEachIteration">false</boolProp>
+            <boolProp name="CookieManager.controlledByThreadGroup">false</boolProp>
+          </CookieManager>
+          <hashTree/>
+        </hashTree>
+        <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="POST /notifications/load" enabled="true">
+          <boolProp name="HTTPSampler.postBodyRaw">true</boolProp>
+          <elementProp name="HTTPsampler.Arguments" elementType="Arguments">
+            <collectionProp name="Arguments.arguments">
+              <elementProp name="" elementType="HTTPArgument">
+                <boolProp name="HTTPArgument.always_encode">false</boolProp>
+                <stringProp name="Argument.value">{&#xd;
+	&quot;_id&quot;: &quot;60ba3f25e0e16d50544275b4&quot;,&#xd;
+	&quot;permission&quot;: &quot;A&quot;&#xd;
+}</stringProp>
+                <stringProp name="Argument.metadata">=</stringProp>
+              </elementProp>
+            </collectionProp>
+          </elementProp>
+          <stringProp name="HTTPSampler.domain">localhost</stringProp>
+          <stringProp name="HTTPSampler.port">8081</stringProp>
+          <stringProp name="HTTPSampler.protocol">https</stringProp>
+          <stringProp name="HTTPSampler.contentEncoding"></stringProp>
+          <stringProp name="HTTPSampler.path">/notifications/load</stringProp>
+          <stringProp name="HTTPSampler.method">POST</stringProp>
+          <boolProp name="HTTPSampler.follow_redirects">true</boolProp>
+          <boolProp name="HTTPSampler.auto_redirects">false</boolProp>
+          <boolProp name="HTTPSampler.use_keepalive">true</boolProp>
+          <boolProp name="HTTPSampler.DO_MULTIPART_POST">false</boolProp>
+          <stringProp name="HTTPSampler.embedded_url_re"></stringProp>
+          <stringProp name="HTTPSampler.connect_timeout"></stringProp>
+          <stringProp name="HTTPSampler.response_timeout"></stringProp>
+        </HTTPSamplerProxy>
+        <hashTree>
+          <HeaderManager guiclass="HeaderPanel" testclass="HeaderManager" testname="Gestor de Cabecera HTTP" enabled="true">
+            <collectionProp name="HeaderManager.headers">
+              <elementProp name="" elementType="Header">
+                <stringProp name="Header.name">content-type</stringProp>
+                <stringProp name="Header.value">application/json</stringProp>
+              </elementProp>
+            </collectionProp>
+          </HeaderManager>
+          <hashTree/>
+          <CookieManager guiclass="CookiePanel" testclass="CookieManager" testname="Cookie Super" enabled="true">
+            <collectionProp name="CookieManager.cookies">
+              <elementProp name="connect.sid" elementType="Cookie" testname="connect.sid">
+                <stringProp name="Cookie.value">s%3Aw-sL79ggKBBIEQHl_jV4wHPvymdUffX7.RCx3L1CvR3F0n1%2BYnd1iR3Fk3%2BumDGV2QYju8XcCn%2Fk</stringProp>
+                <stringProp name="Cookie.domain">localhost</stringProp>
+                <stringProp name="Cookie.path"></stringProp>
+                <boolProp name="Cookie.secure">false</boolProp>
+                <longProp name="Cookie.expires">0</longProp>
+                <boolProp name="Cookie.path_specified">true</boolProp>
+                <boolProp name="Cookie.domain_specified">true</boolProp>
+              </elementProp>
+            </collectionProp>
+            <boolProp name="CookieManager.clearEachIteration">false</boolProp>
+            <boolProp name="CookieManager.controlledByThreadGroup">false</boolProp>
+          </CookieManager>
+          <hashTree/>
+        </hashTree>
+        <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="GET /properties/details" enabled="true">
+          <elementProp name="HTTPsampler.Arguments" elementType="Arguments" guiclass="HTTPArgumentsPanel" testclass="Arguments" enabled="true">
+            <collectionProp name="Arguments.arguments"/>
+          </elementProp>
+          <stringProp name="HTTPSampler.domain">localhost</stringProp>
+          <stringProp name="HTTPSampler.port">8081</stringProp>
+          <stringProp name="HTTPSampler.protocol">https</stringProp>
+          <stringProp name="HTTPSampler.contentEncoding"></stringProp>
+          <stringProp name="HTTPSampler.path">/properties/details/60ba3f25e0e16d50544275a9</stringProp>
+          <stringProp name="HTTPSampler.method">GET</stringProp>
+          <boolProp name="HTTPSampler.follow_redirects">true</boolProp>
+          <boolProp name="HTTPSampler.auto_redirects">false</boolProp>
+          <boolProp name="HTTPSampler.use_keepalive">true</boolProp>
+          <boolProp name="HTTPSampler.DO_MULTIPART_POST">false</boolProp>
+          <stringProp name="HTTPSampler.embedded_url_re"></stringProp>
+          <stringProp name="HTTPSampler.connect_timeout"></stringProp>
+          <stringProp name="HTTPSampler.response_timeout"></stringProp>
+        </HTTPSamplerProxy>
+        <hashTree>
+          <HeaderManager guiclass="HeaderPanel" testclass="HeaderManager" testname="Gestor de Cabecera HTTP" enabled="true">
+            <collectionProp name="HeaderManager.headers">
+              <elementProp name="" elementType="Header">
+                <stringProp name="Header.name">content-type</stringProp>
+                <stringProp name="Header.value">application/json</stringProp>
+              </elementProp>
+            </collectionProp>
+          </HeaderManager>
+          <hashTree/>
+        </hashTree>
+        <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="GET /properties/edit" enabled="true">
+          <elementProp name="HTTPsampler.Arguments" elementType="Arguments" guiclass="HTTPArgumentsPanel" testclass="Arguments" enabled="true">
+            <collectionProp name="Arguments.arguments"/>
+          </elementProp>
+          <stringProp name="HTTPSampler.domain">localhost</stringProp>
+          <stringProp name="HTTPSampler.port">8081</stringProp>
+          <stringProp name="HTTPSampler.protocol">https</stringProp>
+          <stringProp name="HTTPSampler.contentEncoding"></stringProp>
+          <stringProp name="HTTPSampler.path">/properties/edit/60ba3f25e0e16d50544275ab</stringProp>
+          <stringProp name="HTTPSampler.method">GET</stringProp>
+          <boolProp name="HTTPSampler.follow_redirects">true</boolProp>
+          <boolProp name="HTTPSampler.auto_redirects">false</boolProp>
+          <boolProp name="HTTPSampler.use_keepalive">true</boolProp>
+          <boolProp name="HTTPSampler.DO_MULTIPART_POST">false</boolProp>
+          <stringProp name="HTTPSampler.embedded_url_re"></stringProp>
+          <stringProp name="HTTPSampler.connect_timeout"></stringProp>
+          <stringProp name="HTTPSampler.response_timeout"></stringProp>
+        </HTTPSamplerProxy>
+        <hashTree>
+          <HeaderManager guiclass="HeaderPanel" testclass="HeaderManager" testname="Gestor de Cabecera HTTP" enabled="true">
+            <collectionProp name="HeaderManager.headers">
+              <elementProp name="" elementType="Header">
+                <stringProp name="Header.name">content-type</stringProp>
+                <stringProp name="Header.value">application/json</stringProp>
+              </elementProp>
+            </collectionProp>
+          </HeaderManager>
+          <hashTree/>
+          <CookieManager guiclass="CookiePanel" testclass="CookieManager" testname="Cookie Super" enabled="true">
+            <collectionProp name="CookieManager.cookies">
+              <elementProp name="connect.sid" elementType="Cookie" testname="connect.sid">
+                <stringProp name="Cookie.value">s%3Aw-sL79ggKBBIEQHl_jV4wHPvymdUffX7.RCx3L1CvR3F0n1%2BYnd1iR3Fk3%2BumDGV2QYju8XcCn%2Fk</stringProp>
+                <stringProp name="Cookie.domain">localhost</stringProp>
+                <stringProp name="Cookie.path"></stringProp>
+                <boolProp name="Cookie.secure">false</boolProp>
+                <longProp name="Cookie.expires">0</longProp>
+                <boolProp name="Cookie.path_specified">true</boolProp>
+                <boolProp name="Cookie.domain_specified">true</boolProp>
+              </elementProp>
+            </collectionProp>
+            <boolProp name="CookieManager.clearEachIteration">false</boolProp>
+            <boolProp name="CookieManager.controlledByThreadGroup">false</boolProp>
+          </CookieManager>
+          <hashTree/>
+        </hashTree>
+        <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="POST /properties/edit" enabled="true">
+          <boolProp name="HTTPSampler.postBodyRaw">true</boolProp>
+          <elementProp name="HTTPsampler.Arguments" elementType="Arguments">
+            <collectionProp name="Arguments.arguments">
+              <elementProp name="" elementType="HTTPArgument">
+                <boolProp name="HTTPArgument.always_encode">false</boolProp>
+                <stringProp name="Argument.value">{&#xd;
+	&quot;nameOwner&quot;:&quot;NewP&quot;,&#xd;
+	&quot;surnameOwner&quot;:&quot;NewPS&quot;,&#xd;
+	&quot;dniOwner&quot;:&quot;77777777P&quot;,&#xd;
+	&quot;phoneOwner&quot;:&quot;677777777&quot;,&#xd;
+	&quot;emailOwner&quot;:&quot;newOwner@owner.com&quot;,&#xd;
+	&quot;addressOwner&quot;:&quot;New Addres Owner&quot;,&#xd;
+	&quot;type&quot;:&quot;suelo&quot;,&#xd;
+	&quot;code&quot;:&quot;SP01&quot;,&#xd;
+	&quot;typeOp&quot;:&quot;Alquiler&quot;,&#xd;
+	&quot;name&quot;:&quot;New Suelo 1&quot;,&#xd;
+	&quot;description&quot;:&quot;Descripcion Suelo 2&quot;,&#xd;
+	&quot;city&quot;:&quot;Ciudad Suelo 2&quot;,&#xd;
+	&quot;situationSue&quot;:&quot;New Situation Suelo&quot;,&#xd;
+	&quot;areaSue&quot;:900,&#xd;
+	&quot;areaEdifSue&quot;:200,&#xd;
+	&quot;priceSue&quot;:12000,&#xd;
+	&quot;accesoAguaSue&quot;:true,&#xd;
+	&quot;accesoLuzSue&quot;:false&#xd;
+	&#xd;
+}</stringProp>
+                <stringProp name="Argument.metadata">=</stringProp>
+              </elementProp>
+            </collectionProp>
+          </elementProp>
+          <stringProp name="HTTPSampler.domain">localhost</stringProp>
+          <stringProp name="HTTPSampler.port">8081</stringProp>
+          <stringProp name="HTTPSampler.protocol">https</stringProp>
+          <stringProp name="HTTPSampler.contentEncoding"></stringProp>
+          <stringProp name="HTTPSampler.path">/properties/edit/60ba3f25e0e16d50544275ab</stringProp>
+          <stringProp name="HTTPSampler.method">POST</stringProp>
+          <boolProp name="HTTPSampler.follow_redirects">true</boolProp>
+          <boolProp name="HTTPSampler.auto_redirects">false</boolProp>
+          <boolProp name="HTTPSampler.use_keepalive">true</boolProp>
+          <boolProp name="HTTPSampler.DO_MULTIPART_POST">false</boolProp>
+          <stringProp name="HTTPSampler.embedded_url_re"></stringProp>
+          <stringProp name="HTTPSampler.connect_timeout"></stringProp>
+          <stringProp name="HTTPSampler.response_timeout"></stringProp>
+        </HTTPSamplerProxy>
+        <hashTree>
+          <HeaderManager guiclass="HeaderPanel" testclass="HeaderManager" testname="Gestor de Cabecera HTTP" enabled="true">
+            <collectionProp name="HeaderManager.headers">
+              <elementProp name="" elementType="Header">
+                <stringProp name="Header.name">content-type</stringProp>
+                <stringProp name="Header.value">application/json</stringProp>
+              </elementProp>
+            </collectionProp>
+          </HeaderManager>
+          <hashTree/>
+          <CookieManager guiclass="CookiePanel" testclass="CookieManager" testname="Cookie Super" enabled="true">
+            <collectionProp name="CookieManager.cookies">
+              <elementProp name="connect.sid" elementType="Cookie" testname="connect.sid">
+                <stringProp name="Cookie.value">s%3Aw-sL79ggKBBIEQHl_jV4wHPvymdUffX7.RCx3L1CvR3F0n1%2BYnd1iR3Fk3%2BumDGV2QYju8XcCn%2Fk</stringProp>
+                <stringProp name="Cookie.domain">localhost</stringProp>
+                <stringProp name="Cookie.path"></stringProp>
+                <boolProp name="Cookie.secure">false</boolProp>
+                <longProp name="Cookie.expires">0</longProp>
+                <boolProp name="Cookie.path_specified">true</boolProp>
+                <boolProp name="Cookie.domain_specified">true</boolProp>
+              </elementProp>
+            </collectionProp>
+            <boolProp name="CookieManager.clearEachIteration">false</boolProp>
+            <boolProp name="CookieManager.controlledByThreadGroup">false</boolProp>
+          </CookieManager>
+          <hashTree/>
+        </hashTree>
+        <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="GET /properties/delete" enabled="true">
+          <elementProp name="HTTPsampler.Arguments" elementType="Arguments" guiclass="HTTPArgumentsPanel" testclass="Arguments" enabled="true">
+            <collectionProp name="Arguments.arguments"/>
+          </elementProp>
+          <stringProp name="HTTPSampler.domain">localhost</stringProp>
+          <stringProp name="HTTPSampler.port">8081</stringProp>
+          <stringProp name="HTTPSampler.protocol">https</stringProp>
+          <stringProp name="HTTPSampler.contentEncoding"></stringProp>
+          <stringProp name="HTTPSampler.path">/properties/delete/60ba3f25e0e16d50544275ab</stringProp>
+          <stringProp name="HTTPSampler.method">GET</stringProp>
+          <boolProp name="HTTPSampler.follow_redirects">true</boolProp>
+          <boolProp name="HTTPSampler.auto_redirects">false</boolProp>
+          <boolProp name="HTTPSampler.use_keepalive">true</boolProp>
+          <boolProp name="HTTPSampler.DO_MULTIPART_POST">false</boolProp>
+          <stringProp name="HTTPSampler.embedded_url_re"></stringProp>
+          <stringProp name="HTTPSampler.connect_timeout"></stringProp>
+          <stringProp name="HTTPSampler.response_timeout"></stringProp>
+        </HTTPSamplerProxy>
+        <hashTree>
+          <HeaderManager guiclass="HeaderPanel" testclass="HeaderManager" testname="Gestor de Cabecera HTTP" enabled="true">
+            <collectionProp name="HeaderManager.headers">
+              <elementProp name="" elementType="Header">
+                <stringProp name="Header.name">content-type</stringProp>
+                <stringProp name="Header.value">application/json</stringProp>
+              </elementProp>
+            </collectionProp>
+          </HeaderManager>
+          <hashTree/>
+          <CookieManager guiclass="CookiePanel" testclass="CookieManager" testname="Cookie Super" enabled="true">
+            <collectionProp name="CookieManager.cookies">
+              <elementProp name="connect.sid" elementType="Cookie" testname="connect.sid">
+                <stringProp name="Cookie.value">s%3Aw-sL79ggKBBIEQHl_jV4wHPvymdUffX7.RCx3L1CvR3F0n1%2BYnd1iR3Fk3%2BumDGV2QYju8XcCn%2Fk</stringProp>
+                <stringProp name="Cookie.domain">localhost</stringProp>
+                <stringProp name="Cookie.path"></stringProp>
+                <boolProp name="Cookie.secure">false</boolProp>
+                <longProp name="Cookie.expires">0</longProp>
+                <boolProp name="Cookie.path_specified">true</boolProp>
+                <boolProp name="Cookie.domain_specified">true</boolProp>
+              </elementProp>
+            </collectionProp>
+            <boolProp name="CookieManager.clearEachIteration">false</boolProp>
+            <boolProp name="CookieManager.controlledByThreadGroup">false</boolProp>
+          </CookieManager>
+          <hashTree/>
+        </hashTree>
+        <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="GET /properties/add" enabled="true">
+          <elementProp name="HTTPsampler.Arguments" elementType="Arguments" guiclass="HTTPArgumentsPanel" testclass="Arguments" enabled="true">
+            <collectionProp name="Arguments.arguments"/>
+          </elementProp>
+          <stringProp name="HTTPSampler.domain">localhost</stringProp>
+          <stringProp name="HTTPSampler.port">8081</stringProp>
+          <stringProp name="HTTPSampler.protocol">https</stringProp>
+          <stringProp name="HTTPSampler.contentEncoding"></stringProp>
+          <stringProp name="HTTPSampler.path">/properties/add</stringProp>
+          <stringProp name="HTTPSampler.method">GET</stringProp>
+          <boolProp name="HTTPSampler.follow_redirects">true</boolProp>
+          <boolProp name="HTTPSampler.auto_redirects">false</boolProp>
+          <boolProp name="HTTPSampler.use_keepalive">true</boolProp>
+          <boolProp name="HTTPSampler.DO_MULTIPART_POST">false</boolProp>
+          <stringProp name="HTTPSampler.embedded_url_re"></stringProp>
+          <stringProp name="HTTPSampler.connect_timeout"></stringProp>
+          <stringProp name="HTTPSampler.response_timeout"></stringProp>
+        </HTTPSamplerProxy>
+        <hashTree>
+          <HeaderManager guiclass="HeaderPanel" testclass="HeaderManager" testname="Gestor de Cabecera HTTP" enabled="true">
+            <collectionProp name="HeaderManager.headers">
+              <elementProp name="" elementType="Header">
+                <stringProp name="Header.name">content-type</stringProp>
+                <stringProp name="Header.value">application/json</stringProp>
+              </elementProp>
+            </collectionProp>
+          </HeaderManager>
+          <hashTree/>
+          <CookieManager guiclass="CookiePanel" testclass="CookieManager" testname="Cookie Super" enabled="true">
+            <collectionProp name="CookieManager.cookies">
+              <elementProp name="connect.sid" elementType="Cookie" testname="connect.sid">
+                <stringProp name="Cookie.value">s%3Aw-sL79ggKBBIEQHl_jV4wHPvymdUffX7.RCx3L1CvR3F0n1%2BYnd1iR3Fk3%2BumDGV2QYju8XcCn%2Fk</stringProp>
+                <stringProp name="Cookie.domain">localhost</stringProp>
+                <stringProp name="Cookie.path"></stringProp>
+                <boolProp name="Cookie.secure">false</boolProp>
+                <longProp name="Cookie.expires">0</longProp>
+                <boolProp name="Cookie.path_specified">true</boolProp>
+                <boolProp name="Cookie.domain_specified">true</boolProp>
+              </elementProp>
+            </collectionProp>
+            <boolProp name="CookieManager.clearEachIteration">false</boolProp>
+            <boolProp name="CookieManager.controlledByThreadGroup">false</boolProp>
+          </CookieManager>
+          <hashTree/>
+        </hashTree>
+        <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="POST /properties/add" enabled="true">
+          <boolProp name="HTTPSampler.postBodyRaw">true</boolProp>
+          <elementProp name="HTTPsampler.Arguments" elementType="Arguments">
+            <collectionProp name="Arguments.arguments">
+              <elementProp name="" elementType="HTTPArgument">
+                <boolProp name="HTTPArgument.always_encode">false</boolProp>
+                <stringProp name="Argument.value">{&#xd;
+	&quot;nameOwner&quot;:&quot;NewP&quot;,&#xd;
+	&quot;surnameOwner&quot;:&quot;NewPS&quot;,&#xd;
+	&quot;dniOwner&quot;:&quot;77777777P&quot;,&#xd;
+	&quot;phoneOwner&quot;:&quot;677777777&quot;,&#xd;
+	&quot;emailOwner&quot;:&quot;newOwner@owner.com&quot;,&#xd;
+	&quot;addressOwner&quot;:&quot;New Addres Owner&quot;,&#xd;
+	&quot;type&quot;:&quot;suelo&quot;,&#xd;
+	&quot;code&quot;:&quot;SP01&quot;,&#xd;
+	&quot;typeOp&quot;:&quot;Alquiler&quot;,&#xd;
+	&quot;name&quot;:&quot;New Suelo 1&quot;,&#xd;
+	&quot;description&quot;:&quot;Descripcion Suelo 2&quot;,&#xd;
+	&quot;city&quot;:&quot;Ciudad Suelo 2&quot;,&#xd;
+	&quot;situationSue&quot;:&quot;New Situation Suelo&quot;,&#xd;
+	&quot;areaSue&quot;:900,&#xd;
+	&quot;areaEdifSue&quot;:200,&#xd;
+	&quot;priceSue&quot;:12000,&#xd;
+	&quot;accesoAguaSue&quot;:true,&#xd;
+	&quot;accesoLuzSue&quot;:false&#xd;
+	&#xd;
+}</stringProp>
+                <stringProp name="Argument.metadata">=</stringProp>
+              </elementProp>
+            </collectionProp>
+          </elementProp>
+          <stringProp name="HTTPSampler.domain">localhost</stringProp>
+          <stringProp name="HTTPSampler.port">8081</stringProp>
+          <stringProp name="HTTPSampler.protocol">https</stringProp>
+          <stringProp name="HTTPSampler.contentEncoding"></stringProp>
+          <stringProp name="HTTPSampler.path">/properties/add</stringProp>
+          <stringProp name="HTTPSampler.method">POST</stringProp>
+          <boolProp name="HTTPSampler.follow_redirects">true</boolProp>
+          <boolProp name="HTTPSampler.auto_redirects">false</boolProp>
+          <boolProp name="HTTPSampler.use_keepalive">true</boolProp>
+          <boolProp name="HTTPSampler.DO_MULTIPART_POST">false</boolProp>
+          <stringProp name="HTTPSampler.embedded_url_re"></stringProp>
+          <stringProp name="HTTPSampler.connect_timeout"></stringProp>
+          <stringProp name="HTTPSampler.response_timeout"></stringProp>
+        </HTTPSamplerProxy>
+        <hashTree>
+          <HeaderManager guiclass="HeaderPanel" testclass="HeaderManager" testname="Gestor de Cabecera HTTP" enabled="true">
+            <collectionProp name="HeaderManager.headers">
+              <elementProp name="" elementType="Header">
+                <stringProp name="Header.name">content-type</stringProp>
+                <stringProp name="Header.value">application/json</stringProp>
+              </elementProp>
+            </collectionProp>
+          </HeaderManager>
+          <hashTree/>
+          <CookieManager guiclass="CookiePanel" testclass="CookieManager" testname="Cookie Super" enabled="true">
+            <collectionProp name="CookieManager.cookies">
+              <elementProp name="connect.sid" elementType="Cookie" testname="connect.sid">
+                <stringProp name="Cookie.value">s%3Aw-sL79ggKBBIEQHl_jV4wHPvymdUffX7.RCx3L1CvR3F0n1%2BYnd1iR3Fk3%2BumDGV2QYju8XcCn%2Fk</stringProp>
+                <stringProp name="Cookie.domain">localhost</stringProp>
+                <stringProp name="Cookie.path"></stringProp>
+                <boolProp name="Cookie.secure">false</boolProp>
+                <longProp name="Cookie.expires">0</longProp>
+                <boolProp name="Cookie.path_specified">true</boolProp>
+                <boolProp name="Cookie.domain_specified">true</boolProp>
+              </elementProp>
+            </collectionProp>
+            <boolProp name="CookieManager.clearEachIteration">false</boolProp>
+            <boolProp name="CookieManager.controlledByThreadGroup">false</boolProp>
+          </CookieManager>
+          <hashTree/>
+        </hashTree>
+        <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="GET /properties/vivienda" enabled="true">
+          <elementProp name="HTTPsampler.Arguments" elementType="Arguments" guiclass="HTTPArgumentsPanel" testclass="Arguments" enabled="true">
+            <collectionProp name="Arguments.arguments"/>
+          </elementProp>
+          <stringProp name="HTTPSampler.domain">localhost</stringProp>
+          <stringProp name="HTTPSampler.port">8081</stringProp>
+          <stringProp name="HTTPSampler.protocol">https</stringProp>
+          <stringProp name="HTTPSampler.contentEncoding"></stringProp>
+          <stringProp name="HTTPSampler.path">/properties/vivienda</stringProp>
+          <stringProp name="HTTPSampler.method">GET</stringProp>
+          <boolProp name="HTTPSampler.follow_redirects">true</boolProp>
+          <boolProp name="HTTPSampler.auto_redirects">false</boolProp>
+          <boolProp name="HTTPSampler.use_keepalive">true</boolProp>
+          <boolProp name="HTTPSampler.DO_MULTIPART_POST">false</boolProp>
+          <stringProp name="HTTPSampler.embedded_url_re"></stringProp>
+          <stringProp name="HTTPSampler.connect_timeout"></stringProp>
+          <stringProp name="HTTPSampler.response_timeout"></stringProp>
+        </HTTPSamplerProxy>
+        <hashTree>
+          <HeaderManager guiclass="HeaderPanel" testclass="HeaderManager" testname="Gestor de Cabecera HTTP" enabled="true">
+            <collectionProp name="HeaderManager.headers">
+              <elementProp name="" elementType="Header">
+                <stringProp name="Header.name">content-type</stringProp>
+                <stringProp name="Header.value">application/json</stringProp>
+              </elementProp>
+            </collectionProp>
+          </HeaderManager>
+          <hashTree/>
+          <CookieManager guiclass="CookiePanel" testclass="CookieManager" testname="Cookie Super" enabled="true">
+            <collectionProp name="CookieManager.cookies">
+              <elementProp name="connect.sid" elementType="Cookie" testname="connect.sid">
+                <stringProp name="Cookie.value">s%3Aw-sL79ggKBBIEQHl_jV4wHPvymdUffX7.RCx3L1CvR3F0n1%2BYnd1iR3Fk3%2BumDGV2QYju8XcCn%2Fk</stringProp>
+                <stringProp name="Cookie.domain">localhost</stringProp>
+                <stringProp name="Cookie.path"></stringProp>
+                <boolProp name="Cookie.secure">false</boolProp>
+                <longProp name="Cookie.expires">0</longProp>
+                <boolProp name="Cookie.path_specified">true</boolProp>
+                <boolProp name="Cookie.domain_specified">true</boolProp>
+              </elementProp>
+            </collectionProp>
+            <boolProp name="CookieManager.clearEachIteration">false</boolProp>
+            <boolProp name="CookieManager.controlledByThreadGroup">false</boolProp>
+          </CookieManager>
+          <hashTree/>
+        </hashTree>
+        <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="GET /properties/local" enabled="true">
+          <elementProp name="HTTPsampler.Arguments" elementType="Arguments" guiclass="HTTPArgumentsPanel" testclass="Arguments" enabled="true">
+            <collectionProp name="Arguments.arguments"/>
+          </elementProp>
+          <stringProp name="HTTPSampler.domain">localhost</stringProp>
+          <stringProp name="HTTPSampler.port">8081</stringProp>
+          <stringProp name="HTTPSampler.protocol">https</stringProp>
+          <stringProp name="HTTPSampler.contentEncoding"></stringProp>
+          <stringProp name="HTTPSampler.path">/properties/local</stringProp>
+          <stringProp name="HTTPSampler.method">GET</stringProp>
+          <boolProp name="HTTPSampler.follow_redirects">true</boolProp>
+          <boolProp name="HTTPSampler.auto_redirects">false</boolProp>
+          <boolProp name="HTTPSampler.use_keepalive">true</boolProp>
+          <boolProp name="HTTPSampler.DO_MULTIPART_POST">false</boolProp>
+          <stringProp name="HTTPSampler.embedded_url_re"></stringProp>
+          <stringProp name="HTTPSampler.connect_timeout"></stringProp>
+          <stringProp name="HTTPSampler.response_timeout"></stringProp>
+        </HTTPSamplerProxy>
+        <hashTree>
+          <HeaderManager guiclass="HeaderPanel" testclass="HeaderManager" testname="Gestor de Cabecera HTTP" enabled="true">
+            <collectionProp name="HeaderManager.headers">
+              <elementProp name="" elementType="Header">
+                <stringProp name="Header.name">content-type</stringProp>
+                <stringProp name="Header.value">application/json</stringProp>
+              </elementProp>
+            </collectionProp>
+          </HeaderManager>
+          <hashTree/>
+          <CookieManager guiclass="CookiePanel" testclass="CookieManager" testname="Cookie Super" enabled="true">
+            <collectionProp name="CookieManager.cookies">
+              <elementProp name="connect.sid" elementType="Cookie" testname="connect.sid">
+                <stringProp name="Cookie.value">s%3Aw-sL79ggKBBIEQHl_jV4wHPvymdUffX7.RCx3L1CvR3F0n1%2BYnd1iR3Fk3%2BumDGV2QYju8XcCn%2Fk</stringProp>
+                <stringProp name="Cookie.domain">localhost</stringProp>
+                <stringProp name="Cookie.path"></stringProp>
+                <boolProp name="Cookie.secure">false</boolProp>
+                <longProp name="Cookie.expires">0</longProp>
+                <boolProp name="Cookie.path_specified">true</boolProp>
+                <boolProp name="Cookie.domain_specified">true</boolProp>
+              </elementProp>
+            </collectionProp>
+            <boolProp name="CookieManager.clearEachIteration">false</boolProp>
+            <boolProp name="CookieManager.controlledByThreadGroup">false</boolProp>
+          </CookieManager>
+          <hashTree/>
+        </hashTree>
+        <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="GET /properties/suelo" enabled="true">
+          <elementProp name="HTTPsampler.Arguments" elementType="Arguments" guiclass="HTTPArgumentsPanel" testclass="Arguments" enabled="true">
+            <collectionProp name="Arguments.arguments"/>
+          </elementProp>
+          <stringProp name="HTTPSampler.domain">localhost</stringProp>
+          <stringProp name="HTTPSampler.port">8081</stringProp>
+          <stringProp name="HTTPSampler.protocol">https</stringProp>
+          <stringProp name="HTTPSampler.contentEncoding"></stringProp>
+          <stringProp name="HTTPSampler.path">/properties/suelo</stringProp>
+          <stringProp name="HTTPSampler.method">GET</stringProp>
+          <boolProp name="HTTPSampler.follow_redirects">true</boolProp>
+          <boolProp name="HTTPSampler.auto_redirects">false</boolProp>
+          <boolProp name="HTTPSampler.use_keepalive">true</boolProp>
+          <boolProp name="HTTPSampler.DO_MULTIPART_POST">false</boolProp>
+          <stringProp name="HTTPSampler.embedded_url_re"></stringProp>
+          <stringProp name="HTTPSampler.connect_timeout"></stringProp>
+          <stringProp name="HTTPSampler.response_timeout"></stringProp>
+        </HTTPSamplerProxy>
+        <hashTree>
+          <HeaderManager guiclass="HeaderPanel" testclass="HeaderManager" testname="Gestor de Cabecera HTTP" enabled="true">
+            <collectionProp name="HeaderManager.headers">
+              <elementProp name="" elementType="Header">
+                <stringProp name="Header.name">content-type</stringProp>
+                <stringProp name="Header.value">application/json</stringProp>
+              </elementProp>
+            </collectionProp>
+          </HeaderManager>
+          <hashTree/>
+          <CookieManager guiclass="CookiePanel" testclass="CookieManager" testname="Cookie Super" enabled="true">
+            <collectionProp name="CookieManager.cookies">
+              <elementProp name="connect.sid" elementType="Cookie" testname="connect.sid">
+                <stringProp name="Cookie.value">s%3Aw-sL79ggKBBIEQHl_jV4wHPvymdUffX7.RCx3L1CvR3F0n1%2BYnd1iR3Fk3%2BumDGV2QYju8XcCn%2Fk</stringProp>
+                <stringProp name="Cookie.domain">localhost</stringProp>
+                <stringProp name="Cookie.path"></stringProp>
+                <boolProp name="Cookie.secure">false</boolProp>
+                <longProp name="Cookie.expires">0</longProp>
+                <boolProp name="Cookie.path_specified">true</boolProp>
+                <boolProp name="Cookie.domain_specified">true</boolProp>
+              </elementProp>
+            </collectionProp>
+            <boolProp name="CookieManager.clearEachIteration">false</boolProp>
+            <boolProp name="CookieManager.controlledByThreadGroup">false</boolProp>
+          </CookieManager>
+          <hashTree/>
+        </hashTree>
+        <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="GET /myproperties" enabled="true">
+          <elementProp name="HTTPsampler.Arguments" elementType="Arguments" guiclass="HTTPArgumentsPanel" testclass="Arguments" enabled="true">
+            <collectionProp name="Arguments.arguments"/>
+          </elementProp>
+          <stringProp name="HTTPSampler.domain">localhost</stringProp>
+          <stringProp name="HTTPSampler.port">8081</stringProp>
+          <stringProp name="HTTPSampler.protocol">https</stringProp>
+          <stringProp name="HTTPSampler.contentEncoding"></stringProp>
+          <stringProp name="HTTPSampler.path">/myproperties</stringProp>
+          <stringProp name="HTTPSampler.method">GET</stringProp>
+          <boolProp name="HTTPSampler.follow_redirects">true</boolProp>
+          <boolProp name="HTTPSampler.auto_redirects">false</boolProp>
+          <boolProp name="HTTPSampler.use_keepalive">true</boolProp>
+          <boolProp name="HTTPSampler.DO_MULTIPART_POST">false</boolProp>
+          <stringProp name="HTTPSampler.embedded_url_re"></stringProp>
+          <stringProp name="HTTPSampler.connect_timeout"></stringProp>
+          <stringProp name="HTTPSampler.response_timeout"></stringProp>
+        </HTTPSamplerProxy>
+        <hashTree>
+          <HeaderManager guiclass="HeaderPanel" testclass="HeaderManager" testname="Gestor de Cabecera HTTP" enabled="true">
+            <collectionProp name="HeaderManager.headers">
+              <elementProp name="" elementType="Header">
+                <stringProp name="Header.name">content-type</stringProp>
+                <stringProp name="Header.value">application/json</stringProp>
+              </elementProp>
+            </collectionProp>
+          </HeaderManager>
+          <hashTree/>
+          <CookieManager guiclass="CookiePanel" testclass="CookieManager" testname="Cookie Super" enabled="true">
+            <collectionProp name="CookieManager.cookies">
+              <elementProp name="connect.sid" elementType="Cookie" testname="connect.sid">
+                <stringProp name="Cookie.value">s%3Aw-sL79ggKBBIEQHl_jV4wHPvymdUffX7.RCx3L1CvR3F0n1%2BYnd1iR3Fk3%2BumDGV2QYju8XcCn%2Fk</stringProp>
+                <stringProp name="Cookie.domain">localhost</stringProp>
+                <stringProp name="Cookie.path"></stringProp>
+                <boolProp name="Cookie.secure">false</boolProp>
+                <longProp name="Cookie.expires">0</longProp>
+                <boolProp name="Cookie.path_specified">true</boolProp>
+                <boolProp name="Cookie.domain_specified">true</boolProp>
+              </elementProp>
+            </collectionProp>
+            <boolProp name="CookieManager.clearEachIteration">false</boolProp>
+            <boolProp name="CookieManager.controlledByThreadGroup">false</boolProp>
+          </CookieManager>
+          <hashTree/>
+        </hashTree>
+        <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="GET /home" enabled="true">
+          <elementProp name="HTTPsampler.Arguments" elementType="Arguments" guiclass="HTTPArgumentsPanel" testclass="Arguments" enabled="true">
+            <collectionProp name="Arguments.arguments"/>
+          </elementProp>
+          <stringProp name="HTTPSampler.domain">localhost</stringProp>
+          <stringProp name="HTTPSampler.port">8081</stringProp>
+          <stringProp name="HTTPSampler.protocol">https</stringProp>
+          <stringProp name="HTTPSampler.contentEncoding"></stringProp>
+          <stringProp name="HTTPSampler.path">/home</stringProp>
+          <stringProp name="HTTPSampler.method">GET</stringProp>
+          <boolProp name="HTTPSampler.follow_redirects">true</boolProp>
+          <boolProp name="HTTPSampler.auto_redirects">false</boolProp>
+          <boolProp name="HTTPSampler.use_keepalive">true</boolProp>
+          <boolProp name="HTTPSampler.DO_MULTIPART_POST">false</boolProp>
+          <stringProp name="HTTPSampler.embedded_url_re"></stringProp>
+          <stringProp name="HTTPSampler.connect_timeout"></stringProp>
+          <stringProp name="HTTPSampler.response_timeout"></stringProp>
+        </HTTPSamplerProxy>
+        <hashTree>
+          <HeaderManager guiclass="HeaderPanel" testclass="HeaderManager" testname="Gestor de Cabecera HTTP" enabled="true">
+            <collectionProp name="HeaderManager.headers">
+              <elementProp name="" elementType="Header">
+                <stringProp name="Header.name">content-type</stringProp>
+                <stringProp name="Header.value">application/json</stringProp>
+              </elementProp>
+            </collectionProp>
+          </HeaderManager>
+          <hashTree/>
+        </hashTree>
+        <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="GET /info/contact" enabled="true">
+          <elementProp name="HTTPsampler.Arguments" elementType="Arguments" guiclass="HTTPArgumentsPanel" testclass="Arguments" enabled="true">
+            <collectionProp name="Arguments.arguments"/>
+          </elementProp>
+          <stringProp name="HTTPSampler.domain">localhost</stringProp>
+          <stringProp name="HTTPSampler.port">8081</stringProp>
+          <stringProp name="HTTPSampler.protocol">https</stringProp>
+          <stringProp name="HTTPSampler.contentEncoding"></stringProp>
+          <stringProp name="HTTPSampler.path">/info/contact</stringProp>
+          <stringProp name="HTTPSampler.method">GET</stringProp>
+          <boolProp name="HTTPSampler.follow_redirects">true</boolProp>
+          <boolProp name="HTTPSampler.auto_redirects">false</boolProp>
+          <boolProp name="HTTPSampler.use_keepalive">true</boolProp>
+          <boolProp name="HTTPSampler.DO_MULTIPART_POST">false</boolProp>
+          <stringProp name="HTTPSampler.embedded_url_re"></stringProp>
+          <stringProp name="HTTPSampler.connect_timeout"></stringProp>
+          <stringProp name="HTTPSampler.response_timeout"></stringProp>
+        </HTTPSamplerProxy>
+        <hashTree>
+          <HeaderManager guiclass="HeaderPanel" testclass="HeaderManager" testname="Gestor de Cabecera HTTP" enabled="true">
+            <collectionProp name="HeaderManager.headers">
+              <elementProp name="" elementType="Header">
+                <stringProp name="Header.name">content-type</stringProp>
+                <stringProp name="Header.value">application/json</stringProp>
+              </elementProp>
+            </collectionProp>
+          </HeaderManager>
+          <hashTree/>
+        </hashTree>
+        <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="POST /info/contact/edit" enabled="true">
+          <boolProp name="HTTPSampler.postBodyRaw">true</boolProp>
+          <elementProp name="HTTPsampler.Arguments" elementType="Arguments">
+            <collectionProp name="Arguments.arguments">
+              <elementProp name="" elementType="HTTPArgument">
+                <boolProp name="HTTPArgument.always_encode">false</boolProp>
+                <stringProp name="Argument.value">{&#xd;
+	&quot;phones&quot;:&quot;666666666&quot;,&#xd;
+	&quot;emails&quot;:&quot;emailnew@email.com&quot;&#xd;
+}</stringProp>
+                <stringProp name="Argument.metadata">=</stringProp>
+              </elementProp>
+            </collectionProp>
+          </elementProp>
+          <stringProp name="HTTPSampler.domain">localhost</stringProp>
+          <stringProp name="HTTPSampler.port">8081</stringProp>
+          <stringProp name="HTTPSampler.protocol">https</stringProp>
+          <stringProp name="HTTPSampler.contentEncoding"></stringProp>
+          <stringProp name="HTTPSampler.path">/info/contact/edit</stringProp>
+          <stringProp name="HTTPSampler.method">POST</stringProp>
+          <boolProp name="HTTPSampler.follow_redirects">true</boolProp>
+          <boolProp name="HTTPSampler.auto_redirects">false</boolProp>
+          <boolProp name="HTTPSampler.use_keepalive">true</boolProp>
+          <boolProp name="HTTPSampler.DO_MULTIPART_POST">false</boolProp>
+          <stringProp name="HTTPSampler.embedded_url_re"></stringProp>
+          <stringProp name="HTTPSampler.connect_timeout"></stringProp>
+          <stringProp name="HTTPSampler.response_timeout"></stringProp>
+        </HTTPSamplerProxy>
+        <hashTree>
+          <HeaderManager guiclass="HeaderPanel" testclass="HeaderManager" testname="Gestor de Cabecera HTTP" enabled="true">
+            <collectionProp name="HeaderManager.headers">
+              <elementProp name="" elementType="Header">
+                <stringProp name="Header.name">content-type</stringProp>
+                <stringProp name="Header.value">application/json</stringProp>
+              </elementProp>
+            </collectionProp>
+          </HeaderManager>
+          <hashTree/>
+          <CookieManager guiclass="CookiePanel" testclass="CookieManager" testname="Cookie Super" enabled="true">
+            <collectionProp name="CookieManager.cookies">
+              <elementProp name="connect.sid" elementType="Cookie" testname="connect.sid">
+                <stringProp name="Cookie.value">s%3Aw-sL79ggKBBIEQHl_jV4wHPvymdUffX7.RCx3L1CvR3F0n1%2BYnd1iR3Fk3%2BumDGV2QYju8XcCn%2Fk</stringProp>
+                <stringProp name="Cookie.domain">localhost</stringProp>
+                <stringProp name="Cookie.path"></stringProp>
+                <boolProp name="Cookie.secure">false</boolProp>
+                <longProp name="Cookie.expires">0</longProp>
+                <boolProp name="Cookie.path_specified">true</boolProp>
+                <boolProp name="Cookie.domain_specified">true</boolProp>
+              </elementProp>
+            </collectionProp>
+            <boolProp name="CookieManager.clearEachIteration">false</boolProp>
+            <boolProp name="CookieManager.controlledByThreadGroup">false</boolProp>
+          </CookieManager>
+          <hashTree/>
+        </hashTree>
+        <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="GET /info/statistics" enabled="true">
+          <elementProp name="HTTPsampler.Arguments" elementType="Arguments" guiclass="HTTPArgumentsPanel" testclass="Arguments" enabled="true">
+            <collectionProp name="Arguments.arguments"/>
+          </elementProp>
+          <stringProp name="HTTPSampler.domain">localhost</stringProp>
+          <stringProp name="HTTPSampler.port">8081</stringProp>
+          <stringProp name="HTTPSampler.protocol">https</stringProp>
+          <stringProp name="HTTPSampler.contentEncoding"></stringProp>
+          <stringProp name="HTTPSampler.path">/info/statistics</stringProp>
+          <stringProp name="HTTPSampler.method">GET</stringProp>
+          <boolProp name="HTTPSampler.follow_redirects">true</boolProp>
+          <boolProp name="HTTPSampler.auto_redirects">false</boolProp>
+          <boolProp name="HTTPSampler.use_keepalive">true</boolProp>
+          <boolProp name="HTTPSampler.DO_MULTIPART_POST">false</boolProp>
+          <stringProp name="HTTPSampler.embedded_url_re"></stringProp>
+          <stringProp name="HTTPSampler.connect_timeout"></stringProp>
+          <stringProp name="HTTPSampler.response_timeout"></stringProp>
+        </HTTPSamplerProxy>
+        <hashTree>
+          <HeaderManager guiclass="HeaderPanel" testclass="HeaderManager" testname="Gestor de Cabecera HTTP" enabled="true">
+            <collectionProp name="HeaderManager.headers">
+              <elementProp name="" elementType="Header">
+                <stringProp name="Header.name">content-type</stringProp>
+                <stringProp name="Header.value">application/json</stringProp>
+              </elementProp>
+            </collectionProp>
+          </HeaderManager>
+          <hashTree/>
+          <CookieManager guiclass="CookiePanel" testclass="CookieManager" testname="Cookie Super" enabled="true">
+            <collectionProp name="CookieManager.cookies">
+              <elementProp name="connect.sid" elementType="Cookie" testname="connect.sid">
+                <stringProp name="Cookie.value">s%3Aw-sL79ggKBBIEQHl_jV4wHPvymdUffX7.RCx3L1CvR3F0n1%2BYnd1iR3Fk3%2BumDGV2QYju8XcCn%2Fk</stringProp>
+                <stringProp name="Cookie.domain">localhost</stringProp>
+                <stringProp name="Cookie.path"></stringProp>
+                <boolProp name="Cookie.secure">false</boolProp>
+                <longProp name="Cookie.expires">0</longProp>
+                <boolProp name="Cookie.path_specified">true</boolProp>
+                <boolProp name="Cookie.domain_specified">true</boolProp>
+              </elementProp>
+            </collectionProp>
+            <boolProp name="CookieManager.clearEachIteration">false</boolProp>
+            <boolProp name="CookieManager.controlledByThreadGroup">false</boolProp>
+          </CookieManager>
+          <hashTree/>
+        </hashTree>
+        <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="GET /info/help" enabled="true">
+          <elementProp name="HTTPsampler.Arguments" elementType="Arguments" guiclass="HTTPArgumentsPanel" testclass="Arguments" enabled="true">
+            <collectionProp name="Arguments.arguments"/>
+          </elementProp>
+          <stringProp name="HTTPSampler.domain">localhost</stringProp>
+          <stringProp name="HTTPSampler.port">8081</stringProp>
+          <stringProp name="HTTPSampler.protocol">https</stringProp>
+          <stringProp name="HTTPSampler.contentEncoding"></stringProp>
+          <stringProp name="HTTPSampler.path">/info/help</stringProp>
+          <stringProp name="HTTPSampler.method">GET</stringProp>
+          <boolProp name="HTTPSampler.follow_redirects">true</boolProp>
+          <boolProp name="HTTPSampler.auto_redirects">false</boolProp>
+          <boolProp name="HTTPSampler.use_keepalive">true</boolProp>
+          <boolProp name="HTTPSampler.DO_MULTIPART_POST">false</boolProp>
+          <stringProp name="HTTPSampler.embedded_url_re"></stringProp>
+          <stringProp name="HTTPSampler.connect_timeout"></stringProp>
+          <stringProp name="HTTPSampler.response_timeout"></stringProp>
+        </HTTPSamplerProxy>
+        <hashTree>
+          <HeaderManager guiclass="HeaderPanel" testclass="HeaderManager" testname="Gestor de Cabecera HTTP" enabled="true">
+            <collectionProp name="HeaderManager.headers">
+              <elementProp name="" elementType="Header">
+                <stringProp name="Header.name">content-type</stringProp>
+                <stringProp name="Header.value">application/json</stringProp>
+              </elementProp>
+            </collectionProp>
+          </HeaderManager>
+          <hashTree/>
+        </hashTree>
+        <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="POST /users/edit" enabled="true">
+          <boolProp name="HTTPSampler.postBodyRaw">true</boolProp>
+          <elementProp name="HTTPsampler.Arguments" elementType="Arguments">
+            <collectionProp name="Arguments.arguments">
+              <elementProp name="" elementType="HTTPArgument">
+                <boolProp name="HTTPArgument.always_encode">false</boolProp>
+                <stringProp name="Argument.value">{&#xd;
+	&quot;name&quot;: &quot;NewName&quot;,&#xd;
+	&quot;surname&quot;: &quot;NewSurname&quot;,&#xd;
+	&quot;password&quot;: &quot;adminadmin2&quot;,&#xd;
+	&quot;passwordR&quot;: &quot;adminadmin2&quot;,&#xd;
+	&quot;oldPassword&quot;: &quot;adminadmin&quot;&#xd;
+}</stringProp>
+                <stringProp name="Argument.metadata">=</stringProp>
+              </elementProp>
+            </collectionProp>
+          </elementProp>
+          <stringProp name="HTTPSampler.domain">localhost</stringProp>
+          <stringProp name="HTTPSampler.port">8081</stringProp>
+          <stringProp name="HTTPSampler.protocol">https</stringProp>
+          <stringProp name="HTTPSampler.contentEncoding"></stringProp>
+          <stringProp name="HTTPSampler.path">/users/edit</stringProp>
+          <stringProp name="HTTPSampler.method">POST</stringProp>
+          <boolProp name="HTTPSampler.follow_redirects">true</boolProp>
+          <boolProp name="HTTPSampler.auto_redirects">false</boolProp>
+          <boolProp name="HTTPSampler.use_keepalive">true</boolProp>
+          <boolProp name="HTTPSampler.DO_MULTIPART_POST">false</boolProp>
+          <stringProp name="HTTPSampler.embedded_url_re"></stringProp>
+          <stringProp name="HTTPSampler.connect_timeout"></stringProp>
+          <stringProp name="HTTPSampler.response_timeout"></stringProp>
+        </HTTPSamplerProxy>
+        <hashTree>
+          <HeaderManager guiclass="HeaderPanel" testclass="HeaderManager" testname="Gestor de Cabecera HTTP" enabled="true">
+            <collectionProp name="HeaderManager.headers">
+              <elementProp name="" elementType="Header">
+                <stringProp name="Header.name">content-type</stringProp>
+                <stringProp name="Header.value">application/json</stringProp>
+              </elementProp>
+            </collectionProp>
+          </HeaderManager>
+          <hashTree/>
+          <CookieManager guiclass="CookiePanel" testclass="CookieManager" testname="Cookie Normal" enabled="true">
+            <collectionProp name="CookieManager.cookies">
+              <elementProp name="connect.sid" elementType="Cookie" testname="connect.sid">
+                <stringProp name="Cookie.value">s%3AArtk7lrxl1ZUFuOYx6RDaiWBt1gE311I.MPX0yu9%2B6UqHiHr7QpDwk9Li8Kq9bbUUu37LUvJgq7E</stringProp>
+                <stringProp name="Cookie.domain">localhost</stringProp>
+                <stringProp name="Cookie.path"></stringProp>
+                <boolProp name="Cookie.secure">false</boolProp>
+                <longProp name="Cookie.expires">0</longProp>
+                <boolProp name="Cookie.path_specified">true</boolProp>
+                <boolProp name="Cookie.domain_specified">true</boolProp>
+              </elementProp>
+            </collectionProp>
+            <boolProp name="CookieManager.clearEachIteration">false</boolProp>
+            <boolProp name="CookieManager.controlledByThreadGroup">false</boolProp>
+          </CookieManager>
+          <hashTree/>
+        </hashTree>
+        <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="GET /users/edit" enabled="true">
+          <elementProp name="HTTPsampler.Arguments" elementType="Arguments" guiclass="HTTPArgumentsPanel" testclass="Arguments" enabled="true">
+            <collectionProp name="Arguments.arguments"/>
+          </elementProp>
+          <stringProp name="HTTPSampler.domain">localhost</stringProp>
+          <stringProp name="HTTPSampler.port">8081</stringProp>
+          <stringProp name="HTTPSampler.protocol">https</stringProp>
+          <stringProp name="HTTPSampler.contentEncoding"></stringProp>
+          <stringProp name="HTTPSampler.path">/users/edit</stringProp>
+          <stringProp name="HTTPSampler.method">GET</stringProp>
+          <boolProp name="HTTPSampler.follow_redirects">true</boolProp>
+          <boolProp name="HTTPSampler.auto_redirects">false</boolProp>
+          <boolProp name="HTTPSampler.use_keepalive">true</boolProp>
+          <boolProp name="HTTPSampler.DO_MULTIPART_POST">false</boolProp>
+          <stringProp name="HTTPSampler.embedded_url_re"></stringProp>
+          <stringProp name="HTTPSampler.connect_timeout"></stringProp>
+          <stringProp name="HTTPSampler.response_timeout"></stringProp>
+        </HTTPSamplerProxy>
+        <hashTree>
+          <HeaderManager guiclass="HeaderPanel" testclass="HeaderManager" testname="Gestor de Cabecera HTTP" enabled="true">
+            <collectionProp name="HeaderManager.headers">
+              <elementProp name="" elementType="Header">
+                <stringProp name="Header.name">content-type</stringProp>
+                <stringProp name="Header.value">application/json</stringProp>
+              </elementProp>
+            </collectionProp>
+          </HeaderManager>
+          <hashTree/>
+          <CookieManager guiclass="CookiePanel" testclass="CookieManager" testname="Cookie Normal" enabled="true">
+            <collectionProp name="CookieManager.cookies">
+              <elementProp name="connect.sid" elementType="Cookie" testname="connect.sid">
+                <stringProp name="Cookie.value">s%3AArtk7lrxl1ZUFuOYx6RDaiWBt1gE311I.MPX0yu9%2B6UqHiHr7QpDwk9Li8Kq9bbUUu37LUvJgq7E</stringProp>
+                <stringProp name="Cookie.domain">localhost</stringProp>
+                <stringProp name="Cookie.path"></stringProp>
+                <boolProp name="Cookie.secure">false</boolProp>
+                <longProp name="Cookie.expires">0</longProp>
+                <boolProp name="Cookie.path_specified">true</boolProp>
+                <boolProp name="Cookie.domain_specified">true</boolProp>
+              </elementProp>
+            </collectionProp>
+            <boolProp name="CookieManager.clearEachIteration">false</boolProp>
+            <boolProp name="CookieManager.controlledByThreadGroup">false</boolProp>
+          </CookieManager>
+          <hashTree/>
+        </hashTree>
+        <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="POST /users/delete" enabled="true">
+          <boolProp name="HTTPSampler.postBodyRaw">true</boolProp>
+          <elementProp name="HTTPsampler.Arguments" elementType="Arguments">
+            <collectionProp name="Arguments.arguments">
+              <elementProp name="" elementType="HTTPArgument">
+                <boolProp name="HTTPArgument.always_encode">false</boolProp>
+                <stringProp name="Argument.value">{&#xd;
+	&quot;password&quot;: &quot;adminadmin&quot;&#xd;
+}</stringProp>
+                <stringProp name="Argument.metadata">=</stringProp>
+              </elementProp>
+            </collectionProp>
+          </elementProp>
+          <stringProp name="HTTPSampler.domain">localhost</stringProp>
+          <stringProp name="HTTPSampler.port">8081</stringProp>
+          <stringProp name="HTTPSampler.protocol">https</stringProp>
+          <stringProp name="HTTPSampler.contentEncoding"></stringProp>
+          <stringProp name="HTTPSampler.path">/users/delete</stringProp>
+          <stringProp name="HTTPSampler.method">POST</stringProp>
+          <boolProp name="HTTPSampler.follow_redirects">true</boolProp>
+          <boolProp name="HTTPSampler.auto_redirects">false</boolProp>
+          <boolProp name="HTTPSampler.use_keepalive">true</boolProp>
+          <boolProp name="HTTPSampler.DO_MULTIPART_POST">false</boolProp>
+          <stringProp name="HTTPSampler.embedded_url_re"></stringProp>
+          <stringProp name="HTTPSampler.connect_timeout"></stringProp>
+          <stringProp name="HTTPSampler.response_timeout"></stringProp>
+        </HTTPSamplerProxy>
+        <hashTree>
+          <HeaderManager guiclass="HeaderPanel" testclass="HeaderManager" testname="Gestor de Cabecera HTTP" enabled="true">
+            <collectionProp name="HeaderManager.headers">
+              <elementProp name="" elementType="Header">
+                <stringProp name="Header.name">content-type</stringProp>
+                <stringProp name="Header.value">application/json</stringProp>
+              </elementProp>
+            </collectionProp>
+          </HeaderManager>
+          <hashTree/>
+          <CookieManager guiclass="CookiePanel" testclass="CookieManager" testname="Cookie Normal" enabled="true">
+            <collectionProp name="CookieManager.cookies">
+              <elementProp name="connect.sid" elementType="Cookie" testname="connect.sid">
+                <stringProp name="Cookie.value">s%3AArtk7lrxl1ZUFuOYx6RDaiWBt1gE311I.MPX0yu9%2B6UqHiHr7QpDwk9Li8Kq9bbUUu37LUvJgq7E</stringProp>
+                <stringProp name="Cookie.domain">localhost</stringProp>
+                <stringProp name="Cookie.path"></stringProp>
+                <boolProp name="Cookie.secure">false</boolProp>
+                <longProp name="Cookie.expires">0</longProp>
+                <boolProp name="Cookie.path_specified">true</boolProp>
+                <boolProp name="Cookie.domain_specified">true</boolProp>
+              </elementProp>
+            </collectionProp>
+            <boolProp name="CookieManager.clearEachIteration">false</boolProp>
+            <boolProp name="CookieManager.controlledByThreadGroup">false</boolProp>
+          </CookieManager>
+          <hashTree/>
+        </hashTree>
+        <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="GET /disconnect" enabled="true">
+          <elementProp name="HTTPsampler.Arguments" elementType="Arguments" guiclass="HTTPArgumentsPanel" testclass="Arguments" enabled="true">
+            <collectionProp name="Arguments.arguments"/>
+          </elementProp>
+          <stringProp name="HTTPSampler.domain">localhost</stringProp>
+          <stringProp name="HTTPSampler.port">8081</stringProp>
+          <stringProp name="HTTPSampler.protocol">https</stringProp>
+          <stringProp name="HTTPSampler.contentEncoding"></stringProp>
+          <stringProp name="HTTPSampler.path">/disconnect</stringProp>
+          <stringProp name="HTTPSampler.method">GET</stringProp>
+          <boolProp name="HTTPSampler.follow_redirects">true</boolProp>
+          <boolProp name="HTTPSampler.auto_redirects">false</boolProp>
+          <boolProp name="HTTPSampler.use_keepalive">true</boolProp>
+          <boolProp name="HTTPSampler.DO_MULTIPART_POST">false</boolProp>
+          <stringProp name="HTTPSampler.embedded_url_re"></stringProp>
+          <stringProp name="HTTPSampler.connect_timeout"></stringProp>
+          <stringProp name="HTTPSampler.response_timeout"></stringProp>
+        </HTTPSamplerProxy>
+        <hashTree>
+          <HeaderManager guiclass="HeaderPanel" testclass="HeaderManager" testname="Gestor de Cabecera HTTP" enabled="true">
+            <collectionProp name="HeaderManager.headers">
+              <elementProp name="" elementType="Header">
+                <stringProp name="Header.name">content-type</stringProp>
+                <stringProp name="Header.value">application/json</stringProp>
+              </elementProp>
+            </collectionProp>
+          </HeaderManager>
+          <hashTree/>
+          <CookieManager guiclass="CookiePanel" testclass="CookieManager" testname="Cookie Normal" enabled="true">
+            <collectionProp name="CookieManager.cookies">
+              <elementProp name="connect.sid" elementType="Cookie" testname="connect.sid">
+                <stringProp name="Cookie.value">s%3AArtk7lrxl1ZUFuOYx6RDaiWBt1gE311I.MPX0yu9%2B6UqHiHr7QpDwk9Li8Kq9bbUUu37LUvJgq7E</stringProp>
+                <stringProp name="Cookie.domain">localhost</stringProp>
+                <stringProp name="Cookie.path"></stringProp>
+                <boolProp name="Cookie.secure">false</boolProp>
+                <longProp name="Cookie.expires">0</longProp>
+                <boolProp name="Cookie.path_specified">true</boolProp>
+                <boolProp name="Cookie.domain_specified">true</boolProp>
+              </elementProp>
+            </collectionProp>
+            <boolProp name="CookieManager.clearEachIteration">false</boolProp>
+            <boolProp name="CookieManager.controlledByThreadGroup">false</boolProp>
+          </CookieManager>
+          <hashTree/>
+        </hashTree>
+        <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="GET /signin" enabled="true">
+          <elementProp name="HTTPsampler.Arguments" elementType="Arguments" guiclass="HTTPArgumentsPanel" testclass="Arguments" enabled="true">
+            <collectionProp name="Arguments.arguments"/>
+          </elementProp>
+          <stringProp name="HTTPSampler.domain">localhost</stringProp>
+          <stringProp name="HTTPSampler.port">8081</stringProp>
+          <stringProp name="HTTPSampler.protocol">https</stringProp>
+          <stringProp name="HTTPSampler.contentEncoding"></stringProp>
+          <stringProp name="HTTPSampler.path">/signin</stringProp>
+          <stringProp name="HTTPSampler.method">GET</stringProp>
+          <boolProp name="HTTPSampler.follow_redirects">true</boolProp>
+          <boolProp name="HTTPSampler.auto_redirects">false</boolProp>
+          <boolProp name="HTTPSampler.use_keepalive">true</boolProp>
+          <boolProp name="HTTPSampler.DO_MULTIPART_POST">false</boolProp>
+          <stringProp name="HTTPSampler.embedded_url_re"></stringProp>
+          <stringProp name="HTTPSampler.connect_timeout"></stringProp>
+          <stringProp name="HTTPSampler.response_timeout"></stringProp>
+        </HTTPSamplerProxy>
+        <hashTree>
+          <HeaderManager guiclass="HeaderPanel" testclass="HeaderManager" testname="Gestor de Cabecera HTTP" enabled="true">
+            <collectionProp name="HeaderManager.headers">
+              <elementProp name="" elementType="Header">
+                <stringProp name="Header.name">content-type</stringProp>
+                <stringProp name="Header.value">application/json</stringProp>
+              </elementProp>
+            </collectionProp>
+          </HeaderManager>
+          <hashTree/>
+        </hashTree>
+        <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="POST /signin" enabled="true">
+          <boolProp name="HTTPSampler.postBodyRaw">true</boolProp>
+          <elementProp name="HTTPsampler.Arguments" elementType="Arguments">
+            <collectionProp name="Arguments.arguments">
+              <elementProp name="" elementType="HTTPArgument">
+                <boolProp name="HTTPArgument.always_encode">false</boolProp>
+                <stringProp name="Argument.value">{&#xd;
+	&quot;email&quot;: &quot;newUsuario1@usuario.com&quot;,&#xd;
+	&quot;name&quot;: &quot;NewUsuario1&quot;,&#xd;
+	&quot;surname&quot;: &quot;NewUsuarito1&quot;,&#xd;
+	&quot;password&quot;: &quot;adminadmin&quot;,&#xd;
+	&quot;passwordR&quot;: &quot;adminadmin&quot;&#xd;
+}</stringProp>
+                <stringProp name="Argument.metadata">=</stringProp>
+              </elementProp>
+            </collectionProp>
+          </elementProp>
+          <stringProp name="HTTPSampler.domain">localhost</stringProp>
+          <stringProp name="HTTPSampler.port">8081</stringProp>
+          <stringProp name="HTTPSampler.protocol">https</stringProp>
+          <stringProp name="HTTPSampler.contentEncoding"></stringProp>
+          <stringProp name="HTTPSampler.path">/signin</stringProp>
+          <stringProp name="HTTPSampler.method">POST</stringProp>
+          <boolProp name="HTTPSampler.follow_redirects">true</boolProp>
+          <boolProp name="HTTPSampler.auto_redirects">false</boolProp>
+          <boolProp name="HTTPSampler.use_keepalive">true</boolProp>
+          <boolProp name="HTTPSampler.DO_MULTIPART_POST">false</boolProp>
+          <stringProp name="HTTPSampler.embedded_url_re"></stringProp>
+          <stringProp name="HTTPSampler.connect_timeout"></stringProp>
+          <stringProp name="HTTPSampler.response_timeout"></stringProp>
+        </HTTPSamplerProxy>
+        <hashTree>
+          <HeaderManager guiclass="HeaderPanel" testclass="HeaderManager" testname="Gestor de Cabecera HTTP" enabled="true">
+            <collectionProp name="HeaderManager.headers">
+              <elementProp name="" elementType="Header">
+                <stringProp name="Header.name">content-type</stringProp>
+                <stringProp name="Header.value">application/json</stringProp>
+              </elementProp>
+            </collectionProp>
+          </HeaderManager>
+          <hashTree/>
+        </hashTree>
+        <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="GET /login" enabled="true">
+          <elementProp name="HTTPsampler.Arguments" elementType="Arguments" guiclass="HTTPArgumentsPanel" testclass="Arguments" enabled="true">
+            <collectionProp name="Arguments.arguments"/>
+          </elementProp>
+          <stringProp name="HTTPSampler.domain">localhost</stringProp>
+          <stringProp name="HTTPSampler.port">8081</stringProp>
+          <stringProp name="HTTPSampler.protocol">https</stringProp>
+          <stringProp name="HTTPSampler.contentEncoding"></stringProp>
+          <stringProp name="HTTPSampler.path">/login</stringProp>
+          <stringProp name="HTTPSampler.method">GET</stringProp>
+          <boolProp name="HTTPSampler.follow_redirects">true</boolProp>
+          <boolProp name="HTTPSampler.auto_redirects">false</boolProp>
+          <boolProp name="HTTPSampler.use_keepalive">true</boolProp>
+          <boolProp name="HTTPSampler.DO_MULTIPART_POST">false</boolProp>
+          <stringProp name="HTTPSampler.embedded_url_re"></stringProp>
+          <stringProp name="HTTPSampler.connect_timeout"></stringProp>
+          <stringProp name="HTTPSampler.response_timeout"></stringProp>
+        </HTTPSamplerProxy>
+        <hashTree>
+          <HeaderManager guiclass="HeaderPanel" testclass="HeaderManager" testname="Gestor de Cabecera HTTP" enabled="true">
+            <collectionProp name="HeaderManager.headers">
+              <elementProp name="" elementType="Header">
+                <stringProp name="Header.name">content-type</stringProp>
+                <stringProp name="Header.value">application/json</stringProp>
+              </elementProp>
+            </collectionProp>
+          </HeaderManager>
+          <hashTree/>
+        </hashTree>
+        <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="POST /login" enabled="true">
+          <boolProp name="HTTPSampler.postBodyRaw">true</boolProp>
+          <elementProp name="HTTPsampler.Arguments" elementType="Arguments">
+            <collectionProp name="Arguments.arguments">
+              <elementProp name="" elementType="HTTPArgument">
+                <boolProp name="HTTPArgument.always_encode">false</boolProp>
+                <stringProp name="Argument.value">{&#xd;
+	&quot;email&quot;: &quot;usuario1@usuario.com&quot;,&#xd;
+	&quot;password&quot;: &quot;adminadmin&quot;&#xd;
+}</stringProp>
+                <stringProp name="Argument.metadata">=</stringProp>
+              </elementProp>
+            </collectionProp>
+          </elementProp>
+          <stringProp name="HTTPSampler.domain">localhost</stringProp>
+          <stringProp name="HTTPSampler.port">8081</stringProp>
+          <stringProp name="HTTPSampler.protocol">https</stringProp>
+          <stringProp name="HTTPSampler.contentEncoding"></stringProp>
+          <stringProp name="HTTPSampler.path">/login</stringProp>
+          <stringProp name="HTTPSampler.method">POST</stringProp>
+          <boolProp name="HTTPSampler.follow_redirects">true</boolProp>
+          <boolProp name="HTTPSampler.auto_redirects">false</boolProp>
+          <boolProp name="HTTPSampler.use_keepalive">true</boolProp>
+          <boolProp name="HTTPSampler.DO_MULTIPART_POST">false</boolProp>
+          <stringProp name="HTTPSampler.embedded_url_re"></stringProp>
+          <stringProp name="HTTPSampler.connect_timeout"></stringProp>
+          <stringProp name="HTTPSampler.response_timeout"></stringProp>
+        </HTTPSamplerProxy>
+        <hashTree>
+          <HeaderManager guiclass="HeaderPanel" testclass="HeaderManager" testname="Gestor de Cabecera HTTP" enabled="true">
+            <collectionProp name="HeaderManager.headers">
+              <elementProp name="" elementType="Header">
+                <stringProp name="Header.name">content-type</stringProp>
+                <stringProp name="Header.value">application/json</stringProp>
+              </elementProp>
+            </collectionProp>
+          </HeaderManager>
+          <hashTree/>
+        </hashTree>
+        <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="POST /wishes/add" enabled="true">
+          <elementProp name="HTTPsampler.Arguments" elementType="Arguments" guiclass="HTTPArgumentsPanel" testclass="Arguments" enabled="true">
+            <collectionProp name="Arguments.arguments"/>
+          </elementProp>
+          <stringProp name="HTTPSampler.domain">localhost</stringProp>
+          <stringProp name="HTTPSampler.port">8081</stringProp>
+          <stringProp name="HTTPSampler.protocol">https</stringProp>
+          <stringProp name="HTTPSampler.contentEncoding"></stringProp>
+          <stringProp name="HTTPSampler.path">/wishes/add/60ba3f25e0e16d50544275aa</stringProp>
+          <stringProp name="HTTPSampler.method">POST</stringProp>
+          <boolProp name="HTTPSampler.follow_redirects">true</boolProp>
+          <boolProp name="HTTPSampler.auto_redirects">false</boolProp>
+          <boolProp name="HTTPSampler.use_keepalive">true</boolProp>
+          <boolProp name="HTTPSampler.DO_MULTIPART_POST">false</boolProp>
+          <stringProp name="HTTPSampler.embedded_url_re"></stringProp>
+          <stringProp name="HTTPSampler.connect_timeout"></stringProp>
+          <stringProp name="HTTPSampler.response_timeout"></stringProp>
+        </HTTPSamplerProxy>
+        <hashTree>
+          <HeaderManager guiclass="HeaderPanel" testclass="HeaderManager" testname="Gestor de Cabecera HTTP" enabled="true">
+            <collectionProp name="HeaderManager.headers">
+              <elementProp name="" elementType="Header">
+                <stringProp name="Header.name">content-type</stringProp>
+                <stringProp name="Header.value">application/json</stringProp>
+              </elementProp>
+            </collectionProp>
+          </HeaderManager>
+          <hashTree/>
+          <CookieManager guiclass="CookiePanel" testclass="CookieManager" testname="Cookie Normal" enabled="true">
+            <collectionProp name="CookieManager.cookies">
+              <elementProp name="connect.sid" elementType="Cookie" testname="connect.sid">
+                <stringProp name="Cookie.value">s%3AArtk7lrxl1ZUFuOYx6RDaiWBt1gE311I.MPX0yu9%2B6UqHiHr7QpDwk9Li8Kq9bbUUu37LUvJgq7E</stringProp>
+                <stringProp name="Cookie.domain">localhost</stringProp>
+                <stringProp name="Cookie.path"></stringProp>
+                <boolProp name="Cookie.secure">false</boolProp>
+                <longProp name="Cookie.expires">0</longProp>
+                <boolProp name="Cookie.path_specified">true</boolProp>
+                <boolProp name="Cookie.domain_specified">true</boolProp>
+              </elementProp>
+            </collectionProp>
+            <boolProp name="CookieManager.clearEachIteration">false</boolProp>
+            <boolProp name="CookieManager.controlledByThreadGroup">false</boolProp>
+          </CookieManager>
+          <hashTree/>
+        </hashTree>
+        <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="GET /wishes/delete" enabled="true">
+          <elementProp name="HTTPsampler.Arguments" elementType="Arguments" guiclass="HTTPArgumentsPanel" testclass="Arguments" enabled="true">
+            <collectionProp name="Arguments.arguments"/>
+          </elementProp>
+          <stringProp name="HTTPSampler.domain">localhost</stringProp>
+          <stringProp name="HTTPSampler.port">8081</stringProp>
+          <stringProp name="HTTPSampler.protocol">https</stringProp>
+          <stringProp name="HTTPSampler.contentEncoding"></stringProp>
+          <stringProp name="HTTPSampler.path">/wishes/delete/60ba3f25e0e16d50544275aa</stringProp>
+          <stringProp name="HTTPSampler.method">GET</stringProp>
+          <boolProp name="HTTPSampler.follow_redirects">true</boolProp>
+          <boolProp name="HTTPSampler.auto_redirects">false</boolProp>
+          <boolProp name="HTTPSampler.use_keepalive">true</boolProp>
+          <boolProp name="HTTPSampler.DO_MULTIPART_POST">false</boolProp>
+          <stringProp name="HTTPSampler.embedded_url_re"></stringProp>
+          <stringProp name="HTTPSampler.connect_timeout"></stringProp>
+          <stringProp name="HTTPSampler.response_timeout"></stringProp>
+        </HTTPSamplerProxy>
+        <hashTree>
+          <HeaderManager guiclass="HeaderPanel" testclass="HeaderManager" testname="Gestor de Cabecera HTTP" enabled="true">
+            <collectionProp name="HeaderManager.headers">
+              <elementProp name="" elementType="Header">
+                <stringProp name="Header.name">content-type</stringProp>
+                <stringProp name="Header.value">application/json</stringProp>
+              </elementProp>
+            </collectionProp>
+          </HeaderManager>
+          <hashTree/>
+          <CookieManager guiclass="CookiePanel" testclass="CookieManager" testname="Cookie Normal" enabled="true">
+            <collectionProp name="CookieManager.cookies">
+              <elementProp name="connect.sid" elementType="Cookie" testname="connect.sid">
+                <stringProp name="Cookie.value">s%3AArtk7lrxl1ZUFuOYx6RDaiWBt1gE311I.MPX0yu9%2B6UqHiHr7QpDwk9Li8Kq9bbUUu37LUvJgq7E</stringProp>
+                <stringProp name="Cookie.domain">localhost</stringProp>
+                <stringProp name="Cookie.path"></stringProp>
+                <boolProp name="Cookie.secure">false</boolProp>
+                <longProp name="Cookie.expires">0</longProp>
+                <boolProp name="Cookie.path_specified">true</boolProp>
+                <boolProp name="Cookie.domain_specified">true</boolProp>
+              </elementProp>
+            </collectionProp>
+            <boolProp name="CookieManager.clearEachIteration">false</boolProp>
+            <boolProp name="CookieManager.controlledByThreadGroup">false</boolProp>
+          </CookieManager>
+          <hashTree/>
+        </hashTree>
+        <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="GET /wishes" enabled="true">
+          <elementProp name="HTTPsampler.Arguments" elementType="Arguments" guiclass="HTTPArgumentsPanel" testclass="Arguments" enabled="true">
+            <collectionProp name="Arguments.arguments"/>
+          </elementProp>
+          <stringProp name="HTTPSampler.domain">localhost</stringProp>
+          <stringProp name="HTTPSampler.port">8081</stringProp>
+          <stringProp name="HTTPSampler.protocol">https</stringProp>
+          <stringProp name="HTTPSampler.contentEncoding"></stringProp>
+          <stringProp name="HTTPSampler.path">/wishes</stringProp>
+          <stringProp name="HTTPSampler.method">GET</stringProp>
+          <boolProp name="HTTPSampler.follow_redirects">true</boolProp>
+          <boolProp name="HTTPSampler.auto_redirects">false</boolProp>
+          <boolProp name="HTTPSampler.use_keepalive">true</boolProp>
+          <boolProp name="HTTPSampler.DO_MULTIPART_POST">false</boolProp>
+          <stringProp name="HTTPSampler.embedded_url_re"></stringProp>
+          <stringProp name="HTTPSampler.connect_timeout"></stringProp>
+          <stringProp name="HTTPSampler.response_timeout"></stringProp>
+        </HTTPSamplerProxy>
+        <hashTree>
+          <HeaderManager guiclass="HeaderPanel" testclass="HeaderManager" testname="Gestor de Cabecera HTTP" enabled="true">
+            <collectionProp name="HeaderManager.headers">
+              <elementProp name="" elementType="Header">
+                <stringProp name="Header.name">content-type</stringProp>
+                <stringProp name="Header.value">application/json</stringProp>
+              </elementProp>
+            </collectionProp>
+          </HeaderManager>
+          <hashTree/>
+          <CookieManager guiclass="CookiePanel" testclass="CookieManager" testname="Cookie Normal" enabled="true">
+            <collectionProp name="CookieManager.cookies">
+              <elementProp name="connect.sid" elementType="Cookie" testname="connect.sid">
+                <stringProp name="Cookie.value">s%3AArtk7lrxl1ZUFuOYx6RDaiWBt1gE311I.MPX0yu9%2B6UqHiHr7QpDwk9Li8Kq9bbUUu37LUvJgq7E</stringProp>
+                <stringProp name="Cookie.domain">localhost</stringProp>
+                <stringProp name="Cookie.path"></stringProp>
+                <boolProp name="Cookie.secure">false</boolProp>
+                <longProp name="Cookie.expires">0</longProp>
+                <boolProp name="Cookie.path_specified">true</boolProp>
+                <boolProp name="Cookie.domain_specified">true</boolProp>
+              </elementProp>
+            </collectionProp>
+            <boolProp name="CookieManager.clearEachIteration">false</boolProp>
+            <boolProp name="CookieManager.controlledByThreadGroup">false</boolProp>
+          </CookieManager>
+          <hashTree/>
+        </hashTree>
+      </hashTree>
+    </hashTree>
+  </hashTree>
+</jmeterTestPlan>
