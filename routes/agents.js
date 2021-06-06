@@ -107,35 +107,27 @@ module.exports = function (app, render, nodemailer, variables, utilities, mongoo
         let agent = {
             name: req.body.name,
             surname: req.body.surname,
-            email: req.body.email,
             password: app.get("crypto").createHmac('sha256', app.get('key')).update(req.body.password).digest('hex')
         }
         let condition = {"_id": mongoose.Types.ObjectId(req.params.id)};
         let oldAgent = await agentModel.findOne(condition);
-        if (oldAgent.email != agent.email) {
-            let otherAgent = await agentModel.findOne({email: req.body.email});
-            if (otherAgent != null) {
-                req.flash('error', ["Ya existe un agente con ese correo electrónico."])
+
+        let agentM = new agentModel(utilities.updateIfNecessary(oldAgent, agent));
+        let error = agentM.validateSync();
+        if (!error) {
+            // Connect to DB
+            let response = await agentM.save();
+            if (response === null) {
+                req.flash('error', ["El agente no se pudo editar correctamente."])
                 res.redirect('/agents');
             } else {
-                let agentM = new agentModel(utilities.updateIfNecessary(oldAgent, agent));
-                let error = agentM.validateSync();
-                if (!error) {
-                    // Connect to DB
-                    let response = await agentM.save();
-                    if (response === null) {
-                        req.flash('error', ["El agente no se pudo editar correctamente."])
-                        res.redirect('/agents');
-                    } else {
-                        req.flash('success', ["El agente se editó correctamente."])
-                        res.redirect('/agents');
-                    }
-                } else {
-                    let errorMsgs = utilities.getErrors(error.errors);
-                    req.flash('error', errorMsgs)
-                    res.redirect("/agents/edit/" + req.params.id);
-                }
+                req.flash('success', ["El agente se editó correctamente."])
+                res.redirect('/agents');
             }
+        } else {
+            let errorMsgs = utilities.getErrors(error.errors);
+            req.flash('error', errorMsgs)
+            res.redirect("/agents/edit/" + req.params.id);
         }
     });
 

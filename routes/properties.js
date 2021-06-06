@@ -1,5 +1,5 @@
 let userModel = require('../database/userModel');
-
+let conversationModel = require('../database/conversationModel');
 let propertyModel = require('../database/propertyModel');
 let ownerModel = require('../database/ownerModel');
 
@@ -138,7 +138,7 @@ module.exports = function (app, render, nodemailer, variables, utilities, fileSy
      */
     app.get('/properties/delete/:id', async function (req, res) {
         let condition = {"_id": mongoose.mongo.ObjectID(req.params.id)};
-        let propiedad = await propertyModel.deleteOne();
+        let propiedad = await propertyModel.deleteOne(condition);
         if (propiedad === null) {
             req.flash('error', ["Error al eliminar la propiedad."])
             res.redirect('/myproperties')
@@ -148,8 +148,17 @@ module.exports = function (app, render, nodemailer, variables, utilities, fileSy
             // Borramos esta propiedade de los seguimientos de todos los usuarios
             let user = {$pull: {wishes: req.params.id}}
             await userModel.updateMany({}, user);
-            req.flash('success', ["Propiedad eliminada correctamente."])
-            res.redirect("/myproperties");
+
+            // Eliminamos todas las conversaciones acerca de la propiedad.
+            let condition2 = {"property": mongoose.mongo.ObjectID(req.params.id)}
+            let result = await conversationModel.deleteMany(condition2);
+            if(result == null){
+                req.flash('error', ["Error al eliminar las conversaciones de la Propiedad."])
+                res.redirect("/myproperties");
+            }else{
+                req.flash('success', ["Propiedad eliminada correctamente."])
+                res.redirect("/myproperties");
+            }
         }
     });
 

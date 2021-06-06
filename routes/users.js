@@ -109,11 +109,16 @@ module.exports = function (app, render, nodemailer, variables, utilities, mongoo
         }
         else {
             let oldPass = req.body.oldPassword;
+
             let user = {
                 name: req.body.name,
-                surname: req.body.surname,
-                password: app.get("crypto").createHmac('sha256', app.get('key')).update(req.body.password).digest('hex'),
+                surname: req.body.surname
             };
+
+            // Si alguna las dos nuevas contraseñas queda vacía, la contraseña no se modifica
+            if(req.body.password != "" && req.body.passwordR != ""){
+                utilities.addIfExists("password", app.get("crypto").createHmac('sha256', app.get('key')).update(req.body.password).digest('hex'), user);
+            }
 
             let id = req.session.user._id;
             let condition = {"_id": mongoose.mongo.ObjectId(id)};
