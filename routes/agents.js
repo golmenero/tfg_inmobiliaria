@@ -1,6 +1,6 @@
 let agentModel = require('../database/agentModel');
 
-module.exports = function (app, render, nodemailer, variables, utilities, mongoose, encrypter) {
+module.exports = function (app, render, nodemailer, variables, utilities, mongoose) {
 
     /**
      * Peticion GET
@@ -50,7 +50,7 @@ module.exports = function (app, render, nodemailer, variables, utilities, mongoo
             surname: req.body.surname,
             email: req.body.email,
             permission: 'A',
-            password: encrypter.encrypt(req.body.password),
+            password: app.get("crypto").createHmac('sha256', app.get('key')).update(req.body.password).digest('hex'),
             active: true
         });
         let anyAgente = await agentModel.findOne({email: req.body.email});
@@ -89,14 +89,8 @@ module.exports = function (app, render, nodemailer, variables, utilities, mongoo
             req.flash('error', ["El agente no se pudo editar correctamente."])
             res.redirect('/agents');
         } else {
-            let newAgent = {
-                password: encrypter.encrypt(agent.password)
-            }
-            console.log(newAgent)
-
-            utilities.updateIfNecessary(agent, newAgent)
             let response = render(req.session, 'views/agents/agent_modify.html', {
-                agent: newAgent,
+                agent: agent,
                 error: req.flash('error'),
                 success: req.flash('success')
             });
@@ -113,7 +107,7 @@ module.exports = function (app, render, nodemailer, variables, utilities, mongoo
         let agent = {
             name: req.body.name,
             surname: req.body.surname,
-            password: encrypter.encrypt(req.body.password)
+            password: app.get("crypto").createHmac('sha256', app.get('key')).update(req.body.password).digest('hex')
         }
         let condition = {"_id": mongoose.Types.ObjectId(req.params.id)};
         let oldAgent = await agentModel.findOne(condition);

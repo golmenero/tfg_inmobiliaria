@@ -1,6 +1,6 @@
 let userModel = require('../database/userModel');
 
-module.exports = function (app, render, nodemailer, variables, utilities, mongoose, encrypter) {
+module.exports = function (app, render, nodemailer, variables, utilities, mongoose) {
 
     /**
      * Peticion GET
@@ -63,7 +63,7 @@ module.exports = function (app, render, nodemailer, variables, utilities, mongoo
             res.redirect('/recover/' + code);
         } else {
             let condition = {"codes.passwordRecover": code}
-            let seguro = encrypter.encrypt(password);
+            let seguro = app.get("crypto").createHmac('sha256', app.get('key')).update(password).digest('hex');
             let user = {password: seguro}
 
             let result = await userModel.findOneAndUpdate(condition, user);
@@ -117,7 +117,8 @@ module.exports = function (app, render, nodemailer, variables, utilities, mongoo
 
             // Si alguna las dos nuevas contraseñas queda vacía, la contraseña no se modifica
             if(req.body.password != "" && req.body.passwordR != ""){
-                utilities.addIfExists("password", encrypter.encrypt(req.body.password), user);
+                utilities.addIfExists("password", app.get("crypto")
+                    .createHmac('sha256', app.get('key')).update(req.body.password).digest('hex'), user);
             }
 
             let id = req.session.user._id;
@@ -125,7 +126,7 @@ module.exports = function (app, render, nodemailer, variables, utilities, mongoo
 
             // Hacemos el proceso de actualizacion de otra manera para poder correr los validadores de mongoose
             let oldUser = await userModel.findOne(condition);
-            if (oldUser.password == encrypter.encrypt(oldPass)) {
+            if (oldUser.password == app.get("crypto").createHmac('sha256', app.get('key')).update(oldPass).digest('hex')) {
                 let userM = new userModel(utilities.updateIfNecessary(oldUser, user));
                 let error = userM.validateSync();
 
@@ -155,7 +156,8 @@ module.exports = function (app, render, nodemailer, variables, utilities, mongoo
      */
     app.post("/users/delete", async function (req, res) {
         if (req.session.user.permission != 'S') {
-            let encrypted = encrypter.encrypt(req.body.password);
+            let encrypted = app.get("crypto").createHmac('sha256', app.get('key'))
+                .update(req.body.password).digest('hex');
             let condition = {"_id": mongoose.mongo.ObjectId(req.session.user._id)};
             if (encrypted == req.session.user.password) {
                 let result = await userModel.deleteOne(condition);
@@ -247,7 +249,7 @@ module.exports = function (app, render, nodemailer, variables, utilities, mongoo
             res.redirect("/signin");
         }
         else {
-            let seguro = encrypter.encrypt(req.body.password);
+            let seguro = app.get("crypto").createHmac('sha256', app.get('key')).update(req.body.password).digest('hex');
             let condition1 = {
                 email: req.body.email,
             }
@@ -318,7 +320,8 @@ module.exports = function (app, render, nodemailer, variables, utilities, mongoo
      * Obtiene los datos de inicio de sesión y, si son correctos, carga al usuario en sesión.
      */
     app.post("/login", async function (req, res) {
-        let decrypted = encrypter.encrypt(req.body.password);
+        let decrypted = app.get("crypto").createHmac('sha256', app.get('key'))
+            .update(req.body.password).digest('hex');
 
         let condition = {
             email: req.body.email,
@@ -343,5 +346,3 @@ module.exports = function (app, render, nodemailer, variables, utilities, mongoo
     });
 }
 ;
-
-
