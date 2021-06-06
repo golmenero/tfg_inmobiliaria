@@ -232,24 +232,26 @@ module.exports = {
      * id -> El id que será el nombre del directorio (id de la propiedad).
      * fileSystem - > El módulo que permite añadir las imágenes a los ficheros.
      */
-    getArrayImg: async function (files, id, fileSystem) {
+    getArrayImg: async function (files, id, fileSystem, startCounter) {
         // Usamos el paquete fs-extra para crear el directorio
         await fileSystem.ensureDir("public/propertiesimg/" + id.toString())
-        // Vaciamos el directorio si tiene contenido
-        await fileSystem.emptyDir("public/propertiesimg/" + id.toString());
 
+        if(startCounter == 0) {
+            // Vaciamos el directorio si tiene contenido
+            await fileSystem.emptyDir("public/propertiesimg/" + id.toString());
+        }
         let arrayImg = [];
 
         // Usamos el paquete express-fileupload para meter las imagenes en el directorio
         if (Array.isArray(files)) {
-            for (let counter = 0; counter < files.length; counter++) {
+            for (let counter = startCounter; counter < files.length + startCounter; counter++) {
                 name = 'public/propertiesimg/' + id.toString() + "/" + id.toString() + "_" + counter + '.png';
-                await files[counter].mv(name);
+                await files[counter - startCounter].mv(name);
                 arrayImg.push(name.replace("public", ""));
             }
 
         } else {
-            name = 'public/propertiesimg/' + id + "/" + id + "_0" + '.png';
+            name = 'public/propertiesimg/' + id + "/" + id + "_" + startCounter + '.png';
             await files.mv(name);
             arrayImg.push(name.replace("public", ""));
         }

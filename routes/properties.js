@@ -60,7 +60,6 @@ module.exports = function (app, render, nodemailer, variables, utilities, fileSy
         let ownerCond = utilities.buildOwner(req);
         // Debemos buscar el usuario por todos sus parametros
         let owner = await ownerModel.findOne(ownerCond);
-        let errorMsgs = [];
         let idO = null;
         // Si no encuentra el propietario lo añade
         if (owner === null) {
@@ -74,7 +73,8 @@ module.exports = function (app, render, nodemailer, variables, utilities, fileSy
                 }
                 idO = {owner: mongoose.mongo.ObjectID(ownerAdd.id)};
             } else {
-                errorMsgs = utilities.getErrors(error.errors);
+                let errorMsgs = utilities.getErrors(error.errors);
+                req.flash('error', errorMsgs)
                 res.redirect('/myproperties')
             }
         } else {
@@ -84,20 +84,32 @@ module.exports = function (app, render, nodemailer, variables, utilities, fileSy
         // Creamos la propiedad y le añadimos el id del propietario
         let propertyNew = {...utilities.buildProperty(req), ...idO}
 
-        // Si el usuario seleccionó la opcion de introducir imagenes nuevas se actualizan en directorio
-        if(req.body.chooseImg == "new") {
-            // Añadimos las imágenes en carpeta y las asignamos a la propiedad
-            let arrayImg = await utilities.getArrayImg(req.files.imginmueble, req.params.id, fileSystem);
-            propertyNew = {...propertyNew, ...arrayImg}
-        }
-
         // Modificamos la propiedad (Lo hacemos de la forma compleja para poder validarlo)
         let condition = {"_id": mongoose.mongo.ObjectID(req.params.id)};
 
         let oldProperty = await propertyModel.findOne(condition);
         let oldPrice = oldProperty.price;
 
-        let propertyM = new propertyModel(utilities.updateIfNecessary(oldProperty, propertyNew))
+        // Si el usuario seleccionó la opcion de introducir imagenes nuevas se actualizan en directorio
+        if(req.body.chooseImg == "new") {
+            // Añadimos las imágenes en carpeta y las asignamos a la propiedad
+            let arrayImg = await utilities.getArrayImg(req.files.imginmueble, req.params.id, fileSystem, 0);
+            propertyNew["media"] = arrayImg;
+        }
+        else if(req.body.chooseImg == "add") {
+            // Añadimos las imágenes en carpeta y las asignamos a la propiedad
+            let addArray = await utilities.getArrayImg(req.files.imginmueble, req.params.id, fileSystem, oldProperty.media.length)
+            let arrayImg = oldProperty.media.concat(addArray);
+            propertyNew["media"] = arrayImg;
+        }
+
+        console.log(oldProperty)
+        console.log(propertyNew)
+
+        let propertyAdd = utilities.updateIfNecessary(oldProperty, propertyNew)
+        console.log(propertyAdd)
+        let propertyM = new propertyModel(propertyAdd)
+
         let error = propertyM.validateSync();
 
         if (!error) {
@@ -215,7 +227,7 @@ module.exports = function (app, render, nodemailer, variables, utilities, fileSy
             }
             // Si se guarda, utilizamos su ID para guardar las imagenes y luego editamos la propiedad añadiéndole el array.
             else {
-                let arrayImg = await utilities.getArrayImg(req.files.imginmueble, mongoose.mongo.ObjectID(model._id), fileSystem);
+                let arrayImg = await utilities.getArrayImg(req.files.imginmueble, mongoose.mongo.ObjectID(model._id), fileSystem, 0);
                 let condition = {"_id": mongoose.mongo.ObjectID(model._id)};
                 let property = {media: arrayImg,}
                 let result = await propertyModel.findOneAndUpdate(condition, property);

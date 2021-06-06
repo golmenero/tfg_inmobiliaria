@@ -26,8 +26,6 @@ module.exports = {
         const encrypter = crypto.createCipheriv("aes-256-cbc", key, newIV);
         let encryptedMsg = encrypter.update(text, "utf-8", "hex");
         encryptedMsg += encrypter.final("hex");
-
-        console.log(encryptedMsg)
         return {
             iv: newIV,
             data: encryptedMsg

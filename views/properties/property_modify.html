@@ -516,6 +516,8 @@
                     <select id='chooseImg' class="form-control" name="chooseImg">
                         <option value="old">Conservar las Imágenes Originales
                         </option>
+                        <option value="add">Añadir Imágenes a las Existentes
+                        </option>
                         <option value="new">Añadir nuevas Imágenes
                         </option>
                     </select>
@@ -922,7 +924,7 @@
             // PASO DE FASE 3 (Multimedia) A FASE 4 (Resumen)
             $('#btnPicturesS').on('click', function () {
                 let _files = $('#imginmueble').prop("files");
-                if (_files.length <= 0 && $("#chooseImg").val() == "new") {
+                if (_files.length <= 0 && ($("#chooseImg").val() == "new" || $("#chooseImg").val() == "add")) {
                     $('#divErrorImg').show();
                 } else {
                     $('#divErrorImg').hide();
