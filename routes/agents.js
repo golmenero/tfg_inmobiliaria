@@ -1,6 +1,6 @@
 let agentModel = require('../database/agentModel');
 
-module.exports = function (app, render, nodemailer, variables, utilities, mongoose) {
+module.exports = function (app, render, nodemailer, variables, utilities, mongoose, encrypter) {
 
     /**
      * Peticion GET
@@ -50,7 +50,7 @@ module.exports = function (app, render, nodemailer, variables, utilities, mongoo
             surname: req.body.surname,
             email: req.body.email,
             permission: 'A',
-            password: app.get("crypto").createHmac('sha256', app.get('key')).update(req.body.password).digest('hex'),
+            password: encrypter.encrypt(req.body.password),
             active: true
         });
         let anyAgente = await agentModel.findOne({email: req.body.email});
@@ -89,6 +89,8 @@ module.exports = function (app, render, nodemailer, variables, utilities, mongoo
             req.flash('error', ["El agente no se pudo editar correctamente."])
             res.redirect('/agents');
         } else {
+            agent.passwordD = encrypter.decrypt(agent.password.data, agent.password.iv);
+
             let response = render(req.session, 'views/agents/agent_modify.html', {
                 agent: agent,
                 error: req.flash('error'),
@@ -104,13 +106,14 @@ module.exports = function (app, render, nodemailer, variables, utilities, mongoo
      * :id -> El id del agente que se desea editar.
      */
     app.post('/agents/edit/:id', async function (req, res) {
+        let condition = {"_id": mongoose.Types.ObjectId(req.params.id)};
+        let oldAgent = await agentModel.findOne(condition);
+
         let agent = {
             name: req.body.name,
             surname: req.body.surname,
-            password: app.get("crypto").createHmac('sha256', app.get('key')).update(req.body.password).digest('hex')
+            password: encrypter.encryptIV(req.body.password, oldAgent.password.iv)
         }
-        let condition = {"_id": mongoose.Types.ObjectId(req.params.id)};
-        let oldAgent = await agentModel.findOne(condition);
 
         let agentM = new agentModel(utilities.updateIfNecessary(oldAgent, agent));
         let error = agentM.validateSync();

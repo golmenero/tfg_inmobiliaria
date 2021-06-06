@@ -251,7 +251,7 @@
 
 <script>
 
-    function update(data) {
+    function updateNotifications(data) {
         $.ajax({
             type: 'POST',
             data: data,
@@ -299,9 +299,9 @@
         getCookie();
 
         if (data._id != "") {
-            update(data);
+            updateNotifications(data);
             let func = setInterval(function () {
-                update(data);
+                updateNotifications(data);
             }, 1000)
         }
     });

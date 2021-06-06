@@ -26,15 +26,23 @@ let agentSchema = new Schema({
         maxLength: [1,"El permiso debe tener exactamente una letra."],
         minLength: [1,"El permiso debe tener exactamente una letra."],
     },
+    password: {
+        iv: {
+            type: String,
+            required: [true, "Debe tener al menos una contraseña"],
+            maxLength: [100, "La contraseña debe tener menos de 100 caracteres."],
+            minLength: [8, "La contraseña debe tener al menos 8 caracteres."],
+        },
+        data: {
+            type: String,
+            required: [true, "Debe tener al menos una contraseña"],
+            maxLength: [100, "La contraseña debe tener menos de 100 caracteres."],
+            minLength: [8, "La contraseña debe tener al menos 8 caracteres."],
+        }
+    },
     active: {
         type: Boolean,
         required: [true,"Debe tener al menos un estado"],
-    },
-    password: {
-        type: String,
-        required: [true,"Debe tener al menos una contraseña"],
-        maxLength: [100,"La contraseña debe tener menos de 100 caracteres."],
-        minLength: [8,"La contraseña debe tener al menos 8 caracteres."],
     },
 }, {collection: "users"});
 

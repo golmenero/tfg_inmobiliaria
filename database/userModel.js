@@ -26,6 +26,20 @@ let userSchema = new Schema({
         maxLength: [1,"El permiso debe tener exactamente una letra."],
         minLength: [1,"El permiso debe tener exactamente una letra."],
     },
+    password: {
+        iv: {
+            type: String,
+            required: [true, "Debe tener al menos una contraseña"],
+            maxLength: [100, "La contraseña debe tener menos de 100 caracteres."],
+            minLength: [8, "La contraseña debe tener al menos 8 caracteres."],
+        },
+        data: {
+            type: String,
+            required: [true, "Debe tener al menos una contraseña"],
+            maxLength: [100, "La contraseña debe tener menos de 100 caracteres."],
+            minLength: [8, "La contraseña debe tener al menos 8 caracteres."],
+        }
+    },
     active: {
         type: Boolean,
         required: [true,"Debe tener al menos un estado"],
@@ -45,14 +59,21 @@ let userSchema = new Schema({
             type: String
         },
     },
-    password: {
-        type: String,
-        required: [true,"Debe tener al menos una contraseña"],
-        maxLength: [100,"La contraseña debe tener menos de 100 caracteres."],
-        minLength: [8,"La contraseña debe tener al menos 8 caracteres."],
-    },
     wishes: [],
 }, {collection: "users"});
+
+
+userSchema.methods.setPassword = function(password) {
+    this.salt = crypto.randomBytes(16).toString('hex');
+    this.hash = crypto.pbkdf2Sync(password, this.salt,
+        1000, 64, `sha512`).toString(`hex`);
+};
+
+userSchema.methods.validPassword = function(password) {
+    let hash = crypto.pbkdf2Sync(password,
+        this.salt, 1000, 64, `sha512`).toString(`hex`);
+    return this.hash === hash;
+};
 
 
 module.exports = mongoose.model('userModel', userSchema);
