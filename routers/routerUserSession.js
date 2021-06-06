@@ -34,7 +34,8 @@ module.exports = function (app,express ) {
 
     app.use("/wishes/*", routerUserSession);
     app.use("/wishes", routerUserSession);
+    app.use("/users/edit", routerUserSession);
 
-    app.use("/users/edit", exclusiveRouterUserSession);
+    app.use("/users/password/edit", exclusiveRouterUserSession);
     app.use("/users/delete", exclusiveRouterUserSession);
 };

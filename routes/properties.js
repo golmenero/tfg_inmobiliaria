@@ -103,11 +103,7 @@ module.exports = function (app, render, nodemailer, variables, utilities, fileSy
             propertyNew["media"] = arrayImg;
         }
 
-        console.log(oldProperty)
-        console.log(propertyNew)
-
         let propertyAdd = utilities.updateIfNecessary(oldProperty, propertyNew)
-        console.log(propertyAdd)
         let propertyM = new propertyModel(propertyAdd)
 
         let error = propertyM.validateSync();

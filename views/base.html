@@ -102,7 +102,12 @@
                         <a class="dropdown-item" href="/properties/suelo">Suelos</a>
                     </div>
                 </li>
-                {% if user.permission != undefined %}
+                {% if user.permission == 'U' %}
+                <li class="nav-item active">
+                    <a class="nav-link" href="/wishes">Seguimientos</a>
+                </li>
+                {% endif %}
+                {% if user.permission == 'A' || user.permission == 'S' %}
                 <li class="nav-item dropdown active" id="propiedadesMenu">
                     <a class="nav-link dropdown-toggle active" href="#" data-toggle="dropdown">Gestión</a>
                     <div class="dropdown-menu">
@@ -110,17 +115,12 @@
                         <a class="dropdown-item" href="/myproperties">Inmuebles Publicados</a>
                         <a class="dropdown-item" href="/properties/add">Añadir Inmueble</a>
                         {% endif %}
-                        {% if user.permission == 'U' %}
-                        <a class="dropdown-item" href="/wishes">Mis Seguimientos</a>
-                        {% endif %}
                         {% if user.permission == 'S' %}
                         <div class="dropdown-divider"></div>
                         <a class="dropdown-item" id="navAgentes" href="/agents">Agentes</a>
                         {% endif %}
                     </div>
                 </li>
-                {% endif %}
-                {% if user.permission == 'A' || user.permission == 'S' %}
                 <li class="nav-item active">
                     <a class="nav-link" href="/info/statistics">Estadísticas</a>
                 </li>
@@ -155,6 +155,9 @@
                             class="fas fa-user"></span>{{user.email}}</a>
                     <div class="dropdown-menu">
                         <a class="dropdown-item" href="/users/edit">Editar Perfil</a>
+                        {% if user.permission == 'U' %}
+                        <a class="dropdown-item" href="/users/password/edit">Modificar Contraseña</a>
+                        {% endif %}
                         {% if user.permission != 'S'%}
                         <a id="eliminarPerfil" class="dropdown-item" data-toggle="modal"
                            data-target="#modeloEliminarPerfil">Eliminar

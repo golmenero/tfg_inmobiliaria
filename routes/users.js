@@ -38,7 +38,7 @@ module.exports = function (app, render, nodemailer, variables, utilities, mongoo
                 req.flash('error', ["Su enlace de recuperación de contraseña ha caducado."]);
                 res.redirect('/login');
             } else {
-                let respuesta = render(req.session, 'views/users/user_passwordRecover.html', {
+                let respuesta = render(req.session, 'views/users/user_recover_password.html', {
                     passwordRecover: req.params.code,
                     error: req.flash('error'),
                     success: req.flash('success')
@@ -83,14 +83,15 @@ module.exports = function (app, render, nodemailer, variables, utilities, mongoo
      */
     app.get('/users/edit', async function (req, res) {
         let condition = {"_id": mongoose.mongo.ObjectID(req.session.user._id)};
-        let user = userModel.findOneAndUpdate(condition);
+        let user = await userModel.findOne(condition);
+
         if (user == null) {
             req.flash('error', ["No se pudo encontrar al usuario."]);
             res.redirect("/properties/vivienda");
         } else {
             let response = render(req.session, 'views/users/user_modify.html',
                 {
-                    user: user,
+                    userN: user,
                     error: req.flash('error'),
                     success: req.flash('success')
                 });
@@ -103,49 +104,30 @@ module.exports = function (app, render, nodemailer, variables, utilities, mongoo
      * Actualiza el usuario en sesión con los datos introducidos.
      */
     app.post('/users/edit', async function (req, res) {
-        if(req.body.password != req.body.passwordR){
-            req.flash('error', ["Las contraseñas no coinciden."])
-            res.redirect("/users/edit");
-        }
-        else {
-            let oldPass = req.body.oldPassword;
+        let user = {
+            name: req.body.name,
+            surname: req.body.surname
+        };
 
-            let user = {
-                name: req.body.name,
-                surname: req.body.surname
-            };
+        let id = req.session.user._id;
+        let condition = {"_id": mongoose.mongo.ObjectId(id)};
 
-            // Si alguna las dos nuevas contraseñas queda vacía, la contraseña no se modifica
-            if(req.body.password != "" && req.body.passwordR != ""){
-                utilities.addIfExists("password", encrypter.encrypt(req.body.password), user);
-            }
-
-            let id = req.session.user._id;
-            let condition = {"_id": mongoose.mongo.ObjectId(id)};
-
-            // Hacemos el proceso de actualizacion de otra manera para poder correr los validadores de mongoose
-            let oldUser = await userModel.findOne(condition);
-            if (oldUser.password == encrypter.encrypt(oldPass)) {
-                let userM = new userModel(utilities.updateIfNecessary(oldUser, user));
-                let error = userM.validateSync();
-
-                if (!error) {
-                    let result = await userM.save();
-                    if (result === null) {
-                        req.flash('error', ["Ocurrió un error al modificar su perfil."]);
-                    } else {
-                        req.flash('success', ["Su perfil se ha modificado correctamente."]);
-                    }
-                    res.redirect("/home");
-                } else {
-                    let errorMsgs = utilities.getErrors(error.errors);
-                    req.flash('error', errorMsgs)
-                    res.redirect("/users/edit");
-                }
+        // Hacemos el proceso de actualizacion de otra manera para poder correr los validadores de mongoose
+        let oldUser = await userModel.findOne(condition);
+        let userM = new userModel(utilities.updateIfNecessary(oldUser, user));
+        let error = userM.validateSync();
+        if (!error) {
+            let result = await userM.save();
+            if (result === null) {
+                req.flash('error', ["Ocurrió un error al modificar su perfil."]);
             } else {
-                req.flash('error', ["Contraseña Incorrecta. Inténtelo de nuevo."]);
-                res.redirect("/users/edit");
+                req.flash('success', ["Su perfil se ha modificado correctamente."]);
             }
+            res.redirect("/home");
+        } else {
+            let errorMsgs = utilities.getErrors(error.errors);
+            req.flash('error', errorMsgs)
+            res.redirect("/users/edit");
         }
     });
 
@@ -242,11 +224,10 @@ module.exports = function (app, render, nodemailer, variables, utilities, mongoo
      * lo añade a la Base de Datos.
      */
     app.post('/signin', async function (req, res) {
-        if(req.body.password != req.body.passwordR){
+        if (req.body.password != req.body.passwordR) {
             req.flash('error', ["Las contraseñas no coinciden."])
             res.redirect("/signin");
-        }
-        else {
+        } else {
             let seguro = encrypter.encrypt(req.body.password);
             let condition1 = {
                 email: req.body.email,
@@ -329,18 +310,71 @@ module.exports = function (app, render, nodemailer, variables, utilities, mongoo
             res.redirect("/login");
         } else {
             let encrypted = encrypter.encryptIV(req.body.password, user.password.iv)
-            if(encrypted.data == user.password.data && user.active == true){
+            if (encrypted.data == user.password.data && user.active == true) {
                 req.session.user = user;
                 req.flash('success', ["Ha iniciado sesión correctamente."])
 
                 res.redirect('/home');
-            } else if (!user.active){
+            } else if (!user.active) {
                 req.flash('error', ["Su correo no ha sido verificado. Revise su bandeja de entrada."])
                 res.redirect("/login");
-            } else{
+            } else {
                 req.flash('error', ["Usuario y/o contraseña incorrectos."])
                 req.session.user = null;
                 res.redirect("/login");
+            }
+        }
+    });
+
+    /**
+     * Peticion GET
+     * Muestra la pantalla de edición de contraseña de usuario.
+     */
+    app.get('/users/password/edit', async function (req, res) {
+        let response = render(req.session, 'views/users/user_modify_password.html',
+            {
+                error: req.flash('error'),
+                success: req.flash('success')
+            });
+        res.send(response);
+
+    });
+
+    /**
+     * Peticion POST
+     * Actualiza el usuario en sesión con la contraseña introducida
+     */
+    app.post('/users/password/edit', async function (req, res) {
+        if (req.body.password != req.body.passwordR) {
+            req.flash('error', ["Las contraseñas no coinciden o están vacías."])
+            res.redirect("/users/edit");
+        } else {
+            let condition = {"_id": mongoose.mongo.ObjectId(req.session.user._id)};
+            // Hacemos el proceso de actualizacion de otra manera para poder correr los validadores de mongoose
+            let oldUser = await userModel.findOne(condition);
+
+            let oldPassEnc = encrypter.encryptIV(req.body.oldPassword, oldUser.password.iv);
+            if(oldUser.password.data == oldPassEnc.data){
+                oldUser.password =  encrypter.encryptIV(req.body.password, oldUser.password.iv);
+
+                let userM = new userModel(oldUser);
+                let error = userM.validateSync();
+                if (!error) {
+                    let result = await userM.save();
+                    if (result === null) {
+                        req.flash('error', ["Ocurrió un error al modificar su contraseña."]);
+                    } else {
+                        req.flash('success', ["Su contraseña se ha modificado correctamente."]);
+                    }
+                    res.redirect("/home");
+                } else {
+                    let errorMsgs = utilities.getErrors(error.errors);
+                    req.flash('error', errorMsgs)
+                    res.redirect("/users/edit");
+                }
+            } else {
+                req.flash('error', ["La contraseña actual no es correcta."])
+                res.redirect('/users/password/edit');
             }
         }
     });
