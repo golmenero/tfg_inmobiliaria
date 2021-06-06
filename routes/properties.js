@@ -83,9 +83,13 @@ module.exports = function (app, render, nodemailer, variables, utilities, fileSy
 
         // Creamos la propiedad y le añadimos el id del propietario
         let propertyNew = {...utilities.buildProperty(req), ...idO}
-        // Añadimos las imágenes en carpeta y las asignamos a la propiedad
-        let arrayImg = await utilities.getArrayImg(req.files.imginmueble, req.params.id, fileSystem);
-        propertyNew = {...propertyNew, ...arrayImg}
+
+        // Si el usuario seleccionó la opcion de introducir imagenes nuevas se actualizan en directorio
+        if(req.body.chooseImg == "new") {
+            // Añadimos las imágenes en carpeta y las asignamos a la propiedad
+            let arrayImg = await utilities.getArrayImg(req.files.imginmueble, req.params.id, fileSystem);
+            propertyNew = {...propertyNew, ...arrayImg}
+        }
 
         // Modificamos la propiedad (Lo hacemos de la forma compleja para poder validarlo)
         let condition = {"_id": mongoose.mongo.ObjectID(req.params.id)};

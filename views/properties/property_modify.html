@@ -17,7 +17,7 @@
 
 <div class="container">
     <h1 class="sectionHeader">Editar Inmueble</h1>
-    <h2 class="sectionHeader"  id="headerS">Edite la información del Inmueble.</h2>
+    <h2 class="sectionHeader" id="headerS">Edite la información del Inmueble.</h2>
     <form id="editPropForm" class="form-horizontal" method="post" action="/properties/edit/{{property._id.toString()}}"
           encType="multipart/form-data">
 
@@ -48,14 +48,14 @@
                     <label class="control-label" for="code">Código:</label>
                     <div>
                         <input id='code' type="text" class="form-control" name="code"
-                              value="{{property.code}}" placeholder="Ej. V001"
+                               value="{{property.code}}" placeholder="Ej. V001"
                                maxlength="10" minlength="1"/>
                     </div>
                 </div>
                 <div class="form-group col-sm-4">
                     <label class="control-label" for="name">Nombre:</label>
                     <div>
-                        <input type="text" class="form-control" id="name"  name="name" value="{{property.name}}"
+                        <input type="text" class="form-control" id="name" name="name" value="{{property.name}}"
                                placeholder="Ej. Chalet con Piscina en el Centro"
                                maxlength="30" minlength="4"/>
                     </div>
@@ -86,7 +86,7 @@
                 <div class="form-group col-sm-3">
                     <label class="control-label" for="floorV">Piso:</label>
                     <div>
-                        <input type="number" class="form-control" id="floorV"  name="floorV" value="{{property.floor}}"
+                        <input type="number" class="form-control" id="floorV" name="floorV" value="{{property.floor}}"
                                placeholder="Ej. 1" max="10000" min="0"/>
                     </div>
                 </div>
@@ -162,12 +162,12 @@
         </div>
 
         <script>
-        function checkCheckBox(value){
-            if(value == "true")
-                return true;
-            else
-                return false;
-        }
+            function checkCheckBox(value) {
+                if (value == "true")
+                    return true;
+                else
+                    return false;
+            }
         </script>
 
         <!-- DATOS DE VIVIENDA ----------------------------------------------------------------------------------------------------------------------------------------------->
@@ -216,7 +216,7 @@
                 <div class="form-group col-sm-3">
                     <label class="control-label" for="price">Precio (€):</label>
                     <div>
-                        <input type="number" class="form-control" id="price"  name="price" placeholder="Ej. 1000"
+                        <input type="number" class="form-control" id="price" name="price" placeholder="Ej. 1000"
                                value="{{property.price}}" max="10000000" min="0"/>
                     </div>
                 </div>
@@ -262,7 +262,8 @@
             </div>
             <div class="div-field form-row">
                 <div class="form-check col-sm-2">
-                    <input type="checkbox" class="form-check-input" id="checkCalefaccion" name="checkCalefaccion" checked>
+                    <input type="checkbox" class="form-check-input" id="checkCalefaccion" name="checkCalefaccion"
+                           checked>
                     <label class="form-check-label" for="checkCalefaccion">Calefacción</label>
                     <script> $('#checkCalefaccion').prop('checked', checkCheckBox('{{property.calefaccion}}')); </script>
                 </div>
@@ -329,39 +330,46 @@
             </div>
             <div class="div-field form-row">
                 <div class="form-check col-sm-2">
-                    <input type="checkbox" class="form-check-input" id="checkEscaparateLoc"  name="checkEscaparateLoc" checked>
+                    <input type="checkbox" class="form-check-input" id="checkEscaparateLoc" name="checkEscaparateLoc"
+                           checked>
                     <label class="form-check-label" for="checkEscaparateLoc">Escaparate</label>
                     <script> $('#checkEscaparateLoc').prop('checked', checkCheckBox('{{property.escaparate}}')); </script>
                 </div>
                 <div class="form-check col-sm-2">
-                    <input type="checkbox" class="form-check-input" id="checkAparcamientoLoc" name="checkAparcamientoLoc" checked>
+                    <input type="checkbox" class="form-check-input" id="checkAparcamientoLoc"
+                           name="checkAparcamientoLoc" checked>
                     <label class="form-check-label" for="checkAparcamientoLoc">Aparcamiento</label>
                     <script> $('#checkAparcamientoLoc').prop('checked', checkCheckBox('{{property.aparcamiento}}')); </script>
                 </div>
                 <div class="form-check col-sm-2">
-                    <input type="checkbox" class="form-check-input" id="checkCargaYDescargaLoc" name="checkCargaYDescargaLoc" checked>
+                    <input type="checkbox" class="form-check-input" id="checkCargaYDescargaLoc"
+                           name="checkCargaYDescargaLoc" checked>
                     <label class="form-check-label" for="checkCargaYDescargaLoc">Carga y Descarga</label>
                     <script> $('#checkCargaYDescargaLoc').prop('checked', checkCheckBox('{{property.cargaYdescarga}}')); </script>
                 </div>
                 <div class="form-check col-sm-2">
-                    <input type="checkbox" class="form-check-input" id="checkExtintoresLoc" name="checkExtintoresLoc" checked>
+                    <input type="checkbox" class="form-check-input" id="checkExtintoresLoc" name="checkExtintoresLoc"
+                           checked>
                     <label class="form-check-label" for="checkExtintoresLoc">Extintores</label>
                     <script> $('#checkExtintoresLoc').prop('checked', checkCheckBox('{{property.extintores}}')); </script>
                 </div>
                 <div class="form-check col-sm-2">
-                    <input type="checkbox" class="form-check-input" id="checkIluminacionLoc" name="checkIluminacionLoc" checked>
+                    <input type="checkbox" class="form-check-input" id="checkIluminacionLoc" name="checkIluminacionLoc"
+                           checked>
                     <label class="form-check-label" for="checkIluminacionLoc">Iuminación</label>
                     <script> $('#checkIluminacionLoc').prop('checked', checkCheckBox('{{property.iluminacion}}')); </script>
                 </div>
             </div>
             <div class="div-field form-row">
                 <div class="form-check col-sm-2">
-                    <input type="checkbox" class="form-check-input" id="checkCalefaccionLoc" name="checkCalefaccionLoc" checked>
+                    <input type="checkbox" class="form-check-input" id="checkCalefaccionLoc" name="checkCalefaccionLoc"
+                           checked>
                     <script> $('#checkCalefaccionLoc').prop('checked', checkCheckBox('{{property.calefaccion}}')); </script>
                     <label class="form-check-label" for="checkCalefaccionLoc">Calefacción</label>
                 </div>
                 <div class="form-check col-sm-2">
-                    <input type="checkbox" class="form-check-input" id="checkAireAconLoc" name="checkAireAconLoc" checked>
+                    <input type="checkbox" class="form-check-input" id="checkAireAconLoc" name="checkAireAconLoc"
+                           checked>
                     <script> $('#checkAireAconLoc').prop('checked', checkCheckBox('{{property.aireAcon}}')); </script>
                     <label class="form-check-label" for="checkAireAconLoc">Aire Acondicionado</label>
                 </div>
@@ -502,8 +510,33 @@
             </div>
         </div>
         <div id="divPictures" style="display: none;">
-            <label class="control-label" for="imginmueble">Nuevas imágenes:</label>
-            <input type="file" class="input-img form-control" name='imginmueble' id="imginmueble" multiple>
+            <div class="form-group">
+                <label class="control-label" for="chooseImg">Elija qué desea hacer con las imágenes:</label>
+                <div>
+                    <select id='chooseImg' class="form-control" name="chooseImg">
+                        <option value="old">Conservar las Imágenes Originales
+                        </option>
+                        <option value="new">Añadir nuevas Imágenes
+                        </option>
+                    </select>
+                </div>
+            </div>
+            <div id="newImagesDiv" style="display: none;">
+                <label class="control-label" for="imginmueble">Nuevas imágenes:</label>
+                <input type="file" class="input-img form-control" name='imginmueble' id="imginmueble" multiple>
+            </div>
+
+            <script>
+                $("#chooseImg").change(function () {
+                    console.log($("#chooseImg").val())
+                    if($("#chooseImg").val() == "old"){
+                        $('#newImagesDiv').hide();
+                    } else{
+                        $('#newImagesDiv').show();
+                    }
+                });
+            </script>
+
             <div class="div-field form-row">
                 <div class="col-sm-6">
                     <button id="btnPicturesA" type="button" class="col-sm-6 btnSiguiente btn btn-dark btn-lg ">
@@ -516,6 +549,7 @@
                     </button>
                 </div>
             </div>
+
         </div>
 
 
@@ -762,7 +796,7 @@
             // PASO DE FASE 1 (Propiedades) A FASE 2 (Propietario)
             $('#btnPropertiesS').on('click', function () {
                 let form = $('#editPropForm');
-                if(form[0].checkValidity() === true) {
+                if (form[0].checkValidity() === true) {
                     let tipo = '{{property.type}}'
                     let campos = false;
                     if (tipo == 'vivienda') {
@@ -851,14 +885,14 @@
                         phase2();
                     else
                         $('#divErrorCampos').show();
-                }else{
+                } else {
                     form.find(':submit').click();
                 }
             });
             // PASO DE FASE 2 (Propietario) A FASE 3 (Multimedia)
             $('#btnOwnerS').on('click', function () {
                 let form = $('#editPropForm');
-                if(form[0].checkValidity() === true) {
+                if (form[0].checkValidity() === true) {
                     let campos = false;
                     owner = {
                         name: $("[name='nameOwner']").val(),
@@ -876,7 +910,7 @@
                         phase3();
                     else
                         $('#divErrorCampos').show();
-                } else{
+                } else {
                     form.find(':submit').click();
                 }
             });
@@ -888,7 +922,7 @@
             // PASO DE FASE 3 (Multimedia) A FASE 4 (Resumen)
             $('#btnPicturesS').on('click', function () {
                 let _files = $('#imginmueble').prop("files");
-                if (_files.length <= 0) {
+                if (_files.length <= 0 && $("#chooseImg").val() == "new") {
                     $('#divErrorImg').show();
                 } else {
                     $('#divErrorImg').hide();

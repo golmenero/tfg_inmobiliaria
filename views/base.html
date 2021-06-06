@@ -107,7 +107,7 @@
                     <a class="nav-link dropdown-toggle active" href="#" data-toggle="dropdown">Gestión</a>
                     <div class="dropdown-menu">
                         {% if user.permission == 'A' || user.permission == 'S' %}
-                        <a class="dropdown-item" href="/myproperties">Inmuebles</a>
+                        <a class="dropdown-item" href="/myproperties">Inmuebles Publicados</a>
                         <a class="dropdown-item" href="/properties/add">Añadir Inmueble</a>
                         {% endif %}
                         {% if user.permission == 'U' %}
