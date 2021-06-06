@@ -25,7 +25,7 @@
                 <th scope="col-md-1">Tipo</th>
                 <th scope="col-md-1">Precio</th>
                 {% endif %}
-                <th class="header-fixed">Propiedad</th>
+                <th class="header-fixed">Inmueble</th>
                 <th class="header-fixed">Acceso</th>
             </tr>
             </thead>
@@ -34,7 +34,7 @@
             <tr>
                 <td><img class='img-table'
                          src="propertiesimg/{{ conversation.property._id.toString()}}/{{ conversation.property._id.toString()}}_0.png"
-                         alt="Imagen de Propiedad"/></td>
+                         alt="Imagen del Inmueble"/></td>
 
                 {% if user.permission != 'U'%}
                 <td>{{conversation.user.name}}  {{conversation.user.surname}} - {{conversation.user.email}}</td>
@@ -50,7 +50,7 @@
                 <td>
                     <a class="btn btn-dark"
                        href="/properties/details/{{conversation.property._id.toString() }}"><span
-                            class="far fa-eye"></span> Ver propiedad</span></a>
+                            class="far fa-eye"></span> Ver Inmueble</span></a>
                 </td>
                 <td>
                     <a class="btn btn-success"

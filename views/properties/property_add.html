@@ -2,13 +2,13 @@
 <nav aria-label="breadcrumb">
     <ol class="breadcrumb">
         <li class="breadcrumb-item"><a class="breadcrumb-custom" href="/">Inicio</a></li>
-        <li class="breadcrumb-item"><a class="breadcrumb-custom" href="/myproperties">Mis Propiedades</a></li>
+        <li class="breadcrumb-item"><a class="breadcrumb-custom" href="/myproperties">Mis Inmuebles</a></li>
         <li class="breadcrumb-item active breadcrumb-custom" aria-current="page">Añadir</li>
     </ol>
 </nav>
 <div class="container">
-    <h1 class="sectionHeader">Añadir nueva Propiedad</h1>
-    <h2 class="sectionHeader" id="headerS">¿Qué tipo de propiedad desea añadir?</h2>
+    <h1 class="sectionHeader">Añadir nuevo Inmueble</h1>
+    <h2 class="sectionHeader" id="headerS">¿Qué tipo de inmueble desea añadir?</h2>
     <form id="addPropForm" class="form-horizontal" method="post" action="/properties/add" encType="multipart/form-data">
         <div class="progress">
             <div class="progress-bar progress-bar-striped progress-bar-animated bg-success" role="progressbar"
@@ -470,7 +470,7 @@
                         <button type="button" class="buttonOverview btn custom-base-style" data-toggle="collapse"
                                 data-target="#propertyCollapse"
                                 aria-expanded="true" aria-controls="propertyCollapse">
-                            <h4>Datos de la Propiedad</h4>
+                            <h4>Datos de el Inmueble</h4>
                         </button>
                     </h3>
                 </div>
@@ -893,7 +893,7 @@
 
                 $("#type").val(type);
                 adjustProgressBar(25)
-                setHeader("Añada la información de la propiedad.");
+                setHeader("Añada la información de el Inmueble.");
             }
 
             function phase2() {

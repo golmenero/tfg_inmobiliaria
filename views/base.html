@@ -74,11 +74,10 @@
     });
 
 
-
 </script>
 {% endblock %}
 
-<div class="loader-wrapper" >
+<div class="loader-wrapper">
     <span class="loader"><span class="loader-inner"></span></span>
 </div>
 
@@ -96,7 +95,7 @@
         <div class="collapse navbar-collapse" id="myNavbar">
             <ul class="navbar-nav mr-auto">
                 <li class="nav-item dropdown active" id="inicioMenu">
-                    <a class="nav-link dropdown-toggle active" href="#" data-toggle="dropdown">Inicio</a>
+                    <a class="nav-link dropdown-toggle active" href="#" data-toggle="dropdown">Inmuebles</a>
                     <div class="dropdown-menu">
                         <a class="dropdown-item" href="/properties/vivienda">Viviendas</a>
                         <a class="dropdown-item" href="/properties/local">Locales</a>
@@ -105,21 +104,20 @@
                 </li>
                 {% if user.permission != undefined %}
                 <li class="nav-item dropdown active" id="propiedadesMenu">
-                    <a class="nav-link dropdown-toggle active" href="#" data-toggle="dropdown">Propiedades</a>
+                    <a class="nav-link dropdown-toggle active" href="#" data-toggle="dropdown">Gestión</a>
                     <div class="dropdown-menu">
                         {% if user.permission == 'A' || user.permission == 'S' %}
-                        <a class="dropdown-item" href="/properties/add">Añadir Propiedad</a>
-                        <a class="dropdown-item" href="/myproperties">Mis Propiedades</a>
+                        <a class="dropdown-item" href="/myproperties">Inmuebles</a>
+                        <a class="dropdown-item" href="/properties/add">Añadir Inmueble</a>
                         {% endif %}
                         {% if user.permission == 'U' %}
-                        <a class="dropdown-item" href="/wishes">Propiedades Guardadas</a>
+                        <a class="dropdown-item" href="/wishes">Mis Seguimientos</a>
+                        {% endif %}
+                        {% if user.permission == 'S' %}
+                        <div class="dropdown-divider"></div>
+                        <a class="dropdown-item" id="navAgentes" href="/agents">Agentes</a>
                         {% endif %}
                     </div>
-                </li>
-                {% endif %}
-                {% if user.permission == 'S' %}
-                <li class="nav-item active">
-                    <a id="navAgentes" class="nav-link" href="/agents">Agentes</a>
                 </li>
                 {% endif %}
                 {% if user.permission == 'A' || user.permission == 'S' %}
@@ -218,7 +216,8 @@
                     <!-- Modal body -->
                     <div class="modal-body">
                         <div class="form-group">
-                            <label class="control-label" for="confirmPasswordDelete">Perderá toda la información almacenada en
+                            <label class="control-label" for="confirmPasswordDelete">Perderá toda la información
+                                almacenada en
                                 ella.</label>
                             <div class="col-sm-10">
                                 <input id="confirmPasswordDelete" type="password" class="form-control" name="password"

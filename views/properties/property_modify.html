@@ -9,15 +9,15 @@
 <nav aria-label="breadcrumb">
     <ol class="breadcrumb">
         <li class="breadcrumb-item"><a class="breadcrumb-custom" href="/">Inicio</a></li>
-        <li class="breadcrumb-item"><a class="breadcrumb-custom" href="/myproperties">Mis Propiedades</a></li>
+        <li class="breadcrumb-item"><a class="breadcrumb-custom" href="/myproperties">Mis Inmuebles</a></li>
         <li class="breadcrumb-item active breadcrumb-custom" aria-current="page">Editar</li>
     </ol>
 </nav>
 
 
 <div class="container">
-    <h1 class="sectionHeader">Editar Propiedad</h1>
-    <h2 class="sectionHeader"  id="headerS">Edite la información de la propiedad.</h2>
+    <h1 class="sectionHeader">Editar Inmueble</h1>
+    <h2 class="sectionHeader"  id="headerS">Edite la información del Inmueble.</h2>
     <form id="editPropForm" class="form-horizontal" method="post" action="/properties/edit/{{property._id.toString()}}"
           encType="multipart/form-data">
 
@@ -527,7 +527,7 @@
                         <button type="button" class="buttonOverview btn custom-base-style" data-toggle="collapse"
                                 data-target="#propertyCollapse"
                                 aria-expanded="true" aria-controls="propertyCollapse">
-                            <h2>Datos de la Propiedad</h2>
+                            <h2>Datos del Inmueble</h2>
                         </button>
                     </h3>
                 </div>
@@ -937,7 +937,7 @@
                 $('#divOwner').hide();
                 $('#divPictures').hide();
 
-                setHeader("Edite la información de la propiedad.");
+                setHeader("Edite la información del Inmuebles.");
             }
 
             function phase2() {

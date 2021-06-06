@@ -7,6 +7,7 @@ let https = require('https');
 let flash = require('connect-flash')
 let variables = require('./help/variables.js')
 let utilities = require('./help/utilities.js')
+let encrypter = require('./help/encrypter.js')
 
 let expressSession = require('express-session');
 app.use(expressSession({
@@ -16,8 +17,6 @@ app.use(expressSession({
 }));
 
 app.use(flash());
-
-let crypto = require('crypto');
 
 let fileUpload = require('express-fileupload');
 app.use(fileUpload({}));
@@ -48,18 +47,17 @@ app.set('port', variables.PORT)
 app.set('url', variables.URL);
 //app.set('db', 'mongodb://admin:Pa55w0rd@tfginmobiliaria-shard-00-00.k8afj.mongodb.net:27017,tfginmobiliaria-shard-00-01.k8afj.mongodb.net:27017,tfginmobiliaria-shard-00-02.k8afj.mongodb.net:27017/dbinmobiliaria?ssl=true&replicaSet=atlas-39g3h2-shard-0&authSource=admin&retryWrites=true&w=majority')
 app.set('key', 'abcdefg');
-app.set('crypto', crypto);
 
 
 let mongoose = require('mongoose')
 
 // Rutas
-require('./routes/users.js')(app, render, nodemailer, variables, utilities, mongoose);
+require('./routes/users.js')(app, render, nodemailer, variables, utilities, mongoose, encrypter);
 require('./routes/properties.js')(app, render, nodemailer, variables, utilities, fileSystem, mongoose);
 require('./routes/system.js')(app, render, variables, utilities, mongoose);
 require('./routes/wishes.js')(app, render, nodemailer, variables, utilities, mongoose);
 require('./routes/conversations.js')(app, render, nodemailer, variables, utilities, mongoose);
-require('./routes/agents.js')(app, render, nodemailer, variables, utilities, mongoose);
+require('./routes/agents.js')(app, render, nodemailer, variables, utilities, mongoose, encrypter);
 
 
 app.get('/', function (req, res) {
@@ -78,7 +76,7 @@ app.use(function (err, req, res, next) {
 let userModel = require('./database/userModel');
 let infoModel = require('./database/infoModel');
 async function initParams() {
-    let seguro = app.get("crypto").createHmac('sha256', app.get('key')).update("admin").digest('hex');
+    let seguro = encrypter.encrypt("admin");
     let condition = {email: "charlygomezcolmenero@gmail.com"}
     let conditionInfo = {active: true}
 
