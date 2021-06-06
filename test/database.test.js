@@ -39,7 +39,10 @@ test('MODELO AGENT, POS - Datos Correctos', async () => {
         surname: "NewAgentito1",
         email: "newagente1@newagente.com",
         permission: "A",
-        password: "c45bbb35d6d56f860eb7b8b6ab21a95cd06bf233a79cac2a7b07f779198e7f33",
+        password: {
+            iv: "52e9332a1a2009db",
+            data: "81ff4932148fca03930210026e52de26"
+        },
         active: true
     }
     let agenteM = new agentModel(agente1);
@@ -69,7 +72,10 @@ test('MODELO AGENT, NEG - Tamaños Máximos', async () => {
         surname: longString(),
         email: longString(),
         permission: "AA",
-        password: longString(),
+        password: {
+            iv: longString(),
+            data: longString()
+        },
         active: true
     }
     let agenteM = new agentModel(agente1);
@@ -90,7 +96,10 @@ test('MODELO AGENT, NEG - Tamaños Mínimos', async () => {
         surname: "A",
         email: "A",
         permission: "A",
-        password: "A",
+        password: {
+            iv: "A",
+            data: "A"
+        },
         active: true
     }
     let agenteM = new agentModel(agente1);
@@ -153,7 +162,10 @@ test('MODELO CONVERSATION, POS - Datos Correctos', async () => {
         surname: "Agentito1",
         email: "agente1@agente.com",
         permission: "A",
-        password: "c45bbb35d6d56f860eb7b8b6ab21a95cd06bf233a79cac2a7b07f779198e7f33",
+        password: {
+            iv: "52e9332a1a2009db",
+            data: "81ff4932148fca03930210026e52de26"
+        },
         active: true
     }
     let agenteM1 = new agentModel(agente1);
@@ -165,7 +177,10 @@ test('MODELO CONVERSATION, POS - Datos Correctos', async () => {
         surname: "Usuarito1",
         email: "usuario1@usuario.com",
         permission: "U",
-        password: "c45bbb35d6d56f860eb7b8b6ab21a95cd06bf233a79cac2a7b07f779198e7f33",
+        password: {
+            iv: "52e9332a1a2009db",
+            data: "81ff4932148fca03930210026e52de26"
+        },
         active: true,
         wishes: [propertyId1],
         codes: {
@@ -380,7 +395,10 @@ test('MODELO USER, POS - Datos Correctos', async () => {
         surname: "NewUserito1",
         email: "newuser1@newuser.com",
         permission: "A",
-        password: "c45bbb35d6d56f860eb7b8b6ab21a95cd06bf233a79cac2a7b07f779198e7f33",
+        password: {
+            iv: "52e9332a1a2009db",
+            data: "81ff4932148fca03930210026e52de26"
+        },
         active: true,
         codes: {
             emailActivation:"",
@@ -414,7 +432,10 @@ test('MODELO USER, NEG - Tamaños Máximos', async () => {
         surname: longString(),
         email: longString(),
         permission: 'AA',
-        password: longString(),
+        password: {
+            iv: longString(),
+            data: longString()
+        },
         active: true,
         codes: {
             emailActivation: longString(),
@@ -439,7 +460,10 @@ test('MODELO USER, NEG - Tamaños Mínimos', async () => {
         name: "A",
         surname: "A",
         email: "A",
-        password: "A",
+        password: {
+            iv: "A",
+            data: "A"
+        },
         active: true
     }
     let userM = new agentModel(user1);
