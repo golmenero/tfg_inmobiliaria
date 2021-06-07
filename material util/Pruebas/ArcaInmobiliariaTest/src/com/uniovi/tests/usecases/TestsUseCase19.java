@@ -39,10 +39,7 @@ public class TestsUseCase19 {
 		PO_View.checkElement(driver, "text", "Eliminar de Seguimiento");
 		// Comprobamos que nos muestra el mensaje correctamente
 		PO_View.checkElement(driver, "text", "Añadido a las listas de seguimiento correctamente.");
-		// Vamos a ver nuestros seguimientos
-		elementos = PO_View.checkElement(driver, "id", "propiedadesMenu");
-		elementos.get(0).click();
-		PO_NavView.clickOption(driver, "wishes", "h1", "Mis Seguimientos");
+		PO_NavView.clickOption(driver, "/wishes", "h1", "Mis Seguimientos");
 		// Comprobamos que estamos en la pantalla correcta
 		PO_View.checkElement(driver, "text", "Mis Seguimientos");
 		// Comprobamos que nos muestra nuestro seguimiento. Si nos lo muestra significa que se encuentra en la Base de Datos

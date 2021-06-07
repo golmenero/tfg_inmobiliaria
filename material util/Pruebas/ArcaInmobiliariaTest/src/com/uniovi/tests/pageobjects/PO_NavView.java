@@ -24,8 +24,6 @@ public class PO_NavView extends PO_View {
 	 */
 	public static void clickOption(WebDriver driver, String textOption, String criterio, String textoDestino) {
 		List<WebElement> elementos = SeleniumUtils.EsperaCargaPagina(driver, "@href", textOption, getTimeout());
-		
-		System.out.println(elementos.size());
 		// Tiene que haber, al menos, un elemento.
 		assertTrue(elementos.size() > 0);
 		// Ahora lo clickamos

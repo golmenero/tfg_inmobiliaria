@@ -16,7 +16,7 @@ module.exports = function (app, render, nodemailer, variables, utilities, fileSy
         let propertyFull = await propertyModel.populate(property, {path: 'owner'})
 
         if (propertyFull == null) {
-            req.flash('error', ['Ocurrió un error al mostrar los detalles de la propiedad especificada.'])
+            req.flash('error', ['Ocurrió un error al mostrar los detalles del inmueble especificada.'])
             res.redirect('/myproperties');
         } else {
             let response = render(req.session, 'views/properties/property_details.html', {
@@ -37,7 +37,7 @@ module.exports = function (app, render, nodemailer, variables, utilities, fileSy
         let condition = {"_id": mongoose.mongo.ObjectID(req.params.id)};
         let property = await propertyModel.findOne(condition);
         if (property == null) {
-            req.flash('error', ['Ocurrió un error al encontrar la propiedad especificada.'])
+            req.flash('error', ['Ocurrió un error al encontrar el inmueble especificado.'])
             res.redirect('/myproperties');
         } else {
             let propertyFull = await propertyModel.populate(property, {path: 'owner'})
@@ -112,7 +112,7 @@ module.exports = function (app, render, nodemailer, variables, utilities, fileSy
             let result = await propertyM.save();
             // Si no la encuentra lanza un error
             if (result === null) {
-                req.flash('error', ["Error al editar la propiedad."])
+                req.flash('error', ["Error al editar el inmueble."])
                 res.redirect('/myproperties')
             }
             // Si la encuentra compara los precios y, si es menor, envia un correo a todos los usuarios que tengan la propiedad en seguimiento.
@@ -133,7 +133,7 @@ module.exports = function (app, render, nodemailer, variables, utilities, fileSy
                         }
                     }
                 }
-                req.flash('success', ["Propiedad editada correctamente."])
+                req.flash('success', ["Inmueble editado correctamente."])
                 res.redirect("/myproperties");
             }
         } else {
@@ -152,7 +152,7 @@ module.exports = function (app, render, nodemailer, variables, utilities, fileSy
         let condition = {"_id": mongoose.mongo.ObjectID(req.params.id)};
         let propiedad = await propertyModel.deleteOne(condition);
         if (propiedad === null) {
-            req.flash('error', ["Error al eliminar la propiedad."])
+            req.flash('error', ["Error al eliminar el inmueble."])
             res.redirect('/myproperties')
         } else {
             // Usamos el paquete fs-extra para eliminar el directorio
@@ -165,10 +165,10 @@ module.exports = function (app, render, nodemailer, variables, utilities, fileSy
             let condition2 = {"property": mongoose.mongo.ObjectID(req.params.id)}
             let result = await conversationModel.deleteMany(condition2);
             if(result == null){
-                req.flash('error', ["Error al eliminar las conversaciones de la Propiedad."])
+                req.flash('error', ["Error al eliminar las conversaciones del Inmueble."])
                 res.redirect("/myproperties");
             }else{
-                req.flash('success', ["Propiedad eliminada correctamente."])
+                req.flash('success', ["Inmueble eliminado correctamente."])
                 res.redirect("/myproperties");
             }
         }
@@ -218,7 +218,7 @@ module.exports = function (app, render, nodemailer, variables, utilities, fileSy
             let saved = await model.save();
             // Si la propiedad no se guarda correctamente manda un error
             if (saved === null) {
-                req.flash('error', ["La propiedad no se pudo añadir correctamente."])
+                req.flash('error', ["El inmueble no se pudo añadir correctamente."])
                 res.redirect('/properties/' + property.type)
             }
             // Si se guarda, utilizamos su ID para guardar las imagenes y luego editamos la propiedad añadiéndole el array.
@@ -229,10 +229,10 @@ module.exports = function (app, render, nodemailer, variables, utilities, fileSy
                 let result = await propertyModel.findOneAndUpdate(condition, property);
 
                 if (result === null) {
-                    req.flash('error', ["Error al añadir las imágenes de la propiedad."])
+                    req.flash('error', ["Error al añadir las imágenes del inmueble."])
                     res.redirect('/properties/' + property.type)
                 } else {
-                    req.flash('success', ["La propiedad se añadió correctamente."])
+                    req.flash('success', ["El inmueble se añadió correctamente."])
                     res.redirect("/myproperties");
                 }
             }
@@ -321,7 +321,7 @@ module.exports = function (app, render, nodemailer, variables, utilities, fileSy
         let total = await propertyModel.find(condition).countDocuments();
         let properties = await propertyModel.find(condition).skip((pg - 1) * 4).limit(4);
         if (properties == null) {
-            req.flash('error', ['Ocurrió un error al encontrar las propiedades.'])
+            req.flash('error', ['Ocurrió un error al encontrar los inmuebles.'])
             res.redirect('/myproperties');
         } else {
             let lastPg = total / 4;

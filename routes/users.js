@@ -137,9 +137,10 @@ module.exports = function (app, render, nodemailer, variables, utilities, mongoo
      */
     app.post("/users/delete", async function (req, res) {
         if (req.session.user.permission != 'S') {
-            let encrypted = encrypter.encrypt(req.body.password);
             let condition = {"_id": mongoose.mongo.ObjectId(req.session.user._id)};
-            if (encrypted == req.session.user.password) {
+            let encrypted = encrypter.encryptIV(req.body.password, req.session.user.password.iv);
+
+            if (encrypted.data == req.session.user.password.data) {
                 let result = await userModel.deleteOne(condition);
                 if (result == null) {
                     req.flash('error', ["No se pudo eliminar el usuario."]);
@@ -354,8 +355,8 @@ module.exports = function (app, render, nodemailer, variables, utilities, mongoo
             let oldUser = await userModel.findOne(condition);
 
             let oldPassEnc = encrypter.encryptIV(req.body.oldPassword, oldUser.password.iv);
-            if(oldUser.password.data == oldPassEnc.data){
-                oldUser.password =  encrypter.encryptIV(req.body.password, oldUser.password.iv);
+            if (oldUser.password.data == oldPassEnc.data) {
+                oldUser.password = encrypter.encryptIV(req.body.password, oldUser.password.iv);
 
                 let userM = new userModel(oldUser);
                 let error = userM.validateSync();

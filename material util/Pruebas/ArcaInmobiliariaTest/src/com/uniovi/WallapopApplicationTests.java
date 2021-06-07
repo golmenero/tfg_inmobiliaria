@@ -78,13 +78,13 @@ public class WallapopApplicationTests {
 		driver.quit();
 	}
 
-	// #################### CASO DE USO 00 #################### SI
+	// #################### CASO DE USO 00 #################### 
 	@Test
 	public void Prueba00() {
 		new TestsUseCase00().Prueba00(driver, mdb);
 	}
 
-	// #################### CASO DE USO 01 #################### SI
+	// #################### CASO DE USO 01 #################### 
 	@Test
 	public void Prueba01() {
 		new TestsUseCase01().Prueba01(driver, mdb);
@@ -101,7 +101,7 @@ public class WallapopApplicationTests {
 	}
 
 	
-	// #################### CASO DE USO 02 #################### SI
+	// #################### CASO DE USO 02 #################### 
 	@Test
 	public void Prueba02() {
 		new TestsUseCase02().Prueba02(driver, mdb);
@@ -118,7 +118,7 @@ public class WallapopApplicationTests {
 	}
 	
 
-	// #################### CASO DE USO 03 #################### SI
+	// #################### CASO DE USO 03 #################### 
 	@Test
 	public void Prueba03() {
 		new TestsUseCase03().Prueba03(driver, mdb);
@@ -134,7 +134,7 @@ public class WallapopApplicationTests {
 		new TestsUseCase03().PruebaN03_2(driver, mdb);
 	}
 	
-	// #################### CASO DE USO 04 #################### SI
+	// #################### CASO DE USO 04 #################### 
 	@Test
 	public void Prueba04() {
 		new TestsUseCase04().Prueba04(driver, mdb);
@@ -151,7 +151,7 @@ public class WallapopApplicationTests {
 	}
 
 
-	// #################### CASO DE USO 05 #################### SI
+	// #################### CASO DE USO 05 #################### 
 	@Test
 	public void Prueba05() {
 		new TestsUseCase05().Prueba05(driver, mdb);
@@ -162,19 +162,14 @@ public class WallapopApplicationTests {
 		new TestsUseCase05().PruebaN05_1(driver, mdb);
 	}
 
-	@Test
-	public void PruebaN05_2() {
-		new TestsUseCase05().PruebaN05_2(driver, mdb);
-	}
-
 	
-	// #################### CASO DE USO 06 #################### SI
+	// #################### CASO DE USO 06 #################### 
 	@Test
 	public void Prueba06() {
 		new TestsUseCase06().Prueba06(driver, mdb);
 	}
 
-	// #################### CASO DE USO 07 #################### SI
+	// #################### CASO DE USO 07 #################### 
 	@Test
 	public void Prueba07() {
 		new TestsUseCase07().Prueba07(driver, mdb);
@@ -191,14 +186,14 @@ public class WallapopApplicationTests {
 	}
 	
 
-	// #################### CASO DE USO 08 #################### SI
+	// #################### CASO DE USO 08 #################### 
 	@Test
 	public void Prueba08() {
 		new TestsUseCase08().Prueba08(driver, mdb);
 	}
 	
 
-	// #################### CASO DE USO 09 #################### SI
+	// #################### CASO DE USO 09 #################### 
 	@Test
 	public void Prueba09_1() {
 		new TestsUseCase09().Prueba09_1(driver, mdb);
@@ -240,7 +235,7 @@ public class WallapopApplicationTests {
 	}
 
 	
-	// #################### CASO DE USO 10 #################### SI
+	// #################### CASO DE USO 10 #################### 
 	@Test
 	public void Prueba10_1() {
 		new TestsUseCase10().Prueba10_1(driver, mdb);
@@ -468,17 +463,19 @@ public class WallapopApplicationTests {
 		mdb.insert("properties", property6);
 
 		// ########## USERS ##########
+		Document password = new Document("iv","60258c0aa68b0bfa").append("data", "a4a1d0a2753ad81a75f4e1bd044b920a");
+		
 		Document superagente = new Document("name", "SuperAgente").append("surname", "SuperAgentito")
 				.append("email", "superagente@superagente.com").append("permission", "S")
-				.append("password", "c45bbb35d6d56f860eb7b8b6ab21a95cd06bf233a79cac2a7b07f779198e7f33")
+				.append("password", password)
 				.append("active", true);
 		Document agente1 = new Document("name", "Agente1").append("surname", "Agentito1")
 				.append("email", "agente1@agente.com").append("permission", "A")
-				.append("password", "c45bbb35d6d56f860eb7b8b6ab21a95cd06bf233a79cac2a7b07f779198e7f33")
+				.append("password", password)
 				.append("active", true);
 		Document agente2 = new Document("name", "Agente2").append("surname", "Agentito2")
 				.append("email", "agente2@agente.com").append("permission", "A")
-				.append("password", "c45bbb35d6d56f860eb7b8b6ab21a95cd06bf233a79cac2a7b07f779198e7f33")
+				.append("password", password)
 				.append("active", true);
 
 		Document codes = new Document("emailActivation", "").append("passwordRecover", "");
@@ -486,11 +483,11 @@ public class WallapopApplicationTests {
 		wishes.add(property1.getObjectId("_id").toString());
 		Document usuario1 = new Document("name", "Usuario1").append("surname", "Usuarito1")
 				.append("email", "usuario1@usuario.com").append("permission", "U")
-				.append("password", "c45bbb35d6d56f860eb7b8b6ab21a95cd06bf233a79cac2a7b07f779198e7f33")
+				.append("password", password)
 				.append("active", true).append("wishes", wishes).append("codes", codes);
 		Document usuario2 = new Document("name", "Usuario2").append("surname", "Usuarito2")
 				.append("email", "usuario2@usuario.com").append("permission", "U")
-				.append("password", "c45bbb35d6d56f860eb7b8b6ab21a95cd06bf233a79cac2a7b07f779198e7f33")
+				.append("password", password)
 				.append("active", false).append("wishes", wishes).append("codes", codes);
 
 		mdb.insert("users", superagente);

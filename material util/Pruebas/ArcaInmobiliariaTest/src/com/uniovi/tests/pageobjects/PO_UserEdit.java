@@ -6,7 +6,7 @@ import org.openqa.selenium.WebElement;
 
 public class PO_UserEdit extends PO_NavView {
 
-	static public void fillForm(WebDriver driver, String namep, String surnamep, String oldPasswordp, String passwordp) {
+	static public void fillForm(WebDriver driver, String namep, String surnamep) {
 		WebElement name = driver.findElement(By.name("name"));
 		name.click();
 		name.clear();
@@ -15,18 +15,6 @@ public class PO_UserEdit extends PO_NavView {
 		surname.click();
 		surname.clear();
 		surname.sendKeys(surnamep);
-		WebElement oldPassword = driver.findElement(By.id("oldPassword"));
-		oldPassword.click();
-		oldPassword.clear();
-		oldPassword.sendKeys(oldPasswordp);
-		WebElement password = driver.findElement(By.id("password"));
-		password.click();
-		password.clear();
-		password.sendKeys(passwordp);
-		WebElement passwordR = driver.findElement(By.id("passwordR"));
-		passwordR.click();
-		passwordR.clear();
-		passwordR.sendKeys(passwordp);
 		
 		driver.findElement(By.id("confirmEditProfile")).click();
 	}

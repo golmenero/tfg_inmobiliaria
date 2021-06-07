@@ -22,14 +22,17 @@ public class TestsUseCase05 {
 		PO_NavView.clickOption(driver, "login", "text", "Identificación de usuario");
 		PO_UserLogin.fillForm(driver, "superagente@superagente.com", "adminadmin");
 		// Vamos a la opcion de Agentes
-		PO_NavView.clickOption(driver, "agents", "h1", "Gestión de Agentes");
+		List<WebElement> elementos = PO_View.checkElement(driver, "id", "propiedadesMenu");
+		elementos.get(0).click();
+		PO_NavView.clickOption(driver, "/agents", "h1", "Gestión de Agentes");
 		// Pulsamos en el boton de Editar junto al agente de nombre "Agente1"
-		List<WebElement> elementos = PO_View.checkElement(driver, "free", "//a[contains(@href, '/agents/edit')]");
+		elementos = PO_View.checkElement(driver, "free", "//a[contains(@href, '/agents/edit')]");
 		elementos.get(0).click();
 		PO_View.esperaPantallaDeCarga(driver);
 		// Rellenamos el formulario con el nuevo agente
-		PO_AgentEdit.fillForm(driver, "NewAgente", "NewAgentito", "newAgente1@agente.com", "newAgente");
-		// Comprobamos que se muestra el mensaje correcto\
+		PO_AgentEdit.fillForm(driver, "NewAgente", "NewAgentito", "newAgente");
+		PO_View.esperaPantallaDeCarga(driver);
+		// Comprobamos que se muestra el mensaje correcto
 		PO_View.checkElement(driver, "text", "El agente se editó correctamente.");
 
 		// Comprobamos que no existe el usuario antiguo, pero si el editado
@@ -37,59 +40,29 @@ public class TestsUseCase05 {
 		mdb.doesNotExist("users", new Document("name", "Agente1").append("surname", "Agentito1"));
 	}
 
-	// NEGATIVO 1. Editar el agente con correo existente
+	// NEGATIVO 1. Introducir datos inválidos
 	public void PruebaN05_1(WebDriver driver, MongoDBUtils mdb) {
-		// Comprobamos que ya existe un agente con ese email
-		mdb.exists("users", new Document("email", "agente2@agente.com"));
-
 		// Iniciamos sesión con el super agente
 		PO_NavView.clickOption(driver, "login", "text", "Identificación de usuario");
 		PO_UserLogin.fillForm(driver, "superagente@superagente.com", "adminadmin");
 		// Vamos a la opcion de Agentes
-		PO_NavView.clickOption(driver, "agents", "h1", "Gestión de Agentes");
-		// Pulsamos en el boton de Editar junto al agente de nombre "Agente1"
-		List<WebElement> elementos = PO_View.checkElement(driver, "free", "//a[contains(@href, '/agents/edit')]");
+		List<WebElement> elementos = PO_View.checkElement(driver, "id", "propiedadesMenu");
 		elementos.get(0).click();
-		PO_View.esperaPantallaDeCarga(driver);
-		// Rellenamos el formulario con el correo electronico de un agente existente
-		PO_AgentEdit.fillForm(driver, "NewAgente", "NewAgentito", "agente2@agente.com", "newAgente");
-		// Comprobamos que se muestra el mensaje correcto
-		PO_View.checkElement(driver, "text", "Ya existe un agente con ese correo electrónico.");
-
-		// Comprobamos que no se ha modificado el agente
-		mdb.doesNotExist("users", new Document("name", "NewAgente").append("surname", "NewAgentito"));
-		mdb.exists("users", new Document("name", "Agente2").append("surname", "Agentito2"));
-	}
-
-	// NEGATIVO 2. Introducir datos inválidos
-	public void PruebaN05_2(WebDriver driver, MongoDBUtils mdb) {
-		// Iniciamos sesión con el super agente
-		PO_NavView.clickOption(driver, "login", "text", "Identificación de usuario");
-		PO_UserLogin.fillForm(driver, "superagente@superagente.com", "adminadmin");
-		// Vamos a la opcion de Agentes
-		PO_NavView.clickOption(driver, "agents", "h1", "Gestión de Agentes");
+		PO_NavView.clickOption(driver, "/agents", "h1", "Gestión de Agentes");
 		// Pulsamos en el boton de Editar junto al agente de nombre "Agente1"
-		List<WebElement> elementos = PO_View.checkElement(driver, "free", "//a[contains(@href, '/agents/edit')]");
+		elementos = PO_View.checkElement(driver, "free", "//a[contains(@href, '/agents/edit')]");
 		elementos.get(0).click();
 		PO_View.esperaPantallaDeCarga(driver);
 		// Rellenamos el formulario con datos invalidos
-		PO_AgentEdit.fillForm(driver, "NewAgente", "NewAgentito", "a", "newAgente");
+		PO_AgentEdit.fillForm(driver, "N", "NewAgentito",  "newAgente");
 		// Comprobamos que seguimos en la pantalla de edicion
 		PO_View.checkElement(driver, "h1", "Edición de Agente Existente");
 		// Rellenamos el formulario con datos invalidos
-		PO_AgentEdit.fillForm(driver, "NewAgente", "NewAgentito", "a@a.c", "newAgente");
+		PO_AgentEdit.fillForm(driver, "NewAgente", "N", "newAgente");
 		// Comprobamos que seguimos en la pantalla de edicion
 		PO_View.checkElement(driver, "h1", "Edición de Agente Existente");
 		// Rellenamos el formulario con datos invalidos
-		PO_AgentEdit.fillForm(driver, "N", "NewAgentito", "newagente@agente.com", "newAgente");
-		// Comprobamos que seguimos en la pantalla de edicion
-		PO_View.checkElement(driver, "h1", "Edición de Agente Existente");
-		// Rellenamos el formulario con datos invalidos
-		PO_AgentEdit.fillForm(driver, "NewAgente", "N", "newagente@agente.com", "newAgente");
-		// Comprobamos que seguimos en la pantalla de edicion
-		PO_View.checkElement(driver, "h1", "Edición de Agente Existente");
-		// Rellenamos el formulario con datos invalidos
-		PO_AgentEdit.fillForm(driver, "NewAgente", "NewAgentito", "newagente@agente.com", "n");
+		PO_AgentEdit.fillForm(driver, "NewAgente", "NewAgentito",  "n");
 		// Comprobamos que seguimos en la pantalla de edicion
 		PO_View.checkElement(driver, "h1", "Edición de Agente Existente");
 

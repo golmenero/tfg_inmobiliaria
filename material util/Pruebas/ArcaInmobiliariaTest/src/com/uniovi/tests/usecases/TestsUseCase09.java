@@ -22,14 +22,14 @@ public class TestsUseCase09 {
 		// Vamos a la opcion de Añadir Propiedad
 		List<WebElement> elementos = PO_View.checkElement(driver, "id", "propiedadesMenu");
 		elementos.get(0).click();
-		PO_NavView.clickOption(driver, "properties/add", "h2", "¿Qué tipo de propiedad desea añadir?");
+		PO_NavView.clickOption(driver, "properties/add", "h2", "¿Qué tipo de inmueble desea añadir?");
 
 		// Seleccionamos la opción "Vivienda"
 		elementos = PO_View.checkElement(driver, "id", "displayVivienda");
 		elementos.get(0).click();
 
 		// Comprobamos que se muestra la primera pantalla
-		PO_View.checkElement(driver, "text", "Añada la información de la propiedad.");
+		PO_View.checkElement(driver, "text", "Añada la información del Inmueble.");
 		// Rellenamos la primera pantalla
 		PO_PropertyAdd.fillFormVivienda(driver, "V001", "Venta", "Nombre Propiedad 1", "Direccion Propiedad 1", "3",
 				"Descripcion propiedad 1", "Ciudad1", "200", "2", "1", "750", "100", true, false, true, false, true,
@@ -69,7 +69,7 @@ public class TestsUseCase09 {
 		PO_PropertyAdd.confirmAddProperty(driver);
 		PO_View.esperaPantallaDeCarga(driver);
 		// Comprobamos que se muestra el mensaje correctamente
-		PO_View.checkElement(driver, "text", "La propiedad se añadió correctamente.");
+		PO_View.checkElement(driver, "text", "El inmueble se añadió correctamente.");
 		
 		// Comprobamos que la propiedad se creó correctamente
 		mdb.exists("properties", new Document("type","vivienda").append("code", "V001").append("typeOp", "Venta")
@@ -89,14 +89,14 @@ public class TestsUseCase09 {
 		// Vamos a la opcion de Añadir Propiedad
 		List<WebElement> elementos = PO_View.checkElement(driver, "id", "propiedadesMenu");
 		elementos.get(0).click();
-		PO_NavView.clickOption(driver, "properties/add", "h2", "¿Qué tipo de propiedad desea añadir?");
+		PO_NavView.clickOption(driver, "properties/add", "h2", "¿Qué tipo de inmueble desea añadir?");
 
 		// Seleccionamos la opción "Local"
 		elementos = PO_View.checkElement(driver, "id", "displayLocal");
 		elementos.get(0).click();
 
 		// Comprobamos que se muestra la primera pantalla
-		PO_View.checkElement(driver, "text", "Añada la información de la propiedad.");
+		PO_View.checkElement(driver, "text", "Añada la información del Inmueble.");
 		// Rellenamos la primera pantalla
 		PO_PropertyAdd.fillFormLocal(driver, "L001", "Alquiler", "Nombre Propiedad 1", "Direccion Propiedad 1", "3",
 				"Descripcion propiedad 1", "Ciudad1", "300", "3", "300", "100", true, false, true, false, true, false,
@@ -136,7 +136,7 @@ public class TestsUseCase09 {
 		PO_PropertyAdd.confirmAddProperty(driver);
 		PO_View.esperaPantallaDeCarga(driver);
 		// Comprobamos que se muestra el mensaje correctamente
-		PO_View.checkElement(driver, "text", "La propiedad se añadió correctamente.");
+		PO_View.checkElement(driver, "text", "El inmueble se añadió correctamente.");
 
 		// Comprobamos que la propiedad se creó correctamente
 		mdb.exists("properties", new Document("type","local").append("code", "L001").append("typeOp", "Alquiler")
@@ -160,14 +160,14 @@ public class TestsUseCase09 {
 		// Vamos a la opcion de Añadir Propiedad
 		List<WebElement> elementos = PO_View.checkElement(driver, "id", "propiedadesMenu");
 		elementos.get(0).click();
-		PO_NavView.clickOption(driver, "properties/add", "h2", "¿Qué tipo de propiedad desea añadir?");
+		PO_NavView.clickOption(driver, "properties/add", "h2", "¿Qué tipo de inmueble desea añadir?");
 
 		// Seleccionamos la opción "Local"
 		elementos = PO_View.checkElement(driver, "id", "displaySuelo");
 		elementos.get(0).click();
 
 		// Comprobamos que se muestra la primera pantalla
-		PO_View.checkElement(driver, "text", "Añada la información de la propiedad.");
+		PO_View.checkElement(driver, "text", "Añada la información del Inmueble.");
 		// Rellenamos la primera pantalla
 		PO_PropertyAdd.fillFormSuelo(driver, "S001", "Alquiler", "Nombre Propiedad 1", "Descripcion propiedad 1",
 				"Ciudad1", "Situacion1", "400", "200", "700", true, false);
@@ -204,7 +204,7 @@ public class TestsUseCase09 {
 		PO_PropertyAdd.confirmAddProperty(driver);
 		PO_View.esperaPantallaDeCarga(driver);
 		// Comprobamos que se muestra el mensaje correctamente
-		PO_View.checkElement(driver, "text", "La propiedad se añadió correctamente.");
+		PO_View.checkElement(driver, "text", "El inmueble se añadió correctamente.");
 
 		// Comprobamos que la propiedad se creó correctamente
 		mdb.exists("properties", new Document("type","suelo").append("code", "S001").append("typeOp", "Alquiler")
@@ -221,14 +221,14 @@ public class TestsUseCase09 {
 		// Vamos a la opcion de Añadir Propiedad
 		List<WebElement> elementos = PO_View.checkElement(driver, "id", "propiedadesMenu");
 		elementos.get(0).click();
-		PO_NavView.clickOption(driver, "properties/add", "h2", "¿Qué tipo de propiedad desea añadir?");
+		PO_NavView.clickOption(driver, "properties/add", "h2", "¿Qué tipo de inmueble desea añadir?");
 
 		// Seleccionamos la opción "Vivienda"
 		elementos = PO_View.checkElement(driver, "id", "displayVivienda");
 		elementos.get(0).click();
 
 		// Comprobamos que se muestra la primera pantalla
-		PO_View.checkElement(driver, "text", "Añada la información de la propiedad.");
+		PO_View.checkElement(driver, "text", "Añada la información del Inmueble.");
 
 		// Rellenamos la pantalla vacía y probamos dejando vacíos diferentes campos
 		PO_PropertyAdd.fillFormVivienda(driver, "", "Venta", "Nombre Propiedad 1", "Direccion Propiedad 1", "3",
@@ -283,27 +283,27 @@ public class TestsUseCase09 {
 				"Descripcion propiedad 1", "Ciudad1", "200", "2", "1", "750", "100", true, false, true, false, true,
 				false, true, false, true, false);
 		// Comprobamos que nos deja en la primera pantalla
-		PO_View.checkElement(driver, "h2", "Añada la información de la propiedad.");
+		PO_View.checkElement(driver, "h2", "Añada la información del Inmueble.");
 		PO_PropertyAdd.fillFormVivienda(driver, "V001", "Venta", "Nombre Propiedad 1", "D", "3",
 				"Descripcion propiedad 1", "Ciudad1", "200", "2", "1", "750", "100", true, false, true, false, true,
 				false, true, false, true, false);
 		// Comprobamos que nos deja en la primera pantalla
-		PO_View.checkElement(driver, "h2", "Añada la información de la propiedad.");
+		PO_View.checkElement(driver, "h2", "Añada la información del Inmueble.");
 		PO_PropertyAdd.fillFormVivienda(driver, "V001", "Venta", "Nombre Propiedad 1", "Direccion Propiedad 1", "20000",
 				"Descripcion propiedad 1", "Ciudad1", "200", "2", "1", "750", "100", true, false, true, false, true,
 				false, true, false, true, false);
 		// Comprobamos que nos deja en la primera pantalla
-		PO_View.checkElement(driver, "h2", "Añada la información de la propiedad.");
+		PO_View.checkElement(driver, "h2", "Añada la información del Inmueble.");
 		PO_PropertyAdd.fillFormVivienda(driver, "V001", "Venta", "Nombre Propiedad 1", "Direccion Propiedad 1", "3",
 				"D", "Ciudad1", "200", "2", "1", "750", "100", true, false, true, false, true, false, true, false, true,
 				false);
 		// Comprobamos que nos deja en la primera pantalla
-		PO_View.checkElement(driver, "h2", "Añada la información de la propiedad.");
+		PO_View.checkElement(driver, "h2", "Añada la información del Inmueble.");
 		PO_PropertyAdd.fillFormVivienda(driver, "V001", "Venta", "Nombre Propiedad 1", "Direccion Propiedad 1", "3",
 				"Descripcion propiedad 1", "C", "200", "2", "1", "750", "100", true, false, true, false, true, false,
 				true, false, true, false);
 		// Comprobamos que nos deja en la primera pantalla
-		PO_View.checkElement(driver, "h2", "Añada la información de la propiedad.");
+		PO_View.checkElement(driver, "h2", "Añada la información del Inmueble.");
 		PO_PropertyAdd.fillFormVivienda(driver, "V001", "Venta", "Nombre Propiedad 1", "Direccion Propiedad 1", "3",
 				"Descripcion propiedad 1", "Ciudad1", "1", "2", "1", "750", "100", true, false, true, false, true,
 				false, true, false, true, false);
@@ -311,12 +311,12 @@ public class TestsUseCase09 {
 				"Descripcion propiedad 1", "Ciudad1", "200", "2", "1", "100000000000", "100", true, false, true, false,
 				true, false, true, false, true, false);
 		// Comprobamos que nos deja en la primera pantalla
-		PO_View.checkElement(driver, "h2", "Añada la información de la propiedad.");
+		PO_View.checkElement(driver, "h2", "Añada la información del Inmueble.");
 		PO_PropertyAdd.fillFormVivienda(driver, "V001", "Venta", "Nombre Propiedad 1", "Direccion Propiedad 1", "3",
 				"Descripcion propiedad 1", "Ciudad1", "200", "2", "1", "750", "100000", true, false, true, false, true,
 				false, true, false, true, false);
 		// Comprobamos que nos deja en la primera pantalla
-		PO_View.checkElement(driver, "h2", "Añada la información de la propiedad.");
+		PO_View.checkElement(driver, "h2", "Añada la información del Inmueble.");
 	}
 
 	// NEGATIVO 2. Local - Introducir datos Inválidos
@@ -327,14 +327,14 @@ public class TestsUseCase09 {
 		// Vamos a la opcion de Añadir Propiedad
 		List<WebElement> elementos = PO_View.checkElement(driver, "id", "propiedadesMenu");
 		elementos.get(0).click();
-		PO_NavView.clickOption(driver, "properties/add", "h2", "¿Qué tipo de propiedad desea añadir?");
+		PO_NavView.clickOption(driver, "properties/add", "h2", "¿Qué tipo de inmueble desea añadir?");
 
 		// Seleccionamos la opción "Local"
 		elementos = PO_View.checkElement(driver, "id", "displayLocal");
 		elementos.get(0).click();
 
 		// Comprobamos que se muestra la primera pantalla
-		PO_View.checkElement(driver, "text", "Añada la información de la propiedad.");
+		PO_View.checkElement(driver, "text", "Añada la información del Inmueble.");
 
 		// Rellenamos la pantalla vacía y probamos dejando vacíos diferentes campos
 		PO_PropertyAdd.fillFormLocal(driver, "", "Alquiler", "Nombre Propiedad 1", "Direccion Propiedad 1", "3",
@@ -395,25 +395,25 @@ public class TestsUseCase09 {
 				"Descripcion propiedad 1", "Ciudad1", "300", "3", "300", "100", true, false, true, false, true, false,
 				true);
 		// Comprobamos que nos deja en la primera pantalla
-		PO_View.checkElement(driver, "h2", "Añada la información de la propiedad.");
+		PO_View.checkElement(driver, "h2", "Añada la información del Inmueble.");
 		PO_PropertyAdd.fillFormLocal(driver, "L001", "Alquiler", "Nombre Propiedad 1", "D", "3",
 				"Descripcion propiedad 1", "Ciudad1", "300", "3", "300", "100", true, false, true, false, true, false,
 				true);
 		// Comprobamos que nos deja en la primera pantalla
-		PO_View.checkElement(driver, "h2", "Añada la información de la propiedad.");
+		PO_View.checkElement(driver, "h2", "Añada la información del Inmueble.");
 		PO_PropertyAdd.fillFormLocal(driver, "L001", "Alquiler", "Nombre Propiedad 1", "Direccion Propiedad 1", "3",
 				"D", "Ciudad1", "300", "3", "300", "100", true, false, true, false, true, false, true);
 		// Comprobamos que nos deja en la primera pantalla
-		PO_View.checkElement(driver, "h2", "Añada la información de la propiedad.");
+		PO_View.checkElement(driver, "h2", "Añada la información del Inmueble.");
 		PO_PropertyAdd.fillFormLocal(driver, "L001", "Alquiler", "Nombre Propiedad 1", "Direccion Propiedad 1", "3",
 				"Descripcion propiedad 1", "C", "300", "3", "300", "100", true, false, true, false, true, false, true);
 		// Comprobamos que nos deja en la primera pantalla
-		PO_View.checkElement(driver, "h2", "Añada la información de la propiedad.");
+		PO_View.checkElement(driver, "h2", "Añada la información del Inmueble.");
 		PO_PropertyAdd.fillFormLocal(driver, "L001", "Alquiler", "Nombre Propiedad 1", "Direccion Propiedad 1", "3",
 				"Descripcion propiedad 1", "Ciudad1", "3", "3", "300", "100", true, false, true, false, true, false,
 				true);
 		// Comprobamos que nos deja en la primera pantalla
-		PO_View.checkElement(driver, "h2", "Añada la información de la propiedad.");
+		PO_View.checkElement(driver, "h2", "Añada la información del Inmueble.");
 	}
 
 	// NEGATIVO 3. Suelo - Introducir datos Inválidos
@@ -424,14 +424,14 @@ public class TestsUseCase09 {
 		// Vamos a la opcion de Añadir Propiedad
 		List<WebElement> elementos = PO_View.checkElement(driver, "id", "propiedadesMenu");
 		elementos.get(0).click();
-		PO_NavView.clickOption(driver, "properties/add", "h2", "¿Qué tipo de propiedad desea añadir?");
+		PO_NavView.clickOption(driver, "properties/add", "h2", "¿Qué tipo de inmueble desea añadir?");
 
 		// Seleccionamos la opción "Local"
 		elementos = PO_View.checkElement(driver, "id", "displaySuelo");
 		elementos.get(0).click();
 
 		// Comprobamos que se muestra la primera pantalla
-		PO_View.checkElement(driver, "text", "Añada la información de la propiedad.");
+		PO_View.checkElement(driver, "text", "Añada la información del Inmueble.");
 		// Rellenamos la pantalla vacía y probamos dejando vacíos diferentes campos
 		PO_PropertyAdd.fillFormSuelo(driver, "S001", "Alquiler", "",  "Descripcion propiedad 1", "Ciudad1",
 				"Situacion1", "400", "200", "700", true, false);
@@ -471,23 +471,23 @@ public class TestsUseCase09 {
 		PO_PropertyAdd.fillFormSuelo(driver, "S001", "Alquiler", "N",  "Descripcion propiedad 1", "Ciudad1",
 				"Situacion1", "400", "200", "", true, false);
 		// Comprobamos que nos deja en la primera pantalla
-		PO_View.checkElement(driver, "h2", "Añada la información de la propiedad.");
+		PO_View.checkElement(driver, "h2", "Añada la información del Inmueble.");
 		PO_PropertyAdd.fillFormSuelo(driver, "S001", "Alquiler", "Nombre Propiedad 1",  "D", "Ciudad1",
 				"Situacion1", "400", "200", "700", true, false);
 		// Comprobamos que nos deja en la primera pantalla
-		PO_View.checkElement(driver, "h2", "Añada la información de la propiedad.");
+		PO_View.checkElement(driver, "h2", "Añada la información del Inmueble.");
 		PO_PropertyAdd.fillFormSuelo(driver, "S001", "Alquiler", "Nombre Propiedad 1",  "Descripcion propiedad 1",
 				"C", "Situacion1", "400", "200", "700", true, false);
 		// Comprobamos que nos deja en la primera pantalla
-		PO_View.checkElement(driver, "h2", "Añada la información de la propiedad.");
+		PO_View.checkElement(driver, "h2", "Añada la información del Inmueble.");
 		PO_PropertyAdd.fillFormSuelo(driver, "S001", "Alquiler", "Nombre Propiedad 1",  "Descripcion propiedad 1",
 				"Ciudad1", "S", "400", "200", "700", true, false);
 		// Comprobamos que nos deja en la primera pantalla
-		PO_View.checkElement(driver, "h2", "Añada la información de la propiedad.");
+		PO_View.checkElement(driver, "h2", "Añada la información del Inmueble.");
 		PO_PropertyAdd.fillFormSuelo(driver, "S001", "Alquiler", "Nombre Propiedad 1",  "Descripcion propiedad 1",
 				"Ciudad1", "Situacion1", "4", "200", "700", true, false);
 		// Comprobamos que nos deja en la primera pantalla
-		PO_View.checkElement(driver, "h2", "Añada la información de la propiedad.");
+		PO_View.checkElement(driver, "h2", "Añada la información del Inmueble.");
 	}
 
 	// NEGATIVO 4. Propietario - Introducir datos inválidos
@@ -498,13 +498,13 @@ public class TestsUseCase09 {
 		// Vamos a la opcion de Añadir Propiedad
 		List<WebElement> elementos = PO_View.checkElement(driver, "id", "propiedadesMenu");
 		elementos.get(0).click();
-		PO_NavView.clickOption(driver, "properties/add", "h2", "¿Qué tipo de propiedad desea añadir?");
+		PO_NavView.clickOption(driver, "properties/add", "h2", "¿Qué tipo de inmueble desea añadir?");
 		// Seleccionamos la opción "Local"
 		elementos = PO_View.checkElement(driver, "id", "displaySuelo");
 		elementos.get(0).click();
 
 		// Comprobamos que se muestra la primera pantalla
-		PO_View.checkElement(driver, "text", "Añada la información de la propiedad.");
+		PO_View.checkElement(driver, "text", "Añada la información del Inmueble.");
 		// Rellenamos la primera pantalla
 		PO_PropertyAdd.fillFormSuelo(driver, "S001", "Alquiler", "Nombre Propiedad 1",  "Descripcion propiedad 1",
 				"Ciudad1", "Situacion1", "400", "200", "700", true, false);
@@ -577,14 +577,14 @@ public class TestsUseCase09 {
 		// Vamos a la opcion de Añadir Propiedad
 		List<WebElement> elementos = PO_View.checkElement(driver, "id", "propiedadesMenu");
 		elementos.get(0).click();
-		PO_NavView.clickOption(driver, "properties/add", "h2", "¿Qué tipo de propiedad desea añadir?");
+		PO_NavView.clickOption(driver, "properties/add", "h2", "¿Qué tipo de inmueble desea añadir?");
 
 		// Seleccionamos la opción "Local"
 		elementos = PO_View.checkElement(driver, "id", "displaySuelo");
 		elementos.get(0).click();
 
 		// Comprobamos que se muestra la primera pantalla
-		PO_View.checkElement(driver, "text", "Añada la información de la propiedad.");
+		PO_View.checkElement(driver, "text", "Añada la información del Inmueble.");
 		// Rellenamos la primera pantalla
 		PO_PropertyAdd.fillFormSuelo(driver, "S001", "Alquiler", "Nombre Propiedad 1",  "Descripcion propiedad 1",
 				"Ciudad1", "Situacion1", "400", "200", "700", true, false);

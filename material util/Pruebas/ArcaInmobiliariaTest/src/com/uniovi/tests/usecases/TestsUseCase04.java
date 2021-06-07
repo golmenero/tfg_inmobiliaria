@@ -1,7 +1,10 @@
 package com.uniovi.tests.usecases;
 
+import java.util.List;
+
 import org.bson.Document;
 import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.WebElement;
 
 import com.uniovi.tests.pageobjects.PO_AgentRegister;
 import com.uniovi.tests.pageobjects.PO_NavView;
@@ -18,8 +21,12 @@ public class TestsUseCase04 {
 			// Iniciamos sesión con el super agente
 			PO_NavView.clickOption(driver, "login", "text", "Identificación de usuario");
 			PO_UserLogin.fillForm(driver, "superagente@superagente.com", "adminadmin");
+			
 			// Vamos a la opcion de Agentes
-			PO_NavView.clickOption(driver, "agents", "h1", "Gestión de Agentes");
+			List<WebElement> elementos = PO_View.checkElement(driver, "id", "propiedadesMenu");
+			elementos.get(0).click();
+			PO_NavView.clickOption(driver, "/agents", "h1", "Gestión de Agentes");
+
 			// Pulsamos en "Agregar nuevo agente"
 			PO_NavView.clickOption(driver, "agents/add", "h1", "Creación de Nuevo Agente");
 			// Rellenamos el formulario con el nuevo agente
@@ -39,7 +46,9 @@ public class TestsUseCase04 {
 			PO_NavView.clickOption(driver, "login", "text", "Identificación de usuario");
 			PO_UserLogin.fillForm(driver, "superagente@superagente.com", "adminadmin");
 			// Vamos a la opcion de Agentes
-			PO_NavView.clickOption(driver, "agents", "h1", "Gestión de Agentes");
+			List<WebElement> elementos = PO_View.checkElement(driver, "id", "propiedadesMenu");
+			elementos.get(0).click();
+			PO_NavView.clickOption(driver, "/agents", "h1", "Gestión de Agentes");
 			// Pulsamos en "Agregar nuevo agente"
 			PO_NavView.clickOption(driver, "agents/add", "h1", "Creación de Nuevo Agente");
 			// Rellenamos el formulario con el nuevo agente
@@ -54,7 +63,9 @@ public class TestsUseCase04 {
 			PO_NavView.clickOption(driver, "login", "text", "Identificación de usuario");
 			PO_UserLogin.fillForm(driver, "superagente@superagente.com", "adminadmin");
 			// Vamos a la opcion de Agentes
-			PO_NavView.clickOption(driver, "agents", "h1", "Gestión de Agentes");
+			List<WebElement> elementos = PO_View.checkElement(driver, "id", "propiedadesMenu");
+			elementos.get(0).click();
+			PO_NavView.clickOption(driver, "/agents", "h1", "Gestión de Agentes");
 			// Pulsamos en "Agregar nuevo agente"
 			PO_NavView.clickOption(driver, "agents/add", "h1", "Creación de Nuevo Agente");
 			// Rellenamos el formulario con datos incorrectos

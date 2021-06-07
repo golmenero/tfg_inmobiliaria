@@ -6,7 +6,7 @@ import org.openqa.selenium.WebElement;
 
 public class PO_AgentEdit extends PO_NavView {
 
-	static public void fillForm(WebDriver driver, String namep, String surnamep, String emailp, String passwordp) {
+	static public void fillForm(WebDriver driver, String namep, String surnamep, String passwordp) {
 		WebElement name = driver.findElement(By.name("name"));
 		name.click();
 		name.clear();
@@ -15,10 +15,6 @@ public class PO_AgentEdit extends PO_NavView {
 		surname.click();
 		surname.clear();
 		surname.sendKeys(surnamep);
-		WebElement email = driver.findElement(By.name("email"));
-		email.click();
-		email.clear();
-		email.sendKeys(emailp);
 		
 		WebElement password = driver.findElement(By.id("password"));
 		password.click();

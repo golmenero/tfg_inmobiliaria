@@ -14,33 +14,40 @@ import com.uniovi.tests.util.MongoDBUtils;
 public class TestsUseCase00 {
 
 	public void Prueba00(WebDriver driver, MongoDBUtils mdb) {
-		// Comprobamos que antes de iniciar sesion aparece la opcion de inicio y
-		// registro
+		// Comprobamos que antes de iniciar sesion aparecen las opciones correctas
 		PO_View.checkElement(driver, "free", "//a[contains(@href, '/login')]");
 		PO_View.checkElement(driver, "free", "//a[contains(@href, '/signin')]");
-
-		// ### USUARIO ###
-		// Iniciamos sesión con el usuario1
-		PO_NavView.clickOption(driver, "login", "text", "Identificación de usuario");
-		PO_UserLogin.fillForm(driver, "usuario1@usuario.com", "adminadmin");
-		// Comprobamo que se muestran las opciones correctas en la barra de navegacion
+		PO_View.checkElement(driver, "free", "//a[contains(@href, '/info/help')]");
+		PO_View.checkElement(driver, "free", "//a[contains(@href, '/info/contact')]");
 		List<WebElement> elementos = PO_View.checkElement(driver, "id", "inicioMenu");
 		elementos.get(0).click();
 		PO_View.checkElement(driver, "free", "//a[contains(@href, '/properties/vivienda')]");
 		PO_View.checkElement(driver, "free", "//a[contains(@href, '/properties/local')]");
 		PO_View.checkElement(driver, "free", "//a[contains(@href, '/properties/suelo')]");
 
-		elementos = PO_View.checkElement(driver, "id", "propiedadesMenu");
-		elementos.get(0).click();
-		PO_View.doesNotExist(driver, "text", "Añadir Propiedad");
-		PO_View.doesNotExist(driver, "text", "Mis Propiedades");
-		PO_View.checkElement(driver, "free", "//a[contains(@href, '/wishes')]");
 
-		PO_View.doesNotExist(driver, "id", "navAgentes");
+		// ### USUARIO ###
+		// Iniciamos sesión con el usuario1
+		PO_NavView.clickOption(driver, "login", "text", "Identificación de usuario");
+		PO_UserLogin.fillForm(driver, "usuario1@usuario.com", "adminadmin");
+		// Comprobamo que se muestran las opciones correctas en la barra de navegacion
+		elementos = PO_View.checkElement(driver, "id", "inicioMenu");
+		elementos.get(0).click();
+		PO_View.checkElement(driver, "free", "//a[contains(@href, '/properties/vivienda')]");
+		PO_View.checkElement(driver, "free", "//a[contains(@href, '/properties/local')]");
+		PO_View.checkElement(driver, "free", "//a[contains(@href, '/properties/suelo')]");
+
+		PO_View.checkElement(driver, "free", "//a[contains(@href, '/info/help')]");
+		
+		PO_View.doesNotExist(driver, "id", "propiedadesMenu");
 		PO_View.doesNotExist(driver, "text", "Estadísticas");
+	
 		PO_View.checkElement(driver, "free", "//a[contains(@href, '/conversations')]");
 		PO_View.checkElement(driver, "free", "//a[contains(@href, '/info/contact')]");
+		PO_View.checkElement(driver, "free", "//a[contains(@href, '/info/help')]");
+		PO_View.checkElement(driver, "free", "//a[contains(@href, '/conversations')]");
 
+		
 		elementos = PO_View.checkElement(driver, "id", "perfilMenu");
 		elementos.get(0).click();
 		PO_View.checkElement(driver, "free", "//a[contains(@href, '/users/edit')]");

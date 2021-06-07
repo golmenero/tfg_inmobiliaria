@@ -23,7 +23,7 @@ public class TestsUseCase11 {
 		// Vamos a la opcion de Mis Propiedades
 		List<WebElement> elementos = PO_View.checkElement(driver, "id", "propiedadesMenu");
 		elementos.get(0).click();
-		PO_NavView.clickOption(driver, "myproperties", "h1", "Propiedades Publicadas");
+		PO_NavView.clickOption(driver, "myproperties", "h1", "Inmuebles Publicados");
 
 		// Seleccionamos el icono de Eliminar junto a la primera propiedad, la cual es
 		// una "Vivienda"
@@ -32,7 +32,7 @@ public class TestsUseCase11 {
 		PO_View.esperaPantallaDeCarga(driver);
 
 		// Comprobamos que se muestra el mensaje correctamente
-		PO_View.checkElement(driver, "text", "Propiedad eliminada correctamente.");
+		PO_View.checkElement(driver, "text", "Inmueble eliminado correctamente.");
 
 		// Seleccionamos el icono de Eliminar junto a la siguiente propiedad, la cual es
 		// un "Local"
@@ -41,7 +41,7 @@ public class TestsUseCase11 {
 		PO_View.esperaPantallaDeCarga(driver);
 
 		// Comprobamos que se muestra el mensaje correctamente
-		PO_View.checkElement(driver, "text", "Propiedad eliminada correctamente.");
+		PO_View.checkElement(driver, "text", "Inmueble eliminado correctamente.");
 
 		// Seleccionamos el icono de Eliminar junto a la siguiente propiedad, la cual es
 		// un "Suelo"
@@ -50,7 +50,7 @@ public class TestsUseCase11 {
 		PO_View.esperaPantallaDeCarga(driver);
 
 		// Comprobamos que se muestra el mensaje correctamente
-		PO_View.checkElement(driver, "text", "Propiedad eliminada correctamente.");
+		PO_View.checkElement(driver, "text", "Inmueble eliminado correctamente.");
 		
 		// Comprobamos que la propiedad no aparece mas
 		mdb.doesNotExist("properties", new Document("type", "vivienda").append("code", "VP01").append("typeOp", "Venta")

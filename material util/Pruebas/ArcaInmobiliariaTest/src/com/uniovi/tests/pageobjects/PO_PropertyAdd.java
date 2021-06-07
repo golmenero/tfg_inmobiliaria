@@ -221,4 +221,5 @@ public class PO_PropertyAdd extends PO_NavView {
 	public static void justPulseBtn(WebDriver driver) {
 		driver.findElement(By.id("btnPicturesS")).click();
 	}
+
 }

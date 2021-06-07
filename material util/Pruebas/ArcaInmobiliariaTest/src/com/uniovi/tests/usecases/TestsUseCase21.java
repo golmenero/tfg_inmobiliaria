@@ -1,10 +1,7 @@
 package com.uniovi.tests.usecases;
 
-import java.util.List;
-
 import org.junit.Test;
 import org.openqa.selenium.WebDriver;
-import org.openqa.selenium.WebElement;
 
 import com.uniovi.tests.pageobjects.PO_NavView;
 import com.uniovi.tests.pageobjects.PO_UserLogin;
@@ -19,9 +16,7 @@ public class TestsUseCase21 {
 			PO_NavView.clickOption(driver, "login", "text", "Identificación de usuario");
 			PO_UserLogin.fillForm(driver, "usuario1@usuario.com", "adminadmin");
 			// Vamos a la opcion de Propiedades Guardadas
-			List<WebElement> elementos = PO_View.checkElement(driver, "id", "propiedadesMenu");
-			elementos.get(0).click();
-			PO_NavView.clickOption(driver, "wishes", "h1", "Mis Seguimientos");
+			PO_NavView.clickOption(driver, "/wishes", "h1", "Mis Seguimientos");
 			// Comprobamos que se muestra el seguimiento
 			PO_View.checkElement(driver, "text", "Vivienda 1");
 			PO_View.checkElement(driver, "text", "Venta");

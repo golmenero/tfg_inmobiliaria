@@ -217,4 +217,11 @@ public class PO_PropertyEdit extends PO_NavView {
 		// Pulsamos el boton de "Siguiente"
 		driver.findElement(By.id("btnPicturesS")).click();
 	}
+	
+	public static void imagSelectOption(WebDriver driver, String option) {	
+		WebElement chooseImg = driver.findElement(By.name("chooseImg"));
+		chooseImg.click();
+		Select chooseImgS = new Select(chooseImg);
+		chooseImgS.selectByValue(option);
+	}
 }

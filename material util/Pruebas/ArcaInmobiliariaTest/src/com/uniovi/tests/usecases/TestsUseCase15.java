@@ -21,7 +21,7 @@ public class TestsUseCase15 {
 			// Vamos a la opcion de Mis Propiedades
 			List<WebElement> elementos = PO_View.checkElement(driver, "id", "propiedadesMenu");
 			elementos.get(0).click();
-			PO_NavView.clickOption(driver, "myproperties", "h1", "Propiedades Publicadas");
+			PO_NavView.clickOption(driver, "myproperties", "h1", "Inmuebles Publicados");
 
 			// Comprobamos que se muestran los datos de las propiedades correctamente
 			PO_View.checkElement(driver, "text", "VP01");

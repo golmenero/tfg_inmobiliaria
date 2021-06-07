@@ -19,23 +19,19 @@ public class TestsUseCase20 {
 		PO_NavView.clickOption(driver, "login", "text", "Identificación de usuario");
 		PO_UserLogin.fillForm(driver, "usuario1@usuario.com", "adminadmin");
 		// Vamos a la opcion de Propiedades Guardadas
-		List<WebElement> elementos = PO_View.checkElement(driver, "id", "propiedadesMenu");
-		elementos.get(0).click();
-		PO_NavView.clickOption(driver, "wishes", "h1", "Mis Seguimientos");
+		PO_NavView.clickOption(driver, "/wishes", "h1", "Mis Seguimientos");
 		// Comprobamos que se muestra el seguimiento
 		PO_View.checkElement(driver, "text", "Vivienda 1");
 		PO_View.checkElement(driver, "text", "Venta");
 		PO_View.checkElement(driver, "text", "1000");
 		// Seleccionamos la opcion de eliminar, junto al seguimiento
-		elementos = PO_View.checkElement(driver, "free", "//a[contains(@href, '/wishes/delete')]");
+		List<WebElement> elementos = PO_View.checkElement(driver, "free", "//a[contains(@href, '/wishes/delete')]");
 		elementos.get(0).click();
 		PO_View.esperaPantallaDeCarga(driver);
 		// Comprobamos que se muestra el mensaje correctamente
 		PO_View.checkElement(driver, "text", "Eliminado de las listas de seguimiento correctamente.");
 		// Vamos a ver nuestros seguimientos
-		elementos = PO_View.checkElement(driver, "id", "propiedadesMenu");
-		elementos.get(0).click();
-		PO_NavView.clickOption(driver, "wishes", "h1", "Mis Seguimientos");
+		PO_NavView.clickOption(driver, "/wishes", "h1", "Mis Seguimientos");
 		// Comprobamos que estamos en la pantalla correcta
 		PO_View.checkElement(driver, "text", "Mis Seguimientos");
 		// Comprobamos que ya no se muestra el seguimiento

@@ -21,9 +21,11 @@ public class TestsUseCase06 {
 		PO_NavView.clickOption(driver, "login", "h1", "Identificación de usuario");
 		PO_UserLogin.fillForm(driver, "superagente@superagente.com", "adminadmin");
 		// Vamos a la opcion de Agentes
-		PO_NavView.clickOption(driver, "agents", "h1", "Gestión de Agentes");
+		List<WebElement> elementos = PO_View.checkElement(driver, "id", "propiedadesMenu");
+		elementos.get(0).click();
+		PO_NavView.clickOption(driver, "/agents", "h1", "Gestión de Agentes");
 		// Pulsamos en el boton de Editar junto al agente de nombre "Agente1"
-		 List<WebElement> elementos = PO_View.checkElement(driver, "free", "//a[contains(@href, '/agents/delete')]");
+		elementos = PO_View.checkElement(driver, "free", "//a[contains(@href, '/agents/delete')]");
 		elementos.get(0).click();
 		PO_View.esperaPantallaDeCarga(driver);
 		// Comprobamos que se muestra el mensaje correcto
