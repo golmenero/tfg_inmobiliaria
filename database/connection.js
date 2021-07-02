@@ -9,5 +9,5 @@ mongoose.connect(variables.URL, {
 }).catch(err => console.log(err));
 
 db.once('open', _ => {
-    console.log("Coneción establecida con ", variables.URL)
+    console.log("Conexión establecida.")
 })

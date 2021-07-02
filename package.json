@@ -20,6 +20,7 @@
     "swig": "^1.4.2"
   },
   "scripts": {
+    "start": "node app.js",
     "test": "jest --testEnvironment=node --verbose --forceExit --watchAll --maxWorkers=1"
   },
   "devDependencies": {

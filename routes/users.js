@@ -193,7 +193,7 @@ module.exports = function (app, render, nodemailer, variables, utilities, mongoo
             let transporter = utilities.createTransporter();
             let mailOptions = utilities.createMailOptions(req.body.correoRecuperacion, 'Reestablezca su Contraseña',
                 "<h1>Haga click en el siguiente enlace para reestablecer su contraseña.</h1>" +
-                "<p>https://localhost:8081/recover/" + user["codes.passwordRecover"] + "</p>");
+                "<p>" + variables.HOST + "/recover/" + user["codes.passwordRecover"] + "</p>");
 
             transporter.sendMail(mailOptions, function (error) {
                 if (error) {
@@ -255,7 +255,7 @@ module.exports = function (app, render, nodemailer, variables, utilities, mongoo
                     let mailOptions = utilities.createMailOptions(req.body.email, 'Verifique su correo electrónico.',
                         "<h1>Gracias por registrarse en nuestra aplicación</h1>" +
                         "<h2>Verifique su correo electrónico haciendo click en el siguiente enlace:</h2>" +
-                        "<p>https://localhost:8081/users/verification/" + newUser.codes.emailActivation + "</p>");
+                        "<p>"+ variables.HOST  +"/users/verification/" + newUser.codes.emailActivation + "</p>");
 
                     transporter.sendMail(mailOptions, async function (error) {
                         if (error) {

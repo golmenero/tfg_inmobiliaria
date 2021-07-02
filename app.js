@@ -45,7 +45,6 @@ app.use(express.static('public'));
 // Variables
 app.set('port', variables.PORT)
 app.set('url', variables.URL);
-//app.set('db', 'mongodb://admin:Pa55w0rd@tfginmobiliaria-shard-00-00.k8afj.mongodb.net:27017,tfginmobiliaria-shard-00-01.k8afj.mongodb.net:27017,tfginmobiliaria-shard-00-02.k8afj.mongodb.net:27017/dbinmobiliaria?ssl=true&replicaSet=atlas-39g3h2-shard-0&authSource=admin&retryWrites=true&w=majority')
 app.set('key', 'abcdefg');
 
 
@@ -105,7 +104,6 @@ async function initParams() {
     }
 }
 
-
 let server = https.createServer({
     key: fs.readFileSync('certificates/alice.key'),
     cert: fs.readFileSync('certificates/alice.crt'),
@@ -114,6 +112,5 @@ server.listen(app.get('port'), async function () {
     await initParams();
     console.log("Servidor activo");
 });
-
 
 module.exports = server;
