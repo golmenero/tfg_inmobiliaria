@@ -10,6 +10,10 @@
 <div class="container">
     <h1 class="sectionHeader">Mis Seguimientos</h1>
 
+    {% if properties.length == 0 %}
+    <h2 class="sectionHeader">En este momento no tienes ningún seguimiento activo</h2>
+
+    {% else %}
     <div class="table-responsive">
         <table class="table table-hover">
             <thead class="thead-dark">
@@ -41,5 +45,7 @@
             </tbody>
         </table>
     </div>
+
+    {% endif %}
 </div>
 {% endblock %}

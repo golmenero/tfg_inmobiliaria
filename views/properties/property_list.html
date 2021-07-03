@@ -11,6 +11,10 @@
 <div class="container">
     <h1 class="sectionHeader">Inmuebles Disponibles</h1>
 
+    {% if properties.length == 0 %}
+        <h2 class="sectionHeader">En este momento no hay inmuebles disponibles. Vuelva a intentarlo más tarde.</h2>
+    {% else %}
+
     <div class="headerButtonOverview card-header">
         <h2 class="mb-0">
             <button id="btnExpandFilter" type="button" class="buttonOverview btn custom-base-style" data-toggle="collapse"
@@ -444,6 +448,8 @@
             </script>
         </ul>
     </div>
+
+    {% endif %}
 
 </div>
 

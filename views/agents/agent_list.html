@@ -12,6 +12,9 @@
 <div class="container">
     <h1 class="sectionHeader">Gestión de Agentes</h1>
 
+    {% if agents.length == 0 %}
+    <h2 class="sectionHeader">En este momento no existe ningún agente.</h2>
+    {% else %}
     <div class="headerButtonOverview card-header">
         <h2 class="mb-0">
             <button type="button" class="buttonOverview btn custom-base-style" data-toggle="collapse"
@@ -85,6 +88,8 @@
             </tbody>
         </table>
     </div>
+
+    {% endif %}
 
     <div class="row">
         <a href="/agents/add" role="button" class="btnSiguiente btn btn-success btn-lg btn-block">Agregar
